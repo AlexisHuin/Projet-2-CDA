@@ -1,0 +1,48 @@
+#docker-compose build --no-cache 
+version: "3"
+services:
+  nginx:
+    image: nginx
+    container_name: coop_nginx
+    #restart: always
+    links:
+      - php
+    volumes:
+      - ./source/:/var/www/html/:ro
+      - ./nginx/:/etc/nginx/conf.d/
+    ports:
+      - 8000:80
+    
+  php:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: coop_php
+    volumes:
+      - ./source:/var/www/html/
+    tmpfs: /tmp
+    # command: sh -c "composer install --ignore-platform-reqs"
+    depends_on:
+      - mariadb
+    links:
+      - mariadb 
+
+  mariadb:
+    image: mariadb:latest
+    container_name: coop_mariadb
+    environment:
+      - MARIADB_ROOT_PASSWORD=${MARIA_DB_ROOT_PWD}
+      - MARIADB_USER=${MARIADB_USER}
+      - MARIADB_PASSWORD=${MARIA_DB_USER_PWD} 
+    volumes:
+      - ./dump/:/docker-entrypoint-initdb.d
+      #- ./db/:/var/lib/mysql/
+      
+  phpmyadmin:
+    image: phpmyadmin
+    container_name: coop_phpmyadmin
+    ports:
+      - 9000:80
+    links:
+      - mariadb:db
+

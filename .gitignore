@@ -1,0 +1,4 @@
+# .env
+vendor/
+Private/
+.DS_Store
