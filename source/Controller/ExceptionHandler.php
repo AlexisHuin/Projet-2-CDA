@@ -2,7 +2,7 @@
 namespace Controller;
 use Exception;
 
-class App_Exceptions extends Exception
+class ExceptionHandler extends Exception
 {
     public function __construct(string $message='',int $code=0,$previous=null)
     {

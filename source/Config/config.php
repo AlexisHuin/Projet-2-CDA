@@ -15,8 +15,8 @@ $dotenv->safeLoad();
 ini_set( "display_errors", "off" );
 error_reporting( E_ALL );
 
-set_error_handler(['\Controller\App_Exceptions', 'PhpErrors'], E_ALL);
-register_shutdown_function(['\Controller\App_Exceptions', 'PhpFatalErrors']);
+set_error_handler(['Controller\ExceptionHandler', 'PhpErrors'], E_ALL);
+register_shutdown_function(['Controller\ExceptionHandler', 'PhpFatalErrors']);
 
 define('BASE_HREF','/');
 

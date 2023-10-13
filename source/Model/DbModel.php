@@ -2,7 +2,7 @@
 namespace Model;
 
 use PDO;
-class Db
+class DbModel
 {
     static $db=null;
     private array $datas;

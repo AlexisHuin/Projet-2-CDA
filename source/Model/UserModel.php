@@ -1,15 +1,15 @@
 <?php
 namespace Model;
 
-use Model\Db;
+use Model\DbModel;
 
-class User extends Db
+class UserModel extends DbModel
 {
     protected $table = 'user';  
     
     public function getUsers()
     {
-        return Db::Find('Select * from ...',[]);
+        return DbModel::Find('Select * from ...',[]);
     }
 }
 
