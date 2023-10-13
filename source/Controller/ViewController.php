@@ -2,7 +2,7 @@
 namespace Controller;
 use \Smarty;
 
-class View
+class ViewController
 {
     static array $vars = [];
     static object $tplMotor;

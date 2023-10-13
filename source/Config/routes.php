@@ -2,7 +2,7 @@
 $routes = [
     '/' => [
         'method'=>['GET'],
-        'controller'=>['Controller\Home','Index']
+        'controller'=>['Controller\HomeController','Index']
     ]
 ];
 ?>

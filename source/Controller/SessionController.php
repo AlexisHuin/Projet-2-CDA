@@ -1,6 +1,6 @@
 <?php
 namespace Controller;
-class Session
+class SessionController
 {
     static string $id= '';
     static array $content = [];
@@ -35,4 +35,3 @@ class Session
         session_destroy();
     }
 }
-?>

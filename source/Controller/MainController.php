@@ -2,9 +2,10 @@
 namespace Controller;
 
 //use Controller\Session;
-use Model\Db;
-use Controller\App_Exceptions;
-class Main
+use Model\DbModel;
+use Controller\ExceptionHandler;
+
+class MainController
 {
     static function Route($routes)
     {
@@ -28,11 +29,11 @@ class Main
         $routeInfo = $dispatcher->dispatch($httpMethod, $uri);
         switch ($routeInfo[0]) {
             case \FastRoute\Dispatcher::NOT_FOUND:
-                App_Exceptions::RouteErrors('404','404 Not Found',$_SERVER['REQUEST_URI']);
+                ExceptionHandler::RouteErrors('404','404 Not Found',$_SERVER['REQUEST_URI']);
                 break;
             case \FastRoute\Dispatcher::METHOD_NOT_ALLOWED:
                 $allowedMethods = $routeInfo[1];
-                App_Exceptions::RouteErrors('405','405 Method Allowed',$_SERVER['REQUEST_URI']);
+                ExceptionHandler::RouteErrors('405','405 Method Allowed',$_SERVER['REQUEST_URI']);
                 break;
             case \FastRoute\Dispatcher::FOUND:
                 $handler    = $routeInfo[1];
@@ -52,7 +53,7 @@ class Main
     public function __construct()
     {
         //Session::Start();
-        Db::Connect();
+        DbModel::Connect();
     }
 
     public function __destruct()
