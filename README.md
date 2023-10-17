@@ -17,3 +17,6 @@
 - Avant chaque commit, assurez-vous de n'avoir modifié que les fichiers qui vous étaient attribués. Si vous en avez modifié d'autres, assurez-vous que vous ête le seul à l'avoir modifié.
 - Il sera important de définir l'ensemble des routes en AMONT du développement afin de ne plus toucher à ce fichier.
 - De cette façon, on pourra tous s'assigner une paire de Controller, Model et View et configurer l'ensemble de leur fonctionnalités.
+
+
+https://trello.com/b/AyHm3OYP/pt1
