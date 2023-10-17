@@ -10,11 +10,11 @@ $routes = [
     ],
     '/User' => [
         'method'=>['GET', 'POST'],
-        'controller'=>['Controller\HomeController','Connexion']
+        'controller'=>['Controller\UserController','Connexion']
     ],
     '/User' => [
         'method'=>['GET', 'POST'],
-        'controller'=>['Controller\UserController','Connexion']
+        'controller'=>['Controller\UserController','Deconnexion']
     ],
     '/User/Profile' => [
         'method'=>['GET', 'POST'],
