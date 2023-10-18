@@ -1,0 +1,206 @@
+Voici une proposition de CSS pour rendre la page plus attrayante et dynamique :
+
+```css
+/* Header */
+header {
+  background-color: #fff;
+  box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.1);
+  position: sticky;
+  top: 0;
+  z-index: 999;
+}
+
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+}
+
+.logo_coop {
+  height: 50px;
+}
+
+.authentification-div {
+  display: flex;
+  align-items: center;
+}
+
+.header_img {
+  height: 25px;
+  margin-left: 20px;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.header_img:hover {
+  transform: scale(1.2);
+}
+
+/* Image avec texte */
+.image-with-text {
+  position: relative;
+  height: 400px;
+  overflow: hidden;
+}
+
+.image-with-text img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: all 0.2s ease-in-out;
+}
+
+.image-with-text:hover img {
+  transform: scale(1.1);
+}
+
+.text-overlay {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  color: #fff;
+  padding: 20px;
+  width: 50%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  transition: background-color 0.5s ease-in-out;
+}
+
+.text-overlay h2 {
+  font-size: 2rem;
+  margin-bottom: 10px;
+}
+
+.text-overlay p {
+  font-size: 1.2rem;
+  line-height: 1.5;
+}
+
+/* Filtres */
+.filters {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  background-color: #f7f7f7;
+  margin-bottom: 20px;
+}
+
+.filter-group {
+  display: flex;
+  align-items: center;
+}
+
+label {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+select,
+input[type="text"] {
+  padding: 10px;
+  font-size: 1.2rem;
+  border: none;
+  border-radius: 5px;
+  box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.1);
+  margin-right: 10px;
+}
+
+select:focus,
+input[type="text"]:focus {
+  outline: none;
+  box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.3);
+}
+
+button {
+  padding: 10px 20px;
+  font-size: 1.2rem;
+  border: none;
+  border-radius: 5px;
+  background-color: #0066cc;
+  color: #fff;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+button:hover {
+  background-color: #0052a3;
+}
+
+/* Produits */
+.products {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+}
+
+.product {
+  background-color: #fff;
+  box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  font-size: 1.2rem;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.product:hover {
+  transform: translateY(-5px);
+  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Effet de survol sur les produits */
+.product:hover .product-overlay {
+  opacity: 1;
+}
+
+.product-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  transition: opacity 0.2s ease-in-out;
+}
+
+.product-overlay h3 {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+}
+
+.product-overlay p {
+  font-size: 1.2rem;
+  line-height: 1.5;
+}
+
+/* Effet de survol sur les boutons */
+.product-overlay button {
+  background-color: #fff;
+  color: #0066cc;
+  border: 2px solid #0066cc;
+  transition: all 0.2s ease-in-out;
+}
+
+.product-overlay button:hover {
+  background-color: #0066cc;
+  color: #fff;
+}
+
+/* Effet de survol sur les filtres */
+.filters select:hover,
+.filters input[type="text"]:hover,
+.filters button:hover {
+  box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.3);
+}
