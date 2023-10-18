@@ -1,6 +1,8 @@
 {include file="../Partials/_HeaderView.tpl"}
 
 
+
+
 {if $Infos.NomPrenomAdherents}
 
     <h1>Espace Adhérent</h1>
@@ -26,5 +28,6 @@
     <p>Raison Sociale : {$Infos.RaisonSocialeProducteur}</p>
 
 {/if}
+
 
 {include file="../Partials/_FooterView.tpl"}
