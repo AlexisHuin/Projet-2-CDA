@@ -56,24 +56,32 @@ class MainController
     {
         SessionController::Start();
         DbModel::Connect();
-        $this->connectCheck();
     }
 
-    private function connectCheck(): void
+    protected function connectCheck(): void
     {
         if (!isset($_SESSION['user'])) {
-            switch ($_SERVER['REQUEST_URI']) {
+            header('Location: /User/');
+            exit();
+        }
+    }
 
-                case "/User/Profile":
-                    header('Location: /User');
-            }
-        } else if (isset($_SESSION['user'])) {
-            switch ($_SERVER['REQUEST_URI']) {
+    // Valide si tous les champs du formulaire sont remplis
+    public function validate(array $form, array $champsObligatoires, array $champsFacultatifs = []): bool
+    {
+        $champsCheck = array_merge($champsObligatoires, $champsFacultatifs);
 
-                case "/User":
-                    header('Location: /User/Profile');
+        foreach ($champsCheck as $champObligatoire) {
+            if (in_array($champsCheck, $form[$champObligatoire])) {
+                // Si le champ est absent ou vide dans le formulaire
+                if (!isset($form[$champObligatoire]) || empty($form[$champObligatoire])) {
+                    return false;
+                } else {
+                    $form[$champObligatoire] = htmlspecialchars(stripslashes(trim($form[$champObligatoire])));
+                }
             }
         }
+        return $form;
     }
 
     public function __destruct()
