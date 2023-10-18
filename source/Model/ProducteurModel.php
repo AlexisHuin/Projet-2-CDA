@@ -3,11 +3,11 @@ namespace Model;
 
 use Model\DbModel;
 
-class UserModel extends DbModel
+class ProducteurModel extends DbModel
 {
-    protected $table = 'User';  
+    protected $table = 'Producteur';  
     
-    public function getUsers()
+    public function getProducteur()
     {
         return DbModel::Find('Select * from ...',[]);
     }
