@@ -1,9 +1,4 @@
 {include file="../Partials/_HeaderView.tpl"}
-
-   
-
-    
-
     <label for="type">Type :</label>
     <select id="type">
         <option value="all">Tous les types</option>
