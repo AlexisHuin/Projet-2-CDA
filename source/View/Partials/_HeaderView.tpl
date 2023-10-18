@@ -23,16 +23,15 @@
 
     <ul class="menu-list">
     
-        <li class="link"><a href="index.php">Accueil</a></li>
-        <li class="link"><a href="Product.php">Produit</a></li>
-        <li class="link"><a href="Contact.php">Contact</a></li> 
+        <li class="link"><a href="/">Accueil</a></li>
+        <li class="link"><a href="#">Contact</a></li> 
     
 
         {if isset($smarty.session.user)}
 
             {if $smarty.session.user.RoleUser eq "Adherent"}
                 <li>
-                    <a href="Panier.php">
+                    <a href="#">
                     <img class="header_img" src="/assets/images/cart.svg" alt="Cart"></a>
                 </li>
 
