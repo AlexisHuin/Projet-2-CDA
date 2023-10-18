@@ -101,6 +101,14 @@ class DbModel
         return $rq->execute($this->datas);
     }
 
+    public function Select($sql)
+    {
+        $rq = self::$db->prepare($sql);
+        $rq->execute();
+        
+        return $rq->fetchAll();
+    }
+
     public function Find()
     {
         $columns = array_keys($this->where);

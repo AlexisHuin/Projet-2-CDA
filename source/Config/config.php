@@ -9,6 +9,7 @@ define('DIR_PUBLIC',DIR_BASE.'Public/');
 
 /* Avec Composer Autoload */
 require_once DIR_BASE.'vendor/autoload.php';
+
 $dotenv = Dotenv\Dotenv::createImmutable(DIR_BASE);
 $dotenv->safeLoad();
 
