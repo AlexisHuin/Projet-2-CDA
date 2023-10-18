@@ -103,7 +103,7 @@ class DbModel
 
     public function Find()
     {
-        $columns = array_keys($this->where);
+        $columns = array_keys($this->datas);
 
         $sql    = 'SELECT * FROM '.$this->table.' WHERE ';
 
@@ -122,13 +122,13 @@ class DbModel
 
     public function FindOne()
     {
-        $columns = array_keys($this->where);
+        $columns = array_keys($this->datas);
 
         $sql    = 'SELECT * FROM '.$this->table.' WHERE ';
 
         foreach($columns as $key=>$column)
         {
-            $sql   .= $column.'=:'.$column;
+            $sql   .= $column . '=:' . $column;
             if($key < (count($columns)-1))
             $sql   .= ',';
         }
