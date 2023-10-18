@@ -20,7 +20,7 @@
     
     
     <div class="image-with-text">
-        <img src="./assets/images/fruit.jpg" alt="Votre Image">
+        <img src="/assets/images/fruit.jpg" alt="Votre Image">
         <div class="text-overlay">
             <p>Une AMAP, ou Association pour le Maintien de l'Agriculture Paysanne, est un partenariat entre des consommateurs et des agriculteurs locaux. Les membres de l'AMAP s'engagent à acheter régulièrement des produits frais directement auprès des agriculteurs, favorisant ainsi une agriculture durable et équitable.</p>
         </div>
@@ -30,8 +30,8 @@
     <div class="products">
     {foreach key=key item=product from=$products}
         <div class="product">
-            <a href="">
-                <img src="./assets/images/fruit.jpg" alt="<?= $product['name'] ?>">
+            <a href="./DescriptifProduit/{$product['IdProduit']}">
+                <img src="/assets/images/fruit.jpg" alt="<?= $product['name'] ?>">
             </a>
             <div class="product-description">
                 <h3>{$product['DesignationProduit']}</h3>
@@ -42,3 +42,4 @@
     {/foreach}
 </div>
 
+{include file="../Partials/_FootersView.tpl"}

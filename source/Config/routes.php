@@ -4,7 +4,7 @@ $routes = [
         'method'=>['GET', 'POST'],
         'controller'=>['Controller\HomeController','Index']
     ],
-    '/DescriptifProduit' => [
+    '/DescriptifProduit/{id:\d+}' => [
         'method'=>['GET', 'POST'],
         'controller'=>['Controller\HomeController','DescriptifProduit']
     ],
