@@ -1,4 +1,4 @@
-{include file="./headerView.tpl"}
+{include file="../Partials/_HeaderView.tpl"}
 
 
 {if $Infos.NomPrenomAdherents}
@@ -27,4 +27,4 @@
 
 {/if}
 
-{include file="./footerView.tpl"}
+{include file="../Partials/_FooterView.tpl"}
