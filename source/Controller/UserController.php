@@ -16,6 +16,10 @@ class UserController extends MainController
 {
     public function ConnexionInscription()
     {
+        if(isset($_SESSION['user'])){
+            header('Location: /User/Profile');
+            exit();
+        }
         // Vérifier si l'utilisateur est déjà connecté, le rediriger vers le profil
         $User = new UserModel();
         $Adherent = new AdherentModel();
@@ -23,34 +27,32 @@ class UserController extends MainController
 
         // Gestion de l'inscription
         if (isset($_POST["Inscription"])) {
+
+            $datas = $this->validate($_POST, ['Nom', 'Prenom', 'Pass', 'ConfirmPass', 'Tel', 'Email', 'CodePostal', 'GPS', 'RoleUser']);
             // Vérifier si les champs du formulaire sont présents et non vides
-            if (
-                isset($_POST['Nom'], $_POST['Prenom'], $_POST['Pass'], $_POST['ConfirmPass'], $_POST['Email'], $_POST['RoleUser'], $_POST['GPS'], $_POST['CodePostal'], $_POST['Tel'])
-                && !empty($_POST['Nom']) && !empty($_POST['Prenom']) && !empty($_POST['Pass']) && !empty($_POST['ConfirmPass']) && !empty($_POST['Email'])
-                && !empty($_POST['RoleUser']) && !empty($_POST['GPS']) && !empty($_POST['CodePostal']) && !empty($_POST['Tel'])
-            ) {
+            if ($datas) {
                 // Valider le nom avec le regex
-                if (!preg_match("/^\pL+([a-zA-Z- ']\pL+)*$/u", $_POST["Nom"])) {
+                if (!preg_match("/^\pL+([a-zA-Z- ']\pL+)*$/u", $datas["Nom"])) {
                     ExceptionHandler::SetUserError("Veuillez insérer un nom");
                 }
 
                 // Valider le prénom avec le regex
-                if (!preg_match("/^\pL+([a-zA-Z- ']\pL+)*$/u", $_POST["Prenom"])) {
+                if (!preg_match("/^\pL+([a-zA-Z- ']\pL+)*$/u", $datas["Prenom"])) {
                     ExceptionHandler::SetUserError("Veuillez insérer un prénom");
                 }
 
                 // Valider l'adresse email
-                if (!filter_var($_POST["Email"], FILTER_VALIDATE_EMAIL)) {
+                if (!filter_var($datas["Email"], FILTER_VALIDATE_EMAIL)) {
                     ExceptionHandler::SetUserError("Veuillez insérer un email conforme ");
                 }
 
                 // Valider la longueur du numéro de téléphone
-                if (strlen($_POST['Tel']) > 13) {
+                if (strlen($datas['Tel']) > 13) {
                     ExceptionHandler::SetUserError("Veuillez insérer un numéro valide");
                 }
 
                 // Valider que les mots de passe correspondent
-                if ($_POST['Pass'] !== ($_POST['ConfirmPass'])) {
+                if ($datas['Pass'] !== ($datas['ConfirmPass'])) {
                     ExceptionHandler::SetUserError("Mot de passe ne correspond pas");
                 }
 
@@ -58,31 +60,31 @@ class UserController extends MainController
 
                 // S'il n'y a pas d'erreurs, enregistrer l'utilisateur
                 if (count($errors) == 0) {
-                    $User->UsernameUser = htmlspecialchars(($_POST['Nom'] . "." . $_POST['Prenom']));
-                    $User->EmailUser = htmlspecialchars($_POST['Email']);
-                    $User->MdpUser = password_hash($_POST['Pass'], PASSWORD_ARGON2ID);
-                    $User->RoleUser = $_POST['RoleUser'];
+                    $User->UsernameUser = htmlspecialchars(($datas['Nom'] . "." . $datas['Prenom']));
+                    $User->EmailUser = htmlspecialchars($datas['Email']);
+                    $User->MdpUser = password_hash($datas['Pass'], PASSWORD_ARGON2ID);
+                    $User->RoleUser = $datas['RoleUser'];
                     $IdUser = $User->Save();
 
                     switch ($User->RoleUser) {
                         case "Adherent":
 
-                            $Adherent->NomPrenomAdherents = htmlspecialchars($_POST['Nom'] . " " . ($_POST['Prenom']));
-                            $Adherent->PhoneAdherents = htmlspecialchars($_POST['Tel']);
-                            $Adherent->CoordonneesGPSAdherents = htmlspecialchars($_POST['GPS']);
-                            $Adherent->CodePostalAdherents = htmlspecialchars($_POST['CodePostal']);
+                            $Adherent->NomPrenomAdherents = htmlspecialchars($datas['Nom'] . " " . ($datas['Prenom']));
+                            $Adherent->PhoneAdherents = htmlspecialchars($datas['Tel']);
+                            $Adherent->CoordonneesGPSAdherents = htmlspecialchars($datas['GPS']);
+                            $Adherent->CodePostalAdherents = htmlspecialchars($datas['CodePostal']);
                             // explique le (new dateTime())
                             $Adherent->DateDebutAdherents = (new DateTime())->format('Y-m-d');
-                            $Adherent->MailAdherents = htmlspecialchars($_POST['Email']);
+                            $Adherent->MailAdherents = htmlspecialchars($datas['Email']);
                             $IdAdherent = $Adherent->Save();
                             break;
 
                         case "Producteur":
-                            $Producteur->NomPrenomProducteur = htmlspecialchars($_POST['Nom'] . ($_POST['Prenom']));
-                            $Producteur->PhoneProducteur = htmlspecialchars($_POST['Tel']);
-                            $Producteur->CoordonneesGPSProducteur = htmlspecialchars($_POST['GPS']);
-                            $Producteur->CodePostalProducteur = htmlspecialchars($_POST['CodePostal']);
-                            $Producteur->MailProducteur = htmlspecialchars($_POST['Email']);
+                            $Producteur->NomPrenomProducteur = htmlspecialchars($datas['Nom'] . ($datas['Prenom']));
+                            $Producteur->PhoneProducteur = htmlspecialchars($datas['Tel']);
+                            $Producteur->CoordonneesGPSProducteur = htmlspecialchars($datas['GPS']);
+                            $Producteur->CodePostalProducteur = htmlspecialchars($datas['CodePostal']);
+                            $Producteur->MailProducteur = htmlspecialchars($datas['Email']);
 
                             $IdProducteur = $Producteur->Save();
                             break;
@@ -109,13 +111,16 @@ class UserController extends MainController
 
         // Gestion de la connexion
         if (isset($_POST["Connexion"])) {
-            if (isset($_POST['Pass'], $_POST['Email']) && !empty($_POST['Pass']) && !empty($_POST['Email'])) {
-                if (!filter_var($_POST["Email"], FILTER_VALIDATE_EMAIL)) {
+
+            $datas = $this->validate($_POST, ['Email', 'Pass']);
+
+            if ($datas) {
+                if (!filter_var($datas["Email"], FILTER_VALIDATE_EMAIL)) {
                     ExceptionHandler::SetUserError("Adresse Email ou Mot de passe incorrecte");
                 }
                 $errors = ExceptionHandler::GetUserError();
                 if (count($errors) == 0) {
-                    $User->EmailUser = $_POST['Email'];
+                    $User->EmailUser = $datas['Email'];
                 }
             }
 
@@ -141,17 +146,19 @@ class UserController extends MainController
         ViewController::Init('smarty');
 
         // Gestion des erreurs
-        if (empty($errors)) {
-            ViewController::Set('Error', '');
-        } else {
-            ViewController::Set('Error', $errors);
-        }
+        // if (empty($errors)) {
+        //     ViewController::Set('Error', '');
+        // } else {
+        //     ViewController::Set('Error', $errors);
+        // }
 
         ViewController::Set('title', 'Login');
         ViewController::Display('LoginView');
     }
     public function Profile()
     {
+        $this->connectCheck();
+
         switch ($_SESSION['user']['RoleUser']) {
             case "Adherent":
                 $NewUser = new AdherentModel();
@@ -163,7 +170,7 @@ class UserController extends MainController
                 break;
         }
         $Infos = $NewUser->FindOne();
-        
+
         ViewController::Init('smarty');
         ViewController::Set('title', 'Profile');
         ViewController::Set('SessionInfo', $_SESSION['user']);
