@@ -7,7 +7,7 @@ class ProducteurModel extends DbModel
 {
     protected $table = 'Producteur';  
     
-    public function getProducteur()
+    public function getProducteur() : string|object|array
     {
         return DbModel::Find('Select * from ...',[]);
     }

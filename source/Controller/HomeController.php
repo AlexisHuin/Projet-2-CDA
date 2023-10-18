@@ -12,7 +12,7 @@ use Model\SaisonModel;
 
 class HomeController extends MainController
 {
-    public function Index()
+    public function Index() : void
     {
         ViewController::Init('smarty');
         ViewController::Set('title', 'Home');
@@ -21,20 +21,16 @@ class HomeController extends MainController
         $ProduitModel = new ProduitModel();
         ViewController::Set('products',$ProduitModel->getProduits());
 
-
         $CategorieModel = new CategorieModel();
         ViewController::Set('categories',$CategorieModel->getCategories());
         
         $SaisonModel = new SaisonModel();
         ViewController::Set('saisons',$SaisonModel->getSaisons());
 
-
-       
-
         ViewController::Display('HomeView');
     }
 
-    public function DescriptifProduit($params=[])
+    public function DescriptifProduit($params=[]) : void
     {
         ViewController::Init('smarty');
         ViewController::Set('title', 'Home');

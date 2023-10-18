@@ -9,7 +9,7 @@ class DbModel
     private array $where= [];
     private array $order=[];
 
-    static function Connect()
+    static function Connect() : void
     {
         if(is_null(self::$db))
         {
@@ -38,19 +38,19 @@ class DbModel
         return $this->datas[$var];
     }
 
-    public function Where(array $where=[]):object
-    {
-        $this->Where = $where;
-        return $this;
-    }
+    // public function Where(array $where=[]):object
+    // {
+    //     $this->Where = $where;
+    //     return $this;
+    // }
 
-    public function Order(array $order=[]):object
-    {
-        $this->Ohere = $order;
-        return $this;
-    }
+    // public function Order(array $order=[]):object
+    // {
+    //     $this->Ohere = $order;
+    //     return $this;
+    // }
     
-    public function Save()
+    public function Save() : string|int|object|array
     {
         $columns = array_keys($this->datas);
 
@@ -67,7 +67,7 @@ class DbModel
         $rq->execute($this->datas);
         return self::$db->lastInsertId();
     }
-    public function Update()
+    public function Update() : string|int|object|array
     {
         $columns = array_keys($this->datas);
 
@@ -84,7 +84,7 @@ class DbModel
         return $rq->execute($this->datas);
     }
 
-    public function Delete()
+    public function Delete() : string|int|object|array
     {
         $columns = array_keys($this->where);
 
@@ -101,7 +101,7 @@ class DbModel
         return $rq->execute($this->datas);
     }
 
-    public function Select($sql)
+    public function Select($sql) : string|int|object|array
     {
         $rq = self::$db->prepare($sql);
         $rq->execute();
@@ -109,7 +109,7 @@ class DbModel
         return $rq->fetchAll();
     }
 
-    public function Find()
+    public function Find() : string|int|object|array
     {
         $columns = array_keys($this->datas);
 
@@ -128,7 +128,7 @@ class DbModel
         return $rq->fetchAll();
     }
 
-    public function FindOne()
+    public function FindOne() : string|int|object|array
     {
         $columns = array_keys($this->datas);
 
