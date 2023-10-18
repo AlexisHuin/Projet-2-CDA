@@ -3,11 +3,10 @@
 <html lang="fr">
 
 <head>
-    <link rel="stylesheet" href="./assets/css/style.css?<?= time(); ?>">
+    <link rel="stylesheet" href="./assets/css/style.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="./assets/js/App.js"></script>
-    <title><?= $titre ?></title>
 
     
    
