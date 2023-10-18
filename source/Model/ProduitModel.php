@@ -5,8 +5,8 @@ use Model\DbModel;
 
 class ProduitModel extends DbModel
 {
-    protected $table = 'Produit';  
-    
+    protected $table = 'Produit';
+
     public function getProduits()
     {
         return DbModel::Select('Select * from Produit inner join Categorie ON
@@ -15,6 +15,11 @@ class ProduitModel extends DbModel
         
         Produit.IdSaisonProduit=Saison.IdSaison
         ');
+    }
+    public function DescriptifProduit($id)
+    {
+        $this->IdProduit = $id;
+        return $this->FindOne();
     }
 }
 

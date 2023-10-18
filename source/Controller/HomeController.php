@@ -34,11 +34,18 @@ class HomeController extends MainController
         ViewController::Display('HomeView');
     }
 
-    public function DescriptifProduit()
+    public function DescriptifProduit($params=[])
     {
         ViewController::Init('smarty');
         ViewController::Set('title', 'Home');
+        $ProduitModel       = new ProduitModel();
+        $Produit            = $ProduitModel->DescriptifProduit($params['id']);
+        ViewController::Set('product',$Produit);
         ViewController::Set('h1', 'Smarty : Hello World !');
-        ViewController::Display('HomeView');
+        ViewController::Display('DescriptifProduit');
+        
+        
+
+        
     }
 }
