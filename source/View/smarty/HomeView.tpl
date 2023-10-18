@@ -35,13 +35,15 @@
     <div class="products">
     {foreach key=key item=product from=$products}
         <div class="product">
+            <a href="">
                 <img src="./assets/images/fruit.jpg" alt="<?= $product['name'] ?>">
-                <div class="product-description">
-                    <h3>{$product['DesignationProduit']} </h3>
-                    <h4>{$product['DesignationCategorie']}</h4>
-                    <p>{$product['NomSaison']}</p>
-                </div>
-       </div>
+            </a>
+            <div class="product-description">
+                <h3>{$product['DesignationProduit']}</h3>
+                <h4>{$product['DesignationCategorie']}</h4>
+                <p>{$product['NomSaison']}</p>
+            </div>
+        </div>
     {/foreach}
-    </div>
-    
+</div>
+
