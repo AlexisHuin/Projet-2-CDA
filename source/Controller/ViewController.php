@@ -32,6 +32,7 @@ class ViewController
     // View::Set('h1','Hello world !!!');
     static public function Set(string $var,$value):void
     {
+
         switch(self::$motor)
         {
             case 'smarty':
