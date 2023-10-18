@@ -24,12 +24,7 @@
                     <a href="index.php"><img class="logo_coop" src="./assets/images/logo-coop.png" alt="Logo-Cooperative"> </a> 
                 </div>
 
-                    <li><a href="index.php">Accueil</a></li>
-                    <li><a href="Product.php">Produit</a></li>
-                    <li><a href="Contact.php">Contact</a></li>
-                    <li><a href="Cart.php">Panier</a></li>
-                    <li><a href="Profile.php">Profile</a></li>
-
+                  
                 <div class="authentification-div">
                 if (isset($_SESSION['user']) && $_SESSION['user']['role'] === "Adherent") : ?>
                         <a href="Panier.php"><img class="header_img" src="./assets/images/cart.svg" alt="Cart"></a>
