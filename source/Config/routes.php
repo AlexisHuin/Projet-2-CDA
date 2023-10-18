@@ -34,6 +34,16 @@ $routes = [
     ],
     '/Admin' => [
         'method'=>['GET', 'POST'],
+        'controller'=>['Controller\AdminController','Connexion']
+    ],
+
+    // '/La/Pire/Route/Du/Monde/Pour/Securiser/L/Inscription/Admin' => [
+    //     'method'=>['GET', 'POST'],
+    //     'controller'=>['Controller\AdminController','Inscription']
+    // ],
+
+    '/Admin/Dashboard' => [
+        'method'=>['GET', 'POST'],
         'controller'=>['Controller\AdminController','Dashboard']
     ],
     '/Admin/AdherentsList' => [

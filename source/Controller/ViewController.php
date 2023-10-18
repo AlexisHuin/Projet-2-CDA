@@ -8,7 +8,7 @@ class ViewController
     static object $tplMotor;
     static string $motor='smarty';
 
-    static public function Init(string $motor=null)
+    static public function Init(string $motor=null) : void
     {
         if(!is_null($motor))
             self::$motor = $motor;

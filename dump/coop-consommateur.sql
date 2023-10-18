@@ -3,11 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : db
--- Généré le : jeu. 12 oct. 2023 à 07:50
+-- Généré le : mer. 18 oct. 2023 à 18:37
 -- Version du serveur : 11.1.2-MariaDB-1:11.1.2+maria~ubu2204
 -- Version de PHP : 8.2.11
-CREATE DATABASE `coop-consommateur`;
-USE `coop-consommateur`;
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -66,7 +64,8 @@ CREATE TABLE `Admin` (
 --
 
 INSERT INTO `Admin` (`IdAdmin`, `UsernameAdmin`, `MdpAdmin`) VALUES
-(2, 'zab', '$argon2id$v=19$m=65536,t=4,p=1$Mk1lM2hCVkR6b0RqNU9QaQ$K2b9zhdKs5+jTZ7E8ah7hzy4az4H3sg+g7lTtRHmbsg');
+(2, 'zab', '$argon2id$v=19$m=65536,t=4,p=1$Mk1lM2hCVkR6b0RqNU9QaQ$K2b9zhdKs5+jTZ7E8ah7hzy4az4H3sg+g7lTtRHmbsg'),
+(3, 'zabzab', '$argon2id$v=19$m=65536,t=4,p=1$TEs0Nmd0L1hJdWwwMENVMg$hKO6MNuvVeu66qDG06nC+rW7lQe9Njx7H8r4PKcASuw');
 
 -- --------------------------------------------------------
 
@@ -175,7 +174,7 @@ CREATE TABLE `Produit` (
 --
 
 INSERT INTO `Produit` (`IdProduit`, `DesignationProduit`, `IdSaisonProduit`, `IdCategorieProduit`) VALUES
-(141, 'Carotte', 1, 1),
+(141, 'Carotte', 4, 1),
 (142, 'Tomate', 2, 1),
 (143, 'Pomme de terre', 3, 1),
 (144, 'Courgette', 1, 1),
@@ -189,10 +188,10 @@ INSERT INTO `Produit` (`IdProduit`, `DesignationProduit`, `IdSaisonProduit`, `Id
 (152, 'Pomme', 3, 2),
 (153, 'Banane', 1, 2),
 (154, 'Raisin', 2, 2),
-(155, 'Kiwi', 3, 2),
-(156, 'Poire', 1, 2),
+(155, 'Kiwi', 4, 2),
+(156, 'Poire', 4, 2),
 (157, 'Citron', 2, 2),
-(158, 'Orange', 3, 2),
+(158, 'Orange', 4, 2),
 (159, 'Melon', 1, 2),
 (160, 'Pastèque', 2, 2);
 
@@ -376,7 +375,7 @@ ALTER TABLE `Adherents`
 -- AUTO_INCREMENT pour la table `Admin`
 --
 ALTER TABLE `Admin`
-  MODIFY `IdAdmin` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `IdAdmin` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT pour la table `Categorie`

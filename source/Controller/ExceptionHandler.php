@@ -21,7 +21,7 @@ class ExceptionHandler extends Exception
 		parent::__construct($message, $code, $previous);
 	}
 
-	static function PhpFatalErrors()
+	static function PhpFatalErrors() : void
 	{
 		$lastError = error_get_last();
 		if (!is_null($lastError))
@@ -29,7 +29,7 @@ class ExceptionHandler extends Exception
 	}
 
 	/* It's a function that will be called when a PHP error occurs. */
-	static function PhpErrors($errno, $errstr, $errfile, $errline)
+	static function PhpErrors($errno, $errstr, $errfile, $errline) : void
 	{
 		$Action = [];
 		$Action['msg'] 		= '';
@@ -95,7 +95,7 @@ class ExceptionHandler extends Exception
 		}
 	}
 
-	static function RouteErrors($errno, $errstr, $errurl)
+	static function RouteErrors($errno, $errstr, $errurl) : void
 	{
 		// A modifier par vous même.
 		die('Error N ' . $errno);
