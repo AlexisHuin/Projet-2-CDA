@@ -1,4 +1,4 @@
-{include file="./headerView.tpl"}
+{include file="../Partials/_HeaderView.tpl"}
 <div class="global-connexion">
 <div class="panel-right">
         <h1>Créer un compte</h1>
@@ -48,4 +48,4 @@
 </form>
 </div>
 </div>
-{include file="./footerView.tpl"}
+{include file="../Partials/_FooterView.tpl"}
