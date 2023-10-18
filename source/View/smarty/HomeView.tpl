@@ -30,7 +30,9 @@
     <div class="products">
     {foreach key=key item=product from=$products}
         <div class="product">
-            <a href="./DescriptifProduit/{$product['IdProduit']}">
+
+            <a href="/DescriptifProduit/{$product['IdProduit']}">
+
                 <img src="/assets/images/fruit.jpg" alt="<?= $product['name'] ?>">
             </a>
             <div class="product-description">
@@ -42,4 +44,7 @@
     {/foreach}
 </div>
 
-{include file="../Partials/_FootersView.tpl"}
+
+{include file="../Partials/_FooterView.tpl"}
+
+
