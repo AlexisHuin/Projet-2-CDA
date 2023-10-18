@@ -32,12 +32,12 @@
                     <li><a href="Profile.php"><img class="header_img" src="./assets/images/profile.svg" alt="Profile"></a></li>
                     <li><a href="Deconnexion.php"><img class="header_img" src="./assets/images/logout.svg" alt="Logout"></a></li>
                 {else}
-                    <li><a href="Login.php"><img class="header_img" src="./assets/images/cart.svg" alt="Cart"></a></li>
-                    <li><a href="Login.php"><img class="header_img" src="./assets/images/login.svg" alt="Login"></a></li>
+                    <li><a href="/User"><img class="header_img" src="./assets/images/cart.svg" alt="Cart"></a></li>
+                    <li><a href="/User"><img class="header_img" src="./assets/images/login.svg" alt="Login"></a></li>
                 {/if}
             {else}
-                <li><a href="Login.php"><img class="header_img" src="./assets/images/cart.svg" alt="Cart"></a></li>
-                <li><a href="Login.php"><img class="header_img" src="./assets/images/login.svg" alt="Login"></a></li>
+                <li><a href="/User"><img class="header_img" src="./assets/images/cart.svg" alt="Cart"></a></li>
+                <li><a href="/User"><img class="header_img" src="./assets/images/login.svg" alt="Login"></a></li>
             {/if}
 
            

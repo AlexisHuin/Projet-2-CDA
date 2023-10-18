@@ -169,6 +169,7 @@ class UserController extends MainController
         ViewController::Set('SessionInfo', $_SESSION['user']);
         ViewController::Set('Infos', $Infos);
         ViewController::Display('ProfileView');
+       
     }
     // Déconnection de l'utilisateur
     public function Deconnexion()
