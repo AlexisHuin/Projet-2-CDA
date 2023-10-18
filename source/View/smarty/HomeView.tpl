@@ -1,52 +1,4 @@
-
-<!DOCTYPE html>
-<html lang="fr">
-
-<head>
-    <link rel="stylesheet" href="./assets/css/style.css?<?= time(); ?>">
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?= $titre ?></title>
-</head>
-
-<body>
-    <header>
-    <nav>
-        <div class="logo-div">
-            <a href="index.php"><img class="logo_coop" src="./assets/images/logo-coop.png" alt="Logo-Cooperative"></a>
-        </div>
-
-        <ul class="menu-list">
-        
-            <li class="link"><a href="index.php">Accueil</a></li>
-            <li class="link"><a href="Product.php">Produit</a></li>
-            <li class="link"><a href="Contact.php">Contact</a></li> 
-        
-
-            {if isset($smarty.session.user)}
-                {if $smarty.session.user.role eq "Adherent"}
-                    <li><a href="Panier.php"><img class="header_img" src="./assets/images/cart.svg" alt="Cart"></a></li>
-                    <li><a href="Profile.php"><img class="header_img" src="./assets/images/profile.svg" alt="Profile"></a></li>
-                    <li><a href="Deconnexion.php"><img class="header_img" src="./assets/images/logout.svg" alt="Logout"></a></li>
-                {elseif $smarty.session.user.role eq "Producteur"}
-                    <li><a href="Profile.php"><img class="header_img" src="./assets/images/profile.svg" alt="Profile"></a></li>
-                    <li><a href="Deconnexion.php"><img class="header_img" src="./assets/images/logout.svg" alt="Logout"></a></li>
-                {else}
-                    <li><a href="/User"><img class="header_img" src="./assets/images/cart.svg" alt="Cart"></a></li>
-                    <li><a href="/User"><img class="header_img" src="./assets/images/login.svg" alt="Login"></a></li>
-                {/if}
-            {else}
-                <li><a href="/User"><img class="header_img" src="./assets/images/cart.svg" alt="Cart"></a></li>
-                <li><a href="/User"><img class="header_img" src="./assets/images/login.svg" alt="Login"></a></li>
-            {/if}
-
-           
-        </ul>
-    </nav>
-</header>
-
-    
-
+{include file="../Partials/_HeaderView.tpl"}
     <label for="type">Type :</label>
     <select id="type">
         <option value="all">Tous les types</option>
@@ -88,27 +40,3 @@
     {/foreach}
     </div>
     
-    <script>
-    function filterProducts() {
-        const type = document.getElementById("type").value;
-        const saison = document.getElementById("saison").value;
-        const productName = document.getElementById("productName").value;
-        const products = document.getElementsByClassName("product");
-    
-        for (let i = 0; i < products.length; i++) {
-            const product = products[i];
-            const productNameText = product.getElementsByClassName("product-description")[0].getElementsByTagName("h3")[0].innerText;
-            const productCategorie = product.getElementsByClassName("product-description")[0].getElementsByTagName("h4")[0].innerText;
-            const productSaison = product.getElementsByClassName("product-description")[0].getElementsByTagName("p")[0].innerText;
-    
-            if ((type === 'all' || productCategorie.includes(type)) &&
-                (saison === 'all' || productSaison.toLowerCase().includes(saison.toLowerCase())) &&
-                (productNameText.toLowerCase().includes(productName.toLowerCase()))) {
-                product.style.display = "block";
-            } else {
-                product.style.display = "none";
-            }
-        }
-    }
-    </script>
-   
