@@ -69,7 +69,7 @@ class MainController
     // Valide si tous les champs du formulaire sont remplis
     public function validate(array $form, array $champsObligatoires, array $champsFacultatifs = []): bool
     {
-        $champsCheck = array_merge($champsObligatoires, $champsFacultatifs);
+        $champsCheck = array_merge($form[$champsObligatoires], $form[$champsFacultatifs]);
 
         foreach ($champsCheck as $champObligatoire) {
             if (in_array($champsCheck, $form[$champObligatoire])) {
