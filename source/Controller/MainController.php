@@ -60,8 +60,10 @@ class MainController
 
     protected function connectCheck(string $session, string $Location = "/"): void
     {
+
         if (!isset($_SESSION[$session])) {
             header('Location: ' . $Location);
+
             exit();
         }
     }

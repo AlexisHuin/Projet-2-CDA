@@ -3,7 +3,7 @@
 
 
 
-{if $Infos.NomPrenomAdherents}
+{if $SessionInfo.RoleUser === 'Adherent'}
 
     <h1>Espace Adhérent</h1>
     <h2>Mes coordonnées</h2>
@@ -15,7 +15,7 @@
     <p>GPS : {$Infos.CoordonneesGPSAdherents}</p>
     <p>Date d'inscription : {$Infos.DateDebutAdherents}</p>
 
-{else}
+{else if $SessionInfo.RoleUser === 'Producteur'}
 
     <h1>Espace Producteur</h1>
     <h2>Mes coordonnées</h2>
@@ -27,6 +27,7 @@
     <p>GPS : {$Infos.CoordonneesGPSProducteur}</p>
     <p>Raison Sociale : {$Infos.RaisonSocialeProducteur}</p>
 
+    <a href="/User/AddProduct">Consulter/Ajouter Produit</a>
 {/if}
 
 

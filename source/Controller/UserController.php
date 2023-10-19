@@ -5,6 +5,7 @@ namespace Controller;
 use Model\UserModel;
 use Model\AdherentModel;
 use Model\ProducteurModel;
+use Model\ProduitModel;
 
 use Controller\ViewController;
 use Controller\SessionController;
@@ -60,8 +61,8 @@ class UserController extends MainController
 
                 // S'il n'y a pas d'erreurs, enregistrer l'utilisateur
                 if (count($errors) == 0) {
-                    $User->UsernameUser = htmlspecialchars(($datas['Nom'] . "." . $datas['Prenom']));
-                    $User->EmailUser = htmlspecialchars($datas['Email']);
+                    $User->UsernameUser = ($datas['Nom'] . "." . $datas['Prenom']);
+                    $User->EmailUser = $datas['Email'];
                     $User->MdpUser = password_hash($datas['Pass'], PASSWORD_ARGON2ID);
                     $User->RoleUser = $datas['RoleUser'];
                     $IdUser = $User->Save();
@@ -188,5 +189,18 @@ class UserController extends MainController
         // A la déconnection renvoyer a la page d'acceuil
         header('location: /User');
         exit;
+    }
+    public function AddProduct() {
+
+        // définir que le code s'affiche que si je suis producteur avec un if
+        // sinon je renvoi a l'accueil
+        $ProduitProducteur = new ProduitModel();
+        
+        
+        ViewController::Init('smarty');
+        ViewController::Set('title', 'Ajouter un produit');
+        ViewController::Set('products',$ProduitProducteur->getProduits());
+        ViewController::Set('SessionInfo', $_SESSION['user']);
+        ViewController::Display('AddProductView');
     }
 }
