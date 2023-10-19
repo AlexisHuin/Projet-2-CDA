@@ -7,7 +7,7 @@ class AdherentModel extends DbModel
 {
     protected $table = 'Adherents';  
     
-    public function getAdherent()
+    public function getAdherent() : object|array|string
     {
         return DbModel::Find('Select * from ...',[]);
     }
