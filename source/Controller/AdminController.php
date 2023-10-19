@@ -79,12 +79,35 @@ class AdminController extends MainController
 
         $Adherents = new AdherentModel();
 
-        $Liste = $Adherents->Find();
+        if (isset($_POST['Delete'])) {
+            $Adherents->IdAdherents = $_POST['Id'];
+            $Adherents->Delete();
+            header('Refresh:1;/Admin/Dashboard');
+            echo "Supprimé avec succès.";
+            exit();
+        } else {
+            $Liste = $Adherents->Find();
+        }
 
         ViewController::Init('smarty');
         ViewController::Set('title', 'Dashboard');
         ViewController::Set('Liste', $Liste);
         ViewController::Display('AdherentsListView');
+    }
+
+    public function ModifAdherents($id): void
+    {
+
+        $Adherents = new AdherentModel();
+
+        $Adherents->IdAdherents = $id['id'];
+
+        $Liste = $Adherents->FindOne();
+
+        ViewController::Init('smarty');
+        ViewController::Set('title', 'Dashboard');
+        ViewController::Set('adherent', $Liste);
+        ViewController::Display('ModifAdherentsView');
     }
 
     public function ProducteursList(): void
@@ -93,12 +116,35 @@ class AdminController extends MainController
 
         $Producteur = new ProducteurModel();
 
-        $Liste = $Producteur->Find();
+        if (isset($_POST['Delete'])) {
+            $Producteur->IdProducteur = $_POST['Id'];
+            $Producteur->Delete();
+            header('Refresh:1;/Admin/Dashboard');
+            echo "Supprimé avec succès.";
+            exit();
+        } else {
+            $Liste = $Producteur->Find();
+        }
 
         ViewController::Init('smarty');
         ViewController::Set('title', 'Dashboard');
         ViewController::Set('Liste', $Liste);
         ViewController::Display('ProducteursListView');
+    }
+
+    public function ModifProducteurs($id): void
+    {
+
+        $Producteur = new ProducteurModel();
+
+        $Producteur->IdProducteur = $id['id'];
+
+        $Liste = $Producteur->FindOne();
+
+        ViewController::Init('smarty');
+        ViewController::Set('title', 'Dashboard');
+        ViewController::Set('Producteur', $Liste);
+        ViewController::Display('ModifProducteurView');
     }
 
     public function ProductsList(): void
@@ -107,12 +153,33 @@ class AdminController extends MainController
 
         $Product = new ProduitModel();
 
-        $Liste = $Product->getAllProduitsInfos();
+        if (isset($_POST['Delete'])) {
+            $Product->IdProduit = $_POST['Id'];
+            $Product->Delete();
+            header('Refresh:1;/Admin/Dashboard');
+            echo "Supprimé avec succès.";
+            exit();
+        } else {
+            $Liste = $Product->getAllProduitsInfos();
+        }
 
         ViewController::Init('smarty');
         ViewController::Set('title', 'Dashboard');
         ViewController::Set('Liste', $Liste);
         ViewController::Display('ProductsListView');
+    }
+
+    public function ModifProducts($id): void
+    {
+
+        $Product = new ProduitModel();
+
+        $Liste = $Product->getOneProduitInfos($id['id']);
+
+        ViewController::Init('smarty');
+        ViewController::Set('title', 'Dashboard');
+        ViewController::Set('Product', $Liste);
+        ViewController::Display('ModifProductsView');
     }
 
     // public function Inscription()
