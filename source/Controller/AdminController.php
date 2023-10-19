@@ -3,12 +3,15 @@
 namespace Controller;
 
 use Controller\ViewController;
+use Model\AdherentModel;
+use Model\ProducteurModel;
+use Model\ProduitModel;
 use Model\AdminModel;
 
 // Classe UserController héritant de MainController
 class AdminController extends MainController
 {
-    public function Connexion() : void
+    public function Connexion(): void
     {
         if (isset($_SESSION['admin'])) {
             header('Location: /Admin/Dashboard');
@@ -58,26 +61,58 @@ class AdminController extends MainController
         ViewController::Set('title', 'Admin Login');
         ViewController::Display('AdminConnexionView');
     }
-    public function Dashboard() : void
+    public function Dashboard(): void
     {
         $this->connectCheck('admin');
 
         ViewController::Init('smarty');
         ViewController::Set('title', 'Dashboard');
+        // Créer une table Demande contenant : IdDemande, ProducteurDemande, PrixDemande, PrixActuelDemande, ProduitDemande, EtatDemande 
+        // ViewController::Set('Demandes', )
         ViewController::Set('Username', $_SESSION['admin']['Username']);
         ViewController::Display('DashboardView');
     }
 
-    public function AdherentsList() : void{
+    public function AdherentsList(): void
+    {
+        $this->connectCheck('admin');
 
+        $Adherents = new AdherentModel();
+
+        $Liste = $Adherents->Find();
+
+        ViewController::Init('smarty');
+        ViewController::Set('title', 'Dashboard');
+        ViewController::Set('Liste', $Liste);
+        ViewController::Display('AdherentsListView');
     }
 
-    public function ProducteursList() : void{
+    public function ProducteursList(): void
+    {
+        $this->connectCheck('admin');
 
+        $Producteur = new ProducteurModel();
+
+        $Liste = $Producteur->Find();
+
+        ViewController::Init('smarty');
+        ViewController::Set('title', 'Dashboard');
+        ViewController::Set('Liste', $Liste);
+        ViewController::Display('ProducteursListView');
     }
 
-    public function ProductsList() : void{
+    public function ProductsList(): void
+    {
+        $this->connectCheck('admin');
 
+        $Product = new ProduitModel();
+
+        $Liste = $Product->getAllProduitsInfos();
+
+        ViewController::Init('smarty');
+        ViewController::Set('title', 'Dashboard');
+        ViewController::Set('Liste', $Liste);
+        ViewController::Display('ProductsListView');
     }
 
     // public function Inscription()

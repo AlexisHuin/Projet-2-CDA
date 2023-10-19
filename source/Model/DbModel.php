@@ -111,19 +111,10 @@ class DbModel
 
     public function Find() : string|int|object|array
     {
-        $columns = array_keys($this->datas);
-
-        $sql    = 'SELECT * FROM '.$this->table.' WHERE ';
-
-        foreach($columns as $key=>$column)
-        {
-            $sql   .= $column.'=:'.$column;
-            if($key < (count($columns)-1))
-            $sql   .= ',';
-        }
+        $sql    = 'SELECT * FROM '.$this->table;
 
         $rq = self::$db->prepare($sql);
-        $rq->execute($this->datas);
+        $rq->execute();
         
         return $rq->fetchAll();
     }
