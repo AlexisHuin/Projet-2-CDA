@@ -86,7 +86,7 @@ class DbModel
 
     public function Delete() : string|int|object|array
     {
-        $columns = array_keys($this->where);
+        $columns = array_keys($this->datas);
 
         $sql    = 'DELETE FROM '.$this->table.' WHERE ';
 
@@ -101,12 +101,12 @@ class DbModel
         return $rq->execute($this->datas);
     }
 
-    public function Select($sql) : string|int|object|array
+    public function Select(string $sql, string $fetchMode = "FetchAll") : string|int|object|array
     {
         $rq = self::$db->prepare($sql);
         $rq->execute();
         
-        return $rq->fetchAll();
+        return $rq->$fetchMode();
     }
 
     public function Find() : string|int|object|array
