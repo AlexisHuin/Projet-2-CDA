@@ -61,7 +61,7 @@ class MainController
     protected function connectCheck(): void
     {
         if (!isset($_SESSION['user'])) {
-            header('Location: /User/');
+            header('Location: /User');
             exit();
         }
     }
