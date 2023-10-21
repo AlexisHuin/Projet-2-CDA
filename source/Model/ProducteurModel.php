@@ -5,7 +5,8 @@ use Model\DbModel;
 
 class ProducteurModel extends DbModel
 {
-    protected $table = 'Producteur';  
+    protected $table = 'Producteur'; 
+    protected string $id = 'IdProducteur'; 
     
     public function getProducteur() : string|object|array
     {

@@ -7,6 +7,7 @@ use Model\DbModel;
 class ProduitModel extends DbModel
 {
     protected $table = 'Produit';
+    protected string $id = 'IdProduit';
 
     public function getProduits(): string|object|array
     {
@@ -33,7 +34,7 @@ class ProduitModel extends DbModel
     public function getOneProduitInfos($id): string|object|array
     {
         return DbModel::Select("
-        SELECT NomSaison, DesignationProduit, IdProduit, DesignationCategorie 
+        SELECT NomSaison, IdSaisonProduit, IdCategorieProduit, DesignationProduit, IdProduit, DesignationCategorie 
         FROM Produit 
         INNER JOIN Categorie ON Produit.IdCategorieProduit=Categorie.IdCategorie
         INNER JOIN Saison ON Produit.IdSaisonProduit=Saison.IdSaison
