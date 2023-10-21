@@ -6,13 +6,14 @@ use Model\DbModel;
 class SaisonModel extends DbModel
 {
     protected $table = 'Saison';  
+    protected string $id = 'IdSaison';
     
-    public function getSaisons()
+    public function getSaisons() : string|object|array
     {
         return DbModel::Select('SELECT * FROM Saison');
     }
     
-    public function getProduits()
+    public function getProduits() : string|object|array
     {
         return DbModel::Select('SELECT DesignationProduit, IdProduit, DateDebutSaison, DateFinSaison 
         FROM Produit 

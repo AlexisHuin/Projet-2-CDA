@@ -10,7 +10,7 @@ use Controller\SessionController;
 
 class MainController
 {
-    static function Route($routes)
+    static function Route($routes) : void
     {
         $dispatcher = \FastRoute\simpleDispatcher(function (\FastRoute\RouteCollector $r) use ($routes) {
             foreach ($routes as $uri => $route) {
@@ -58,21 +58,23 @@ class MainController
         DbModel::Connect();
     }
 
-    protected function connectCheck(): void
+    protected function connectCheck(string $session, string $Location = "/"): void
     {
-        if (!isset($_SESSION['user'])) {
-            header('Location: /User/');
+
+        if (!isset($_SESSION[$session])) {
+            header('Location: ' . $Location);
+
             exit();
         }
     }
 
     // Valide si tous les champs du formulaire sont remplis
-    public function validate(array $form, array $champsObligatoires, array $champsFacultatifs = []): bool
+    public function validate(array $form, array $champsObligatoires, array $champsFacultatifs = []): array
     {
         $champsCheck = array_merge($champsObligatoires, $champsFacultatifs);
 
         foreach ($champsCheck as $champObligatoire) {
-            if (in_array($champsCheck, $form[$champObligatoire])) {
+            if (in_array($champsCheck, $champsObligatoires)) {
                 // Si le champ est absent ou vide dans le formulaire
                 if (!isset($form[$champObligatoire]) || empty($form[$champObligatoire])) {
                     return false;

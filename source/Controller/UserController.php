@@ -5,6 +5,7 @@ namespace Controller;
 use Model\UserModel;
 use Model\AdherentModel;
 use Model\ProducteurModel;
+use Model\ProduitModel;
 
 use Controller\ViewController;
 use Controller\SessionController;
@@ -14,13 +15,13 @@ use DateTime;
 // Classe UserController héritant de MainController
 class UserController extends MainController
 {
-    public function ConnexionInscription()
+    public function ConnexionInscription(): void
     {
-        if(isset($_SESSION['user'])){
+        // Vérifier si l'utilisateur est déjà connecté, le rediriger vers le profil
+        if (isset($_SESSION['user'])) {
             header('Location: /User/Profile');
             exit();
         }
-        // Vérifier si l'utilisateur est déjà connecté, le rediriger vers le profil
         $User = new UserModel();
         $Adherent = new AdherentModel();
         $Producteur = new ProducteurModel();
@@ -60,8 +61,8 @@ class UserController extends MainController
 
                 // S'il n'y a pas d'erreurs, enregistrer l'utilisateur
                 if (count($errors) == 0) {
-                    $User->UsernameUser = htmlspecialchars(($datas['Nom'] . "." . $datas['Prenom']));
-                    $User->EmailUser = htmlspecialchars($datas['Email']);
+                    $User->UsernameUser = ($datas['Nom'] . "." . $datas['Prenom']);
+                    $User->EmailUser = $datas['Email'];
                     $User->MdpUser = password_hash($datas['Pass'], PASSWORD_ARGON2ID);
                     $User->RoleUser = $datas['RoleUser'];
                     $IdUser = $User->Save();
@@ -116,48 +117,44 @@ class UserController extends MainController
 
             if ($datas) {
                 if (!filter_var($datas["Email"], FILTER_VALIDATE_EMAIL)) {
-                    ExceptionHandler::SetUserError("Adresse Email ou Mot de passe incorrecte");
+                    ExceptionHandler::SetUserError("Veuillez entrer une adresse e-mail valide.");
                 }
                 $errors = ExceptionHandler::GetUserError();
                 if (count($errors) == 0) {
                     $User->EmailUser = $datas['Email'];
                 }
-            }
 
-            // Rechercher l'utilisateur dans la base de données
-            $Log = $User->FindOne();
-            if ($Log) {
-                if (password_verify($_POST['Pass'], $Log['MdpUser'])) {
-                    $UserArr = [
-                        'Id' => $Log['IdUser'],
-                        'Email' => $User->EmailUser,
-                        'RoleUser' => $Log['RoleUser'],
-                        'Username' => $Log['UsernameUser']
-                    ];
-                    SessionController::Set("user", $UserArr);
-                    SessionController::Save();
-                    header('location:/User/Profile ');
-                    exit;
+                // Rechercher l'utilisateur dans la base de données
+                $Log = $User->FindOne();
+                if ($Log) {
+                    if (password_verify($_POST['Pass'], $Log['MdpUser'])) {
+                        $UserArr = [
+                            'Id' => $Log['IdUser'],
+                            'Email' => $User->EmailUser,
+                            'RoleUser' => $Log['RoleUser'],
+                            'Username' => $Log['UsernameUser']
+                        ];
+                        SessionController::Set("user", $UserArr);
+                        SessionController::Save();
+                        header('location:/User/Profile ');
+                        exit;
+                    }
+                } else {
+                    ExceptionHandler::SetUserError("Informations incorrectes.");
+                    $errors = ExceptionHandler::GetUserError();
                 }
             }
+            var_dump($errors);
         }
 
         // Initialisation de la vue (Smarty)
         ViewController::Init('smarty');
-
-        // Gestion des erreurs
-        // if (empty($errors)) {
-        //     ViewController::Set('Error', '');
-        // } else {
-        //     ViewController::Set('Error', $errors);
-        // }
-
         ViewController::Set('title', 'Login');
         ViewController::Display('LoginView');
     }
-    public function Profile()
+    public function Profile(): void
     {
-        $this->connectCheck();
+        $this->connectCheck('user', '/User/');
 
         switch ($_SESSION['user']['RoleUser']) {
             case "Adherent":
@@ -178,11 +175,24 @@ class UserController extends MainController
         ViewController::Display('ProfileView');
     }
     // Déconnection de l'utilisateur
-    public function Deconnexion()
+    public function Deconnexion(): void
     {
         session_destroy();
         // A la déconnection renvoyer a la page d'acceuil
-        header('location: /User');
+        header('Location: /');
         exit;
+    }
+    public function AddProduct() {
+
+        // définir que le code s'affiche que si je suis producteur avec un if
+        // sinon je renvoi a l'accueil
+        $ProduitProducteur = new ProduitModel();
+        
+        
+        ViewController::Init('smarty');
+        ViewController::Set('title', 'Ajouter un produit');
+        ViewController::Set('products',$ProduitProducteur->getProduits());
+        ViewController::Set('SessionInfo', $_SESSION['user']);
+        ViewController::Display('AddProductView');
     }
 }
