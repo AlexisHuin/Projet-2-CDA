@@ -1,8 +1,5 @@
 {include file="../Partials/_HeaderView.tpl"}
 
-
-
-
 {if $SessionInfo['RoleUser'] === "Adherent" }
 
     <h1>Espace Adhérent</h1>
@@ -27,6 +24,8 @@
     <p>GPS : {$Infos.CoordonneesGPSProducteur}</p>
     <p>Raison Sociale : {$Infos.RaisonSocialeProducteur}</p>
 
+    <a href="/User/AddProduct">Consulter/Ajouter Produit</a>
+    
 {/if}
 
 
