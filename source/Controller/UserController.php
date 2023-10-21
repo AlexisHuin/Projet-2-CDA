@@ -14,13 +14,13 @@ use DateTime;
 // Classe UserController héritant de MainController
 class UserController extends MainController
 {
-    public function ConnexionInscription() : void
+    public function ConnexionInscription(): void
     {
+        // Vérifier si l'utilisateur est déjà connecté, le rediriger vers le profil
         if (isset($_SESSION['user'])) {
             header('Location: /User/Profile');
             exit();
         }
-        // Vérifier si l'utilisateur est déjà connecté, le rediriger vers le profil
         $User = new UserModel();
         $Adherent = new AdherentModel();
         $Producteur = new ProducteurModel();
@@ -148,18 +148,10 @@ class UserController extends MainController
 
         // Initialisation de la vue (Smarty)
         ViewController::Init('smarty');
-
-        // Gestion des erreurs
-        // if (empty($errors)) {
-        //     ViewController::Set('Error', '');
-        // } else {
-        //     ViewController::Set('Error', $errors);
-        // }
-
         ViewController::Set('title', 'Login');
         ViewController::Display('LoginView');
     }
-    public function Profile() : void
+    public function Profile(): void
     {
         $this->connectCheck('user', '/User/');
 
@@ -182,11 +174,11 @@ class UserController extends MainController
         ViewController::Display('ProfileView');
     }
     // Déconnection de l'utilisateur
-    public function Deconnexion() : void
+    public function Deconnexion(): void
     {
         session_destroy();
         // A la déconnection renvoyer a la page d'acceuil
-        header('location: /User');
+        header('Location: /');
         exit;
     }
 }

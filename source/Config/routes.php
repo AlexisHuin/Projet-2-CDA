@@ -8,6 +8,8 @@ $routes = [
         'method'=>['GET', 'POST'],
         'controller'=>['Controller\HomeController','DescriptifProduit']
     ],
+
+    
     '/User' => [
         'method'=>['GET', 'POST'],
         'controller'=>['Controller\UserController','ConnexionInscription']
@@ -32,6 +34,8 @@ $routes = [
         'method'=>['GET', 'POST'],
         'controller'=>['Controller\UserController','AddProduct']
     ],
+
+
     '/Admin' => [
         'method'=>['GET', 'POST'],
         'controller'=>['Controller\AdminController','Connexion']

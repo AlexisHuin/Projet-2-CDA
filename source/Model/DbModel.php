@@ -38,13 +38,23 @@ class DbModel
         return $this->datas[$var];
     }
 
-    // public function Where(array $where=[]):object
-    // {
-    //     $this->Where = $where;
-    //     return $this;
-    // }
+    public function Where(object $Object, string|int|array $whereVal, string|array $property = 'id'): int|string|array|object
+    {
+        if(is_array($property)){
+            for($i = 0; $i < count($property); $i++){
+                $cleanProp = stripslashes($property[$i]);
+                $whereCond = $Object->$cleanProp;
+                $this->where[$whereCond] = $whereVal[$i];
+            }
+        }
+        else{
+            $this->where[$Object->$property] = $whereVal;
+        }
 
-    // public function Order(array $order=[]):object
+        return $this->where;
+    }
+
+    // public function Order(array $order=[]): int|string|array|object
     // {
     //     $this->Ohere = $order;
     //     return $this;
@@ -71,14 +81,28 @@ class DbModel
     {
         $columns = array_keys($this->datas);
 
-        $sql    = 'UPDATE '.$this->table.' set ';
+        $sql    = 'UPDATE '.$this->table.' SET ';
 
         foreach($columns as $key=>$column)
         {
             $sql   .= $column.'=:'.$column;
             if($key < (count($columns)-1))
-            $sql   .= ',';
+            $sql   .= ', ';
         }
+
+        $whereConds = array_keys($this->where);
+        $whereVals = array_values($this->where);
+        
+        $sql .= " WHERE ";
+
+        for($i = 0; $i < count($whereConds); $i++){
+            $i > 0 ? $And = ' AND ': $And = "";
+
+            $sql .= $And . $whereConds[$i] . " = " . $whereVals[$i];
+        }
+
+        // echo $sql;die;
+        // var_dump($this->datas);die;
 
         $rq = self::$db->prepare($sql);
         return $rq->execute($this->datas);
@@ -139,5 +163,3 @@ class DbModel
         return $rq->fetch();
     }
 }
-
-?>

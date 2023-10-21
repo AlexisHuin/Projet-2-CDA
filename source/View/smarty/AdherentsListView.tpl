@@ -1,6 +1,6 @@
 <a href="/Admin/Dashboard">Retour au dashboard</a>
 {foreach from=$Liste key=k item=adherent}
-    <form style="width: 25vw; height: 25vh; background-color: rgb(200,200,200); margin: 0 auto 1.5rem" method="post">
+    <form style="width: 25vw; height: 25vh; min-height: 250px; background-color: rgb(200,200,200); margin: 0 auto 1.5rem" method="post">
         <p>Nom Prénom : {$adherent.NomPrenomAdherents}</p>
         <p>Tel : {$adherent.PhoneAdherents}</p>
         <p>Email : {$adherent.MailAdherents}</p>
