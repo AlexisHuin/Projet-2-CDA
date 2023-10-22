@@ -6,6 +6,7 @@ use Model\DbModel;
 class SaisonModel extends DbModel
 {
     protected $table = 'Saison';  
+    protected string $id = 'IdSaison';
     
     public function getSaisons() : string|object|array
     {

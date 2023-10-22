@@ -1,14 +1,15 @@
 <?php
+
 namespace Model;
 
 use Model\DbModel;
-use DateTime;
 
 class ProduitModel extends DbModel
 {
     protected $table = 'Produit';
+    protected string $id = 'IdProduit';
 
-    public function getProduits() : string|object|array
+    public function getProduits(): string|object|array
     {
         $produitsPasSaison = DbModel::Select('Select * from Produit inner join Categorie ON
         Produit.IdCategorieProduit=Categorie.IdCategorie
@@ -17,30 +18,30 @@ class ProduitModel extends DbModel
         Produit.IdSaisonProduit=Saison.IdSaison
         ');
 
-        $nowNoFormat = new DateTime();
-        $now = $nowNoFormat->format('m-d');
-
-        $produits = array();
-        for($i = 0; $i < count($produitsPasSaison); $i++){
-            $debutNoFormat = new DateTime($produitsPasSaison[$i]['DateDebutSaison']);
-            $finNoFormat = new DateTime($produitsPasSaison[$i]['DateFinSaison']);
-
-            $debut = $debutNoFormat->format('m-d');
-            $fin = $finNoFormat->format('m-d');
-
-            if($now >= $debut && $now <= $fin){
-                $produits[] = [
-                    "DesignationProduit" => $produitsPasSaison[$i]['DesignationProduit'],
-                    "DesignationCategorie" => $produitsPasSaison[$i]['DesignationCategorie'],
-                    "IdProduit" => $produitsPasSaison[$i]['IdProduit'],
-                    "DesignationProduit" => $produitsPasSaison[$i]['DesignationProduit']
-                ];
-            }
-        }
-        // var_dump($produits);
-        return $produits;
+        return $produitsPasSaison;
     }
-    public function DescriptifProduit($id)  : string|object|array
+
+    public function getAllProduitsInfos(): string|object|array
+    {
+        return DbModel::Select('
+        SELECT NomSaison, DesignationProduit, IdProduit, DesignationCategorie 
+        FROM Produit 
+        INNER JOIN Categorie ON Produit.IdCategorieProduit=Categorie.IdCategorie
+        INNER JOIN Saison ON Produit.IdSaisonProduit=Saison.IdSaison
+        ');
+    }
+
+    public function getOneProduitInfos($id): string|object|array
+    {
+        return DbModel::Select("
+        SELECT NomSaison, IdSaisonProduit, IdCategorieProduit, DesignationProduit, IdProduit, DesignationCategorie 
+        FROM Produit 
+        INNER JOIN Categorie ON Produit.IdCategorieProduit=Categorie.IdCategorie
+        INNER JOIN Saison ON Produit.IdSaisonProduit=Saison.IdSaison
+        WHERE IdProduit = '$id'", "Fetch");
+    }
+
+    public function DescriptifProduit($id): string|object|array
     {
         $this->IdProduit = $id;
         return $this->FindOne();
@@ -48,5 +49,3 @@ class ProduitModel extends DbModel
 
     // créé une fonction pour récupéré les produit proposé par le producteur
 }
-
-?>

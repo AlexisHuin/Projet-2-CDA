@@ -6,6 +6,7 @@ use Model\DbModel;
 class CategorieModel extends DbModel
 {
     protected $table = 'Categorie';  
+    protected string $id = 'IdCategorie';
     
     public function getCategories() : object|array|string
     {
