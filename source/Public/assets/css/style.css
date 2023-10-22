@@ -25,7 +25,8 @@ header {
   align-items: center;
   box-shadow: 0 4px 6px bleu(0, 0, 0, 0.1);
 }
-nav  {
+
+nav {
   height: 100%;
   width: 100%;
 }
@@ -80,16 +81,26 @@ nav  {
   height: 35px;
 }
 
+.image-with-text img{
+  width: 100%;
+}
+
 /* Formulaire de filtre */
 .filter-form {
-  text-align: center; /* Centre le contenu du formulaire */
-  margin: 0 auto; /* Centre le formulaire horizontalement */
-  max-width: 400px; /* Largeur maximale du formulaire */
-  padding: 20px; /* Ajoutez de l'espace autour du formulaire si nécessaire */
+  text-align: center;
+  /* Centre le contenu du formulaire */
+  margin: 0 auto;
+  /* Centre le formulaire horizontalement */
+  max-width: 400px;
+  /* Largeur maximale du formulaire */
+  padding: 20px;
+  /* Ajoutez de l'espace autour du formulaire si nécessaire */
 }
 
 
-label, select, input {
+label,
+select,
+input {
   margin: 15px;
   padding: 10px;
   border: 1px solid #ddd;
@@ -242,4 +253,11 @@ header {
   transform: scale(1.2);
 }
 
-
+iframe {
+  display: none;
+  z-index: 9000;
+  position: fixed;
+  height: 100vh;
+  width: 100vw;
+  top: 0;
+}
