@@ -85,10 +85,17 @@ class AdminController extends MainController
             switch($_POST['Objet']){
                 case "Prix":
                     // Récupèrer le prix du produit en question et le modifier prix récupéré par le prix demandé
+                    $ProduitProducteur->Where($ProduitProducteur, $_POST['IdProduitProducteur']);
+                    $ProduitProducteur->PrixProduitProducteur = $_POST['Prix'];
+                    $ProduitProducteur->DateModifPrixProduitProducteur = date('Y-m-d H:i');
+
+                    $ProduitProducteur->Update();
                     break;
                 case "Ajout":
-                    break;
-                case "Bundle":
+                    $ProduitProducteur->Where($ProduitProducteur, $_POST['IdProduitProducteur']);
+                    $ProduitProducteur->IsValidateProduitProducteur = true;
+
+                    $ProduitProducteur->Update();
                     break;
             }
             header('Refresh:1;/Admin/Dashboard');

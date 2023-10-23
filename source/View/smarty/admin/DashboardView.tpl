@@ -15,11 +15,13 @@
             <p><strong>Demande numéro : </strong>{$demandeEnCours.IdDemande}</p>
             <p><strong>Auteur : </strong> {$demandeEnCours.NomPrenomProducteur}</p>
             <p><strong>Motif : </strong>{$demandeEnCours.MotifDemande}</p>
+            <p><strong>Prix de vente proposé : </strong>{$demandeEnCours.PrixProposeDemande}</p>
             <div style="place-self:center; width: 50%; display: flex; flex-direction: row; justify-content:space-between;">
                 <form method="post">
-                    <input type="hidden" name="IdProd" value="{$demandeEnCours.IdProducteurDemande}">
                     <input type="hidden" name="Id" value="{$demandeEnCours.IdDemande}">
+                    <input type="hidden" name="IdProduitProducteur" value="{$demandeEnCours.IdProduitProducteurDemande}">
                     <input type="hidden" name="Objet" value="{$demandeEnCours.ObjetDemande}">
+                    <input type="hidden" name="Prix" value="{$demandeEnCours.PrixProposeDemande}">
                     <input type="submit" name="Accept" value="Accept">
                     <input type="submit" name="Deny" value="Deny">
                 </form>
@@ -41,6 +43,7 @@
             <p><strong>Auteur : </strong> {$demandeTraitees.NomPrenomProducteur}</p>
             <p><strong>Objet : </strong>{$demandeTraitees.ObjetDemande}</p>
             <p><strong>Motif : </strong>{$demandeTraitees.MotifDemande}</p>
+            <p><strong>Prix de vente proposé : </strong>{$demandeTraitees.PrixProposeDemande}</p>
             <p><strong>Etat : </strong>{$demandeTraitees.EtatDemande}</p>
         </div>
     {/if}
