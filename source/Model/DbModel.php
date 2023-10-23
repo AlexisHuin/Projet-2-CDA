@@ -125,10 +125,10 @@ class DbModel
         return $rq->execute($this->datas);
     }
 
-    public function Select(string $sql, string $fetchMode = "FetchAll") : string|int|object|array
+    public function Select(string $sql, string $fetchMode = "FetchAll", $datas=[]) : string|int|object|array
     {
         $rq = self::$db->prepare($sql);
-        $rq->execute();
+        $rq->execute($datas);
         
         return $rq->$fetchMode();
     }
