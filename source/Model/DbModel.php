@@ -142,6 +142,28 @@ class DbModel
         return $rq->fetchAll();
     }
 
+    public function FindSpecific(bool $not = false) : string|int|object|array
+    {
+        $columns = array_keys($this->datas);
+
+        $sql    = 'SELECT * FROM '.$this->table.' WHERE ';
+
+        foreach($columns as $key=>$column)
+        {
+            if($not == true){
+                $sql   .= $column . '!=:' . $column;
+            }
+            $sql   .= $column . '=:' . $column;
+            if($key < (count($columns)-1))
+            $sql   .= ',';
+        }
+
+        $rq      = self::$db->prepare($sql);
+        $rq->execute($this->datas);
+        
+        return $rq->fetchAll();
+    }
+
     public function FindOne() : string|int|object|array
     {
         $columns = array_keys($this->datas);

@@ -66,6 +66,10 @@ $routes = [
         'method'=>['GET', 'POST'],
         'controller'=>['Controller\AdminController','ModifProducteurs']
     ],
+    '/Admin/StatsProducteur' => [
+        'method'=>['GET', 'POST'],
+        'controller'=>['Controller\AdminController','StatsProducteurs']
+    ],
     '/Admin/ProductsList' => [
         'method'=>['GET', 'POST'],
         'controller'=>['Controller\AdminController','ProductsList']
