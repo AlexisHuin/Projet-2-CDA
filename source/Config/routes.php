@@ -8,6 +8,8 @@ $routes = [
         'method'=>['GET', 'POST'],
         'controller'=>['Controller\HomeController','DescriptifProduit']
     ],
+
+    
     '/User' => [
         'method'=>['GET', 'POST'],
         'controller'=>['Controller\UserController','ConnexionInscription']
@@ -22,17 +24,33 @@ $routes = [
     ],
     '/User/ProductList' => [
         'method'=>['GET', 'POST'],
-        'controller'=>['Controller\UserController','ProductList']
+        'controller'=>['Controller\ProducteurController','ProductList']
     ],
     '/User/ModifProduct{id:\d+}' => [
         'method'=>['GET', 'POST'],
-        'controller'=>['Controller\UserController','ModifProduct']
+        'controller'=>['Controller\ProducteurController','ModifProduct']
     ],
     '/User/AddProduct' => [
         'method'=>['GET', 'POST'],
-        'controller'=>['Controller\UserController','AddProduct']
+        'controller'=>['Controller\ProducteurController','AddProduct']
     ],
+    '/User/AddPanier'=> [
+        'method'=>['GET', 'POST'],
+        'controller'=>['Controller\AddPanier','AddPanier']
+    ],
+
+
     '/Admin' => [
+        'method'=>['GET', 'POST'],
+        'controller'=>['Controller\AdminController','Connexion']
+    ],
+
+    // '/La/Pire/Route/Du/Monde/Pour/Securiser/L/Inscription/Admin' => [
+    //     'method'=>['GET', 'POST'],
+    //     'controller'=>['Controller\AdminController','Inscription']
+    // ],
+
+    '/Admin/Dashboard' => [
         'method'=>['GET', 'POST'],
         'controller'=>['Controller\AdminController','Dashboard']
     ],

@@ -16,7 +16,7 @@ class SessionController
     {
         return self::$id; // echo Session::getId();
     }
-    static public function Get($var)
+    static public function Get($var) : string|array|object
     {
         return self::$content[$var]; // echo Session::Get('user');
     }

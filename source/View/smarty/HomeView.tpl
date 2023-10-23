@@ -1,6 +1,6 @@
 {include file="../Partials/_HeaderView.tpl"}
 
-
+<main>
 <form action="" method="post">
     <label for="type">Type :</label>
         <select id="type" name="IdCategorieProduit">
@@ -46,8 +46,6 @@
             </div>
         {/foreach}
     </div>
-
+</main>
 
 {include file="../Partials/_FooterView.tpl"}
-
-
