@@ -16,5 +16,6 @@
             <p>Quantité : <input type="number" name="produit[{$product['IdProduit']}][QuantiteProduitProducteur]" value="{$product['QuantiteProduitProducteur']}" /></p>
             <p>Supprimer ? <input type="checkbox" name="deleteProduit[{$product['IdProduit']}]" value="1"/></p>
         {/if}
+        <button type="submit" name="Panier">Add panier</button>
     </div>
 </div>

@@ -16,7 +16,6 @@ class ProduitProducteurModel extends DbModel
         FROM ProduitProducteur INNER JOIN Produit ON ProduitProducteur.IdProduitProduitProducteur=Produit.IdProduit
         WHERE IdProducteurProduitProducteur=:IdProducteurProduitProducteur",[':IdProducteurProduitProducteur'=>$id]);
     }
-
     public function producteurProduitUpdate($datas,$idProducteur,$IdProduit): string|object|array
     {
        return $this->Select("UPDATE ProduitProducteur 
