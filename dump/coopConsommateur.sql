@@ -254,7 +254,7 @@ CREATE TABLE `ProduitProducteur` (
 --
 
 INSERT INTO `ProduitProducteur` (`IdProduitProducteur`, `DesignationProduitProducteur`, `PrixProduitProducteur`, `DateModifPrixProduitProducteur`, `DetailsProduitProducteur`, `QuantiteProduitProducteur`, `ImageProduitProducteur`, `IdProducteurProduitProducteur`, `IdProduitProduitProducteur`) VALUES
-(1, 'Tomate du Jardin', '0.25', NULL, 'Le bonnes tomates du jardin bio au bord de l\'autoroute 44', 150, NULL, 3, 1);
+(1, 'Tomate du Jardin', '0.25', NULL, 'Le bonnes tomates du jardin bio au bord de la route 44', 150, NULL, 3, 1);
 
 -- --------------------------------------------------------
 
