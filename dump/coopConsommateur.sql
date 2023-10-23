@@ -3,12 +3,11 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : db
--- Généré le : jeu. 12 oct. 2023 à 07:50
+-- Généré le : sam. 21 oct. 2023 à 15:38
 -- Version du serveur : 11.1.2-MariaDB-1:11.1.2+maria~ubu2204
 -- Version de PHP : 8.2.11
-CREATE DATABASE `coop-consommateur`;
-USE `coop-consommateur`;
-
+CREATE DATABASE coop-consommateur;
+USE coop-consommateur;
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
@@ -20,7 +19,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de données : `coop-consommateur`
+-- Base de données : `coopConsommateur`
 --
 
 -- --------------------------------------------------------
@@ -47,7 +46,7 @@ CREATE TABLE `Adherents` (
 --
 
 INSERT INTO `Adherents` (`IdAdherents`, `NomPrenomAdherents`, `PhoneAdherents`, `MailAdherents`, `CodePostalAdherents`, `CoordonneesGPSAdherents`, `DateDebutAdherents`, `DateFinAdherents`, `DepenseAdherents`, `EtatAbonnementAdherent`) VALUES
-(8, 'Bon DEULLE', '771201703', 'enfreinmickael42@gmail.com', 41110, '8435394638', '2023-09-28', NULL, 0.000, 0);
+(11, 'ade ade', '0843954235', 'ade@ade.ade', 41000, '2343242523', '2023-10-21', NULL, 0.000, 0);
 
 -- --------------------------------------------------------
 
@@ -66,7 +65,8 @@ CREATE TABLE `Admin` (
 --
 
 INSERT INTO `Admin` (`IdAdmin`, `UsernameAdmin`, `MdpAdmin`) VALUES
-(2, 'zab', '$argon2id$v=19$m=65536,t=4,p=1$Mk1lM2hCVkR6b0RqNU9QaQ$K2b9zhdKs5+jTZ7E8ah7hzy4az4H3sg+g7lTtRHmbsg');
+(2, 'zab', '$argon2id$v=19$m=65536,t=4,p=1$Mk1lM2hCVkR6b0RqNU9QaQ$K2b9zhdKs5+jTZ7E8ah7hzy4az4H3sg+g7lTtRHmbsg'),
+(3, 'zabzab', '$argon2id$v=19$m=65536,t=4,p=1$TEs0Nmd0L1hJdWwwMENVMg$hKO6MNuvVeu66qDG06nC+rW7lQe9Njx7H8r4PKcASuw');
 
 -- --------------------------------------------------------
 
@@ -155,7 +155,7 @@ CREATE TABLE `Producteur` (
 --
 
 INSERT INTO `Producteur` (`IdProducteur`, `RaisonSocialeProducteur`, `NomPrenomProducteur`, `PhoneProducteur`, `MailProducteur`, `CodePostalProducteur`, `CoordonneesGPSProducteur`) VALUES
-(6, NULL, 'abc dssss', '771201703', 'a@a.fr', '41110', '6875432');
+(7, NULL, 'prodprod', '0943850653', 'prod@prod.prod', '41000', '3123123');
 
 -- --------------------------------------------------------
 
@@ -175,26 +175,56 @@ CREATE TABLE `Produit` (
 --
 
 INSERT INTO `Produit` (`IdProduit`, `DesignationProduit`, `IdSaisonProduit`, `IdCategorieProduit`) VALUES
-(141, 'Carotte', 1, 1),
-(142, 'Tomate', 2, 1),
-(143, 'Pomme de terre', 3, 1),
-(144, 'Courgette', 1, 1),
-(145, 'Poivron', 2, 1),
-(146, 'Aubergine', 3, 1),
-(147, 'Laitue', 1, 1),
-(148, 'Concombre', 2, 1),
-(149, 'Radis', 3, 1),
-(150, 'Patate douce', 1, 1),
-(151, 'Fraise', 2, 2),
-(152, 'Pomme', 3, 2),
-(153, 'Banane', 1, 2),
-(154, 'Raisin', 2, 2),
-(155, 'Kiwi', 3, 2),
-(156, 'Poire', 1, 2),
-(157, 'Citron', 2, 2),
-(158, 'Orange', 3, 2),
-(159, 'Melon', 1, 2),
-(160, 'Pastèque', 2, 2);
+(1, 'Pomme Gala', 1, 1),
+(2, 'Carotte Orange', 2, 2),
+(3, 'Ananas Victoria', 3, 3),
+(4, 'Patate Douce', 4, 1),
+(5, 'Mangue Alphonso', 1, 2),
+(6, 'Brocoli', 2, 3),
+(7, 'Poire Williams', 3, 1),
+(8, 'Tomate Roma', 4, 2),
+(9, 'Papaye Solo', 1, 3),
+(10, 'Courgette Verte', 2, 1),
+(11, 'Pomelo Rose', 3, 2),
+(12, 'Figue Noire', 4, 3),
+(13, 'Banane Cavendish', 1, 1),
+(14, 'Épinard Frais', 2, 2),
+(15, 'Kiwi Hayward', 3, 3),
+(16, 'Aubergine Longue', 4, 1),
+(17, 'Pastèque Sugar Baby', 1, 2),
+(18, 'Chou-fleur', 2, 3),
+(19, 'Raisin Thompson', 3, 1),
+(20, 'Poivron Rouge', 4, 2),
+(21, 'Litchi', 1, 3),
+(22, 'Pomme de Terre Russet', 2, 1),
+(23, 'Melon Charentais', 3, 2),
+(24, 'Courge Butternut', 4, 3),
+(25, 'Orange Navel', 1, 1),
+(26, 'Poivron Jaune', 2, 2),
+(27, 'Cerise Griotte', 3, 3),
+(28, 'Asperge Verte', 4, 1),
+(29, 'Fraise Gariguette', 1, 2),
+(30, 'Haricot Vert', 2, 3),
+(31, 'Pêche de Vigne', 3, 1),
+(32, 'Ail Rose', 4, 2),
+(33, 'Citron Jaune', 1, 3),
+(34, 'Oignon Jaune', 2, 1),
+(35, 'Abricot Bergeron', 3, 2),
+(36, 'Concombre', 4, 3),
+(37, 'Poireau', 1, 1),
+(38, 'Céleri', 2, 2),
+(39, 'Rhubarbe', 3, 3),
+(40, 'Pomme Granny Smith', 4, 1),
+(41, 'Champignon de Paris', 1, 2),
+(42, 'Poivre Rouge', 2, 3),
+(43, 'Mûre', 3, 1),
+(44, 'Pamplemousse Ruby Red', 4, 2),
+(45, 'Poivre Vert', 1, 3),
+(46, 'Cassis', 2, 1),
+(47, 'Artichaut Violet', 3, 2),
+(48, 'Ratatouille', 4, 3),
+(49, 'Noix', 1, 1),
+(50, 'Cerfeuil', 2, 2);
 
 -- --------------------------------------------------------
 
@@ -273,7 +303,11 @@ CREATE TABLE `User` (
 
 INSERT INTO `User` (`IdUser`, `UsernameUser`, `MdpUser`, `EmailUser`, `RoleUser`) VALUES
 (33, 'bon.deulle', '$argon2id$v=19$m=65536,t=4,p=1$VDlxT25jZEdIcHl0U0R4Sw$K/1t7PG9uzQALRYUdsz3fribVeskXlUUTAn04IzUbas', 'enfreinmickael42@gmail.com', 'Adherent'),
-(34, 'abc.dssss', '$argon2id$v=19$m=65536,t=4,p=1$U1ZTL1NBS25KekhZRGJkbw$rEJxKm1JJnqFZm4xkvoc9fqBO3V3xIbk+01Z1hGiZM8', 'a@a.fr', 'Producteur');
+(34, 'abc.dssss', '$argon2id$v=19$m=65536,t=4,p=1$U1ZTL1NBS25KekhZRGJkbw$rEJxKm1JJnqFZm4xkvoc9fqBO3V3xIbk+01Z1hGiZM8', 'a@a.fr', 'Producteur'),
+(35, 'adeade.adeade', '$argon2id$v=19$m=65536,t=4,p=1$T3BHME0vOXZVVUV0TlRSbQ$1PQbNJp3dBMv2iI179T93ey7gdHtgEUY7WF+wyhFYsI', 'ade2@ade2.com', 'Adherent'),
+(36, 'adeade.adeade', '$argon2id$v=19$m=65536,t=4,p=1$N1pLay9FekVsYjF3d0FTVQ$n2sEx5kr08ldpnCA6W20auDgNMqh95EsuiDoIlknS/8', 'adeade@adeade.com', 'Adherent'),
+(37, 'prod.prod', '$argon2id$v=19$m=65536,t=4,p=1$R0VBRzNEOS8xYmpscmRveQ$/D3mCfK8v3eK1/CnMUJyy2r/JbKT9+SUMvvRwkdsJBA', 'prod@prod.prod', 'Producteur'),
+(38, 'ade.ade', '$argon2id$v=19$m=65536,t=4,p=1$ZlFiTXJpNC85cS9vNFIyaA$h+fHK4rEQGMsuF4gqVb6+BGIfZgS/ewqSVZPLzcJWwM', 'ade@ade.ade', 'Adherent');
 
 --
 -- Index pour les tables déchargées
@@ -370,13 +404,13 @@ ALTER TABLE `User`
 -- AUTO_INCREMENT pour la table `Adherents`
 --
 ALTER TABLE `Adherents`
-  MODIFY `IdAdherents` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `IdAdherents` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT pour la table `Admin`
 --
 ALTER TABLE `Admin`
-  MODIFY `IdAdmin` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `IdAdmin` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT pour la table `Categorie`
@@ -406,13 +440,13 @@ ALTER TABLE `Panier`
 -- AUTO_INCREMENT pour la table `Producteur`
 --
 ALTER TABLE `Producteur`
-  MODIFY `IdProducteur` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `IdProducteur` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT pour la table `Produit`
 --
 ALTER TABLE `Produit`
-  MODIFY `IdProduit` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=161;
+  MODIFY `IdProduit` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
 
 --
 -- AUTO_INCREMENT pour la table `ProduitProducteur`
@@ -436,7 +470,7 @@ ALTER TABLE `Saison`
 -- AUTO_INCREMENT pour la table `User`
 --
 ALTER TABLE `User`
-  MODIFY `IdUser` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+  MODIFY `IdUser` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

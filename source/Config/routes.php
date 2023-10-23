@@ -8,6 +8,8 @@ $routes = [
         'method'=>['GET', 'POST'],
         'controller'=>['Controller\HomeController','DescriptifProduit']
     ],
+
+    
     '/User' => [
         'method'=>['GET', 'POST'],
         'controller'=>['Controller\UserController','ConnexionInscription']
@@ -32,7 +34,19 @@ $routes = [
         'method'=>['GET', 'POST'],
         'controller'=>['Controller\UserController','AddProduct']
     ],
+
+
     '/Admin' => [
+        'method'=>['GET', 'POST'],
+        'controller'=>['Controller\AdminController','Connexion']
+    ],
+
+    // '/La/Pire/Route/Du/Monde/Pour/Securiser/L/Inscription/Admin' => [
+    //     'method'=>['GET', 'POST'],
+    //     'controller'=>['Controller\AdminController','Inscription']
+    // ],
+
+    '/Admin/Dashboard' => [
         'method'=>['GET', 'POST'],
         'controller'=>['Controller\AdminController','Dashboard']
     ],

@@ -5,6 +5,8 @@ namespace Controller;
 use Model\UserModel;
 use Model\AdherentModel;
 use Model\ProducteurModel;
+use Model\ProduitModel;
+use Model\ProduitProducteurModel;
 
 use Controller\ViewController;
 use Controller\SessionController;
@@ -14,13 +16,13 @@ use DateTime;
 // Classe UserController héritant de MainController
 class UserController extends MainController
 {
-    public function ConnexionInscription()
+    public function ConnexionInscription(): void
     {
-        if(isset($_SESSION['user'])){
+        // Vérifier si l'utilisateur est déjà connecté, le rediriger vers le profil
+        if (isset($_SESSION['user'])) {
             header('Location: /User/Profile');
             exit();
         }
-        // Vérifier si l'utilisateur est déjà connecté, le rediriger vers le profil
         $User = new UserModel();
         $Adherent = new AdherentModel();
         $Producteur = new ProducteurModel();
@@ -60,8 +62,8 @@ class UserController extends MainController
 
                 // S'il n'y a pas d'erreurs, enregistrer l'utilisateur
                 if (count($errors) == 0) {
-                    $User->UsernameUser = htmlspecialchars(($datas['Nom'] . "." . $datas['Prenom']));
-                    $User->EmailUser = htmlspecialchars($datas['Email']);
+                    $User->UsernameUser = ($datas['Nom'] . "." . $datas['Prenom']);
+                    $User->EmailUser = $datas['Email'];
                     $User->MdpUser = password_hash($datas['Pass'], PASSWORD_ARGON2ID);
                     $User->RoleUser = $datas['RoleUser'];
                     $IdUser = $User->Save();
@@ -116,48 +118,44 @@ class UserController extends MainController
 
             if ($datas) {
                 if (!filter_var($datas["Email"], FILTER_VALIDATE_EMAIL)) {
-                    ExceptionHandler::SetUserError("Adresse Email ou Mot de passe incorrecte");
+                    ExceptionHandler::SetUserError("Veuillez entrer une adresse e-mail valide.");
                 }
                 $errors = ExceptionHandler::GetUserError();
                 if (count($errors) == 0) {
                     $User->EmailUser = $datas['Email'];
                 }
-            }
 
-            // Rechercher l'utilisateur dans la base de données
-            $Log = $User->FindOne();
-            if ($Log) {
-                if (password_verify($_POST['Pass'], $Log['MdpUser'])) {
-                    $UserArr = [
-                        'Id' => $Log['IdUser'],
-                        'Email' => $User->EmailUser,
-                        'RoleUser' => $Log['RoleUser'],
-                        'Username' => $Log['UsernameUser']
-                    ];
-                    SessionController::Set("user", $UserArr);
-                    SessionController::Save();
-                    header('location:/User/Profile ');
-                    exit;
+                // Rechercher l'utilisateur dans la base de données
+                $Log = $User->FindOne();
+                if ($Log) {
+                    if (password_verify($_POST['Pass'], $Log['MdpUser'])) {
+                        $UserArr = [
+                            'Id' => $Log['IdUser'],
+                            'Email' => $User->EmailUser,
+                            'RoleUser' => $Log['RoleUser'],
+                            'Username' => $Log['UsernameUser']
+                        ];
+                        SessionController::Set("user", $UserArr);
+                        SessionController::Save();
+                        header('location:/User/Profile ');
+                        exit;
+                    }
+                } else {
+                    ExceptionHandler::SetUserError("Informations incorrectes.");
+                    $errors = ExceptionHandler::GetUserError();
                 }
             }
+            var_dump($errors);
         }
 
         // Initialisation de la vue (Smarty)
         ViewController::Init('smarty');
-
-        // Gestion des erreurs
-        // if (empty($errors)) {
-        //     ViewController::Set('Error', '');
-        // } else {
-        //     ViewController::Set('Error', $errors);
-        // }
-
         ViewController::Set('title', 'Login');
         ViewController::Display('LoginView');
     }
-    public function Profile()
+    public function Profile(): void
     {
-        $this->connectCheck();
+        $this->connectCheck('user');
 
         switch ($_SESSION['user']['RoleUser']) {
             case "Adherent":
@@ -178,11 +176,108 @@ class UserController extends MainController
         ViewController::Display('ProfileView');
     }
     // Déconnection de l'utilisateur
-    public function Deconnexion()
+    public function Deconnexion(): void
     {
         session_destroy();
         // A la déconnection renvoyer a la page d'acceuil
-        header('location: /User');
+        header('Location: /');
         exit;
     }
+    public function AddProduct(): void
+    {
+
+
+        if (isset($_POST['Ajouter'])) {
+            $datas = $this->validate($_POST, [
+                'DesignationProduitProducteur', 'PrixProduitProducteur',
+                'DetailsProduitProducteur', 'QuantiteProduitProducteur', 'IdProduitProduitProducteur'
+            ]);
+            $idProducteur = $_SESSION['user']['Id'];
+
+
+            if ($datas !== false) {
+                $ProduitProducteur = new ProduitProducteurModel();
+                $ProduitProducteur->IdProducteurProduitProducteur = $idProducteur;
+                $ProduitProducteur->IdProduitProduitProducteur  = $datas['IdProduitProduitProducteur'];
+                $ProduitProducteur->DesignationProduitProducteur = ucwords($datas['DesignationProduitProducteur']);
+                $ProduitProducteur->PrixProduitProducteur = $datas['PrixProduitProducteur'];
+                $ProduitProducteur->DetailsProduitProducteur = $datas['DetailsProduitProducteur'];
+                $ProduitProducteur->PrixProduitProducteur = $datas['PrixProduitProducteur'];
+                // $ProduitProducteur->ImageProduitProducteur = $datas['ImageProduitProducteur'];
+                $ProduitProducteur->QuantiteProduitProducteur = $datas['QuantiteProduitProducteur'];
+
+                $ProduitProducteur->Save();
+                header('location: /User/AddProduct?info=Produit ajouté avec succés');
+                //echo "Produit ajouté avec succés";
+                exit();
+            } else {
+                ExceptionHandler::SetUserError("Erreur");
+                $errors = ExceptionHandler::GetUserError();
+            }
+            var_dump($errors);
+        }
+
+        $ListProduitProducteur = new ProduitProducteurModel;
+        $Produits = new ProduitModel;
+        // Récupérer la liste de tous les produits (c'est un exemple, adaptez-le à vos besoins)
+        $allProducts = $Produits->getAllProduitsInfos();
+        usort($allProducts, function ($a, $b) {
+            return strcmp($a['DesignationProduit'], $b['DesignationProduit']);
+        });
+
+        // Récupérer les produits associés à l'utilisateur
+        // $userProducts = $ListProduitProducteur->getProduitProducteur();
+
+
+
+        ViewController::Init('smarty');
+
+        if (isset($_GET['info']) && !empty($_GET['info']))
+            ViewController::Set('info', $_GET['info']);
+
+        ViewController::Set('title', 'Gestion de produit');
+        ViewController::Set('SessionInfo', $_SESSION['user']);
+        ViewController::Set('AllProducts', $allProducts);
+        // ViewController::Set('UserProducts', $userProducts);
+        ViewController::Display('AddProductProducteurView');
+    }
 }
+
+
+
+ // if (isset($_FILES["ImageProduitProducteur"]) && $_FILES["ImageProduitProducteur"]["error"] == 0) {
+        //     // Get la taille et le type du fichier
+        //     $file_size = $_FILES["ImageProduitProducteur"]["size"];
+        //     $file_type = $_FILES["ImageProduitProducteur"]["type"];
+
+        //     // restreint la taille du fichier
+        //     if ($file_size < 1000000) { // 1 MB        
+        //         // Vérifie que le type du fichier correspond bien
+        //         if ($file_type == "image/jpeg" || $file_type == "image/png" || $file_type == "image/webp") {
+        //             $extension = pathinfo($_FILES['ImageProduitProducteur']['name'], PATHINFO_EXTENSION);
+        //             // Génère un fichier unique
+        //             $new_filename = uniqid() . "." . $extension;
+        //             // Set le chemin d'upload du fichier
+        //             $upload_path = "assets/images/" . $new_filename;
+        //             // Déplace le nouveau fichier vers sa destination et vérifie que tout s'est bien passé
+        //             if (move_uploaded_file($_FILES["ImageProduitProducteur"]["tmp_name"], $upload_path)) {
+
+        //                 // je récupére les données envoyer depuis ma page de formulaire
+        //                 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        //                     $idProduit = $_POST["produit"];
+        //                     $DesignationProduitProducteur = $_POST["DesignationProduitProducteur"];
+        //                     $PrixProduitProducteur = $_POST["PrixProduitProducteur"];
+        //                     $DetailsProduitProducteur = $_POST["DetailsProduitProducteur"];
+        //                     $QuantiteProduitProducteur = $_POST["QuantiteProduitProducteur"];
+        //                     $ImageProduitProducteur = $upload_path;
+
+
+        //                     // je vérifie si les champs sont vides
+        //                     if (
+        //                         empty($DesignationProduitProducteur) &&
+        //                         empty($PrixProduitProducteur) &&
+        //                         empty($DetailsProduitProducteur) &&
+        //                         empty($QuantiteProduitProducteur)
+        //                     ) {
+        //                         die("Tous les champs du formulaire doivent être remplis|| "); 
+        //                     }
