@@ -10,6 +10,7 @@ use Model\AdherentModel;
 use Model\ProducteurModel;
 use Model\ProduitModel;
 use Model\AdminModel;
+use Model\UserModel;
 
 // Classe UserController héritant de MainController
 class AdminController extends MainController
@@ -141,6 +142,9 @@ class AdminController extends MainController
         $Producteur = new ProducteurModel();
 
         if (isset($_POST['Delete'])) {
+            $User = new UserModel();
+            
+
             $Producteur->IdProducteur = $_POST['Id'];
             $Producteur->Delete();
             header('Refresh:1;/Admin/Dashboard');
