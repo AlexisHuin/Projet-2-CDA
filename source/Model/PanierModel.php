@@ -1,39 +1,36 @@
 <?php
 namespace Model;
 
-// Suppose que vous avez déjà configuré la connexion à la base de données
-
 class PanierModel
 {
-    // Ajouter un produit au panier
-    public function ajouterAuPanier($idProduit, $IdAdherents, )
+    private $db;
+
+    public function __construct($db)
     {
-        // Votre code pour ajouter le produit au panier
-        // Assurez-vous de gérer les erreurs potentielles et les vérifications de sécurité ici
-        // Exemple d'opération de base de données pour ajouter au panier
+        $this->db = $db;
+    }
+
+    public function ajouterAuPanier($idProduit, $IdAdherents, $quantite)
+    {
         $sql = "INSERT INTO Panier (IdProduit, IdUtilisateur, Quantite) 
-                VALUES ('$idProduit', '$IdAdherents')";
-        // Exécutez votre requête SQL ici
-        exec($sql);
+                VALUES (?, ?, ?)";
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute([$idProduit, $IdAdherents, $quantite]);
     }
 
-    // Récupérer les éléments du panier pour un utilisateur spécifique
-    public function GetPanierAdherents($IdAdherents):void
+    public function GetPanierAdherents($IdAdherents)
     {
-        
-        // Exemple de requête pour récupérer le panier de l'utilisateur depuis la base de données
-        $sql = "SELECT * FROM Panier WHERE IdAdherents = '$IdAdherents'";
-        exec($sql);
-        // Retournez les résultats
+        $sql = "SELECT * FROM Panier WHERE IdUtilisateur = ?";
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute([$IdAdherents]);
+        $result = $stmt->fetchAll();
+        return $result;
     }
 
-    // Supprimer un produit du panier pour un utilisateur spécifié
     public function supprimerDuPanier($IdProduit, $IdAdherents)
     {
-        // Votre code pour supprimer un produit du panier pour l'utilisateur spécifié
-        // Exemple de requête pour supprimer du panier dans la base de données
-        $sql = "DELETE FROM Panier WHERE IdProduit = '$IdProduit' AND IdUtilisateur = '$IdAdherents'";
-        exec($sql);
-        // Exécutez votre requête SQL ici
+        $sql = "DELETE FROM Panier WHERE IdProduit = ? AND IdUtilisateur = ?";
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute([$IdProduit, $IdAdherents]);
     }
 }
