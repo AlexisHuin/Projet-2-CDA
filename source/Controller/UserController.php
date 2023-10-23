@@ -6,6 +6,7 @@ use Model\UserModel;
 use Model\AdherentModel;
 use Model\ProducteurModel;
 use Model\ProduitModel;
+use Model\ProduitProducteurModel;
 
 use Controller\ViewController;
 use Controller\SessionController;
@@ -154,7 +155,7 @@ class UserController extends MainController
     }
     public function Profile(): void
     {
-        $this->connectCheck('user', '/User/');
+        $this->connectCheck('user');
 
         switch ($_SESSION['user']['RoleUser']) {
             case "Adherent":
@@ -182,17 +183,101 @@ class UserController extends MainController
         header('Location: /');
         exit;
     }
-    public function AddProduct() {
+    public function AddProduct(): void
+    {
 
-        // définir que le code s'affiche que si je suis producteur avec un if
-        // sinon je renvoi a l'accueil
-        $ProduitProducteur = new ProduitModel();
-        
-        
+
+        if (isset($_POST['Ajouter'])) {
+            $datas = $this->validate($_POST, [
+                'DesignationProduitProducteur', 'PrixProduitProducteur',
+                'DetailsProduitProducteur', 'QuantiteProduitProducteur', 'IdProduitProduitProducteur'
+            ]);
+            $idProducteur = $_SESSION['user']['Id'];
+
+
+            if ($datas !== false) {
+                $ProduitProducteur = new ProduitProducteurModel();
+                $ProduitProducteur->IdProducteurProduitProducteur = $idProducteur;
+                $ProduitProducteur->IdProduitProduitProducteur  = $datas['IdProduitProduitProducteur'];
+                $ProduitProducteur->DesignationProduitProducteur = ucwords($datas['DesignationProduitProducteur']);
+                $ProduitProducteur->PrixProduitProducteur = $datas['PrixProduitProducteur'];
+                $ProduitProducteur->DetailsProduitProducteur = $datas['DetailsProduitProducteur'];
+                $ProduitProducteur->PrixProduitProducteur = $datas['PrixProduitProducteur'];
+                // $ProduitProducteur->ImageProduitProducteur = $datas['ImageProduitProducteur'];
+                $ProduitProducteur->QuantiteProduitProducteur = $datas['QuantiteProduitProducteur'];
+
+                $ProduitProducteur->Save();
+                header('location: /User/AddProduct?info=Produit ajouté avec succés');
+                //echo "Produit ajouté avec succés";
+                exit();
+            } else {
+                ExceptionHandler::SetUserError("Erreur");
+                $errors = ExceptionHandler::GetUserError();
+            }
+            var_dump($errors);
+        }
+
+        $ListProduitProducteur = new ProduitProducteurModel;
+        $Produits = new ProduitModel;
+        // Récupérer la liste de tous les produits (c'est un exemple, adaptez-le à vos besoins)
+        $allProducts = $Produits->getAllProduitsInfos();
+        usort($allProducts, function ($a, $b) {
+            return strcmp($a['DesignationProduit'], $b['DesignationProduit']);
+        });
+
+        // Récupérer les produits associés à l'utilisateur
+        // $userProducts = $ListProduitProducteur->getProduitProducteur();
+
+
+
         ViewController::Init('smarty');
-        ViewController::Set('title', 'Ajouter un produit');
-        ViewController::Set('products',$ProduitProducteur->getProduits());
+
+        if (isset($_GET['info']) && !empty($_GET['info']))
+            ViewController::Set('info', $_GET['info']);
+
+        ViewController::Set('title', 'Gestion de produit');
         ViewController::Set('SessionInfo', $_SESSION['user']);
-        ViewController::Display('AddProductView');
+        ViewController::Set('AllProducts', $allProducts);
+        // ViewController::Set('UserProducts', $userProducts);
+        ViewController::Display('AddProductProducteurView');
     }
 }
+
+
+
+ // if (isset($_FILES["ImageProduitProducteur"]) && $_FILES["ImageProduitProducteur"]["error"] == 0) {
+        //     // Get la taille et le type du fichier
+        //     $file_size = $_FILES["ImageProduitProducteur"]["size"];
+        //     $file_type = $_FILES["ImageProduitProducteur"]["type"];
+
+        //     // restreint la taille du fichier
+        //     if ($file_size < 1000000) { // 1 MB        
+        //         // Vérifie que le type du fichier correspond bien
+        //         if ($file_type == "image/jpeg" || $file_type == "image/png" || $file_type == "image/webp") {
+        //             $extension = pathinfo($_FILES['ImageProduitProducteur']['name'], PATHINFO_EXTENSION);
+        //             // Génère un fichier unique
+        //             $new_filename = uniqid() . "." . $extension;
+        //             // Set le chemin d'upload du fichier
+        //             $upload_path = "assets/images/" . $new_filename;
+        //             // Déplace le nouveau fichier vers sa destination et vérifie que tout s'est bien passé
+        //             if (move_uploaded_file($_FILES["ImageProduitProducteur"]["tmp_name"], $upload_path)) {
+
+        //                 // je récupére les données envoyer depuis ma page de formulaire
+        //                 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        //                     $idProduit = $_POST["produit"];
+        //                     $DesignationProduitProducteur = $_POST["DesignationProduitProducteur"];
+        //                     $PrixProduitProducteur = $_POST["PrixProduitProducteur"];
+        //                     $DetailsProduitProducteur = $_POST["DetailsProduitProducteur"];
+        //                     $QuantiteProduitProducteur = $_POST["QuantiteProduitProducteur"];
+        //                     $ImageProduitProducteur = $upload_path;
+
+
+        //                     // je vérifie si les champs sont vides
+        //                     if (
+        //                         empty($DesignationProduitProducteur) &&
+        //                         empty($PrixProduitProducteur) &&
+        //                         empty($DetailsProduitProducteur) &&
+        //                         empty($QuantiteProduitProducteur)
+        //                     ) {
+        //                         die("Tous les champs du formulaire doivent être remplis|| "); 
+        //                     }
