@@ -47,5 +47,7 @@ class ProduitModel extends DbModel
         return $this->FindOne();
     }
 
-    // créé une fonction pour récupéré les produit proposé par le producteur
+ 
+
+
 }

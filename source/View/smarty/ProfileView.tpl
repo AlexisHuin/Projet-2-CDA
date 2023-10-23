@@ -24,7 +24,7 @@
     <p>GPS : {$Infos.CoordonneesGPSProducteur}</p>
     <p>Raison Sociale : {$Infos.RaisonSocialeProducteur}</p>
 
-    <a href="/User/AddProduct">Consulter/Ajouter Produit</a>
+    <a href="/User/AddProduct">Consulter/Ajouter mes produits</a>
     
 {/if}
 

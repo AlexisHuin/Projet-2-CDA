@@ -3,10 +3,11 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : db
--- Généré le : sam. 21 oct. 2023 à 15:38
+-- Généré le : lun. 23 oct. 2023 à 07:38
 -- Version du serveur : 11.1.2-MariaDB-1:11.1.2+maria~ubu2204
 -- Version de PHP : 8.2.11
-
+CREATE DATABASE coop-consommateur;
+USE coop-consommateur;
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
@@ -45,7 +46,7 @@ CREATE TABLE `Adherents` (
 --
 
 INSERT INTO `Adherents` (`IdAdherents`, `NomPrenomAdherents`, `PhoneAdherents`, `MailAdherents`, `CodePostalAdherents`, `CoordonneesGPSAdherents`, `DateDebutAdherents`, `DateFinAdherents`, `DepenseAdherents`, `EtatAbonnementAdherent`) VALUES
-(11, 'ade ade', '0843954235', 'ade@ade.ade', 41000, '2343242523', '2023-10-21', NULL, 0.000, 0);
+(11, 'ade adherent', '0843954235', 'ade@ade.ade', 41000, '2343242523', '2023-10-21', NULL, 0.000, 0);
 
 -- --------------------------------------------------------
 
@@ -130,7 +131,8 @@ CREATE TABLE `Panier` (
   `IdPanier` int(11) NOT NULL,
   `DesignationPanier` varchar(255) DEFAULT NULL,
   `QuantitePanier` int(11) NOT NULL,
-  `PrixPanier` int(11) NOT NULL
+  `PrixPanier` int(11) NOT NULL,
+  `IdAdherentsPanier` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 
 -- --------------------------------------------------------
@@ -223,7 +225,10 @@ INSERT INTO `Produit` (`IdProduit`, `DesignationProduit`, `IdSaisonProduit`, `Id
 (47, 'Artichaut Violet', 3, 2),
 (48, 'Ratatouille', 4, 3),
 (49, 'Noix', 1, 1),
-(50, 'Cerfeuil', 2, 2);
+(50, 'Cerfeuil', 2, 2),
+(51, 'Prune Jaune', 2, 1),
+(52, 'Gingembre', 1, 2),
+(53, 'Aubergine Graffiti', 4, 2);
 
 -- --------------------------------------------------------
 
@@ -242,6 +247,13 @@ CREATE TABLE `ProduitProducteur` (
   `IdProducteurProduitProducteur` int(11) NOT NULL,
   `IdProduitProduitProducteur` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Déchargement des données de la table `ProduitProducteur`
+--
+
+INSERT INTO `ProduitProducteur` (`IdProduitProducteur`, `DesignationProduitProducteur`, `PrixProduitProducteur`, `DateModifPrixProduitProducteur`, `DetailsProduitProducteur`, `QuantiteProduitProducteur`, `ImageProduitProducteur`, `IdProducteurProduitProducteur`, `IdProduitProduitProducteur`) VALUES
+(1, 'Tomate du Jardin', '0.25', NULL, 'Le bonnes tomates du jardin bio au bord de l\'autoroute 44', 150, NULL, 3, 1);
 
 -- --------------------------------------------------------
 
@@ -301,10 +313,6 @@ CREATE TABLE `User` (
 --
 
 INSERT INTO `User` (`IdUser`, `UsernameUser`, `MdpUser`, `EmailUser`, `RoleUser`) VALUES
-(33, 'bon.deulle', '$argon2id$v=19$m=65536,t=4,p=1$VDlxT25jZEdIcHl0U0R4Sw$K/1t7PG9uzQALRYUdsz3fribVeskXlUUTAn04IzUbas', 'enfreinmickael42@gmail.com', 'Adherent'),
-(34, 'abc.dssss', '$argon2id$v=19$m=65536,t=4,p=1$U1ZTL1NBS25KekhZRGJkbw$rEJxKm1JJnqFZm4xkvoc9fqBO3V3xIbk+01Z1hGiZM8', 'a@a.fr', 'Producteur'),
-(35, 'adeade.adeade', '$argon2id$v=19$m=65536,t=4,p=1$T3BHME0vOXZVVUV0TlRSbQ$1PQbNJp3dBMv2iI179T93ey7gdHtgEUY7WF+wyhFYsI', 'ade2@ade2.com', 'Adherent'),
-(36, 'adeade.adeade', '$argon2id$v=19$m=65536,t=4,p=1$N1pLay9FekVsYjF3d0FTVQ$n2sEx5kr08ldpnCA6W20auDgNMqh95EsuiDoIlknS/8', 'adeade@adeade.com', 'Adherent'),
 (37, 'prod.prod', '$argon2id$v=19$m=65536,t=4,p=1$R0VBRzNEOS8xYmpscmRveQ$/D3mCfK8v3eK1/CnMUJyy2r/JbKT9+SUMvvRwkdsJBA', 'prod@prod.prod', 'Producteur'),
 (38, 'ade.ade', '$argon2id$v=19$m=65536,t=4,p=1$ZlFiTXJpNC85cS9vNFIyaA$h+fHK4rEQGMsuF4gqVb6+BGIfZgS/ewqSVZPLzcJWwM', 'ade@ade.ade', 'Adherent');
 
@@ -348,7 +356,8 @@ ALTER TABLE `ModeReglement`
 -- Index pour la table `Panier`
 --
 ALTER TABLE `Panier`
-  ADD PRIMARY KEY (`IdPanier`);
+  ADD PRIMARY KEY (`IdPanier`),
+  ADD KEY `IdAdherentsPanier` (`IdAdherentsPanier`) USING BTREE;
 
 --
 -- Index pour la table `Producteur`
@@ -445,13 +454,13 @@ ALTER TABLE `Producteur`
 -- AUTO_INCREMENT pour la table `Produit`
 --
 ALTER TABLE `Produit`
-  MODIFY `IdProduit` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
+  MODIFY `IdProduit` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
 
 --
 -- AUTO_INCREMENT pour la table `ProduitProducteur`
 --
 ALTER TABLE `ProduitProducteur`
-  MODIFY `IdProduitProducteur` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `IdProduitProducteur` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT pour la table `Reglement`
