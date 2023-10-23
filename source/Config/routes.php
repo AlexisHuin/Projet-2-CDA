@@ -36,7 +36,7 @@ $routes = [
     ],
     '/User/AddPanier'=> [
         'method'=>['GET', 'POST'],
-        'controller'=>['Controller\AddPanier','AddPanier']
+        'controller'=>['Controller\PanierController','AddPanier']
     ],
 
 

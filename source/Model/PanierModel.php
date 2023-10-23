@@ -18,7 +18,7 @@ class PanierModel
     }
 
     // Récupérer les éléments du panier pour un utilisateur spécifique
-    public function getPanierUtilisateur($IdAdherents)
+    public function GetPanierAdherents($IdAdherents):void
     {
         
         // Exemple de requête pour récupérer le panier de l'utilisateur depuis la base de données
