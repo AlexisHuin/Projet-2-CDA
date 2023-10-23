@@ -32,7 +32,7 @@ $routes = [
     ],
     '/User/AddProduct' => [
         'method'=>['GET', 'POST'],
-        'controller'=>['Controller\UserController','AddProduct']
+        'controller'=>['Controller\ProducteurController','AddProduct']
     ],
 
 

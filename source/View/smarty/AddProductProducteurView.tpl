@@ -4,7 +4,8 @@
     <h1>Gérer mes produits</h1>
 <h2>Ajout nouveau produit</h2>
 {$info}
-<form class="" method="POST" enctype="multipart/form-data">
+
+<form method="POST" enctype="multipart/form-data">
     <select name="IdProduitProduitProducteur">
        {foreach from=$AllProducts key=k item=produit}
             <option value="{$produit.IdProduit}"> {$produit.DesignationProduit} </option>
@@ -22,7 +23,9 @@
     <input type="file" name="ImageProduitProducteur" required>
     <input  type="submit" name="Ajouter" value="Envoyer">
 </form>
-  
+
+
+
 
 
     
