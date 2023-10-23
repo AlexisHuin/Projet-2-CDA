@@ -1,8 +1,8 @@
 {include file="../Partials/_HeaderView.tpl"}
 
 
-    <h1>Gérer mes produits</h1>
-<h2>Ajout nouveau produit</h2>
+   
+<h1>Ajout nouveau produit</h1>
 {$info}
 
 <form method="POST" enctype="multipart/form-data">
@@ -20,10 +20,10 @@
     <label for="QuantiteProduitProducteur">Quantité produit</label>
     <input type="number" name="QuantiteProduitProducteur" required>
     <label for="ImageProduitProducteur">Image</label>
-    <input type="file" name="ImageProduitProducteur" required>
+    <input type="file" name="ImageProduitProducteur">
     <input  type="submit" name="Ajouter" value="Envoyer">
 </form>
-
+<a href="/User/ProductList">Liste de mes produits</a>
 
 
 

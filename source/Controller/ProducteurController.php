@@ -4,7 +4,6 @@ namespace Controller;
 
 use Model\ProduitModel;
 use Model\ProduitProducteurModel;
-use Model\DbModel;
 use Controller\ViewController;
 
 use Controller\ExceptionHandler;
@@ -28,7 +27,7 @@ class ProducteurController extends UserController
                 $ProduitProducteur = new ProduitProducteurModel();
                 $ProduitProducteur->IdProducteurProduitProducteur = $idProducteur;
                 $ProduitProducteur->IdProduitProduitProducteur  = $datas['IdProduitProduitProducteur'];
-                $ProduitProducteur->DesignationProduitProducteur = ucwords($datas['DesignationProduitProducteur']);
+                $ProduitProducteur->DesignationProduitProducteur = htmlentities($datas['DesignationProduitProducteur'], ENT_QUOTES);
                 $ProduitProducteur->PrixProduitProducteur = $datas['PrixProduitProducteur'];
                 $ProduitProducteur->DetailsProduitProducteur = $datas['DetailsProduitProducteur'];
                 $ProduitProducteur->PrixProduitProducteur = $datas['PrixProduitProducteur'];
@@ -69,9 +68,9 @@ class ProducteurController extends UserController
         // ViewController::Set('UserProducts', $userProducts);
         ViewController::Display('AddProductProducteurView');
     }
-    public function ShowListProducts(): void {
+    public function ProductList(): void {
           // Créez une instance de DbModel pour la table ProduitProducteur
-          $produitModel = new DbModel();
+          $produitModel = new ProduitProducteurModel();
           $produitModel->table = 'ProduitProducteur'; // Définissez la table appropriée
   
           // Exécutez une requête pour obtenir la liste des produits
