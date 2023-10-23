@@ -74,13 +74,12 @@ class HomeController extends MainController
         $Produit            = $ProduitModel->DescriptifProduit($params['id']);
         
         $ProduitProducteurModel = new ProduitProducteurModel();
-        $ProduitProducteur = $ProduitProducteurModel->getProduitFromProducteur($Produit['IdProduit']);
+        
         
         // var_dump($Produit);
         ViewController::Init('smarty');
         ViewController::Set('title', 'Home');
         ViewController::Set('product',$Produit);
-        ViewController::Set('productProducteur',$ProduitProducteur);
         ViewController::Set('h1', 'Smarty : Hello World !');
         ViewController::Display('DescriptifProduit');
         
