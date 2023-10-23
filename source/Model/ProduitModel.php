@@ -41,11 +41,13 @@ class ProduitModel extends DbModel
         WHERE IdProduit = '$id'", "Fetch");
     }
 
+
     public function DescriptifProduit($id): string|object|array
     {
         $this->IdProduit = $id;
         return $this->FindOne();
     }
+    
 
  
 

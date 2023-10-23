@@ -34,6 +34,10 @@ $routes = [
         'method'=>['GET', 'POST'],
         'controller'=>['Controller\UserController','AddProduct']
     ],
+    '/User/AddPanier'=> [
+        'method'=>['GET', 'POST'],
+        'controller'=>['Controller\AddPanier','AddPanier']
+    ],
 
 
     '/Admin' => [
