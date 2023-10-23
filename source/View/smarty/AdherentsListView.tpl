@@ -7,6 +7,7 @@
         <p>Code Postal : {$adherent.CodePostalAdherents}</p>
         <p>GPS : {$adherent.CoordonneesGPSAdherents}</p>
         <p>Date d'inscription : {$adherent.DateDebutAdherents}</p>
+        <input type="hidden" value="Adherent" name="Role">
         <input type="hidden" value="{$adherent.IdAdherents}" name="Id">
         <input type="submit" value="Delete" name="Delete">
         <a href="/Admin/ModifAdherents{$adherent.IdAdherents}">Modifier infos</a>
