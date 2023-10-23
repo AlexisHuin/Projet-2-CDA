@@ -16,4 +16,11 @@ class ProduitProducteurModel extends DbModel
         FROM ProduitProducteur INNER JOIN Produit ON ProduitProducteur.IdProduitProduitProducteur=Produit.IdProduit
         WHERE IdProducteurProduitProducteur=:IdProducteurProduitProducteur",[':IdProducteurProduitProducteur'=>$id]);
     }
+    public function getProduitFromProducteur($id): string|object|array
+    {
+        
+        return DbModel::Select("SELECT * 
+        FROM ProduitProducteur INNER JOIN Produit ON ProduitProducteur.IdProduitProduitProducteur=Produit.IdProduit
+        WHERE IdProduitProduitProducteur=:IdProduitProduitProducteur",[':IdProduitProduitProducteur'=>$id]);
+    }
 }
