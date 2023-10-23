@@ -5,10 +5,12 @@
 <p>Elevé en serre </p>
 <img src="" alt="" >
 
-<form action="AddPanier" method="POST">
+<form action="/User/AddPanier" method="POST">
+    <input  type="hidden" name="IdProduit" value="{$product['IdProduit']}" >
     <input  type="number" name="QuantiteProduit" placeholder="Quantité a ajouter" >
-    <button type="submit" name="AddPanier">Add panier</button>
+    <button type="submit" name="Panier">Add panier</button>
 </form>
+
 
 
 
