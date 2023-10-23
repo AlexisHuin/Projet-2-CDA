@@ -8,8 +8,9 @@ class ProduitProducteurModel extends DbModel
 {
     protected $table = 'ProduitProducteur';
     protected string $id = 'IdProduitProducteur';
+    protected string $IdProducteur = 'IdProducteurProduitProducteur';
 
-
+    // Méthode pour récupérer les produits du producteur en fonction de son ID
     public function getProduitProducteur($id): string|object|array
     {
         return DbModel::Select("SELECT * 
@@ -17,11 +18,32 @@ class ProduitProducteurModel extends DbModel
         WHERE IdProducteurProduitProducteur=:IdProducteurProduitProducteur", [':IdProducteurProduitProducteur' => $id]);
     }
 
-    public function GetOnePrixProduitProducteur($id): string|object|array
+
+    // Méthode pour mettre à jour les informations d'un produit du producteur
+    public function producteurProduitUpdate($datas, $idProducteur, $IdProduit): string|object|array
+
     {
-        return DbModel::Select("SELECT PrixProduitProducteur
-        FROM ProduitProducteur 
-        WHERE IdProduitProduitProducteur=:IdProduitProduitProducteur", 
-        [':IdProduitProduitProducteur' => $id], "Fetch");
+        return $this->Select("UPDATE ProduitProducteur 
+        SET DesignationProduitProducteur=:DesignationProduitProducteur,
+        PrixProduitProducteur=:PrixProduitProducteur, 
+        QuantiteProduitProducteur=:QuantiteProduitProducteur,
+        DetailsProduitProducteur=:DetailsProduitProducteur 
+        WHERE IdProducteurProduitProducteur=:IdProducteurProduitProducteur AND IdProduitProduitProducteur=:IdProduitProduitProducteur
+        ", [
+            ':DesignationProduitProducteur' => $datas['DesignationProduitProducteur'],
+            ':PrixProduitProducteur' => $datas['PrixProduitProducteur'],
+            ':QuantiteProduitProducteur' => $datas['QuantiteProduitProducteur'],
+            ':DetailsProduitProducteur' => $datas['DetailsProduitProducteur'],
+            ':IdProducteurProduitProducteur' => $idProducteur,
+            ':IdProduitProduitProducteur' => $IdProduit,
+        ]);
+    }
+
+    // Méthode pour supprimer un produit du producteur en fonction de son ID
+    public function producteurProduitDelete($IdProduit): string|object|array
+    {
+        return $this->Select("DELETE FROM ProduitProducteur 
+        WHERE IdProduitProduitProducteur = $IdProduit
+        ");
     }
 }

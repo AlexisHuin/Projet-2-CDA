@@ -26,10 +26,6 @@ $routes = [
         'method'=>['GET', 'POST'],
         'controller'=>['Controller\ProducteurController','ProductList']
     ],
-    '/User/ModifProduct{id:\d+}' => [
-        'method'=>['GET', 'POST'],
-        'controller'=>['Controller\ProducteurController','ModifProduct']
-    ],
     '/User/AddProduct' => [
         'method'=>['GET', 'POST'],
         'controller'=>['Controller\ProducteurController','AddProduct']

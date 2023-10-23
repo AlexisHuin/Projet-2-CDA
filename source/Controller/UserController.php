@@ -130,15 +130,29 @@ class UserController extends MainController
                 $Log = $User->FindOne();
                 if ($Log) {
                     if (password_verify($_POST['Pass'], $Log['MdpUser'])) {
-                        $Producteur->MailProducteur= $datas['Email'];
-                        $Result=$Producteur->findOne();
+                        if($Log['RoleUser'] === 'Adherent') {
+                        $Adherent->MailAdherents= $datas['Email'];
+                        $Result=$Adherent->findOne();
                         $UserArr = [
                             'Id' => $Log['IdUser'],
-                            'IdRole' => $Result['IdProducteur'],
+                            'IdRole' => $Result['IdAdherents'],
                             'Email' => $User->EmailUser,
                             'RoleUser' => $Log['RoleUser'],
                             'Username' => $Log['UsernameUser']
                         ];
+                    } else if($Log['RoleUser'] === 'Producteur') 
+                        {
+                            $Producteur->MailProducteur= $datas['Email'];
+                            $Result=$Producteur->findOne();
+                            $UserArr = [
+                                'Id' => $Log['IdUser'],
+                                'IdRole' => $Result['IdProducteur'],
+                                'Email' => $User->EmailUser,
+                                'RoleUser' => $Log['RoleUser'],
+                                'Username' => $Log['UsernameUser']
+                            ];
+                        
+                    }
                         SessionController::Set("user", $UserArr);
                         SessionController::Save();
                         header('location:/User/Profile ');
