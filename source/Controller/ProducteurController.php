@@ -69,6 +69,11 @@ class ProducteurController extends UserController
         ViewController::Display('AddProductProducteurView');
     }
     public function ProductList(): void {
+
+        if(isset($_POST['update']))
+        {
+            $this->UpdateProductProducteur();
+        }
           // Créez une instance de DbModel pour la table ProduitProducteur
           $Produits = new ProduitProducteurModel();
           $AllProduits = $Produits->getProduitProducteur($_SESSION['user']['IdRole']);
@@ -81,7 +86,24 @@ class ProducteurController extends UserController
 
         //  var_dump($_SESSION['user']['IdRole']);
           // var_dump($Produits);
-    var_dump($AllProduits);
+ 
          
+    }
+    public function UpdateProductProducteur(): void {
+        $idProducteur = $_SESSION['user']['IdRole'];
+        if(is_array($_POST['produit']))
+        foreach($_POST['produit'] as $IdProduit=>$datas)
+        {
+            $datas = $this->validate($datas, ['DesignationProduitProducteur', 'PrixProduitProducteur','QuantiteProduitProducteur','DetailsProduitProducteur']);
+            if ($datas !== false) {
+
+                $ProduitProducteurModel = new ProduitProducteurModel();
+                $ProduitProducteurModel->producteurProduitUpdate($datas,$idProducteur,$IdProduit);
+                
+            }
+           
+        
+        }
+        echo '</pre>';
     }
 }

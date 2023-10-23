@@ -8,15 +8,13 @@
         <h3>{$product['DesignationProduit']}</h3>
         {if isset($product['DesignationCategorie'])}
             <h3>{$product['DesignationCategorie']}</h3>
-        {else if isset($product['DesignationProduitProducteur'])}
-            <h4>{$product['DesignationProduitProducteur']}</h4>
         {/if}
         {if isset($product['PrixProduitProducteur']) && isset($product['DetailsProduitProducteur']) && isset($product['QuantiteProduitProducteur'])  }
-            <p>Prix : {$product['PrixProduitProducteur']}</p>
-            <p>Description : {$product['DetailsProduitProducteur']}</p>
-            <p>Quantité : {$product['QuantiteProduitProducteur']}</p>
-            <a href=""><Button>Modifier</Button></a> 
-            <a href=""><button>Supprimer</button></a>
+            <input type="text" name="produit[{$product['IdProduit']}][DesignationProduitProducteur]" value="{$product['DesignationProduitProducteur']}"/>
+            <p>Prix : <input type="text" name="produit[{$product['IdProduit']}][PrixProduitProducteur]" value="{$product['PrixProduitProducteur']}"/></p>
+            <p>Description :<input type="text" name="produit[{$product['IdProduit']}][DetailsProduitProducteur]" value="{$product['DetailsProduitProducteur']}" /></p>
+            <p>Quantité : <input type="number" name="produit[{$product['IdProduit']}][QuantiteProduitProducteur]" value="{$product['QuantiteProduitProducteur']}" /></p>
+            <p>Supprimer ? <input type="checkbox" name="deleteProduit[{$product['IdProduit']}]" value="1"/></p>
         {/if}
     </div>
 </div>
