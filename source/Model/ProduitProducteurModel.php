@@ -12,8 +12,8 @@ class ProduitProducteurModel extends DbModel
 
     public function getProduitProducteur($id): string|object|array
     {
-        return DbModel::Find("SELECT * 
-        FROM ProduitProducteur
-        WHERE IdProduitProduitProducteur= '$id'");
+        return DbModel::Select("SELECT * 
+        FROM ProduitProducteur INNER JOIN Produit ON ProduitProducteur.IdProduitProduitProducteur=Produit.IdProduit
+        WHERE IdProducteurProduitProducteur=:IdProducteurProduitProducteur",[':IdProducteurProduitProducteur'=>$id]);
     }
 }

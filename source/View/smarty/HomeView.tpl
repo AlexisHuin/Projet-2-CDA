@@ -32,18 +32,9 @@
         
         <div class="products">
         {foreach key=key item=product from=$products}
-            <div class="product">
 
-                <a href="/DescriptifProduit/{$product['IdProduit']}">
+            {include file="../Partials/_CardView.tpl"}
 
-                    <img src="/assets/images/fruit.jpg" alt="<?= $product['name'] ?>">
-                </a>
-                <div class="product-description">
-                    <h3>{$product['DesignationProduit']}</h3>
-                    <h4>{$product['DesignationCategorie']}</h4>
-                    <p>{$product['NomSaison']}</p>
-                </div>
-            </div>
         {/foreach}
     </div>
 </main>

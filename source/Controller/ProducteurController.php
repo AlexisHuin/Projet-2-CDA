@@ -20,7 +20,7 @@ class ProducteurController extends UserController
                 'DesignationProduitProducteur', 'PrixProduitProducteur',
                 'DetailsProduitProducteur', 'QuantiteProduitProducteur', 'IdProduitProduitProducteur'
             ]);
-            $idProducteur = $_SESSION['user']['Id'];
+            $idProducteur = $_SESSION['user']['IdRole'];
 
 
             if ($datas !== false) {
@@ -70,15 +70,18 @@ class ProducteurController extends UserController
     }
     public function ProductList(): void {
           // Créez une instance de DbModel pour la table ProduitProducteur
-          $produitModel = new ProduitProducteurModel();
-          $produitModel->table = 'ProduitProducteur'; // Définissez la table appropriée
-  
-          // Exécutez une requête pour obtenir la liste des produits
-          $sql = 'SELECT * FROM ' . $produitModel->table;
-          $products = $produitModel->Select($sql);
+          $Produits = new ProduitProducteurModel();
+          $AllProduits = $Produits->getProduitProducteur($_SESSION['user']['IdRole']);
+   
+         ViewController::Init('smarty');
+         ViewController::Set('title', 'Mes produits');
+         ViewController::Set('SessionInfo', $_SESSION['user']);
+         ViewController::Set('AllProduits', $AllProduits);
+         ViewCOntroller::Display('ProduitProducteurListView');
 
-          var_dump($products);
-
+        //  var_dump($_SESSION['user']['IdRole']);
+          // var_dump($Produits);
+    var_dump($AllProduits);
          
     }
 }

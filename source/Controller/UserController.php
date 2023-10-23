@@ -78,7 +78,7 @@ class UserController extends MainController
                             // explique le (new dateTime())
                             $Adherent->DateDebutAdherents = (new DateTime())->format('Y-m-d');
                             $Adherent->MailAdherents = htmlspecialchars($datas['Email']);
-                            $IdAdherent = $Adherent->Save();
+                            $IdRole = $Adherent->Save();
                             break;
 
                         case "Producteur":
@@ -88,12 +88,13 @@ class UserController extends MainController
                             $Producteur->CodePostalProducteur = htmlspecialchars($datas['CodePostal']);
                             $Producteur->MailProducteur = htmlspecialchars($datas['Email']);
 
-                            $IdProducteur = $Producteur->Save();
+                            $IdRole = $Producteur->Save();
                             break;
                     }
 
                     $UserArr = [
                         'Id' => $IdUser,
+                        'IdRole' => $IdRole,
                         'Email' => $User->EmailUser,
                         'RoleUser' => $User->RoleUser,
                         'Username' => $User->UsernameUser
@@ -129,8 +130,11 @@ class UserController extends MainController
                 $Log = $User->FindOne();
                 if ($Log) {
                     if (password_verify($_POST['Pass'], $Log['MdpUser'])) {
+                        $Producteur->MailProducteur= $datas['Email'];
+                        $Result=$Producteur->findOne();
                         $UserArr = [
                             'Id' => $Log['IdUser'],
+                            'IdRole' => $Result['IdProducteur'],
                             'Email' => $User->EmailUser,
                             'RoleUser' => $Log['RoleUser'],
                             'Username' => $Log['UsernameUser']
@@ -155,6 +159,7 @@ class UserController extends MainController
     }
     public function Profile(): void
     {
+        
         $this->connectCheck('user');
 
         switch ($_SESSION['user']['RoleUser']) {
