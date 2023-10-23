@@ -19,7 +19,41 @@ class HomeController extends MainController
         ViewController::Set('h1', 'Smarty : Hello World !');
         
         $ProduitModel = new ProduitModel();
-        ViewController::Set('products',$ProduitModel->getProduits());
+
+        $DesignationProduit = null;
+
+        if(isset($_POST['DesignationProduit']) && 
+        !empty($_POST['DesignationProduit']) && 
+        strlen($_POST['DesignationProduit']) >=3)
+        $DesignationProduit = $_POST['DesignationProduit'];
+
+        if(isset($_POST['IdCategorieProduit']) && 
+        !empty($_POST['IdCategorieProduit']) && 
+        isset($_POST['IdSaisonProduit']) && 
+        !empty($_POST['IdSaisonProduit'])
+        )
+        {
+            $ProduitsList = $ProduitModel->getFilterByCategorieSaison($_POST['IdCategorieProduit'],$_POST['IdSaisonProduit'],$DesignationProduit);
+        }
+        elseif(isset($_POST['IdCategorieProduit']) && 
+        !empty($_POST['IdCategorieProduit']) 
+        )
+        {
+            $ProduitsList = $ProduitModel->getFilterByCategorie($_POST['IdCategorieProduit'],$DesignationProduit);
+            
+        }
+        elseif(isset($_POST['IdSaisonProduit']) && 
+        !empty($_POST['IdSaisonProduit']) 
+        )
+        {
+            $ProduitsList = $ProduitModel->getFilterBySaison($_POST['IdSaisonProduit'],$DesignationProduit);
+            
+        }
+        else{
+            $ProduitsList = $ProduitModel->getFilterByDesignation($DesignationProduit);
+        }
+        
+        ViewController::Set('products',$ProduitsList);
 
 
         $CategorieModel = new CategorieModel();
@@ -28,8 +62,6 @@ class HomeController extends MainController
         $SaisonModel = new SaisonModel();
         ViewController::Set('saisons',$SaisonModel->getSaisons());
 
-
-       
 
         ViewController::Display('HomeView');
     }

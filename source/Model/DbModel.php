@@ -101,10 +101,10 @@ class DbModel
         return $rq->execute($this->datas);
     }
 
-    public function Select($sql)
+    public function Select($sql,$datas=[])
     {
         $rq = self::$db->prepare($sql);
-        $rq->execute();
+        $rq->execute($datas);
         
         return $rq->fetchAll();
     }

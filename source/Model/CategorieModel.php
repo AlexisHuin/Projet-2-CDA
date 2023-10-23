@@ -11,6 +11,10 @@ class CategorieModel extends DbModel
     {
         return DbModel::Select('Select * from Categorie Order by DesignationCategorie');
     }
+
+
+
+
 }
 
 
