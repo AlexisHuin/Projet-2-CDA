@@ -36,7 +36,7 @@
         {foreach key=key item=product from=$products}
         <div class="product">
 
-            <a href="./DescriptifProduit/{$product['IdProduit']}">
+            <a href="/DescriptifProduit/{$product['IdProduit']}">
 
                 <img src="/assets/images/fruit.jpg" alt="<?= $product['name'] ?>">
             </a>
