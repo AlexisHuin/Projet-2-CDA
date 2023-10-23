@@ -67,7 +67,7 @@
             </ul>
         </nav>
     </header>
-    <iframe id="lubulule" width="1694" height="820" src="https://www.youtube.com/embed/hziZJQSyotQ"
+    {* <iframe id="lubulule" width="1694" height="820" src="https://www.youtube.com/embed/hziZJQSyotQ"
         title="8 morts 6 blessés, je pète ma bière, MA LUBULULE !" frameborder="0"
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-allowfullscreen></iframe>
+allowfullscreen></iframe> *}
