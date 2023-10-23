@@ -6,8 +6,9 @@
 -- Généré le : lun. 23 oct. 2023 à 07:38
 -- Version du serveur : 11.1.2-MariaDB-1:11.1.2+maria~ubu2204
 -- Version de PHP : 8.2.11
-CREATE DATABASE coop-consommateur;
-USE coop-consommateur;
+CREATE DATABASE CoopConsommateur;
+USE CoopConsommateur;
+
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
