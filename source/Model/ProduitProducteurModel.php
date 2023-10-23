@@ -18,8 +18,10 @@ class ProduitProducteurModel extends DbModel
         WHERE IdProducteurProduitProducteur=:IdProducteurProduitProducteur", [':IdProducteurProduitProducteur' => $id]);
     }
 
+
     // Méthode pour mettre à jour les informations d'un produit du producteur
     public function producteurProduitUpdate($datas, $idProducteur, $IdProduit): string|object|array
+
     {
         return $this->Select("UPDATE ProduitProducteur 
         SET DesignationProduitProducteur=:DesignationProduitProducteur,

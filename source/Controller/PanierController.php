@@ -12,8 +12,7 @@ class PanierController
     { 
         $IdProduit = $_POST['$IdProduit'];
         $IdAdherents = $_POST['IdAdherents'];
-        $Quantité = $_POST('$quantité');
-
+        $Quantité = $_POST('$Quantité');
 
         $panier = new PanierModel();
 

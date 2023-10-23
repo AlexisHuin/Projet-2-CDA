@@ -10,6 +10,7 @@ use Model\AdherentModel;
 use Model\ProducteurModel;
 use Model\ProduitModel;
 use Model\AdminModel;
+use Model\ProduitProducteurModel;
 use Model\UserModel;
 
 // Classe UserController héritant de MainController
@@ -94,7 +95,7 @@ class AdminController extends MainController
 
             $User->Delete();
             $Adherents->Delete();
-            
+
             header('Refresh:1;/Admin/Dashboard');
             echo "Supprimé avec succès.";
             exit();
@@ -211,6 +212,15 @@ class AdminController extends MainController
 
     public function StatsProducteurs(): void
     {
+        $this->connectCheck('admin');
+
+        $Producteur = new ProducteurModel();
+        $ProduitProducteur = new ProduitProducteurModel();
+
+        ViewController::Init('smarty');
+        ViewController::Set('title', 'Liste des producteurs');
+        ViewController::Set('Liste', $Liste);
+        ViewController::Display('ProducteursListView');
         // Un tableau contenant chaque producteurs avec le nombre de produits qu'ils ont vendus et la somme de leurs ventes
     }
 
