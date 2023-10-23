@@ -86,7 +86,15 @@ class AdminController extends MainController
 
         if (isset($_POST['Delete'])) {
             $Adherents->IdAdherents = $_POST['Id'];
+            $Liste = $Adherents->FindOne();
+            
+            $User = new UserModel();
+            $UserToDelete = $User->JoinUsers($_POST['Role'], $Liste['MailProducteur']);
+            $User->EmailUser = $UserToDelete['EmailUser'];
+
+            $User->Delete();
             $Adherents->Delete();
+            
             header('Refresh:1;/Admin/Dashboard');
             echo "Supprimé avec succès.";
             exit();
@@ -142,11 +150,16 @@ class AdminController extends MainController
         $Producteur = new ProducteurModel();
 
         if (isset($_POST['Delete'])) {
-            $User = new UserModel();
-            
-
             $Producteur->IdProducteur = $_POST['Id'];
+            $Liste = $Producteur->FindOne();
+            
+            $User = new UserModel();
+            $UserToDelete = $User->JoinUsers($_POST['Role'], $Liste['MailProducteur']);
+            $User->EmailUser = $UserToDelete['EmailUser'];
+
+            $User->Delete();
             $Producteur->Delete();
+
             header('Refresh:1;/Admin/Dashboard');
             echo "Supprimé avec succès.";
             exit();
