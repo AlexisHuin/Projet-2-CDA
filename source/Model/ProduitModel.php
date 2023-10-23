@@ -16,6 +16,25 @@ class ProduitModel extends DbModel
         Produit.IdSaisonProduit=Saison.IdSaison
         ');
     }
+    public function getAllProduitsInfos(): string|object|array
+    {
+        return DbModel::Select('
+        SELECT NomSaison, DesignationProduit, IdProduit, DesignationCategorie 
+        FROM Produit 
+        INNER JOIN Categorie ON Produit.IdCategorieProduit=Categorie.IdCategorie
+        INNER JOIN Saison ON Produit.IdSaisonProduit=Saison.IdSaison
+        ');
+    }
+
+    public function getOneProduitInfos($id): string|object|array
+    {
+        return DbModel::Select("
+        SELECT NomSaison, IdSaisonProduit, IdCategorieProduit, DesignationProduit, IdProduit, DesignationCategorie 
+        FROM Produit 
+        INNER JOIN Categorie ON Produit.IdCategorieProduit=Categorie.IdCategorie
+        INNER JOIN Saison ON Produit.IdSaisonProduit=Saison.IdSaison
+        WHERE IdProduit = '$id'",[],  "Fetch");
+    }
 
     public function getFilterByDesignation($DesignationProduit=null)
     {
@@ -71,6 +90,7 @@ class ProduitModel extends DbModel
         $this->IdProduit = $id;
         return $this->FindOne();
     }
+
 }
 
 ?>
