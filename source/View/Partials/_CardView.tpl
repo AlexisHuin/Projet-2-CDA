@@ -18,7 +18,7 @@
                     value="{$product['DetailsProduitProducteur']}" /></p>
             <p>Quantité : <input type="number" name="produit[{$product['IdProduitProducteur']}][QuantiteProduitProducteur]"
                     value="{$product['QuantiteProduitProducteur']}" /></p>
-            <img src="/{$product['ImageProduitProducteur']}" alt="image produit">
+            <img src="../{$product['ImageProduitProducteur']}" alt="image produit">
             <p>Supprimer ? <input type="checkbox" name="deleteProduit[{$product['IdProduitProducteur']}]" value="1" /></p>
         {/if}
         {if isset($product['DesignationCategorie'])}
