@@ -14,10 +14,10 @@ class PanierController extends HomeController
         }
 
         // Utilisation de la fonction sécurisée du modèle pour ajouter au panier
-        $this->panierModel->ajouterAuPanier($idProduit, $quantite);
+        $this->ajouterAuPanier->ajouterAuPanier($idProduit, $quantite);
 
         // Ajouter ici la logique de redirection ou de réponse appropriée après l'ajout au panier
-        header('Location: ./panier');
+        header('Location: ./PanieView');
         exit();
     }
 
@@ -33,7 +33,7 @@ class PanierController extends HomeController
         $this->panierModel->supprimerDuPanier($IdProduit, $IdAdherents);
 
         // Ajouter ici la logique de redirection ou de réponse appropriée après la suppression du panier
-        header('Location: ./panier');
+        header('Location: ./PanieView');
         exit();
     }
 }

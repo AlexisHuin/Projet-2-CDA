@@ -23,6 +23,7 @@ class PanierModel
         $sql = "SELECT * FROM Panier WHERE IdAdherents = ?";
         $stmt = $this->db->prepare($sql);
         $result = $stmt->fetchAll();
+        $stmt->execute($IdAdherents);
         return $result;
     }
 
