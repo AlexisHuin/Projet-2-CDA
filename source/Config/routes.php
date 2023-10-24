@@ -30,9 +30,9 @@ $routes = [
         'method'=>['GET', 'POST'],
         'controller'=>['Controller\ProducteurController','AddProduct']
     ],
-    '/Adherents/AddPanier'=> [
+    '/Adherents/Panier'=> [
         'method'=>['GET', 'POST'],
-        'controller'=>['Controller\PanierController','AddPanier']
+        'controller'=>['Controller\PanierController','Panier']
     ],
 
 
