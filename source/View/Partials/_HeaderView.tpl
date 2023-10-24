@@ -33,7 +33,7 @@
 
                     {if $smarty.session.user.RoleUser eq "Adherent"}
                         <li>
-                            <a href="#">
+                            <a href="/Adherents/AddPanier">
                                 <img class="header_img" src="/assets/images/cart.svg" alt="Cart"></a>
                         </li>
 
