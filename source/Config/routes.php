@@ -35,27 +35,27 @@ $routes = [
     ],
     '/panier/ajouter' => [
         'method' => ['POST'],
-        'controller' => ['Controller\Panier', 'AjouterPanier']
+        'controller' => ['Controller\PanierController', 'AjoutProduitPanier']
     ],
     '/panier/modifier' => [
         'method' => ['POST'],
-        'controller' => ['Controller\Panier', 'AjoutProduitPanier']
+        'controller' => ['Controller\PanierController', 'AjoutProduitPanier']
     ],
     '/panier/prepaiement' => [
         'method' => ['GET'],
-        'controller' => ['Controller\Panier', 'DisplayPrepaiementPanier']
+        'controller' => ['Controller\PanierController', 'DisplayPrepaiementPanier']
     ],
     '/panier/supprimer' => [
         'method' => ['POST'],
-        'controller' => ['Controller\Panier', 'SupprimerProduitPanier']
+        'controller' => ['Controller\PanierController', 'SupprimerProduitPanier']
     ],
     '/panier/valider' => [
         'method' => ['GET'],
-        'controller' => ['Controller\Panier', 'validerPanier']
+        'controller' => ['Controller\PanierController', 'validerPanier']
     ],
     '/panier/vider' => [
         'method' => ['GET'],
-        'controller' => ['Controller\Panier', 'ViderPanier']
+        'controller' => ['Controller\PanierController', 'ViderPanier']
     ],
 
 

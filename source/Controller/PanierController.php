@@ -12,10 +12,11 @@ class PanierController extends HomeController
 { 
     public function DisplayPanier(array $params)
     {
+        
         if (!isset($_SESSION["panier"])) {
             $_SESSION["panier"] = [];
         }
-        ViewController::init("Panier");
+        ViewController::Init("smarty");
         $panier = self::getPanier();
         $produits = [];
         $prd = new ProduitModel();
@@ -24,16 +25,20 @@ class PanierController extends HomeController
             $produits[$id]["Quantite"] = $quantitearr;
         }
         ViewController::set("produits", $produits);
+        ViewController::set("panier", $panier);
         if (isset($_GET["err"])) {
             ViewController::set("err", $_GET["err"]);
         }
+        
         ViewController::display("PanierView");
         
     }
 
     public function ajoutProduitPanier()
     {
-        if (!$this->validate_array_format(["IdProduit", "quantite"], $_POST) || (intval($_POST["quantite"]) > 10 || intval($_POST["quantite"]) < 1)) {
+        unset($_SESSION["panier"]);
+        if (!$this->validate_array_format(["IdProduit", "quantite"], $_POST) &&  
+        (intval($_POST["quantite"]) > 10 && intval($_POST["quantite"]) < 1)) {
             echo "Paramètres incorrects";
             return;
         }
@@ -41,14 +46,15 @@ class PanierController extends HomeController
         if (!isset($_SESSION["panier"])) {
             $_SESSION["panier"] = [];
         }
-    
+        
         array_push($_SESSION['panier'], [
             "IdProduitProducteur" => $_POST["IdProduitProducteur"],
             "Quantite" => $_POST["quantite"],
             "Prix" => $_POST['Prix'],
             "IdAdherent" => $_SESSION['user']['IdRole']
         ]);
-    
+        //var_dump( $_SESSION['panier']);
+        
 
         $panier = new PanierModel();
     
@@ -75,7 +81,7 @@ class PanierController extends HomeController
             $_SESSION["panier"] = [];
         }
         unset($_SESSION["panier"][$_POST["IdProduit"]]);
-        header("Location: /panier");
+        header("Location: panier");
         exit();
     }
 
@@ -87,7 +93,7 @@ class PanierController extends HomeController
     static public function viderPanier()
     {
         unset($_SESSION["panier"]);
-        header("Location: /panier");
+        header("Location:PanierView");
         exit();
     }
 
@@ -122,6 +128,6 @@ class PanierController extends HomeController
             $produits[] = $prod->getProduits();
         }
         ViewController::set("produits", $produits);
-        ViewController::display("PanierPrepaiement");
+        ViewController::display("PanierView");
     }
 }

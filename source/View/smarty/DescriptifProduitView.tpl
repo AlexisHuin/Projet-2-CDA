@@ -2,10 +2,19 @@
 
 {include file="../Partials/_CardView.tpl"}   
 
-<form method="POST" action="/panier">
+
+{foreach from=$productProducteur item=product key=key}
+    {include file="../Partials/_CardView.tpl"}   
+
+{/foreach}
+
+<form method="POST" action="/panier/ajouter">
 <label for="quantite_produit">Quantité :</label>
-<input type="number" id="quantite" name="quantité_produit" min="0" >
+<input type="number" id="quantite" name="quantite" min="0" >
+<input type="hidden" id="IdProduit" name="IdProduit" value="{$product['IdProduit']}" >
 <button type="submit">Ajouter au Panier</button>
 </form>
+
+
 
 {include file="../Partials/_FooterView.tpl"}
