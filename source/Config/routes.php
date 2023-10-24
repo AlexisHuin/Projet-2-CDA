@@ -8,8 +8,6 @@ $routes = [
         'method'=>['GET', 'POST'],
         'controller'=>['Controller\HomeController','DescriptifProduit']
     ],
-
-    
     '/User' => [
         'method'=>['GET', 'POST'],
         'controller'=>['Controller\UserController','ConnexionInscription']
@@ -30,9 +28,34 @@ $routes = [
         'method'=>['GET', 'POST'],
         'controller'=>['Controller\ProducteurController','AddProduct']
     ],
-    '/Adherents/Panier'=> [
-        'method'=>['GET', 'POST'],
-        'controller'=>['Controller\PanierController','Panier']
+
+    '/panier' => [
+        'method' => ['GET','POST'],
+        'controller' => ['Controller\PanierController', 'DisplayPanier']
+    ],
+    '/panier/ajouter' => [
+        'method' => ['POST'],
+        'controller' => ['Controller\Panier', 'AjouterPanier']
+    ],
+    '/panier/modifier' => [
+        'method' => ['POST'],
+        'controller' => ['Controller\Panier', 'AjoutProduitPanier']
+    ],
+    '/panier/prepaiement' => [
+        'method' => ['GET'],
+        'controller' => ['Controller\Panier', 'DisplayPrepaiementPanier']
+    ],
+    '/panier/supprimer' => [
+        'method' => ['POST'],
+        'controller' => ['Controller\Panier', 'SupprimerProduitPanier']
+    ],
+    '/panier/valider' => [
+        'method' => ['GET'],
+        'controller' => ['Controller\Panier', 'validerPanier']
+    ],
+    '/panier/vider' => [
+        'method' => ['GET'],
+        'controller' => ['Controller\Panier', 'ViderPanier']
     ],
 
 

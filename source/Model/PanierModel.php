@@ -1,54 +1,53 @@
 <?php
-
 namespace Model;
-
-use PDO;
+use Model\DbModel;
 
 class PanierModel extends DbModel
 {
-    private $db;
+    public $db;
 
-  
-    public function getAllProduitsInfos($id)
+    public function getQuantiteProduit($IdProduit)
     {
-        
-        $query = "SELECT * FROM produits WHERE id = :id";
-
-    
+        // Implement logic to fetch the quantity of the product with the given ID from the database
+        // Example:
+        $query = "SELECT quantite FROM products WHERE id = :id";
         $stmt = $this->db->prepare($query);
-
-        
-        $stmt->bindParam(':id', $id);
-
-       
+        $stmt->bindParam(':id', $IdProduit);
         $stmt->execute();
+        $result = $stmt->fetch;
 
-        
-        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        if ($result) {
+            return $result['quantite'];
+        } else {
+            throw new \Exception('Product not found');
+        }
+    }
 
-        return $result;
+    public function addToCart($IdProduit, $quantite, $prix, $IdAdherentPanier)
+    {
+        // Implement logic to add a product to the user's cart
+        // Example:
+        $query = "INSERT INTO cart (IdProduit, quantite, prix, IdAdherentsPanier) VALUES (:IdProduit, :quantite, :prix, :IdAdherentsPanier)";
+        $stmt = $this->db->prepare($query);
+        $stmt->bindParam(':productId', $IdProduit);
+        $stmt->bindParam(':quantity', $quantite);
+        $stmt->bindParam(':price', $prix);
+        $stmt->bindParam(':userId', $IdAdherentPanier);
+        $stmt->execute();
+    }
+
+    public function removeFromCart($IdProduit, $IdadherentPanier)
+    {
+        // Implement logic to remove a product from the user's cart
+        // Example:
+        $query = "DELETE FROM cart WHERE product_id = :productId AND user_id = :userId";
+        $stmt = $this->db->prepare($query);
+        $stmt->bindParam(':productId', $IdProduit);
+        $stmt->bindParam(':userId', $IdadherentPanier);
+        $stmt->execute();
     }
 
    
-    public function getQuantiteProduit($id)
-    {
-       
-        $query = "SELECT quantite FROM produits WHERE id = :id";
-
-       
-        $stmt = $this->db->prepare($query);
-
-        
-        $stmt->bindParam(':id', $id);
-
-        // Exécutez la requête
-        $stmt->execute();
-
-        // Récupérez le résultat
-        $result = $stmt->fetchColumn();
-
-        return $result;
-    }
 }
 
 

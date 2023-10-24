@@ -7,9 +7,10 @@ use Model\PanierModel;
 use Controller\ExceptionHandler;
 use Controller\ViewController;
 
-class Panier extends HomeController
-{
-    public function displayPanier(array $params)
+class PanierController extends HomeController
+ 
+{ 
+    public function DisplayPanier(array $params)
     {
         if (!isset($_SESSION["panier"])) {
             $_SESSION["panier"] = [];
@@ -19,37 +20,50 @@ class Panier extends HomeController
         $produits = [];
         $prd = new ProduitModel();
         foreach ($panier as $id => $quantitearr) {
-            $produits[$id] = $prd->getProduitsInfos($id);
+            $produits[$id] = $prd->getAllProduitsInfos();
             $produits[$id]["Quantite"] = $quantitearr;
         }
         ViewController::set("produits", $produits);
         if (isset($_GET["err"])) {
             ViewController::set("err", $_GET["err"]);
         }
-        ViewController::display("Panier");
+        ViewController::display("PanierView");
+        
     }
 
     public function ajoutProduitPanier()
     {
-        if (!$this->validate_array_format(["IdProduit", "Quantité"], $_POST) || (intval($_POST["Quantité"]) > 10 && intval($_POST["Quantité"]) < 1)) {
+        if (!$this->validate_array_format(["IdProduit", "quantite"], $_POST) || (intval($_POST["quantite"]) > 10 || intval($_POST["quantite"]) < 1)) {
             echo "Paramètres incorrects";
             return;
         }
+    
         if (!isset($_SESSION["panier"])) {
             $_SESSION["panier"] = [];
         }
-        array_push($_SESSION['panier'], ["IdProduitProducteur" => $_POST["IdProduitProducteur"], "Quantite" => $_POST["Quantité"], "Prix" => $_POST['Prix'], "IdAdherent" => $_SESSION['user']['IdRole']]);
+    
+        array_push($_SESSION['panier'], [
+            "IdProduitProducteur" => $_POST["IdProduitProducteur"],
+            "Quantite" => $_POST["quantite"],
+            "Prix" => $_POST['Prix'],
+            "IdAdherent" => $_SESSION['user']['IdRole']
+        ]);
+    
+
         $panier = new PanierModel();
-
-        $prixTotalLignePanier = $_POST['Quantite'] * $_POST['Prix'];
-
+    
+        // Calcul du prix total de la ligne de panier
+        $prixTotalLignePanier = $_POST['quantite'] * $_POST['Prix'];
+    
+        // Définition des propriétés de l'objet PanierModel
         $panier->IdProduitProducteurPanier = $_POST['IdProduitProducteur'];
-        $panier->QuantitePanier = $_POST['Quantite'];
+        $panier->QuantitePanier = $_POST['quantite'];
         $panier->PrixPanier = $prixTotalLignePanier;
         $panier->IdAdherentsPanier = $_SESSION['user']['IdRole'];
     
-        exit();
+        exit(); // Assurez-vous que cela est utilisé dans le contexte approprié de votre application
     }
+    
 
     public function supprimerProduitPanier()
     {
@@ -82,7 +96,7 @@ class Panier extends HomeController
         $this->connectCheck('user', 'Adherent'); // Assurez-vous que cette méthode est correcte
         try {
             foreach (self::getPanier() as $id => $q) {
-                $prop = new Panier(); // À vérifier si c'est bien nécessaire
+                $prop = new PanierModel(); // À vérifier si c'est bien nécessaire
                 if ($prop->getQuantiteProduit($id) < $q) {
                     header("Location: /panier?err=" . htmlspecialchars("Un produit n'est plus disponible."));
                     exit();
@@ -105,7 +119,7 @@ class Panier extends HomeController
         $produits = [];
         $prod = new ProduitModel();
         foreach (self::getPanier() as $id => $q) {
-            $produits[] = $prod->getProduits($id);
+            $produits[] = $prod->getProduits();
         }
         ViewController::set("produits", $produits);
         ViewController::display("PanierPrepaiement");
