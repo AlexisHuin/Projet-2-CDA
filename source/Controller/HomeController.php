@@ -69,6 +69,10 @@ class HomeController extends MainController
 
     public function DescriptifProduit($params=[])
     {
+        if
+            $_SESSION['panier'];
+
+        
         
         $ProduitModel       = new ProduitModel();
         $Produit            = $ProduitModel->DescriptifProduit($params['id']);

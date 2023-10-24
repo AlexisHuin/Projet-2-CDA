@@ -1,36 +1,54 @@
 <?php
+
 namespace Model;
 
+use PDO;
 
 class PanierModel extends DbModel
 {
-    protected  $_table_name = "Panier";
+    private $db;
 
-    protected $id = "IdPanier";
-
-    protected $Quantité = "QuantitéPanier";
-
-
-    public function getPanier($IdProduit)
+  
+    public function getAllProduitsInfos($id)
     {
-        return DbModel::Select("INSERT INTO Panier (IdProduit, QuantitéProduitProducteur, PrixPanier, IdAdherentsPanier) VALUES (:IdProduit, :QuantitéPanier, :PrixPanier, :IdAdherentsPanier", 
-        [':idProduit' =>$IdProduit],);
+        
+        $query = "SELECT * FROM produits WHERE id = :id";
 
+    
+        $stmt = $this->db->prepare($query);
+
+        
+        $stmt->bindParam(':id', $id);
+
+       
+        $stmt->execute();
+
+        
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        return $result;
     }
-    // public function updatePanier(){
-    // // {
-    // //     return DbModel::Update("INSERT INTO Panier (IdProduit, QuantitéProduitProducteur) VALUES (IdProduit QuantitéProduitProducteur);");
-    // }
 
-    public function DeleteProduitPanier()
+   
+    public function getQuantiteProduit($id)
     {
-        return DbModel::Delete("DELETE FROM Panier WHERE IdProduit = IdPanier");
+       
+        $query = "SELECT quantite FROM produits WHERE id = :id";
 
-    }
-    public function DeletePanier()
-    {
-        return DbModel::Delete("DELETE FROM Panier");
+       
+        $stmt = $this->db->prepare($query);
 
+        
+        $stmt->bindParam(':id', $id);
+
+        // Exécutez la requête
+        $stmt->execute();
+
+        // Récupérez le résultat
+        $result = $stmt->fetchColumn();
+
+        return $result;
     }
 }
+
 
