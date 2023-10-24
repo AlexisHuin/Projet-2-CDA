@@ -1,50 +1,57 @@
 <?php
 namespace Controller;
 
-use Controller\View;
-use Exception;
-use Model\Produit;
+use Controller\HomeController;
 use Model\ProduitModel;
-use Model\Proposition;
+use Model\PanierModel;
+use Controller\ExceptionHandler;
+use Controller\ViewController;
 
 class Panier extends HomeController
 {
-    public function DisplayPanier(array $params)
+    public function displayPanier(array $params)
     {
         if (!isset($_SESSION["panier"])) {
             $_SESSION["panier"] = [];
         }
-        ViewController::Init("Panier");
-        $panier = Panier::getPanier();
+        ViewController::init("Panier");
+        $panier = self::getPanier();
         $produits = [];
         $prd = new ProduitModel();
-        foreach ($panier as $id => $quantityarr) {
-            $produits[$id] = $prd->getAllProduitsInfos($id);
-            $produits[$id]["Quantity"] = $quantityarr;
+        foreach ($panier as $id => $quantitearr) {
+            $produits[$id] = $prd->getProduitsInfos($id);
+            $produits[$id]["Quantite"] = $quantitearr;
         }
-        ViewController::Set("produits", $produits);
-        if (isset($_GET["err"]))
-            ViewController::Set("err", $_GET["err"]);
-        ViewController::Display("Panier");
+        ViewController::set("produits", $produits);
+        if (isset($_GET["err"])) {
+            ViewController::set("err", $_GET["err"]);
+        }
+        ViewController::display("Panier");
     }
 
-    public function AjoutProduitPanier()
+    public function ajoutProduitPanier()
     {
-        if (!$this->validate_array_format(["id_produit", "quantity"], $_POST) || (intval($_POST["quantity"]) > 10 && intval($_POST["quantity"]) < 1)) {
+        if (!$this->validate_array_format(["IdProduit", "Quantité"], $_POST) || (intval($_POST["Quantité"]) > 10 && intval($_POST["Quantité"]) < 1)) {
             echo "Paramètres incorrects";
             return;
         }
         if (!isset($_SESSION["panier"])) {
             $_SESSION["panier"] = [];
         }
-        $_SESSION["panier"][$_POST["id_produit"]] = $_POST["quantity"];
-        $prd = new ProduitModel();
-        $typeid = $prd->getProduits($_POST["IdProduits"])["CategorieProduit"];
-        header("Location: /produits/" . $typeid);
+        array_push($_SESSION['panier'], ["IdProduitProducteur" => $_POST["IdProduitProducteur"], "Quantite" => $_POST["Quantité"], "Prix" => $_POST['Prix'], "IdAdherent" => $_SESSION['user']['IdRole']]);
+        $panier = new PanierModel();
+
+        $prixTotalLignePanier = $_POST['Quantite'] * $_POST['Prix'];
+
+        $panier->IdProduitProducteurPanier = $_POST['IdProduitProducteur'];
+        $panier->QuantitePanier = $_POST['Quantite'];
+        $panier->PrixPanier = $prixTotalLignePanier;
+        $panier->IdAdherentsPanier = $_SESSION['user']['IdRole'];
+    
         exit();
     }
 
-    public function SupprimerProduitPanier()
+    public function supprimerProduitPanier()
     {
         if (!$this->validate_array_format(["IdProduit"], $_POST)) {
             echo "Paramètres incorrects";
@@ -62,28 +69,26 @@ class Panier extends HomeController
     {
         return $_SESSION["panier"];
     }
-    static public function ViderPanier()
+
+    static public function viderPanier()
     {
         unset($_SESSION["panier"]);
         header("Location: /panier");
         exit();
     }
 
-    static function ValiderPanier(array $args, bool $redirect = true)
+    public function validerPanier(array $args, bool $redirect = true)
     {
-        if (Conne::connectedAs() !== "adh") {
-            header("Location: /");
-            exit();
-        }
-        $prop = new Proposition();
+        $this->connectCheck('user', 'Adherent'); // Assurez-vous que cette méthode est correcte
         try {
-            foreach (Panier::getPanier() as $id => $q) {
+            foreach (self::getPanier() as $id => $q) {
+                $prop = new Panier(); // À vérifier si c'est bien nécessaire
                 if ($prop->getQuantiteProduit($id) < $q) {
                     header("Location: /panier?err=" . htmlspecialchars("Un produit n'est plus disponible."));
                     exit();
                 }
             }
-        } catch (Exception $e) {
+        } catch (ExceptionHandler $e) {
             header("Location: /panier?err=" . htmlspecialchars($e->getMessage()));
             exit();
         }
@@ -93,16 +98,16 @@ class Panier extends HomeController
         }
     }
 
-    function DisplayPrepaiementPanier()
+    public function displayPrepaiementPanier()
     {
-        Panier::validerPanier([], false);
-        ViewController::Init("Pré-paiement");
+        self::validerPanier([], false);
+        ViewController::init("Pré-paiement");
         $produits = [];
         $prod = new ProduitModel();
-        foreach (Panier::getPanier() as $id => $q) {
-            $produits[] = $prod->getProduit($id);
+        foreach (self::getPanier() as $id => $q) {
+            $produits[] = $prod->getProduits($id);
         }
-        ViewController::Set("produits", $produits);
-        ViewController::Display("PanierPrepaiement");
+        ViewController::set("produits", $produits);
+        ViewController::display("PanierPrepaiement");
     }
 }

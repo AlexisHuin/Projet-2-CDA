@@ -12,7 +12,7 @@
                         Quantité:
                         <select name="quantity" onchange="this.form.submit()">
                             {for $number=1 to 10}
-                                <option name="quantity" value="{$number}" {if $number == $p["Quantity"]}selected
+                                <option name="quantity" value="{$number}" {if $number == $p["Quantité"]}selected
                                     id="quantity-{$p["IdProduit"]}" {/if}>{$number}</option>
                             {/for}
                         </select>
@@ -35,7 +35,7 @@
 
             for (const div of prix) {
                 const id = div.id;
-                const quantite = document.querySelector("#quantity-" + id);
+                const quantite = document.querySelector("#quantité-" + id);
                 const quantiteEnNombre = Number(quantite.textContent);
                 const prixEnNombre = Number(div.textContent);
                 const prixTotalArticle = quantiteEnNombre * prixEnNombre;

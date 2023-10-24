@@ -69,12 +69,11 @@ class HomeController extends MainController
 
     public function DescriptifProduit($params=[])
     {
-        
-        $ProduitModel       = new ProduitModel();
-        $Produit            = $ProduitModel->DescriptifProduit($params['id']);
-        
-        $ProduitProducteurModel = new ProduitProducteurModel();
-        
+        if (isset($_SESSION['panier'])) {
+            $ProduitModel = new ProduitModel();
+            $Produit = $ProduitModel->DescriptifProduit($params['id']);
+    
+            $ProduitProducteurModel = new ProduitProducteurModel();}
         
         // var_dump($Produit);
         ViewController::Init('smarty');
@@ -82,9 +81,5 @@ class HomeController extends MainController
         ViewController::Set('product',$Produit);
         ViewController::Set('h1', 'Smarty : Hello World !');
         ViewController::Display('DescriptifProduit');
-        
-        
-
-        
     }
 }
