@@ -3,11 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : db
--- Généré le : lun. 23 oct. 2023 à 07:38
+-- Généré le : mar. 24 oct. 2023 à 08:15
 -- Version du serveur : 11.1.2-MariaDB-1:11.1.2+maria~ubu2204
 -- Version de PHP : 8.2.11
-CREATE DATABASE coopConsommateur;
-USE coopConsommateur;
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -105,6 +103,29 @@ CREATE TABLE `Commandes` (
 -- --------------------------------------------------------
 
 --
+-- Structure de la table `Demandes`
+--
+
+CREATE TABLE `Demandes` (
+  `IdDemande` int(11) NOT NULL,
+  `ObjetDemande` varchar(64) NOT NULL,
+  `PrixProposeDemande` float DEFAULT NULL,
+  `MotifDemande` varchar(255) NOT NULL,
+  `IdProducteurDemande` int(11) NOT NULL,
+  `IdProduitProducteurDemande` int(11) NOT NULL,
+  `EtatDemande` varchar(8) NOT NULL DEFAULT 'Opened'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Déchargement des données de la table `Demandes`
+--
+
+INSERT INTO `Demandes` (`IdDemande`, `ObjetDemande`, `PrixProposeDemande`, `MotifDemande`, `IdProducteurDemande`, `IdProduitProducteurDemande`, `EtatDemande`) VALUES
+(1, 'Prix', 0.3, 'Le producteur prod demande changement de prix sur tomates du jardin actuellement 0.20 pour 0.25', 7, 1, 'Accepted');
+
+-- --------------------------------------------------------
+
+--
 -- Structure de la table `ModeReglement`
 --
 
@@ -133,7 +154,8 @@ CREATE TABLE `Panier` (
   `DesignationPanier` varchar(255) DEFAULT NULL,
   `QuantitePanier` int(11) NOT NULL,
   `PrixPanier` int(11) NOT NULL,
-  `IdAdherentsPanier` int(11) NOT NULL
+  `IdAdherentsPanier` int(11) NOT NULL,
+  `IsBundlePanier` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 
 -- --------------------------------------------------------
@@ -149,15 +171,16 @@ CREATE TABLE `Producteur` (
   `PhoneProducteur` varchar(50) NOT NULL,
   `MailProducteur` varchar(50) NOT NULL,
   `CodePostalProducteur` varchar(50) NOT NULL,
-  `CoordonneesGPSProducteur` varchar(255) NOT NULL
+  `CoordonneesGPSProducteur` varchar(255) NOT NULL,
+  `SommeVentesProducteur` float NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Déchargement des données de la table `Producteur`
 --
 
-INSERT INTO `Producteur` (`IdProducteur`, `RaisonSocialeProducteur`, `NomPrenomProducteur`, `PhoneProducteur`, `MailProducteur`, `CodePostalProducteur`, `CoordonneesGPSProducteur`) VALUES
-(7, NULL, 'prodprod', '0943850653', 'prod@prod.prod', '41000', '3123123');
+INSERT INTO `Producteur` (`IdProducteur`, `RaisonSocialeProducteur`, `NomPrenomProducteur`, `PhoneProducteur`, `MailProducteur`, `CodePostalProducteur`, `CoordonneesGPSProducteur`, `SommeVentesProducteur`) VALUES
+(7, NULL, 'prodprod', '0943850653', 'prod@prod.prod', '41000', '3123123', 0);
 
 -- --------------------------------------------------------
 
@@ -239,9 +262,10 @@ INSERT INTO `Produit` (`IdProduit`, `DesignationProduit`, `IdSaisonProduit`, `Id
 
 CREATE TABLE `ProduitProducteur` (
   `IdProduitProducteur` int(11) NOT NULL,
+  `IsValidateProduitProducteur` tinyint(1) NOT NULL DEFAULT 0,
   `DesignationProduitProducteur` varchar(50) NOT NULL,
   `PrixProduitProducteur` varchar(50) NOT NULL,
-  `DateModifPrixProduitProducteur` date DEFAULT NULL,
+  `DateModifPrixProduitProducteur` varchar(32) DEFAULT NULL,
   `DetailsProduitProducteur` varchar(255) NOT NULL,
   `QuantiteProduitProducteur` int(11) NOT NULL,
   `ImageProduitProducteur` varchar(128) DEFAULT NULL,
@@ -253,8 +277,9 @@ CREATE TABLE `ProduitProducteur` (
 -- Déchargement des données de la table `ProduitProducteur`
 --
 
-INSERT INTO `ProduitProducteur` (`IdProduitProducteur`, `DesignationProduitProducteur`, `PrixProduitProducteur`, `DateModifPrixProduitProducteur`, `DetailsProduitProducteur`, `QuantiteProduitProducteur`, `ImageProduitProducteur`, `IdProducteurProduitProducteur`, `IdProduitProduitProducteur`) VALUES
-(1, 'Tomate du Jardin', '0.25', NULL, 'Le bonnes tomates du jardin bio au bord de la route 44', 150, NULL, 3, 1);
+INSERT INTO `ProduitProducteur` (`IdProduitProducteur`, `IsValidateProduitProducteur`, `DesignationProduitProducteur`, `PrixProduitProducteur`, `DateModifPrixProduitProducteur`, `DetailsProduitProducteur`, `QuantiteProduitProducteur`, `ImageProduitProducteur`, `IdProducteurProduitProducteur`, `IdProduitProduitProducteur`) VALUES
+(1, 1, 'Tomate du Jardin', '0.3', '2023-10-23 18:37', 'Le bonnes tomates du jardin bio au bord de la route 44', 150, NULL, 3, 1),
+(3, 1, 'abricot de l&#039;abricoter', '0.20', NULL, 'MA LUBULULE', 450, NULL, 37, 35);
 
 -- --------------------------------------------------------
 
@@ -348,6 +373,14 @@ ALTER TABLE `Commandes`
   ADD KEY `Commandes_Adherents_FK` (`IdAdherentsCommandes`);
 
 --
+-- Index pour la table `Demandes`
+--
+ALTER TABLE `Demandes`
+  ADD PRIMARY KEY (`IdDemande`),
+  ADD KEY `IdProducteurDemande` (`IdProducteurDemande`),
+  ADD KEY `IdProduitProducteurDemande` (`IdProduitProducteurDemande`) USING BTREE;
+
+--
 -- Index pour la table `ModeReglement`
 --
 ALTER TABLE `ModeReglement`
@@ -434,6 +467,12 @@ ALTER TABLE `Commandes`
   MODIFY `IdCommande` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT pour la table `Demandes`
+--
+ALTER TABLE `Demandes`
+  MODIFY `IdDemande` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT pour la table `ModeReglement`
 --
 ALTER TABLE `ModeReglement`
@@ -461,7 +500,7 @@ ALTER TABLE `Produit`
 -- AUTO_INCREMENT pour la table `ProduitProducteur`
 --
 ALTER TABLE `ProduitProducteur`
-  MODIFY `IdProduitProducteur` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `IdProduitProducteur` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT pour la table `Reglement`
