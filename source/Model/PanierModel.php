@@ -1,36 +1,53 @@
 <?php
 namespace Model;
-
+use Model\DbModel;
 
 class PanierModel extends DbModel
 {
-    protected  $_table_name = "Panier";
+    public $db;
 
-    protected $id = "IdPanier";
-
-    protected $Quantité = "QuantitéPanier";
-
-
-    public function getPanier($IdProduit)
+    public function getQuantiteProduit($IdProduit)
     {
-        return DbModel::Select("INSERT INTO Panier (IdProduit, QuantitéProduitProducteur, PrixPanier, IdAdherentsPanier) VALUES (:IdProduit, :QuantitéPanier, :PrixPanier, :IdAdherentsPanier", 
-        [':idProduit' =>$IdProduit],);
+        // Implement logic to fetch the quantity of the product with the given ID from the database
+        // Example:
+        $query = "SELECT quantite FROM products WHERE id = :id";
+        $stmt = $this->db->prepare($query);
+        $stmt->bindParam(':id', $IdProduit);
+        $stmt->execute();
+        $result = $stmt->fetch;
 
+        if ($result) {
+            return $result['quantite'];
+        } else {
+            throw new \Exception('Product not found');
+        }
     }
-    // public function updatePanier(){
-    // // {
-    // //     return DbModel::Update("INSERT INTO Panier (IdProduit, QuantitéProduitProducteur) VALUES (IdProduit QuantitéProduitProducteur);");
-    // }
 
-    public function DeleteProduitPanier()
+    public function addToCart($IdProduit, $quantite, $prix, $IdAdherentPanier)
     {
-        return DbModel::Delete("DELETE FROM Panier WHERE IdProduit = IdPanier");
-
+        // Implement logic to add a product to the user's cart
+        // Example:
+        $query = "INSERT INTO cart (IdProduit, quantite, prix, IdAdherentsPanier) VALUES (:IdProduit, :quantite, :prix, :IdAdherentsPanier)";
+        $stmt = $this->db->prepare($query);
+        $stmt->bindParam(':productId', $IdProduit);
+        $stmt->bindParam(':quantity', $quantite);
+        $stmt->bindParam(':price', $prix);
+        $stmt->bindParam(':userId', $IdAdherentPanier);
+        $stmt->execute();
     }
-    public function DeletePanier()
+
+    public function removeFromCart($IdProduit, $IdadherentPanier)
     {
-        return DbModel::Delete("DELETE FROM Panier");
-
+        // Implement logic to remove a product from the user's cart
+        // Example:
+        $query = "DELETE FROM cart WHERE product_id = :productId AND user_id = :userId";
+        $stmt = $this->db->prepare($query);
+        $stmt->bindParam(':productId', $IdProduit);
+        $stmt->bindParam(':userId', $IdadherentPanier);
+        $stmt->execute();
     }
+
+   
 }
+
 
