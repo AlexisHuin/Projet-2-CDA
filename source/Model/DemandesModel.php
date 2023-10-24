@@ -13,7 +13,7 @@ class DemandesModel extends DbModel
     public function getDemandes(): string|object|array
     {
         return DbModel::Select(
-            "SELECT IdDemande, ObjetDemande, MotifDemande, PrixProposeDemande, IdProducteurDemande, IdProduitProducteurDemande, EtatDemande, NomPrenomProducteur 
+            "SELECT IdDemande, ObjetDemande, MotifDemande, PrixProposeDemande, DesignationProduitDemande, IdProducteurDemande, IdProduitProducteurDemande, EtatDemande, NomPrenomProducteur 
         FROM Demandes
         JOIN Producteur ON Demandes.IdProducteurDemande = Producteur.IdProducteur;"
         );

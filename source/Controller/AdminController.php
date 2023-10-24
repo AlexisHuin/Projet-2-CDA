@@ -80,51 +80,31 @@ class AdminController extends MainController
 
         $Demandes = new DemandesModel();
 
-        if(isset($_POST['Accept'])){
-            $ProduitProducteur = new ProduitProducteurModel();
-            $Notifications = new NotificationsModel();
+        if (isset($_POST['Accept'])) {
 
             $Demandes->EtatDemande = "Accepted";
             $Demandes->Where($Demandes, $_POST['Id']);
 
             $Demandes->Update();
+            $this->TraitementDemande($Demandes->EtatDemande);
 
-            switch($_POST['Objet']){
-                case "Prix":
-                    // Récupèrer le prix du produit en question et le modifier prix récupéré par le prix demandé
-                    $ProduitProducteur->Where($ProduitProducteur, $_POST['IdProduitProducteur']);
-                    $ProduitProducteur->PrixProduitProducteur = $_POST['Prix'];
-                    $ProduitProducteur->DateModifPrixProduitProducteur = date('Y-m-d H:i');
-
-                    $ProduitProducteur->Update();
-
-                    $Notifications->IdDestinataireNotification = $_POST['IdProd'];
-                    $Notifications->MotifNotification = "Votre demande concernant la modification du prix de " . $_POST['DesignationProduit'];
-                    break;
-                case "Ajout":
-                    $ProduitProducteur->Where($ProduitProducteur, $_POST['IdProduitProducteur']);
-                    $ProduitProducteur->IsValidateProduitProducteur = true;
-
-                    $ProduitProducteur->Update();
-                    break;
-            }
             header('Refresh:1;/Admin/Dashboard');
             echo "Demande acceptée avec succès";
             exit();
         }
 
-        if(isset($_POST['Deny'])){
+        if (isset($_POST['Deny'])) {
             $Demandes->EtatDemande = "Denied";
             $Demandes->Where($Demandes, $_POST['Id']);
 
             $Demandes->Update();
-            
+            $this->TraitementDemande($Demandes->EtatDemande);
+
             header('Refresh:1;/Admin/Dashboard');
             echo "Demande refusée avec succès";
             exit();
         }
 
-        $Demandes->EtatDemande = "Opened";
         $Liste = $Demandes->getDemandes();
 
         ViewController::Init('smarty');
@@ -143,7 +123,7 @@ class AdminController extends MainController
         if (isset($_POST['Delete'])) {
             $Adherents->IdAdherents = $_POST['Id'];
             $Liste = $Adherents->FindOne();
-            
+
             $User = new UserModel();
             $UserToDelete = $User->JoinUsers($_POST['Role'], $Liste['MailProducteur']);
             $User->EmailUser = $UserToDelete['EmailUser'];
@@ -174,21 +154,13 @@ class AdminController extends MainController
 
         if (isset($_POST['Update'])) {
             $datas = $this->validate($_POST, ['NPrenom', 'Tel', 'Mail', 'CP', 'GPS']);
-
-            if ($datas) {
-                $Adherents->NomPrenomAdherents = $datas['NPrenom'];
-                $Adherents->PhoneAdherents = $datas['Tel'];
-                $Adherents->MailAdherents = $datas['Mail'];
-                $Adherents->CodePostalAdherents = $datas['CP'];
-                $Adherents->CoordonneesGPSAdherents = $datas['GPS'];
-
-                $Adherents->Where($Adherents, $Adherents->IdAdherents);
-
-                $Adherents->Update();
-                header('Refresh:1;/Admin/AdherentsList');
-                echo "Adherent modifié avec succès";
-                exit();
-            }
+            $this->Update(
+                $datas, 
+                $Adherents,
+                ['NomPrenomAdherents','PhoneAdherents', 'MailAdherents', 'CodePostalAdherents', 'CoordonneesGPSAdherents', 'RaisonSocialeProducteur'],
+                $Adherents->IdAdherent,
+                "AdherentsListView"
+            );
         }
 
         $Liste = $Adherents->FindOne();
@@ -208,7 +180,7 @@ class AdminController extends MainController
         if (isset($_POST['Delete'])) {
             $Producteur->IdProducteur = $_POST['Id'];
             $Liste = $Producteur->FindOne();
-            
+
             $User = new UserModel();
             $UserToDelete = $User->JoinUsers($_POST['Role'], $Liste['MailProducteur']);
             $User->EmailUser = $UserToDelete['EmailUser'];
@@ -239,22 +211,13 @@ class AdminController extends MainController
 
         if (isset($_POST['Update'])) {
             $datas = $this->validate($_POST, ['NPrenom', 'Tel', 'Mail', 'CP', 'GPS', 'RS']);
-
-            if ($datas) {
-                $Producteur->NomPrenomProducteur = $datas['NPrenom'];
-                $Producteur->PhoneProducteur = $datas['Tel'];
-                $Producteur->MailProducteur = $datas['Mail'];
-                $Producteur->CodePostalProducteur = $datas['CP'];
-                $Producteur->CoordonneesGPSProducteur = $datas['GPS'];
-                $Producteur->RaisonSocialeProducteur = $datas['RS'];
-
-                $Producteur->Where($Producteur, $Producteur->IdProducteur);
-
-                $Producteur->Update();
-                header('Refresh:1;/Admin/ProducteursList');
-                echo "Producteur modifié avec succès";
-                exit();
-            }
+            $this->Update(
+                $datas, 
+                $Producteur,
+                ['NomPrenomProducteur','PhoneProducteur', 'MailProducteur', 'CodePostalProducteur', 'CoordonneesGPSProducteur', 'RaisonSocialeProducteur'],
+                $Producteur->IdProducteur,
+                "ProducteursListView"
+            );
         }
 
         $Liste = $Producteur->FindOne();
@@ -263,6 +226,21 @@ class AdminController extends MainController
         ViewController::Set('title', 'Modifier le producteur');
         ViewController::Set('Producteur', $Liste);
         ViewController::Display('admin/ModifProducteurView');
+    }
+
+    // TO DO
+    public function ProduitsProducteursList($id): void
+    {
+        $this->connectCheck('admin');
+
+        $Producteur = new ProducteurModel();
+
+        $Liste = $Producteur->Find();
+
+        ViewController::Init('smarty');
+        ViewController::Set('title', 'Liste des producteurs');
+        ViewController::Set('Liste', $Liste);
+        ViewController::Display('admin/ProduitsProducteursListView');
     }
 
     public function StatsProducteurs(): void
@@ -276,8 +254,7 @@ class AdminController extends MainController
         ViewController::Init('smarty');
         ViewController::Set('title', 'Liste des producteurs');
         ViewController::Set('Liste', $Liste);
-        ViewController::Display('admin/StatsProducteur');
-        // Un tableau contenant chaque producteurs avec le nombre de produits qu'ils ont vendus et la somme de leurs ventes
+        ViewController::Display('admin/StatsProducteurView');
     }
 
     public function ProductsList(): void
@@ -318,19 +295,13 @@ class AdminController extends MainController
 
         if (isset($_POST['Update'])) {
             $datas = $this->validate($_POST, ['Produit', 'Saison', 'Categorie']);
-
-            if ($datas) {
-                $Product->DesignationProduit = $datas['Produit'];
-                $Product->IdSaisonProduit = $datas['Saison'];
-                $Product->IdCategorieProduit = $datas['Categorie'];
-
-                $Product->Where($Product, $Product->IdProduit);
-
-                $Product->Update();
-                header('Refresh:1;/Admin/ProductsList');
-                echo "Produit modifié avec succès";
-                exit();
-            }
+            $this->Update(
+                $datas, 
+                $Product,
+                ['Produit','Saison', 'Categorie'],
+                $Product->IdProduit,
+                "ProductsListView"
+            );
         }
 
         $Liste = $Product->getOneProduitInfos($id['id']);
@@ -393,4 +364,92 @@ class AdminController extends MainController
     //         <button type="submit" name="InscriptionAdmin">Se Connecter</button>
     //     </form>';
     // }
+
+    // PRIVATE FUNCTIONS
+    private function TraitementDemande(string $state): void
+    {
+
+        $ProduitProducteur = new ProduitProducteurModel();
+        $Notifications = new NotificationsModel();
+
+        switch ($_POST['Objet']) {
+            case "Prix":
+                if ($state === "Accepted") {
+                    $ProduitProducteur->Where($ProduitProducteur, $_POST['IdProduitProducteur']);
+                    $ProduitProducteur->PrixProduitProducteur = $_POST['Prix'];
+                    $ProduitProducteur->DateModifPrixProduitProducteur = date('Y-m-d H:i');
+
+                    $ProduitProducteur->Update();
+                }
+
+                $Notifications->IdDestinataireNotification = $_POST['IdProd'];
+                $Notifications->DateEnvoiNotification = date('Y-m-d H:i');
+
+                if ($state === "Denied") {
+                    $Notifications->MotifNotification = "Votre demande concernant la modification du prix de " . $_POST['DesignationProduit'] . " à été refusée.";
+                } else {
+                    $Notifications->MotifNotification = "Votre demande concernant la modification du prix de " . $_POST['DesignationProduit'] . " à été acceptée.";
+                }
+
+                $Notifications->Save();
+                break;
+            case "Ajout":
+                if ($state === "Accepted") {
+                    $ProduitProducteur->Where($ProduitProducteur, $_POST['IdProduitProducteur']);
+                    $ProduitProducteur->IsValidateProduitProducteur = true;
+
+                    $ProduitProducteur->Update();
+                }
+
+                $Notifications->IdDestinataireNotification = $_POST['IdProd'];
+                $Notifications->DateEnvoiNotification = date('Y-m-d H:i');
+
+                if ($state === "Denied") {
+                    $Notifications->MotifNotification = "Votre demande concernant l'ajout du produit " . $_POST['DesignationProduit'] . " à été refusée.";
+                } else {
+                    $Notifications->MotifNotification = "Votre demande concernant l'ajout du produit " . $_POST['DesignationProduit'] . " à été acceptée.";
+                }
+
+
+                $Notifications->Save();
+                break;
+        }
+    }
+
+    private function Update(array $datas, object $object, array $properties, string $whereClause, string $header): bool
+    {
+        if (empty($datas)) {
+            return false;
+        } else {
+            for($i = 0; $i< count($datas); $i++){
+                $object->$properties[$i] = $datas[$i];
+            }
+
+            $object->Where($object,$object->$whereClause);
+
+            $object->Update();
+            header('Refresh:1;/Admin/' . $header);
+            echo "Producteur modifié avec succès";
+            exit();
+        }
+        return true;
+    }
+
+    //TO DO
+    private function DeleteUsers(string $datas)
+    {
+        $Adherents->IdAdherents = $_POST['Id'];
+        $Liste = $Adherents->FindOne();
+
+        $User = new UserModel();
+        $UserToDelete = $User->JoinUsers($_POST['Role'], $Liste['MailProducteur']);
+        $User->EmailUser = $UserToDelete['EmailUser'];
+
+        $User->Delete();
+        $Adherents->Delete();
+
+        header('Refresh:1;/Admin/Dashboard');
+        echo "Supprimé avec succès.";
+        exit();
+    }
 }
