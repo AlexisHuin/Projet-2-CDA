@@ -8,9 +8,11 @@ class AdherentModel extends DbModel
     protected string $table = 'Adherents';  
     protected string $id = 'IdAdherents';
     
-    public function getAdherent() : object|array|string
+
+    
+    public function getAdherents() : object|array|string
     {
-        return DbModel::Find('Select * from ...',[]);
+        return $this->Select('Select * from Adherents',[]);
     }
 
     public function getIdAdherent()

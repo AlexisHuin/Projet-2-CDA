@@ -5,7 +5,7 @@ use Controller\ViewController;
 use Model\ProduitModel;
 use Model\CategorieModel;
 use Model\SaisonModel;
-use Model\ProduitProducteurModel;
+use model\ProduitProducteurModel;
 
 
 
@@ -69,17 +69,21 @@ class HomeController extends MainController
 
     public function DescriptifProduit($params=[])
     {
-        if (isset($_SESSION['panier'])) {
-            $ProduitModel = new ProduitModel();
-            $Produit = $ProduitModel->DescriptifProduit($params['id']);
-    
-            $ProduitProducteurModel = new ProduitProducteurModel();}
-        
+       
+        $ProduitModel = new ProduitModel();
+        $Produit = $ProduitModel->DescriptifProduit($params['id']);
+        $ProduitProducteurModel = new ProduitProducteurModel();
+        $ProduitProducteur = $ProduitProducteurModel->getProduitProducteur($Produit['IdProduit']);
         // var_dump($Produit);
         ViewController::Init('smarty');
         ViewController::Set('title', 'Home');
         ViewController::Set('product',$Produit);
         ViewController::Set('h1', 'Smarty : Hello World !');
-        ViewController::Display('DescriptifProduit');
+        ViewController::Set('productProducteur',$ProduitProducteur);
+        ViewController::Display('DescriptifProduitView');
+        var_dump($Produit);
+
+        
+    
     }
 }
