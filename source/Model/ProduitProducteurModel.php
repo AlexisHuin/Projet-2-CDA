@@ -20,7 +20,7 @@ class ProduitProducteurModel extends DbModel
 
 
     // Méthode pour mettre à jour les informations d'un produit du producteur
-    public function producteurProduitUpdate($datas, $idProducteur, $IdProduit): string|object|array
+    public function producteurProduitUpdate($datas, $idProducteur, $IdProduitProducteur): string|object|array
 
     {
         return $this->Select("UPDATE ProduitProducteur 
@@ -28,25 +28,32 @@ class ProduitProducteurModel extends DbModel
         PrixProduitProducteur=:PrixProduitProducteur, 
         QuantiteProduitProducteur=:QuantiteProduitProducteur,
         DetailsProduitProducteur=:DetailsProduitProducteur 
-        WHERE IdProducteurProduitProducteur=:IdProducteurProduitProducteur AND IdProduitProduitProducteur=:IdProduitProduitProducteur
+        WHERE IdProducteurProduitProducteur=:IdProducteurProduitProducteur AND IdProduitProducteur=:IdProduitProducteur
         ", [
             ':DesignationProduitProducteur' => $datas['DesignationProduitProducteur'],
             ':PrixProduitProducteur' => $datas['PrixProduitProducteur'],
             ':QuantiteProduitProducteur' => $datas['QuantiteProduitProducteur'],
             ':DetailsProduitProducteur' => $datas['DetailsProduitProducteur'],
             ':IdProducteurProduitProducteur' => $idProducteur,
-            ':IdProduitProduitProducteur' => $IdProduit,
+            ':IdProduitProducteur' => $IdProduitProducteur,
         ]);
     }
 
     // Méthode pour supprimer un produit du producteur en fonction de son ID
-    public function producteurProduitDelete($IdProduit): string|object|array
+    public function producteurProduitDelete($IdProduitProducteur): string|object|array
     {
         return $this->Select("DELETE FROM ProduitProducteur 
-        WHERE IdProduitProduitProducteur = $IdProduit
+        WHERE IdProduitProducteur = $IdProduitProducteur
         ");
     }
-    
+    public function getOneProduitProducteur($id): string|object|array
+    {
+        return DbModel::Select("
+        SELECT *
+        FROM ProduitProducteur 
+        WHERE IdProduitProducteur=:id",[':id'=>$id],'Fetch');
+    }
+
 }
 
 
