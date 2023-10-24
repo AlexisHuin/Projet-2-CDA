@@ -4,7 +4,7 @@
     box-shadow: 0 4vh 8vh rgba(0, 0, 0, 0.1);
     border-radius: 1vh;
     text-align: center;
-    width: 30%;
+    width: 20%;
     transition: all 0.3s ease;
     overflow: hidden;
     margin: 10%;
@@ -24,7 +24,7 @@
     padding: 1vh;
     width: calc(100% - 4vh);
     border: 0.3vh solid #ccc;
-    border-radius: 1px;
+    border-radius: 1vh;
     font-size: 2vh;
     transition: border-color 0.3s ease;
     box-sizing: border-box;
@@ -83,62 +83,66 @@
 
 
 
-/*Addproduct*/
+
 /* Styles pour le formulaire d'ajout de produit */
 .addproduct {
-    max-width: 40vh;
-    margin:auto;
-    padding: 4vh;
+    width: 70%;
+    max-width: 40rem;
+    margin: 5vh auto;
+    padding: 2vh;
     background-color: #f9f9f9;
     border-radius: 1vh;
     box-shadow: 0 0 2vh rgba(0, 0, 0, 0.1);
-
+    text-align: center;
 }
 
 .addproduct h1 {
-    text-align: center;
-    font-size: 1vh;
+    font-size: 2.5rem;
     color: #333;
-    margin-bottom: 1vh;
+    margin-bottom: 2vh;
 }
 
 .addproduct select,
 .addproduct input[type="text"],
 .addproduct input[type="number"],
 .addproduct input[type="file"] {
-    width: calc(100% - 1vh);
+    width: calc(100% - 4vh);
     padding: 1vh;
-    margin-bottom: 2vh;
-    border: 0.3vh solid #ccc;
+    margin-bottom: 2px;
+    border: 0.2vh solid #ccc;
+    font-size: 1.2rem;
+    display: block;
+    box-sizing: border-box;
+    margin: 0 auto;
     border-radius: 1vh;
-    font-size: 2vh;
-    display: inline-block;
+
 }
 
 .addproduct input[type="file"] {
     padding: 1vh;
+    border-radius: 1vh;
+
 }
 
 .addproduct label {
-    display: block;
-    margin-bottom: 1vh;
     color: #555;
+    font-size: 1.2rem;
+    display: block;
+    margin-bottom:1vh;
+    margin: 2vh;
+    border-radius: 1vh;
+    padding: 2vh;
 }
 
 .addproduct input[type="submit"] {
     background-color: #4caf50;
     color: white;
     border: none;
-    border-radius: 1vh;
-    padding: 1vh 1vh;
-    font-size: 2vh;
+    border-radius: 2vh;
+    padding: 1.5vh 3vh;
+    font-size: 1.2rem;
     cursor: pointer;
     transition: background-color 0.3s ease;
-    display: block;
-    width: 100%;
-    text-align: center;
-    margin-top: 2vh;
-    margin:auto;
 }
 
 .addproduct input[type="submit"]:hover {
@@ -146,20 +150,16 @@
 }
 
 .addproduct a {
-    display: block;
-    text-align: center;
-    margin-top: 1vh;
     text-decoration: none;
     color: #4caf50;
     font-weight: bold;
+    font-size: 1.2rem;
     transition: color 0.3s ease;
 }
 
 .addproduct a:hover {
     color: #45a049;
 }
-
-
 
 
 
