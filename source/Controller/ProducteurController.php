@@ -17,11 +17,30 @@ class ProducteurController extends UserController
             // Valide les données du formulaire
             $datas = $this->validate($_POST, [
                 'DesignationProduitProducteur', 'PrixProduitProducteur',
-                'DetailsProduitProducteur', 'QuantiteProduitProducteur', 'IdProduitProduitProducteur'
+                'DetailsProduitProducteur', 'QuantiteProduitProducteur', 'IdProduitProduitProducteur', 'ImageProduitProducteur'
             ]);
             $idProducteur = $_SESSION['user']['IdRole'];
 
             if ($datas !== false) {
+
+                // Vérifie si un fichier d'image a été téléchargé
+            if (isset($_FILES["ImageProduitProducteur"]) && $_FILES["ImageProduitProducteur"]["error"] == 0) {
+                // Gérez le téléchargement de l'image ici
+                $file_size = $_FILES["ImageProduitProducteur"]["size"];
+                $file_type = $_FILES["ImageProduitProducteur"]["type"];
+
+                if ($file_size < 1000000) { // 1 MB
+                    if ($file_type == "image/jpeg" || $file_type == "image/png" || $file_type == "image/webp") {
+                        $extension = pathinfo($_FILES['ImageProduitProducteur']['name'], PATHINFO_EXTENSION);
+                        $new_filename = uniqid() . "." . $extension;
+                        $upload_path = "assets/images/" . $new_filename;
+                        if (move_uploaded_file($_FILES["ImageProduitProducteur"]["tmp_name"], $upload_path)) {
+                            // Stockez le chemin de l'image dans la base de données
+                            // Assurez-vous d'ajuster votre modèle pour inclure cette colonne
+                        }
+                    }
+                }
+            }
                 // Crée un modèle ProduitProducteur
                 $ProduitProducteur = new ProduitProducteurModel();
                 // Remplit les propriétés du modèle avec les données du formulaire
@@ -31,6 +50,7 @@ class ProducteurController extends UserController
                 $ProduitProducteur->PrixProduitProducteur = $datas['PrixProduitProducteur'];
                 $ProduitProducteur->DetailsProduitProducteur = $datas['DetailsProduitProducteur'];
                 $ProduitProducteur->QuantiteProduitProducteur = $datas['QuantiteProduitProducteur'];
+                $ProduitProducteur->ImageProduitProducteur = $upload_path;
 
                 // Enregistre les données dans la base de données
                 $ProduitProducteur->Save();
@@ -51,10 +71,11 @@ class ProducteurController extends UserController
         usort($allProducts, function ($a, $b) {
             return strcmp($a['DesignationProduit'], $b['DesignationProduit']);
         });
-
+        $info = (isset($_GET['info']))?$_GET['info']:'';
         // Initialise la vue avec des données
         ViewController::Init('smarty');
-        ViewController::Set('info', $_GET['info']);
+        ViewController::Set('info',$info);
+
         ViewController::Set('title', 'Gestion de produit');
         ViewController::Set('SessionInfo', $_SESSION['user']);
         ViewController::Set('AllProducts', $allProducts);
@@ -111,13 +132,26 @@ class ProducteurController extends UserController
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if (isset($_POST['deleteProduit']) && is_array($_POST['deleteProduit'])) {
                 $Produit = new ProduitProducteurModel();
-
                 // Parcourt les produits à supprimer et les supprime un par un
                 foreach ($_POST['deleteProduit'] as $productId => $value) {
                     // Supprime le produit correspondant
+                    $ProduitInfo = $Produit->getOneProduitInfos($productId);
+                    $imagePath = $ProduitInfo['ImageProduitProducteur'];
+
                     $Produit->producteurProduitDelete($productId);
+
+                // Supprime le fichier image associé
+                if (file_exists($imagePath)) {
+                    unlink(DIR_PUBLIC.$imagePath);
+                }
+
+                // Supprime le produit correspondant
+                $Produit->producteurProduitDelete($productId);
                 }
             }
         }
     }
 }
+
+
+// Récupéré l'id de l'élement avec find One par exemple.

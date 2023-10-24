@@ -20,7 +20,7 @@
     <label for="QuantiteProduitProducteur">Quantité produit</label>
     <input type="number" name="QuantiteProduitProducteur" required>
     <label for="ImageProduitProducteur">Image</label>
-    <input type="file" name="ImageProduitProducteur">
+    <input type="file" name="ImageProduitProducteur" accept="image/jpeg, image/png, image/webp">
     <input  type="submit" name="Ajouter" value="Envoyer">
 </form>
 <a href="/User/ProductList">Liste de mes produits</a>
