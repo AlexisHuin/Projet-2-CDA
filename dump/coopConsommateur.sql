@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : db
--- Généré le : mar. 24 oct. 2023 à 08:15
+-- Généré le : mar. 24 oct. 2023 à 12:29
 -- Version du serveur : 11.1.2-MariaDB-1:11.1.2+maria~ubu2204
 -- Version de PHP : 8.2.11
 
@@ -20,6 +20,8 @@ SET time_zone = "+00:00";
 --
 -- Base de données : `coopConsommateur`
 --
+CREATE DATABASE IF NOT EXISTS `coopConsommateur` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+USE `coopConsommateur`;
 
 -- --------------------------------------------------------
 
@@ -110,6 +112,7 @@ CREATE TABLE `Demandes` (
   `IdDemande` int(11) NOT NULL,
   `ObjetDemande` varchar(64) NOT NULL,
   `PrixProposeDemande` float DEFAULT NULL,
+  `DesignationProduitDemande` varchar(32) NOT NULL,
   `MotifDemande` varchar(255) NOT NULL,
   `IdProducteurDemande` int(11) NOT NULL,
   `IdProduitProducteurDemande` int(11) NOT NULL,
@@ -120,8 +123,8 @@ CREATE TABLE `Demandes` (
 -- Déchargement des données de la table `Demandes`
 --
 
-INSERT INTO `Demandes` (`IdDemande`, `ObjetDemande`, `PrixProposeDemande`, `MotifDemande`, `IdProducteurDemande`, `IdProduitProducteurDemande`, `EtatDemande`) VALUES
-(1, 'Prix', 0.3, 'Le producteur prod demande changement de prix sur tomates du jardin actuellement 0.20 pour 0.25', 7, 1, 'Accepted');
+INSERT INTO `Demandes` (`IdDemande`, `ObjetDemande`, `PrixProposeDemande`, `DesignationProduitDemande`, `MotifDemande`, `IdProducteurDemande`, `IdProduitProducteurDemande`, `EtatDemande`) VALUES
+(1, 'Prix', 0.4, 'Tomates du jardin', 'Le producteur prod demande changement de prix sur tomates du jardin actuellement 0.20 pour 0.25', 7, 1, 'Accepted');
 
 -- --------------------------------------------------------
 
@@ -142,6 +145,20 @@ INSERT INTO `ModeReglement` (`IdModeReglement`, `DesignationModeReglement`) VALU
 (1, 'Carte Bancaire'),
 (2, 'Paypal'),
 (3, 'ApplePay');
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `Notifications`
+--
+
+CREATE TABLE `Notifications` (
+  `IdNotification` int(11) NOT NULL,
+  `IdDestinataireNotification` int(11) NOT NULL,
+  `MotifNotification` int(255) NOT NULL,
+  `IsReadNotification` tinyint(1) NOT NULL DEFAULT 0,
+  `DateEnvoiNotification` varchar(64) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -278,7 +295,7 @@ CREATE TABLE `ProduitProducteur` (
 --
 
 INSERT INTO `ProduitProducteur` (`IdProduitProducteur`, `IsValidateProduitProducteur`, `DesignationProduitProducteur`, `PrixProduitProducteur`, `DateModifPrixProduitProducteur`, `DetailsProduitProducteur`, `QuantiteProduitProducteur`, `ImageProduitProducteur`, `IdProducteurProduitProducteur`, `IdProduitProduitProducteur`) VALUES
-(1, 1, 'Tomate du Jardin', '0.3', '2023-10-23 18:37', 'Le bonnes tomates du jardin bio au bord de la route 44', 150, NULL, 3, 1),
+(1, 1, 'Tomate du Jardin', '0.4', '2023-10-24 11:34', 'Le bonnes tomates du jardin bio au bord de la route 44', 150, NULL, 3, 1),
 (3, 1, 'abricot de l&#039;abricoter', '0.20', NULL, 'MA LUBULULE', 450, NULL, 37, 35);
 
 -- --------------------------------------------------------
@@ -387,6 +404,13 @@ ALTER TABLE `ModeReglement`
   ADD PRIMARY KEY (`IdModeReglement`);
 
 --
+-- Index pour la table `Notifications`
+--
+ALTER TABLE `Notifications`
+  ADD PRIMARY KEY (`IdNotification`),
+  ADD KEY `IdDestinataireNotification` (`IdDestinataireNotification`);
+
+--
 -- Index pour la table `Panier`
 --
 ALTER TABLE `Panier`
@@ -477,6 +501,12 @@ ALTER TABLE `Demandes`
 --
 ALTER TABLE `ModeReglement`
   MODIFY `IdModeReglement` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT pour la table `Notifications`
+--
+ALTER TABLE `Notifications`
+  MODIFY `IdNotification` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT pour la table `Panier`
