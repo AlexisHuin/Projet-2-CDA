@@ -1,0 +1,153 @@
+/* Styles pour le formulaire de création de compte et de connexion */
+.global-connexion {
+    display: flex;
+    margin: 15vh;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.panel-right, .panel-left {
+    background-color: #ffffff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    padding: 20px;
+    margin: 20vh;
+    text-align: center;
+    max-width: 300px;
+    width: 100%;
+    transition: all 0.3s ease;
+}
+
+.panel-right h1, .panel-left h1 {
+    font-size: 1.5em;
+    margin-bottom: 20px;
+    color: #333;
+    margin:15px;
+    display:flex;
+}
+
+.panel-right input, .panel-left input {
+    margin-bottom: 20px;
+    padding: 10px;
+    margin:6%;
+    width: calc(100% - 20px);
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1em;
+    transition: border-color 0.3s ease;
+}
+
+.panel-right input[type="radio"], .panel-left input[type="radio"] {
+    margin-right: 5px;
+}
+
+.panel-right input:focus, .panel-left input:focus {
+    border-color: #ff6347;
+}
+
+.panel-right .valid-cgu, .panel-left .valid-cgu {
+    margin-top: 20px;
+}
+
+.panel-right button, .panel-left button {
+    background-color: #ff6347;
+    color: #fff;
+    cursor: pointer;
+    padding: 12px 0;
+    width: calc(100% - 24px);
+    border: none;
+    border-radius: 5px;
+    font-size: 1em;
+    transition: background-color 0.3s ease;
+}
+
+.panel-right button:hover, .panel-left button:hover {
+    background-color: #ff4500;
+}
+
+/* Animation pour le formulaire */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.panel-right, .panel-left {
+    animation: fadeIn 0.5s ease;
+}
+
+/* Hover effet pour les panneaux */
+.panel-right:hover, .panel-left:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+
+
+/* AddProduitProducteur*/
+
+form {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+}
+
+form select,
+form input[type="text"],
+form input[type="number"],
+form input[type="file"] {
+    width: calc(100% - 20px);
+    margin-bottom: 15px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    transition: border-color 0.3s ease;
+}
+
+form input[type="submit"] {
+    width: 100%;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    padding: 15px;
+    border-radius: 5px;
+    font-size: 18px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+form input[type="submit"]:hover {
+    background-color: #45a049;
+}
+
+form label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+a {
+    display: block;
+    margin-top: 20px;
+    text-align: center;
+    text-decoration: none;
+    color: #4caf50;
+    font-size: 16px;
+    transition: color 0.3s ease;
+}
+
+a:hover {
+    color: #45a049;
+}
+
