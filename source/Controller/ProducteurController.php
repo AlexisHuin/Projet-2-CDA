@@ -107,7 +107,7 @@ class ProducteurController extends UserController
         if (isset($_POST['update'])) {
             $this->UpdateProductProducteur();
         }
-
+       
         // Crée une instance de ProduitProducteurModel pour gérer les produits du producteur
         $Produits = new ProduitProducteurModel();
         $AllProduits = $Produits->getProduitProducteur($_SESSION['user']['IdRole']);
@@ -118,6 +118,7 @@ class ProducteurController extends UserController
         ViewController::Set('SessionInfo', $_SESSION['user']);
         ViewController::Set('AllProduits', $AllProduits);
         ViewCOntroller::Display('ProduitProducteurListView');
+        
     }
 
     private function UpdateProductProducteur(): void
