@@ -1,7 +1,7 @@
 {include file="../Partials/_HeaderView.tpl"}
 
 
-   
+<div class="addproduct">
 <h1>Ajout nouveau produit</h1>
 {$info}
 
@@ -24,7 +24,7 @@
     <input  type="submit" name="Ajouter" value="Envoyer">
 </form>
 <a href="/User/ProductList">Liste de mes produits</a>
-
+</div>
 
 
 
