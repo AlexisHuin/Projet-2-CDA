@@ -4,8 +4,10 @@ namespace Controller;
 
 use Model\ProduitModel;
 use Model\ProduitProducteurModel;
+use Model\DemandesModel;
 use Controller\ViewController;
 use Controller\ExceptionHandler;
+
 
 class ProducteurController extends UserController
 {
@@ -53,23 +55,34 @@ class ProducteurController extends UserController
                 $ProduitProducteur->ImageProduitProducteur = $upload_path;
 
                 // Enregistre les données dans la base de données
-                $ProduitProducteur->Save();
-                // Redirige l'utilisateur avec un message de succès
-                header('location: /User/AddProduct?info=Produit ajouté avec succès');
-                exit();
-            } else {
-                // Gère les erreurs de validation
-                ExceptionHandler::SetUserError("Erreur");
-                $errors = ExceptionHandler::GetUserError();
-            }
-            var_dump($errors);
-        }
+                $IdProduitProducteur = $ProduitProducteur->Save();
 
-        // Récupère la liste de tous les produits depuis la base de données
-        $Produits = new ProduitModel;
-        $allProducts = $Produits->getAllProduitsInfos();
-        usort($allProducts, function ($a, $b) {
-            return strcmp($a['DesignationProduit'], $b['DesignationProduit']);
+                $Demandes = new DemandesModel();
+                $Demandes->IdProducteurDemande = $idProducteur;
+                $Demandes->IdProduitProducteurDemande = $IdProduitProducteur;
+                $Demandes->ObjetDemande = 'Ajout';
+                $Demandes->PrixProposeDemande = $datas['PrixProduitProducteur'];
+                $Demandes->MotifDemande = "Le producteur " . $_SESSION['user']['Username'] . " souhaite ajouter le produit " . htmlentities($datas['DesignationProduitProducteur'], ENT_QUOTES) .
+                 " au prix de " . $datas['PrixProduitProducteur'];
+                 $Demandes->Save();
+                 
+
+                 // Redirige l'utilisateur avec un message de succès
+                 header('location: /User/AddProduct?info=Produit ajouté avec succès');
+                 exit();
+                } else {
+                    // Gère les erreurs de validation
+                    ExceptionHandler::SetUserError("Erreur");
+                    $errors = ExceptionHandler::GetUserError();
+                }
+                var_dump($errors);
+            }
+            
+            // Récupère la liste de tous les produits depuis la base de données
+            $Produits = new ProduitModel;
+            $allProducts = $Produits->getAllProduitsInfos();
+            usort($allProducts, function ($a, $b) {
+                return strcmp($a['DesignationProduit'], $b['DesignationProduit']);
         });
         $info = (isset($_GET['info'])) ? $_GET['info'] : '';
         // Initialise la vue avec des données
