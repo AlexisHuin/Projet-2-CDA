@@ -10,6 +10,8 @@ use Model\AdherentModel;
 use Model\ProducteurModel;
 use Model\ProduitModel;
 use Model\AdminModel;
+use Model\DemandesModel;
+use Model\ProduitProducteurModel;
 use Model\UserModel;
 
 // Classe UserController héritant de MainController
@@ -63,19 +65,63 @@ class AdminController extends MainController
 
         ViewController::Init('smarty');
         ViewController::Set('title', 'Admin Login');
-        ViewController::Display('AdminConnexionView');
+        ViewController::Display('admin/AdminConnexionView');
     }
 
     public function Dashboard(): void
     {
         $this->connectCheck('admin');
 
+        $Demandes = new DemandesModel();
+
+        if(isset($_POST['Accept'])){
+            $ProduitProducteur = new ProduitProducteurModel();
+
+            $Demandes->EtatDemande = "Accepted";
+            $Demandes->Where($Demandes, $_POST['Id']);
+
+            $Demandes->Update();
+
+            switch($_POST['Objet']){
+                case "Prix":
+                    // Récupèrer le prix du produit en question et le modifier prix récupéré par le prix demandé
+                    $ProduitProducteur->Where($ProduitProducteur, $_POST['IdProduitProducteur']);
+                    $ProduitProducteur->PrixProduitProducteur = $_POST['Prix'];
+                    $ProduitProducteur->DateModifPrixProduitProducteur = date('Y-m-d H:i');
+
+                    $ProduitProducteur->Update();
+                    break;
+                case "Ajout":
+                    $ProduitProducteur->Where($ProduitProducteur, $_POST['IdProduitProducteur']);
+                    $ProduitProducteur->IsValidateProduitProducteur = true;
+
+                    $ProduitProducteur->Update();
+                    break;
+            }
+            header('Refresh:1;/Admin/Dashboard');
+            echo "Demande acceptée avec succès";
+            exit();
+        }
+
+        if(isset($_POST['Deny'])){
+            $Demandes->EtatDemande = "Denied";
+            $Demandes->Where($Demandes, $_POST['Id']);
+
+            $Demandes->Update();
+            
+            header('Refresh:1;/Admin/Dashboard');
+            echo "Demande refusée avec succès";
+            exit();
+        }
+
+        $Demandes->EtatDemande = "Opened";
+        $Liste = $Demandes->getDemandes();
+
         ViewController::Init('smarty');
         ViewController::Set('title', 'Dashboard');
-        // Créer une table Demande contenant : IdDemande, ProducteurDemande, PrixDemande, PrixActuelDemande, ProduitDemande, EtatDemande 
-        // ViewController::Set('Demandes', )
+        ViewController::Set('Demandes', $Liste);
         ViewController::Set('Username', $_SESSION['admin']['Username']);
-        ViewController::Display('DashboardView');
+        ViewController::Display('admin/DashboardView');
     }
 
     public function AdherentsList(): void
@@ -94,7 +140,7 @@ class AdminController extends MainController
 
             $User->Delete();
             $Adherents->Delete();
-            
+
             header('Refresh:1;/Admin/Dashboard');
             echo "Supprimé avec succès.";
             exit();
@@ -105,7 +151,7 @@ class AdminController extends MainController
         ViewController::Init('smarty');
         ViewController::Set('title', 'Liste des adherents');
         ViewController::Set('Liste', $Liste);
-        ViewController::Display('AdherentsListView');
+        ViewController::Display('admin/AdherentsListView');
     }
 
     public function ModifAdherents($id): void
@@ -140,7 +186,7 @@ class AdminController extends MainController
         ViewController::Init('smarty');
         ViewController::Set('title', 'Modifier l\'adherent');
         ViewController::Set('adherent', $Liste);
-        ViewController::Display('ModifAdherentsView');
+        ViewController::Display('admin/ModifAdherentsView');
     }
 
     public function ProducteursList(): void
@@ -170,7 +216,7 @@ class AdminController extends MainController
         ViewController::Init('smarty');
         ViewController::Set('title', 'Liste des producteurs');
         ViewController::Set('Liste', $Liste);
-        ViewController::Display('ProducteursListView');
+        ViewController::Display('admin/ProducteursListView');
     }
 
     public function ModifProducteurs($id): void
@@ -206,11 +252,21 @@ class AdminController extends MainController
         ViewController::Init('smarty');
         ViewController::Set('title', 'Modifier le producteur');
         ViewController::Set('Producteur', $Liste);
-        ViewController::Display('ModifProducteurView');
+        ViewController::Display('admin/ModifProducteurView');
     }
 
     public function StatsProducteurs(): void
     {
+        $this->connectCheck('admin');
+
+        $Producteur = new ProducteurModel();
+
+        $Liste = $Producteur->Find();
+
+        ViewController::Init('smarty');
+        ViewController::Set('title', 'Liste des producteurs');
+        ViewController::Set('Liste', $Liste);
+        ViewController::Display('admin/StatsProducteur');
         // Un tableau contenant chaque producteurs avec le nombre de produits qu'ils ont vendus et la somme de leurs ventes
     }
 
@@ -239,7 +295,7 @@ class AdminController extends MainController
         ViewController::Init('smarty');
         ViewController::Set('title', 'Liste des produits');
         ViewController::Set('Liste', $Liste);
-        ViewController::Display('ProductsListView');
+        ViewController::Display('admin/ProductsListView');
     }
 
     public function ModifProducts($id): void
@@ -277,7 +333,7 @@ class AdminController extends MainController
         ViewController::Set('Categories', $Categorie);
         ViewController::Set('Saisons', $Saison);
         ViewController::Set('Product', $Liste);
-        ViewController::Display('ModifProductsView');
+        ViewController::Display('admin/ModifProductsView');
     }
 
     public function AddProduct(): void
@@ -307,7 +363,7 @@ class AdminController extends MainController
         ViewController::Set('title', 'Ajouter un produit');
         ViewController::Set('Categories', $Categorie);
         ViewController::Set('Saisons', $Saison);
-        ViewController::Display('AddProductsView');
+        ViewController::Display('admin/AddProductsView');
     }
 
     // public function Inscription()

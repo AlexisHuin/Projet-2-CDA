@@ -10,7 +10,7 @@ use Controller\SessionController;
 
 class MainController
 {
-    static function Route($routes) : void
+    static function Route($routes): void
     {
         $dispatcher = \FastRoute\simpleDispatcher(function (\FastRoute\RouteCollector $r) use ($routes) {
             foreach ($routes as $uri => $route) {
@@ -58,13 +58,20 @@ class MainController
         DbModel::Connect();
     }
 
-    protected function connectCheck(string $session, string $Location = "/"): void
+    protected function connectCheck(string $session, string $role = "", string $Location = "/"): void
     {
+        if (!empty($role)) {
+            if (!isset($_SESSION[$session]) && $_SESSION[$session]['RoleUser'] !== $role) {
+                header('Location: ' . $Location);
 
-        if (!isset($_SESSION[$session])) {
-            header('Location: ' . $Location);
+                exit();
+            }
+        } else {
+            if (!isset($_SESSION[$session])) {
+                header('Location: ' . $Location);
 
-            exit();
+                exit();
+            }
         }
     }
 

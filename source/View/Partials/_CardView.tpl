@@ -17,5 +17,8 @@
             <img src="/{$product['ImageProduitProducteur']}" alt="image produit">
             <p>Supprimer ? <input type="checkbox" name="deleteProduit[{$product['IdProduit']}]" value="1"/></p>
         {/if}
+        <form method="post" action="/User/AddPanier">
+        <button type="submit">Ajouter au Panier</button>
+        </form>
     </div>
 </div>

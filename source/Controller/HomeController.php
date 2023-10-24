@@ -5,6 +5,7 @@ use Controller\ViewController;
 use Model\ProduitModel;
 use Model\CategorieModel;
 use Model\SaisonModel;
+use Model\ProduitProducteurModel;
 
 
 
@@ -68,10 +69,16 @@ class HomeController extends MainController
 
     public function DescriptifProduit($params=[])
     {
-        ViewController::Init('smarty');
-        ViewController::Set('title', 'Home');
+        
         $ProduitModel       = new ProduitModel();
         $Produit            = $ProduitModel->DescriptifProduit($params['id']);
+        
+        $ProduitProducteurModel = new ProduitProducteurModel();
+        
+        
+        // var_dump($Produit);
+        ViewController::Init('smarty');
+        ViewController::Set('title', 'Home');
         ViewController::Set('product',$Produit);
         ViewController::Set('h1', 'Smarty : Hello World !');
         ViewController::Display('DescriptifProduit');
