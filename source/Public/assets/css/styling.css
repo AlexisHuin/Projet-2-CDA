@@ -177,10 +177,11 @@
 
     
     /* Centrer la div */
-    position: fixed;
+    /* position: fixed;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%); */
+    margin: auto;
 }
 
 
@@ -251,3 +252,4 @@
 .prod a:hover {
     background-color: #ff4500; /* Couleur du fond du bouton au survol */
 }
+
