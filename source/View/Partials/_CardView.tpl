@@ -9,11 +9,12 @@
         {if isset($product['DesignationCategorie'])}
             <h3>{$product['DesignationCategorie']}</h3>
         {/if}
-        {if isset($product['PrixProduitProducteur']) && isset($product['DetailsProduitProducteur']) && isset($product['QuantiteProduitProducteur'])  }
+        {if isset($product['PrixProduitProducteur']) && isset($product['DetailsProduitProducteur']) && isset($product['QuantiteProduitProducteur']) && isset($product['ImageProduitProducteur'])  }
             <input type="text" name="produit[{$product['IdProduit']}][DesignationProduitProducteur]" value="{$product['DesignationProduitProducteur']}"/>
             <p>Prix : <input type="text" name="produit[{$product['IdProduit']}][PrixProduitProducteur]" value="{$product['PrixProduitProducteur']}"/></p>
             <p>Description :<input type="text" name="produit[{$product['IdProduit']}][DetailsProduitProducteur]" value="{$product['DetailsProduitProducteur']}" /></p>
             <p>Quantité : <input type="number" name="produit[{$product['IdProduit']}][QuantiteProduitProducteur]" value="{$product['QuantiteProduitProducteur']}" /></p>
+            <img src="/{$product['ImageProduitProducteur']}" alt="image produit">
             <p>Supprimer ? <input type="checkbox" name="deleteProduit[{$product['IdProduit']}]" value="1"/></p>
         {/if}
     </div>

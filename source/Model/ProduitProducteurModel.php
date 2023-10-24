@@ -44,4 +44,8 @@ class ProduitProducteurModel extends DbModel
         WHERE IdProduitProduitProducteur = $IdProduit
         ");
     }
+    
 }
+
+
+// voir pour supprimé l'image de VS CODE quand je supprime un produit  Unlink
