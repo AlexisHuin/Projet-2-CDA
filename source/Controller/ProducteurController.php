@@ -42,6 +42,8 @@ class ProducteurController extends UserController
                             }
                         }
                     }
+                } else {
+                    $upload_path = "assets/images/fruit.jpg";
                 }
                 // Crée un modèle ProduitProducteur
                 $ProduitProducteur = new ProduitProducteurModel();
@@ -62,27 +64,28 @@ class ProducteurController extends UserController
                 $Demandes->IdProduitProducteurDemande = $IdProduitProducteur;
                 $Demandes->ObjetDemande = 'Ajout';
                 $Demandes->PrixProposeDemande = $datas['PrixProduitProducteur'];
+                $Demandes->DesignationProduitDemande = htmlentities($datas['DesignationProduitProducteur'], ENT_QUOTES);
                 $Demandes->MotifDemande = "Le producteur " . $_SESSION['user']['Username'] . " souhaite ajouter le produit " . htmlentities($datas['DesignationProduitProducteur'], ENT_QUOTES) .
-                 " au prix de " . $datas['PrixProduitProducteur'];
-                 $Demandes->Save();
-                 
+                    " au prix de " . $datas['PrixProduitProducteur'];
+                $Demandes->Save();
 
-                 // Redirige l'utilisateur avec un message de succès
-                 header('location: /User/AddProduct?info=Produit ajouté avec succès');
-                 exit();
-                } else {
-                    // Gère les erreurs de validation
-                    ExceptionHandler::SetUserError("Erreur");
-                    $errors = ExceptionHandler::GetUserError();
-                }
-                var_dump($errors);
+
+                // Redirige l'utilisateur avec un message de succès
+                header('location: /User/AddProduct?info=Produit ajouté avec succès');
+                exit();
+            } else {
+                // Gère les erreurs de validation
+                ExceptionHandler::SetUserError("Erreur");
+                $errors = ExceptionHandler::GetUserError();
             }
-            
-            // Récupère la liste de tous les produits depuis la base de données
-            $Produits = new ProduitModel;
-            $allProducts = $Produits->getAllProduitsInfos();
-            usort($allProducts, function ($a, $b) {
-                return strcmp($a['DesignationProduit'], $b['DesignationProduit']);
+            var_dump($errors);
+        }
+
+        // Récupère la liste de tous les produits depuis la base de données
+        $Produits = new ProduitModel;
+        $allProducts = $Produits->getAllProduitsInfos();
+        usort($allProducts, function ($a, $b) {
+            return strcmp($a['DesignationProduit'], $b['DesignationProduit']);
         });
         $info = (isset($_GET['info'])) ? $_GET['info'] : '';
         // Initialise la vue avec des données
@@ -107,7 +110,7 @@ class ProducteurController extends UserController
         if (isset($_POST['update'])) {
             $this->UpdateProductProducteur();
         }
-       
+
         // Crée une instance de ProduitProducteurModel pour gérer les produits du producteur
         $Produits = new ProduitProducteurModel();
         $AllProduits = $Produits->getProduitProducteur($_SESSION['user']['IdRole']);
@@ -118,7 +121,6 @@ class ProducteurController extends UserController
         ViewController::Set('SessionInfo', $_SESSION['user']);
         ViewController::Set('AllProduits', $AllProduits);
         ViewCOntroller::Display('ProduitProducteurListView');
-        
     }
 
     private function UpdateProductProducteur(): void
@@ -135,6 +137,15 @@ class ProducteurController extends UserController
                     // Crée un modèle ProduitProducteur et effectue la mise à jour
                     $ProduitProducteurModel = new ProduitProducteurModel();
                     $ProduitProducteurModel->producteurProduitUpdate($datas, $idProducteur, $IdProduitProducteur);
+
+                    $demandes = new DemandesModel();
+                    $demandes->IdProducteurDemande = $idProducteur;
+                    $demandes->IdProduitProducteurDemande = $IdProduitProducteur;
+                    $demandes->ObjetDemande = 'Prix';
+                    $demandes->PrixProposeDemande = $datas['PrixProduitProducteur'];
+                    $demandes->MotifDemande = "Le producteur " . $_SESSION['user']['Username'] . " souhaite modifié le prix de " . htmlentities($datas['DesignationProduitProducteur'], ENT_QUOTES) .
+                        " au prix de " . $datas['PrixProduitProducteur'];
+                    $demandes->Save();
                 }
             }
         }
