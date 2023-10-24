@@ -121,19 +121,7 @@ class AdminController extends MainController
         $Adherents = new AdherentModel();
 
         if (isset($_POST['Delete'])) {
-            $Adherents->IdAdherents = $_POST['Id'];
-            $Liste = $Adherents->FindOne();
-
-            $User = new UserModel();
-            $UserToDelete = $User->JoinUsers($_POST['Role'], $Liste['MailProducteur']);
-            $User->EmailUser = $UserToDelete['EmailUser'];
-
-            $User->Delete();
-            $Adherents->Delete();
-
-            header('Refresh:1;/Admin/Dashboard');
-            echo "Supprimé avec succès.";
-            exit();
+            $this->DeleteUsers($Adherents, 'IdAdherents', $_POST['Id'], "AdherentsList");
         } else {
             $Liste = $Adherents->Find();
         }
@@ -155,11 +143,11 @@ class AdminController extends MainController
         if (isset($_POST['Update'])) {
             $datas = $this->validate($_POST, ['NPrenom', 'Tel', 'Mail', 'CP', 'GPS']);
             $this->Update(
-                $datas, 
+                $datas,
                 $Adherents,
-                ['NomPrenomAdherents','PhoneAdherents', 'MailAdherents', 'CodePostalAdherents', 'CoordonneesGPSAdherents', 'RaisonSocialeProducteur'],
-                $Adherents->IdAdherent,
-                "AdherentsListView"
+                ['NomPrenomAdherents', 'PhoneAdherents', 'MailAdherents', 'CodePostalAdherents', 'CoordonneesGPSAdherents', 'RaisonSocialeProducteur'],
+                'IdAdherents',
+                "AdherentsList"
             );
         }
 
@@ -178,19 +166,7 @@ class AdminController extends MainController
         $Producteur = new ProducteurModel();
 
         if (isset($_POST['Delete'])) {
-            $Producteur->IdProducteur = $_POST['Id'];
-            $Liste = $Producteur->FindOne();
-
-            $User = new UserModel();
-            $UserToDelete = $User->JoinUsers($_POST['Role'], $Liste['MailProducteur']);
-            $User->EmailUser = $UserToDelete['EmailUser'];
-
-            $User->Delete();
-            $Producteur->Delete();
-
-            header('Refresh:1;/Admin/Dashboard');
-            echo "Supprimé avec succès.";
-            exit();
+            $this->DeleteUsers($Producteur, 'IdProducteur', $_POST['Id'], "ProducteursList");
         } else {
             $Liste = $Producteur->Find();
         }
@@ -208,18 +184,18 @@ class AdminController extends MainController
         $Producteur = new ProducteurModel();
 
         $Producteur->IdProducteur = $id['id'];
-
+        
         if (isset($_POST['Update'])) {
             $datas = $this->validate($_POST, ['NPrenom', 'Tel', 'Mail', 'CP', 'GPS', 'RS']);
             $this->Update(
-                $datas, 
+                $datas,
                 $Producteur,
-                ['NomPrenomProducteur','PhoneProducteur', 'MailProducteur', 'CodePostalProducteur', 'CoordonneesGPSProducteur', 'RaisonSocialeProducteur'],
-                $Producteur->IdProducteur,
-                "ProducteursListView"
+                ['NomPrenomProducteur', 'PhoneProducteur', 'MailProducteur', 'CodePostalProducteur', 'CoordonneesGPSProducteur', 'RaisonSocialeProducteur'],
+                'IdProducteur',
+                "ProducteursList"
             );
         }
-
+        
         $Liste = $Producteur->FindOne();
 
         ViewController::Init('smarty');
@@ -276,7 +252,6 @@ class AdminController extends MainController
             usort($Liste, function ($a, $b) {
                 return $b['IdProduit'] - $a['IdProduit'];
             });
-            // array_multisort($Liste, SORT_NUMERIC, SORT_DESC);
         }
 
         ViewController::Init('smarty');
@@ -296,9 +271,9 @@ class AdminController extends MainController
         if (isset($_POST['Update'])) {
             $datas = $this->validate($_POST, ['Produit', 'Saison', 'Categorie']);
             $this->Update(
-                $datas, 
+                $datas,
                 $Product,
-                ['Produit','Saison', 'Categorie'],
+                ['Produit', 'Saison', 'Categorie'],
                 $Product->IdProduit,
                 "ProductsListView"
             );
@@ -416,39 +391,52 @@ class AdminController extends MainController
         }
     }
 
-    private function Update(array $datas, object $object, array $properties, string $whereClause, string $header): bool
+    private function Update(array|string $datas, object $object, array $properties, string $whereClause, string $header): bool
     {
         if (empty($datas)) {
             return false;
         } else {
-            for($i = 0; $i< count($datas); $i++){
-                $object->$properties[$i] = $datas[$i];
+
+            $keys = array_values($datas);
+
+            for ($i = 0; $i != (count($keys) - 1); $i++) {
+                $cleanProp = stripslashes($properties[$i]);
+                $object->$cleanProp = $keys[$i];
             }
 
-            $object->Where($object,$object->$whereClause);
+            $object->Where($object, $object->$whereClause);
 
             $object->Update();
             header('Refresh:1;/Admin/' . $header);
-            echo "Producteur modifié avec succès";
+            echo "Modifié avec succès";
             exit();
         }
         return true;
     }
 
-    //TO DO
-    private function DeleteUsers(string $datas)
+    private function DeleteUsers(object $object, string|array $property, string|array $datas, string $header)
     {
-        $Adherents->IdAdherents = $_POST['Id'];
-        $Liste = $Adherents->FindOne();
+        if (is_array($property) && is_array($datas)) {
+            $keys = array_values($datas);
+            for ($i = 0; $i < count($property); $i++) {
+                $object->$property[$i] = $keys[$i];
+            }
+        } else {
+            $object->$property = $datas;
+        }
+
+        $Liste = $object->FindOne();
+
+        in_array('MailProducteur', array_keys($Liste)) ? $Email = $Liste['MailProducteur'] : $Email = $Liste['MailAdherents'];
 
         $User = new UserModel();
-        $UserToDelete = $User->JoinUsers($_POST['Role'], $Liste['MailProducteur']);
+        $UserToDelete = $User->JoinUsers($_POST['Role'], $Email);
         $User->EmailUser = $UserToDelete['EmailUser'];
 
         $User->Delete();
-        $Adherents->Delete();
+        $object->Delete();
 
-        header('Refresh:1;/Admin/Dashboard');
+        header('Refresh:1;/Admin/' . $header);
         echo "Supprimé avec succès.";
         exit();
     }
