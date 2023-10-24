@@ -5,7 +5,7 @@
 <h1>Ajout nouveau produit</h1>
 {$info}
 
-<form method="POST" enctype="multipart/form-data">
+<form method="POST" enctype="multipart/form-data" class="addproduct">
     <select name="IdProduitProduitProducteur">
        {foreach from=$AllProducts key=k item=produit}
             <option value="{$produit.IdProduit}"> {$produit.DesignationProduit} </option>
