@@ -11,6 +11,7 @@ class ProducteurController extends UserController
 {
     public function AddProduct(): void
     {
+        $this->connectCheck('user','Producteur');
         // Vérifie si le formulaire d'ajout a été soumis
         if (isset($_POST['Ajouter'])) {
             // Valide les données du formulaire
@@ -62,6 +63,7 @@ class ProducteurController extends UserController
 
     public function ProductList(): void
     {
+        $this->connectCheck('user','Producteur');
         // Vérifie si l'utilisateur a soumis un formulaire de suppression
         if (isset($_POST['delete'])) {
             $this->DeleteProductProducteur();
