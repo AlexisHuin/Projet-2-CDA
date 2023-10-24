@@ -4,15 +4,21 @@ namespace Controller;
 
 use Controller\ViewController;
 
+// Produits
 use Model\SaisonModel;
 use Model\CategorieModel;
-use Model\AdherentModel;
-use Model\ProducteurModel;
 use Model\ProduitModel;
-use Model\AdminModel;
-use Model\DemandesModel;
-use Model\ProduitProducteurModel;
+// Adherents
+use Model\AdherentModel;
+// Producteurs
+use Model\ProducteurModel;
+// Suppression 
 use Model\UserModel;
+// Traitement des demandes et notifications
+use Model\AdminModel;
+use Model\ProduitProducteurModel;
+use Model\DemandesModel;
+use Model\NotificationsModel;
 
 // Classe UserController héritant de MainController
 class AdminController extends MainController
@@ -76,6 +82,7 @@ class AdminController extends MainController
 
         if(isset($_POST['Accept'])){
             $ProduitProducteur = new ProduitProducteurModel();
+            $Notifications = new NotificationsModel();
 
             $Demandes->EtatDemande = "Accepted";
             $Demandes->Where($Demandes, $_POST['Id']);
@@ -90,6 +97,9 @@ class AdminController extends MainController
                     $ProduitProducteur->DateModifPrixProduitProducteur = date('Y-m-d H:i');
 
                     $ProduitProducteur->Update();
+
+                    $Notifications->IdDestinataireNotification = $_POST['IdProd'];
+                    $Notifications->MotifNotification = "Votre demande concernant la modification du prix de " . $_POST['DesignationProduit'];
                     break;
                 case "Ajout":
                     $ProduitProducteur->Where($ProduitProducteur, $_POST['IdProduitProducteur']);
