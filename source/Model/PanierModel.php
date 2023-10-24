@@ -1,36 +1,36 @@
 <?php
 namespace Model;
 
-class PanierModel
+
+class PanierModel extends DbModel
 {
-    private $db;
+    protected  $_table_name = "Panier";
 
-    public function __construct($db)
+    protected $id = "IdPanier";
+
+    protected $Quantité = "QuantitéPanier";
+
+
+    public function getPanier($IdProduit)
     {
-        $this->db = $db;
+        return DbModel::Select("INSERT INTO Panier (IdProduit, QuantitéProduitProducteur, PrixPanier, IdAdherentsPanier) VALUES (:IdProduit, :QuantitéPanier, :PrixPanier, :IdAdherentsPanier", 
+        [':idProduit' =>$IdProduit],);
+
     }
+    // public function updatePanier(){
+    // // {
+    // //     return DbModel::Update("INSERT INTO Panier (IdProduit, QuantitéProduitProducteur) VALUES (IdProduit QuantitéProduitProducteur);");
+    // }
 
-    public function ajouterAuPanier($idProduit, $quantite)
+    public function DeleteProduitPanier()
     {
-        $sql = "INSERT INTO Panier (IdProduit, Quantite) 
-                VALUES ('', '', '')";
-        $stmt = $this->db->prepare($sql);
-        $stmt->execute([$idProduit,  $quantite]);
+        return DbModel::Delete("DELETE FROM Panier WHERE IdProduit = IdPanier");
+
     }
-
-    public function GetPanierAdherents($IdAdherents)
+    public function DeletePanier()
     {
-        $sql = "SELECT * FROM Panier WHERE IdAdherents = ?";
-        $stmt = $this->db->prepare($sql);
-        $result = $stmt->fetchAll();
-        $stmt->execute($IdAdherents);
-        return $result;
-    }
+        return DbModel::Delete("DELETE FROM Panier");
 
-    public function supprimerDuPanier($IdProduit, $IdAdherents)
-    {
-        $sql = "DELETE FROM Panier WHERE IdProduit = ? AND IdAdherents = ?";
-        $stmt = $this->db->prepare($sql);
-        $stmt->execute([$IdProduit, $IdAdherents]);
     }
 }
+

@@ -17,10 +17,6 @@
             <img src="/{$product['ImageProduitProducteur']}" alt="image produit">
             <p>Supprimer ? <input type="checkbox" name="deleteProduit[{$product['IdProduit']}]" value="1"/></p>
         {/if}
-        <form method="POST" action="/Adherents/AddPanier">
-        <label for="quantite_produit">Quantité :</label>
-        <input type="number" id="quantite_produit" name="qte_produit" min="1" value="1">
-        <button type="submit">Ajouter au Panier</button>
-        </form>
+        
     </div>
 </div>
