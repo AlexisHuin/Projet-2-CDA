@@ -4,7 +4,7 @@ use Model\DbModel;
 
 class PanierModel extends DbModel
 {
-    public $db;
+    public static $db;
 
     public function getQuantiteProduit($IdProduit)
     {
@@ -31,8 +31,8 @@ class PanierModel extends DbModel
         $stmt = $this->db->prepare($query);
         $stmt->bindParam(':productId', $IdProduit);
         $stmt->bindParam(':quantity', $quantite);
-        $stmt->bindParam(':price', $prix);
-        $stmt->bindParam(':userId', $IdAdherentPanier);
+        $stmt->bindParam(':prix', $prix);
+        $stmt->bindParam(':IdAdherentsPanier', $IdAdherentPanier);
         $stmt->execute();
     }
 
@@ -43,7 +43,7 @@ class PanierModel extends DbModel
         $query = "DELETE FROM cart WHERE product_id = :productId AND user_id = :userId";
         $stmt = $this->db->prepare($query);
         $stmt->bindParam(':productId', $IdProduit);
-        $stmt->bindParam(':userId', $IdadherentPanier);
+        $stmt->bindParam(':IdAdherentsPanier', $IdadherentPanier);
         $stmt->execute();
     }
 

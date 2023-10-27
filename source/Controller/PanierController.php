@@ -48,12 +48,12 @@ class PanierController extends HomeController
         }
         
         array_push($_SESSION['panier'], [
-            "IdProduitProducteur" => $_POST["IdProduitProducteur"],
+            "IdProduitProducteur" => $_POST["IdProduit"],
             "Quantite" => $_POST["quantite"],
             "Prix" => $_POST['Prix'],
             "IdAdherent" => $_SESSION['user']['IdRole']
         ]);
-        //var_dump( $_SESSION['panier']);
+       
         
 
         $panier = new PanierModel();
