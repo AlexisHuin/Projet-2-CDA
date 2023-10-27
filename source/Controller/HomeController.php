@@ -67,7 +67,7 @@ class HomeController extends MainController
 
         ViewController::Display('HomeView');
     }
-
+    
     public function DescriptifProduit($params=[])
     {
        

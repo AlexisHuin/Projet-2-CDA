@@ -27,10 +27,10 @@ class PanierModel extends DbModel
     {
         // Implement logic to add a product to the user's cart
         // Example:
-        $query = "INSERT INTO cart (IdProduit, quantite, prix, IdAdherentsPanier) VALUES (:IdProduit, :quantite, :prix, :IdAdherentsPanier)";
+        $query = "INSERT INTO cart (IdProduit, Quantite, prixPanier, IdAdherentsPanier) VALUES (:IdProduit, :quantite, :prix, :IdAdherentsPanier)";
         $stmt = $this->db->prepare($query);
         $stmt->bindParam(':productId', $IdProduit);
-        $stmt->bindParam(':quantity', $quantite);
+        $stmt->bindParam(':quantite', $quantite);
         $stmt->bindParam(':prix', $prix);
         $stmt->bindParam(':IdAdherentsPanier', $IdAdherentPanier);
         $stmt->execute();

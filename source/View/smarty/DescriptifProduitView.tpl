@@ -1,9 +1,9 @@
 {include file="../Partials/_HeaderView.tpl"}
 
-{include file="../Partials/_CardView.tpl"}   
 
 
-{foreach from=$productProducteur item=product key=key}
+
+{foreach from=$product item=Produit key=key}
     {include file="../Partials/_CardView.tpl"}   
 
 {/foreach}
