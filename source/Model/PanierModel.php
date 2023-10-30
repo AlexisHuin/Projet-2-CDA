@@ -4,46 +4,44 @@ use Model\DbModel;
 
 class PanierModel extends DbModel
 {
-    public $db;
+    public static $db;
 
     public function getQuantiteProduit($IdProduit)
     {
         // Implement logic to fetch the quantity of the product with the given ID from the database
         // Example:
-        $query = "SELECT quantite FROM products WHERE id = :id";
+        $query = "SELECT Quantite FROM Produit WHERE id = :id";
         $stmt = $this->db->prepare($query);
         $stmt->bindParam(':id', $IdProduit);
         $stmt->execute();
         $result = $stmt->fetch;
 
         if ($result) {
-            return $result['quantite'];
+            return $result['Quantite'];
         } else {
             throw new \Exception('Product not found');
         }
     }
 
-    public function addToCart($IdProduit, $quantite, $prix, $IdAdherentPanier)
+    public function addToCart($IdProduit, $Quantite, $PrixPanier, $IdAdherentPanier)
     {
-        // Implement logic to add a product to the user's cart
-        // Example:
-        $query = "INSERT INTO cart (IdProduit, quantite, prix, IdAdherentsPanier) VALUES (:IdProduit, :quantite, :prix, :IdAdherentsPanier)";
+        $query = "INSERT INTO Panier (IdProduit, Quantite, PrixPanier, IdAdherentsPanier) VALUES (:IdProduit, :Quantite, :PrixPanier, :IdAdherentsPanier)";
         $stmt = $this->db->prepare($query);
-        $stmt->bindParam(':productId', $IdProduit);
-        $stmt->bindParam(':quantity', $quantite);
-        $stmt->bindParam(':price', $prix);
-        $stmt->bindParam(':userId', $IdAdherentPanier);
+        $stmt->bindParam(':IdProduit', $IdProduit);
+        $stmt->bindParam(':Quantite', $Quantite);
+        $stmt->bindParam(':Prix', $PrixPanier);
+        $stmt->bindParam(':IdAdherentsPanier', $IdAdherentPanier);
         $stmt->execute();
     }
 
-    public function removeFromCart($IdProduit, $IdadherentPanier)
+    public function removeFromCart($IdProduit, $IdAdherentPanier)
     {
         // Implement logic to remove a product from the user's cart
         // Example:
-        $query = "DELETE FROM cart WHERE product_id = :productId AND user_id = :userId";
+        $query = "DELETE FROM Panier WHERE IdProduit = :IdPRoduit AND user_id = :userId";
         $stmt = $this->db->prepare($query);
-        $stmt->bindParam(':productId', $IdProduit);
-        $stmt->bindParam(':userId', $IdadherentPanier);
+        $stmt->bindParam(':IdProduit', $IdProduit);
+        $stmt->bindParam(':IdAdherentsPanier', $IdAdherentPanier);
         $stmt->execute();
     }
 

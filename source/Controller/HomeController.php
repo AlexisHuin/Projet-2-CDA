@@ -5,12 +5,7 @@ use Controller\ViewController;
 use Model\ProduitModel;
 use Model\CategorieModel;
 use Model\SaisonModel;
-use model\ProduitProducteurModel;
-
-
-
-
-
+use Model\ProduitProducteurModel;
 class HomeController extends MainController
 {
     public function Index()
@@ -66,24 +61,27 @@ class HomeController extends MainController
 
         ViewController::Display('HomeView');
     }
-
+    
     public function DescriptifProduit($params=[])
     {
        
         $ProduitModel = new ProduitModel();
         $Produit = $ProduitModel->DescriptifProduit($params['id']);
-        $ProduitProducteurModel = new ProduitProducteurModel();
-        $ProduitProducteur = $ProduitProducteurModel->getProduitProducteur($Produit['IdProduit']);
-        // var_dump($Produit);
+        $produitProducteurModel = new ProduitProducteurModel();
+        $produitProducteurs = $produitProducteurModel->getProduitProducteur($params['id']);
+
+      
         ViewController::Init('smarty');
         ViewController::Set('title', 'Home');
-        ViewController::Set('product',$Produit);
+        ViewController::Set('produit',$produitProducteurs);
         ViewController::Set('h1', 'Smarty : Hello World !');
-        ViewController::Set('productProducteur',$ProduitProducteur);
+        ViewController::Set('produitProducteur',$Produit);
         ViewController::Display('DescriptifProduitView');
-        var_dump($Produit);
+        
 
         
     
     }
+    
+    
 }
