@@ -1,3 +1,5 @@
+{include file="../Partials/_HeaderView.tpl"}
+
 <a href="/Admin/ProductsList">Revenir à la liste des produits</a>
 
 <form method="post">

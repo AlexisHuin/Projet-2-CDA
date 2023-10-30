@@ -89,7 +89,7 @@ $routes = [
         'method'=>['GET', 'POST'],
         'controller'=>['Controller\AdminController','ModifProducteurs']
     ],
-    '/Admin/ProduitsProducteur' => [
+    '/Admin/ProduitsProducteursList{id:\d+}' => [
         'method'=>['GET', 'POST'],
         'controller'=>['Controller\AdminController','ProduitsProducteursList']
     ],

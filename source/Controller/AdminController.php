@@ -209,9 +209,9 @@ class AdminController extends MainController
     {
         $this->connectCheck('admin');
 
-        $Producteur = new ProducteurModel();
+        $ProduitProducteur = new ProduitProducteurModel();
 
-        $Liste = $Producteur->Find();
+        $Liste = $ProduitProducteur->getProduitProducteur($id['id']);
 
         ViewController::Init('smarty');
         ViewController::Set('title', 'Liste des producteurs');
