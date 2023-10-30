@@ -141,7 +141,7 @@ class DbModel
         
         return $rq->fetchAll();
     }
-
+    
     public function FindSpecific(bool $not = false) : string|int|object|array
     {
         $columns = array_keys($this->datas);

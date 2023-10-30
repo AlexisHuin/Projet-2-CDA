@@ -206,7 +206,7 @@ class AdminController extends MainController
         ViewController::Display('admin/ModifProducteurView');
     }
 
-    // TO DO
+    // TODO
     public function ProduitsProducteursList($id): void
     {
         $this->connectCheck('admin');
