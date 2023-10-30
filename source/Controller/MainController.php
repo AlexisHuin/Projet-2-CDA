@@ -31,7 +31,8 @@ class MainController
         $routeInfo = $dispatcher->dispatch($httpMethod, $uri);
         switch ($routeInfo[0]) {
             case \FastRoute\Dispatcher::NOT_FOUND:
-                ExceptionHandler::RouteErrors('404', '404 Not Found', $_SERVER['REQUEST_URI']);
+                // ExceptionHandler::RouteErrors('404', '404 Not Found', $_SERVER['REQUEST_URI']);
+                // header('Location: /');
                 break;
             case \FastRoute\Dispatcher::METHOD_NOT_ALLOWED:
                 $allowedMethods = $routeInfo[1];

@@ -12,6 +12,6 @@
         <input type="hidden" value="{$producteur.IdProducteur}" name="Id">
         <input type="submit" value="Delete" name="Delete">
         <a href="/Admin/ModifProducteurs{$producteur.IdProducteur}">Modifier infos</a>
-        <a href="/Admin/ProduitsProducteursList">Voir produits du producteur</a>
+        <a href="/Admin/ProduitsProducteursList{$producteur.IdProducteur}">Voir produits du producteur</a>
     </form>
 {/foreach}
