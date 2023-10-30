@@ -105,14 +105,13 @@
 })();
 
 function Paiement() {
- document.querySelector('#paiementCoor').style.display = "flex";
- 
+  document.querySelector("#paiementCoor").style.display = "flex";
 }
 
-function CloseButton(){
-let cancelBtn = document.getElementById("cancel");
+function CloseButton() {
+  let cancelBtn = document.getElementById("cancel");
 
-cancelBtn.addEventListener('click', ()=> {
-  document.querySelector('#paiementCoor').style.display = "none";
-})
-};
+  cancelBtn.addEventListener("click", () => {
+    document.querySelector("#paiementCoor").style.display = "none";
+  });
+}

@@ -127,6 +127,8 @@ class AdminController extends MainController
         $Demandes->EtatDemande = "Opened";
         $Liste = $Demandes->getDemandes();
 
+      
+
         ViewController::Init('smarty');
         ViewController::Set('title', 'Dashboard');
         ViewController::Set('Demandes', $Liste);
