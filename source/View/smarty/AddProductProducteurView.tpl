@@ -2,6 +2,7 @@
 
 
 <div class="addproduct">
+<a href="/User/ProductList">Liste de mes produits</a>
 <h1>Ajout nouveau produit</h1>
 {$info}
 
@@ -23,7 +24,7 @@
     <input type="file" name="ImageProduitProducteur" accept="image/jpeg, image/png, image/webp">
     <input  type="submit" name="Ajouter" value="Envoyer">
 </form>
-<a href="/User/ProductList">Liste de mes produits</a>
+
 </div>
 
 

@@ -142,6 +142,7 @@ class ProducteurController extends UserController
                     $demandes->IdProducteurDemande = $idProducteur;
                     $demandes->IdProduitProducteurDemande = $IdProduitProducteur;
                     $demandes->ObjetDemande = 'Prix';
+                    $demandes->DesignationProduitDemande = htmlentities($datas['DesignationProduitProducteur'], ENT_QUOTES);
                     $demandes->PrixProposeDemande = $datas['PrixProduitProducteur'];
                     $demandes->MotifDemande = "Le producteur " . $_SESSION['user']['Username'] . " souhaite modifié le prix de " . htmlentities($datas['DesignationProduitProducteur'], ENT_QUOTES) .
                         " au prix de " . $datas['PrixProduitProducteur'];
