@@ -23,9 +23,7 @@
                         <p style="padding: .5rem 0 ; width: 100%; display: flex; justify-content: space-between"> Quantité : <span
                                 style="width:50%; text-align: left;"> {$product['QuantiteProduitProducteur']} </span> </p>
                         <img style="margin-bottom: 1rem;" src="../../{$product['ImageProduitProducteur']}" alt="image produit">
-
-                        <button type="submit" name="update">Modifier</button>
-                        <button type="submit" name="delete">Supprimer</button>
+                        <button type="submit" name="Delete">Supprimer</button>
                     </form>
                 </div>
             {/if}
@@ -51,9 +49,7 @@
                         <p style="padding: .5rem 0 ; width: 100%; display: flex; justify-content: space-between"> Quantité : <span
                                 style="width:50%; text-align: left;"> {$product['QuantiteProduitProducteur']} </span> </p>
                         <img style="margin-bottom: 1rem;" src="../../{$product['ImageProduitProducteur']}" alt="image produit">
-
-                        <button type="submit" name="update">Modifier</button>
-                        <button type="submit" name="delete">Supprimer</button>
+                        <button type="submit" name="Delete">Supprimer</button>
                     </form>
                 </div>
             {/if}
