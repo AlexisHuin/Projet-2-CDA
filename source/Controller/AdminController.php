@@ -121,7 +121,7 @@ class AdminController extends MainController
         $Adherents = new AdherentModel();
 
         if (isset($_POST['Delete'])) {
-            $this->DeleteUsers($Adherents, 'IdAdherents', $_POST['Id'], "AdherentsList");
+            $this->Delete($Adherents, 'IdAdherents', $_POST['Id'], "AdherentsList");
         } else {
             $Liste = $Adherents->Find();
         }
@@ -166,7 +166,7 @@ class AdminController extends MainController
         $Producteur = new ProducteurModel();
 
         if (isset($_POST['Delete'])) {
-            $this->DeleteUsers($Producteur, 'IdProducteur', $_POST['Id'], "ProducteursList");
+            $this->Delete($Producteur, 'IdProducteur', $_POST['Id'], "ProducteursList");
         } else {
             $Liste = $Producteur->Find();
         }
@@ -184,7 +184,7 @@ class AdminController extends MainController
         $Producteur = new ProducteurModel();
 
         $Producteur->IdProducteur = $id['id'];
-        
+
         if (isset($_POST['Update'])) {
             $datas = $this->validate($_POST, ['NPrenom', 'Tel', 'Mail', 'CP', 'GPS', 'RS']);
             $this->Update(
@@ -195,7 +195,7 @@ class AdminController extends MainController
                 "ProducteursList"
             );
         }
-        
+
         $Liste = $Producteur->FindOne();
 
         ViewController::Init('smarty');
@@ -211,7 +211,11 @@ class AdminController extends MainController
 
         $ProduitProducteur = new ProduitProducteurModel();
 
-        $Liste = $ProduitProducteur->getProduitProducteur($id['id']);
+        if (isset($_POST['Delete'])) {
+            $this->Delete($ProduitProducteur, 'IdProducteur', $_POST['Id'], "ProducteursList");
+        } else {
+            $Liste = $ProduitProducteur->getProduitProducteur($id['id']);
+        }
 
         ViewController::Init('smarty');
         ViewController::Set('title', 'Liste des producteurs');
@@ -414,7 +418,7 @@ class AdminController extends MainController
         return true;
     }
 
-    private function DeleteUsers(object $object, string|array $property, string|array $datas, string $header)
+    private function Delete(object $object, string|array $property, string|array $datas, string $header, $IsUser = false)
     {
         if (is_array($property) && is_array($datas)) {
             $keys = array_values($datas);
@@ -425,15 +429,16 @@ class AdminController extends MainController
             $object->$property = $datas;
         }
 
-        $Liste = $object->FindOne();
+        if ($IsUser) {
+            $Liste = $object->FindOne();
+            in_array('MailProducteur', array_keys($Liste)) ? $Email = $Liste['MailProducteur'] : $Email = $Liste['MailAdherents'];
 
-        in_array('MailProducteur', array_keys($Liste)) ? $Email = $Liste['MailProducteur'] : $Email = $Liste['MailAdherents'];
+            $User = new UserModel();
+            $UserToDelete = $User->JoinUsers($_POST['Role'], $Email);
+            $User->EmailUser = $UserToDelete['EmailUser'];
 
-        $User = new UserModel();
-        $UserToDelete = $User->JoinUsers($_POST['Role'], $Email);
-        $User->EmailUser = $UserToDelete['EmailUser'];
-
-        $User->Delete();
+            $User->Delete();
+        }
         $object->Delete();
 
         header('Refresh:1;/Admin/' . $header);
