@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : db
--- Généré le : mar. 24 oct. 2023 à 12:29
+-- Généré le : lun. 30 oct. 2023 à 09:55
 -- Version du serveur : 11.1.2-MariaDB-1:11.1.2+maria~ubu2204
 -- Version de PHP : 8.2.11
 
@@ -20,8 +20,6 @@ SET time_zone = "+00:00";
 --
 -- Base de données : `coopConsommateur`
 --
-CREATE DATABASE IF NOT EXISTS `coopConsommateur` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
-USE `coopConsommateur`;
 
 -- --------------------------------------------------------
 
@@ -39,15 +37,16 @@ CREATE TABLE `Adherents` (
   `DateDebutAdherents` date NOT NULL,
   `DateFinAdherents` date DEFAULT NULL,
   `DepenseAdherents` decimal(15,3) NOT NULL DEFAULT 0.000,
-  `EtatAbonnementAdherent` tinyint(1) DEFAULT 0
+  `EtatAbonnementAdherent` tinyint(1) DEFAULT 0,
+  `InfosReglementAdherent` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Déchargement des données de la table `Adherents`
 --
 
-INSERT INTO `Adherents` (`IdAdherents`, `NomPrenomAdherents`, `PhoneAdherents`, `MailAdherents`, `CodePostalAdherents`, `CoordonneesGPSAdherents`, `DateDebutAdherents`, `DateFinAdherents`, `DepenseAdherents`, `EtatAbonnementAdherent`) VALUES
-(11, 'ade adherent', '0843954235', 'ade@ade.ade', 41000, '2343242523', '2023-10-21', NULL, 0.000, 0);
+INSERT INTO `Adherents` (`IdAdherents`, `NomPrenomAdherents`, `PhoneAdherents`, `MailAdherents`, `CodePostalAdherents`, `CoordonneesGPSAdherents`, `DateDebutAdherents`, `DateFinAdherents`, `DepenseAdherents`, `EtatAbonnementAdherent`, `InfosReglementAdherent`) VALUES
+(11, 'ade adherent', '0843954235', 'ade@ade.ade', 41000, '2343242523', '2023-10-21', NULL, 0.000, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -124,7 +123,23 @@ CREATE TABLE `Demandes` (
 --
 
 INSERT INTO `Demandes` (`IdDemande`, `ObjetDemande`, `PrixProposeDemande`, `DesignationProduitDemande`, `MotifDemande`, `IdProducteurDemande`, `IdProduitProducteurDemande`, `EtatDemande`) VALUES
-(1, 'Prix', 0.4, 'Tomates du jardin', 'Le producteur prod demande changement de prix sur tomates du jardin actuellement 0.20 pour 0.25', 7, 1, 'Accepted');
+(33, 'Prix', 9, 'Aubergine du coin', 'Le producteur prod.prod souhaite modifié le prix de Aubergine du coin au prix de 9', 7, 13, 'Opened'),
+(34, 'Prix', 50, 'Aubergine du coin', 'Le producteur prod.prod souhaite modifié le prix de Aubergine du coin au prix de 50', 7, 13, 'Accepted');
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `InfosReglement`
+--
+
+CREATE TABLE `InfosReglement` (
+  `IdInfosReglement` int(11) NOT NULL,
+  `CodeCBInfosReglement` int(25) NOT NULL,
+  `TitulaireInfosReglement` varchar(128) NOT NULL,
+  `ExpirationInfosReglement` varchar(5) NOT NULL,
+  `CVVInfosReglement` int(3) NOT NULL,
+  `IdAdherentInfosReglement` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -155,7 +170,7 @@ INSERT INTO `ModeReglement` (`IdModeReglement`, `DesignationModeReglement`) VALU
 CREATE TABLE `Notifications` (
   `IdNotification` int(11) NOT NULL,
   `IdDestinataireNotification` int(11) NOT NULL,
-  `MotifNotification` int(255) NOT NULL,
+  `MotifNotification` varchar(255) NOT NULL,
   `IsReadNotification` tinyint(1) NOT NULL DEFAULT 0,
   `DateEnvoiNotification` varchar(64) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -197,7 +212,8 @@ CREATE TABLE `Producteur` (
 --
 
 INSERT INTO `Producteur` (`IdProducteur`, `RaisonSocialeProducteur`, `NomPrenomProducteur`, `PhoneProducteur`, `MailProducteur`, `CodePostalProducteur`, `CoordonneesGPSProducteur`, `SommeVentesProducteur`) VALUES
-(7, NULL, 'prodprod', '0943850653', 'prod@prod.prod', '41000', '3123123', 0);
+(7, NULL, 'prodprod', '0943850653', 'prod@prod.prod', '41000', '3123123', 0),
+(8, NULL, 'aaaaaa', '0254477889', 'aaa@aaa.aaa', '41000', '0256464', 0);
 
 -- --------------------------------------------------------
 
@@ -295,8 +311,7 @@ CREATE TABLE `ProduitProducteur` (
 --
 
 INSERT INTO `ProduitProducteur` (`IdProduitProducteur`, `IsValidateProduitProducteur`, `DesignationProduitProducteur`, `PrixProduitProducteur`, `DateModifPrixProduitProducteur`, `DetailsProduitProducteur`, `QuantiteProduitProducteur`, `ImageProduitProducteur`, `IdProducteurProduitProducteur`, `IdProduitProduitProducteur`) VALUES
-(1, 1, 'Tomate du Jardin', '0.4', '2023-10-24 11:34', 'Le bonnes tomates du jardin bio au bord de la route 44', 150, NULL, 3, 1),
-(3, 1, 'abricot de l&#039;abricoter', '0.20', NULL, 'MA LUBULULE', 450, NULL, 37, 35);
+(13, 1, 'Aubergine du coin', '50', '2023-10-30 10:53', 'Super sucré', 12, 'assets/images/653f7631bb3e2.png', 7, 35);
 
 -- --------------------------------------------------------
 
@@ -357,7 +372,8 @@ CREATE TABLE `User` (
 
 INSERT INTO `User` (`IdUser`, `UsernameUser`, `MdpUser`, `EmailUser`, `RoleUser`) VALUES
 (37, 'prod.prod', '$argon2id$v=19$m=65536,t=4,p=1$R0VBRzNEOS8xYmpscmRveQ$/D3mCfK8v3eK1/CnMUJyy2r/JbKT9+SUMvvRwkdsJBA', 'prod@prod.prod', 'Producteur'),
-(38, 'ade.ade', '$argon2id$v=19$m=65536,t=4,p=1$ZlFiTXJpNC85cS9vNFIyaA$h+fHK4rEQGMsuF4gqVb6+BGIfZgS/ewqSVZPLzcJWwM', 'ade@ade.ade', 'Adherent');
+(38, 'ade.ade', '$argon2id$v=19$m=65536,t=4,p=1$ZlFiTXJpNC85cS9vNFIyaA$h+fHK4rEQGMsuF4gqVb6+BGIfZgS/ewqSVZPLzcJWwM', 'ade@ade.ade', 'Adherent'),
+(39, 'aaa.aaa', '$argon2id$v=19$m=65536,t=4,p=1$YzFVdW5hR0UyZWN3S0lXLg$Np3u9VhGUXFZgymKDRW2DqOvRc7XFlczTQs1F2bhioQ', 'aaa@aaa.aaa', 'Producteur');
 
 --
 -- Index pour les tables déchargées
@@ -368,7 +384,8 @@ INSERT INTO `User` (`IdUser`, `UsernameUser`, `MdpUser`, `EmailUser`, `RoleUser`
 --
 ALTER TABLE `Adherents`
   ADD PRIMARY KEY (`IdAdherents`),
-  ADD UNIQUE KEY `MailAdherents` (`MailAdherents`);
+  ADD UNIQUE KEY `MailAdherents` (`MailAdherents`),
+  ADD KEY `InfosReglementAdherent` (`InfosReglementAdherent`);
 
 --
 -- Index pour la table `Admin`
@@ -396,6 +413,13 @@ ALTER TABLE `Demandes`
   ADD PRIMARY KEY (`IdDemande`),
   ADD KEY `IdProducteurDemande` (`IdProducteurDemande`),
   ADD KEY `IdProduitProducteurDemande` (`IdProduitProducteurDemande`) USING BTREE;
+
+--
+-- Index pour la table `InfosReglement`
+--
+ALTER TABLE `InfosReglement`
+  ADD PRIMARY KEY (`IdInfosReglement`),
+  ADD KEY `IdAdherentInfosReglement` (`IdAdherentInfosReglement`);
 
 --
 -- Index pour la table `ModeReglement`
@@ -494,7 +518,13 @@ ALTER TABLE `Commandes`
 -- AUTO_INCREMENT pour la table `Demandes`
 --
 ALTER TABLE `Demandes`
-  MODIFY `IdDemande` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `IdDemande` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+
+--
+-- AUTO_INCREMENT pour la table `InfosReglement`
+--
+ALTER TABLE `InfosReglement`
+  MODIFY `IdInfosReglement` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT pour la table `ModeReglement`
@@ -518,7 +548,7 @@ ALTER TABLE `Panier`
 -- AUTO_INCREMENT pour la table `Producteur`
 --
 ALTER TABLE `Producteur`
-  MODIFY `IdProducteur` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `IdProducteur` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT pour la table `Produit`
@@ -530,7 +560,7 @@ ALTER TABLE `Produit`
 -- AUTO_INCREMENT pour la table `ProduitProducteur`
 --
 ALTER TABLE `ProduitProducteur`
-  MODIFY `IdProduitProducteur` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `IdProduitProducteur` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT pour la table `Reglement`
@@ -548,7 +578,7 @@ ALTER TABLE `Saison`
 -- AUTO_INCREMENT pour la table `User`
 --
 ALTER TABLE `User`
-  MODIFY `IdUser` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
+  MODIFY `IdUser` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
