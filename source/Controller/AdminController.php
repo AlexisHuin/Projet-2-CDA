@@ -47,7 +47,7 @@ class AdminController extends MainController
                 }
 
                 // Rechercher l'utilisateur dans la base de données
-                $Log = $Admin->FindOne();
+                $Log = $Admin->Find('*', 'Fetch');
                 if ($Log) {
                     if (password_verify($_POST['Pass'], $Log['MdpAdmin'])) {
                         $AdminArr = [
@@ -153,7 +153,7 @@ class AdminController extends MainController
             );
         }
 
-        $Liste = $Adherents->FindOne();
+        $Liste = $Adherents->Find('*', 'Fetch');
 
         ViewController::Init('smarty');
         ViewController::Set('title', 'Modifier l\'adherent');
@@ -198,7 +198,7 @@ class AdminController extends MainController
             );
         }
 
-        $Liste = $Producteur->FindOne();
+        $Liste = $Producteur->Find('*', 'Fetch');
 
         ViewController::Init('smarty');
         ViewController::Set('title', 'Modifier le producteur');
@@ -432,7 +432,7 @@ class AdminController extends MainController
         }
 
         if ($IsUser) {
-            $Liste = $object->FindOne();
+            $Liste = $object->Find('*', 'Fetch');
             in_array('MailProducteur', array_keys($Liste)) ? $Email = $Liste['MailProducteur'] : $Email = $Liste['MailAdherents'];
 
             $User = new UserModel();

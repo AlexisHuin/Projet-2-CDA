@@ -88,7 +88,7 @@ class ProduitModel extends DbModel
     public function DescriptifProduit($id)
     {
         $this->IdProduit = $id;
-        return $this->FindOne();
+        return $this->Find('*', 'Fetch');
     }
 
 }
