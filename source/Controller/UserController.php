@@ -5,12 +5,13 @@ namespace Controller;
 use Model\UserModel;
 use Model\AdherentModel;
 use Model\ProducteurModel;
-use Model\ProduitModel;
-use Model\ProduitProducteurModel;
+
 
 use Controller\ViewController;
 use Controller\SessionController;
 use Controller\ExceptionHandler;
+use Controller\InfosReglementController;
+
 use DateTime;
 
 // Classe UserController héritant de MainController
@@ -127,23 +128,22 @@ class UserController extends MainController
                 }
 
                 // Rechercher l'utilisateur dans la base de données
-                $Log = $User->FindOne();
+                $Log = $User->Find('*', 'Fetch');
                 if ($Log) {
                     if (password_verify($_POST['Pass'], $Log['MdpUser'])) {
-                        if($Log['RoleUser'] === 'Adherent') {
-                        $Adherent->MailAdherents= $datas['Email'];
-                        $Result=$Adherent->findOne();
-                        $UserArr = [
-                            'Id' => $Log['IdUser'],
-                            'IdRole' => $Result['IdAdherents'],
-                            'Email' => $User->EmailUser,
-                            'RoleUser' => $Log['RoleUser'],
-                            'Username' => $Log['UsernameUser']
-                        ];
-                    } else if($Log['RoleUser'] === 'Producteur') 
-                        {
-                            $Producteur->MailProducteur= $datas['Email'];
-                            $Result=$Producteur->findOne();
+                        if ($Log['RoleUser'] === 'Adherent') {
+                            $Adherent->MailAdherents = $datas['Email'];
+                            $Result = $Adherent->Find('*', 'Fetch');
+                            $UserArr = [
+                                'Id' => $Log['IdUser'],
+                                'IdRole' => $Result['IdAdherents'],
+                                'Email' => $User->EmailUser,
+                                'RoleUser' => $Log['RoleUser'],
+                                'Username' => $Log['UsernameUser']
+                            ];
+                        } else if ($Log['RoleUser'] === 'Producteur') {
+                            $Producteur->MailProducteur = $datas['Email'];
+                            $Result = $Producteur->Find('*', 'Fetch');
                             $UserArr = [
                                 'Id' => $Log['IdUser'],
                                 'IdRole' => $Result['IdProducteur'],
@@ -151,8 +151,7 @@ class UserController extends MainController
                                 'RoleUser' => $Log['RoleUser'],
                                 'Username' => $Log['UsernameUser']
                             ];
-                        
-                    }
+                        }
                         SessionController::Set("user", $UserArr);
                         SessionController::Save();
                         header('location:/User/Profile ');
@@ -173,8 +172,19 @@ class UserController extends MainController
     }
     public function Profile(): void
     {
-        
+
         $this->connectCheck('user');
+        $Succes = '';
+        if (isset($_POST["Confirmation"])) {
+
+            $datas = $this->validate($_POST, ['Titulaire', 'NumeroCB', 'DateExpiration', 'CCV']);
+            if ($datas) {
+                $Succes = InfosReglementController::AddInfosReglement($datas);
+            } else {
+                ExceptionHandler::SetUserError("Veuillez remplir tout les champs");
+            }
+        }
+
 
         switch ($_SESSION['user']['RoleUser']) {
             case "Adherent":
@@ -186,14 +196,16 @@ class UserController extends MainController
                 $NewUser->MailProducteur = $_SESSION['user']['Email'];
                 break;
         }
-        $Infos = $NewUser->FindOne();
+        $Infos = $NewUser->Find('*', 'Fetch');
 
         ViewController::Init('smarty');
         ViewController::Set('title', 'Profile');
         ViewController::Set('SessionInfo', $_SESSION['user']);
+        ViewController::Set('Succes', $Succes);
         ViewController::Set('Infos', $Infos);
         ViewController::Display('ProfileView');
     }
+
     // Déconnection de l'utilisateur
     public function Deconnexion(): void
     {
@@ -202,7 +214,6 @@ class UserController extends MainController
         header('Location: /');
         exit;
     }
-   
 }
 
 

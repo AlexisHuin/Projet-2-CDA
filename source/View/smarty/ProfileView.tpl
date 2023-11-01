@@ -1,5 +1,6 @@
 {include file="../Partials/_HeaderView.tpl"}
 
+    <h3>{$Succes}</h3>
 {if $SessionInfo['RoleUser'] === "Adherent" }
     <div class="adh">
         <h1>Espace Adhérent</h1>
@@ -23,21 +24,21 @@
             <h1 style="text-align: center;">Information de paiement</h1>
             <div>
             <label for="Titulaire">Titulaire</label>
-            <input type="text" name="titulaire">
+            <input type="text" name="Titulaire">
             <label for="CB">Coordonées Bancaire</label>
-            <input type="text" name="numeroCB">
+            <input type="text" name="NumeroCB">
             </div>
             <div>
             <label for="DateExpiration">Date expiration</label>
-            <input type="date" name="dateExpiration">
-            <label for="CCV">CCV</label>
-            <input type="text" name="CCV">
+            <input type="month" name="DateExpiration">
+            <label for="CVV">CVV</label>
+            <input type="text" name="CVV">
            
             </div>
             <div style="display: flex;">
                 <button style="flex:1;margin-right:7em;" id="cancel" type="reset"
                     onclick="CloseButton()">Annuler</button>
-                <button style="flex:1;margin-left:7em;" type="submit" style="text-allign:end">Confirmer</button>
+                <button style="flex:1;margin-left:7em;" type="submit" style="text-allign:end" name="Confirmation">Confirmer</button>
             </div>
         </form>
     </div>
