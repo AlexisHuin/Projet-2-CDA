@@ -8,27 +8,14 @@ use Model\AdherentModel;
 
 use Controller\SessionController;
 
- // Deplacé la clef etranger dans la table InfosReglement, pour récupération de données.
 abstract class InfosReglementController
 {
-    public static function AddInfosReglement(array|string|object $datas): string
+    public static function AddInfosReglement(array|string|object $datas): void
     {
 
         $infosReglement = new InfosReglementModel();
-        $adherent = new AdherentModel();
-        $adherent->IdAdherents = $_SESSION['user']['IdRole'];
-        $result = $adherent->Find('InfosReglementAdherent', 'Fetch');
-        if ($result) {
-            $infosReglement->IdInfosReglement = $result['InfosReglementAdherent'];
-            var_dump( $result['InfosReglementAdherent']);
-            $infos = $infosReglement->Find();
-            var_dump($infos);
-            die;
-        } else {
-            $infos = false;
-        }
-
-
+        $infosReglement->IdAdherentInfosReglement = $_SESSION['user']['IdRole'];
+        $result = $infosReglement->Find('IdInfosReglement', 'Fetch');
 
         if (strlen($datas['NumeroCB']) !== 16) {
             ExceptionHandler::SetUserError("Veuillez insérer un numéro valide");
@@ -47,17 +34,18 @@ abstract class InfosReglementController
             $infosReglement->TitulaireInfosReglement = $datas['Titulaire'];
             $infosReglement->ExpirationInfosReglement = (new DateTime($datas['DateExpiration']))->format('m-y');
             $infosReglement->CVVInfosReglement = password_hash($datas['CVV'], PASSWORD_ARGON2I);
-            if ($infos) {
-                $infosReglement->Where($infosReglement, $infosReglement->IdInfosReglement);
+            if ($result) {
+                $infosReglement->Where($result['IdInfosReglement']);
                 $infosReglement->Update();
+                header('Refresh:1;' . $_SERVER['REQUEST_URI']);
+                echo 'Modifié avec succés';
             } else {
                 $infosReglement->Save();
+                header('Refresh:1;' . $_SERVER['REQUEST_URI']);
+                echo 'Ajouté avec succés';
             }
-            $Succes = 'Ajouter avec succés';
-            return $Succes;
         } else {
-            $Succes = 'Echec';
-            return $Succes;
+            var_dump($errors);
         }
     }
 }

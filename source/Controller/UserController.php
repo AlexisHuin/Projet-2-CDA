@@ -174,12 +174,11 @@ class UserController extends MainController
     {
 
         $this->connectCheck('user');
-        $Succes = '';
         if (isset($_POST["Confirmation"])) {
 
             $datas = $this->validate($_POST, ['Titulaire', 'NumeroCB', 'DateExpiration', 'CCV']);
             if ($datas) {
-                $Succes = InfosReglementController::AddInfosReglement($datas);
+                InfosReglementController::AddInfosReglement($datas);
             } else {
                 ExceptionHandler::SetUserError("Veuillez remplir tout les champs");
             }
@@ -201,7 +200,6 @@ class UserController extends MainController
         ViewController::Init('smarty');
         ViewController::Set('title', 'Profile');
         ViewController::Set('SessionInfo', $_SESSION['user']);
-        ViewController::Set('Succes', $Succes);
         ViewController::Set('Infos', $Infos);
         ViewController::Display('ProfileView');
     }

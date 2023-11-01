@@ -83,7 +83,7 @@ class AdminController extends MainController
         if (isset($_POST['Accept'])) {
 
             $Demandes->EtatDemande = "Accepted";
-            $Demandes->Where($Demandes, $_POST['Id']);
+            $Demandes->Where($_POST['Id']);
 
             $Demandes->Update();
             $this->TraitementDemande($Demandes->EtatDemande);
@@ -95,7 +95,7 @@ class AdminController extends MainController
 
         if (isset($_POST['Deny'])) {
             $Demandes->EtatDemande = "Denied";
-            $Demandes->Where($Demandes, $_POST['Id']);
+            $Demandes->Where($_POST['Id']);
 
             $Demandes->Update();
             $this->TraitementDemande($Demandes->EtatDemande);
@@ -356,7 +356,7 @@ class AdminController extends MainController
         switch ($_POST['Objet']) {
             case "Prix":
                 if ($state === "Accepted") {
-                    $ProduitProducteur->Where($ProduitProducteur, $_POST['IdProduitProducteur']);
+                    $ProduitProducteur->Where($_POST['IdProduitProducteur']);
                     $ProduitProducteur->PrixProduitProducteur = $_POST['Prix'];
                     $ProduitProducteur->DateModifPrixProduitProducteur = date('Y-m-d H:i');
 
@@ -376,7 +376,7 @@ class AdminController extends MainController
                 break;
             case "Ajout":
                 if ($state === "Accepted") {
-                    $ProduitProducteur->Where($ProduitProducteur, $_POST['IdProduitProducteur']);
+                    $ProduitProducteur->Where($_POST['IdProduitProducteur']);
                     $ProduitProducteur->IsValidateProduitProducteur = true;
 
                     $ProduitProducteur->Update();

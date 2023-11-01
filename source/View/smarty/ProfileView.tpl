@@ -1,6 +1,5 @@
 {include file="../Partials/_HeaderView.tpl"}
 
-    <h3>{$Succes}</h3>
 {if $SessionInfo['RoleUser'] === "Adherent" }
     <div class="adh">
         <h1>Espace Adhérent</h1>
@@ -30,7 +29,7 @@
             </div>
             <div>
             <label for="DateExpiration">Date expiration</label>
-            <input type="month" name="DateExpiration">
+            <input type="date" name="DateExpiration">
             <label for="CVV">CVV</label>
             <input type="text" name="CVV">
            

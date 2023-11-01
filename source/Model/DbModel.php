@@ -39,16 +39,16 @@ class DbModel
         return $this->datas[$var];
     }
 
-    public function Where(object $Object, string|int|array $whereVal, string|array $property = 'id'): int|string|array|object
+    public function Where(string|int|array $whereVal, string|array $property = 'id'): int|string|array|object
     {
         if (is_array($property)) {
             for ($i = 0; $i < count($property); $i++) {
                 $cleanProp = stripslashes($property[$i]);
-                $whereCond = $Object->$cleanProp;
+                $whereCond = $this->$cleanProp;
                 $this->where[$whereCond] = $whereVal[$i];
             }
         } else {
-            $this->where[$Object->$property] = $whereVal;
+            $this->where[$this->$property] = $whereVal;
         }
 
         return $this->where;
@@ -98,9 +98,6 @@ class DbModel
 
             $sql .= $And . $whereConds[$i] . " = " . $whereVals[$i];
         }
-
-        
-        
        
         $rq = self::$db->prepare($sql);
         return $rq->execute($this->datas);
@@ -175,7 +172,6 @@ class DbModel
             if ($limit > 0) {
                 $sql .= ' LIMIT ' . $limit;
             }
-            echo $sql ;
             
             $rq = self::$db->prepare($sql);
             $rq->execute($this->datas);
