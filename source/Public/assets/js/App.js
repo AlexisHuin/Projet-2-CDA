@@ -109,9 +109,7 @@ function Paiement() {
 }
 
 function CloseButton() {
-  let cancelBtn = document.getElementById("cancel");
-
-  cancelBtn.addEventListener("click", () => {
+ 
     document.querySelector("#paiementCoor").style.display = "none";
-  });
+  
 }
