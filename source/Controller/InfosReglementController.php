@@ -30,10 +30,10 @@ abstract class InfosReglementController
         $errors = ExceptionHandler::GetUserError();
 
         if (count($errors) == 0) {
-            $infosReglement->CodeCBInfosReglement = password_hash($datas['NumeroCB'], PASSWORD_ARGON2I);
+            $infosReglement->CodeCBInfosReglement = password_hash($datas['NumeroCB'], PASSWORD_ARGON2ID);
             $infosReglement->TitulaireInfosReglement = $datas['Titulaire'];
             $infosReglement->ExpirationInfosReglement = (new DateTime($datas['DateExpiration']))->format('m-y');
-            $infosReglement->CVVInfosReglement = password_hash($datas['CVV'], PASSWORD_ARGON2I);
+            $infosReglement->CVVInfosReglement = password_hash($datas['CVV'], PASSWORD_ARGON2ID);
             if ($result) {
                 $infosReglement->Where($result['IdInfosReglement']);
                 $infosReglement->Update();

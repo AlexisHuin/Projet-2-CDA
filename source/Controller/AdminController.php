@@ -8,7 +8,7 @@ use Controller\ViewController;
 use Model\SaisonModel;
 use Model\CategorieModel;
 use Model\ProduitModel;
-// Adherents
+// Adherent
 use Model\AdherentModel;
 // Producteurs
 use Model\ProducteurModel;
@@ -116,49 +116,49 @@ class AdminController extends MainController
         ViewController::Display('admin/DashboardView');
     }
 
-    public function AdherentsList(): void
+    public function AdherentList(): void
     {
         $this->connectCheck('admin');
 
-        $Adherents = new AdherentModel();
+        $Adherent = new AdherentModel();
 
         if (isset($_POST['Delete'])) {
-            $this->Delete($Adherents, 'IdAdherents', $_POST['Id'], "AdherentsList");
+            $this->Delete($Adherent, 'IdAdherent', $_POST['Id'], "AdherentList");
         } else {
-            $Liste = $Adherents->Find();
+            $Liste = $Adherent->Find();
         }
 
         ViewController::Init('smarty');
         ViewController::Set('title', 'Liste des adherents');
         ViewController::Set('Liste', $Liste);
-        ViewController::Display('admin/AdherentsListView');
+        ViewController::Display('admin/AdherentListView');
     }
 
-    public function ModifAdherents($id): void
+    public function ModifAdherent($id): void
     {
         $this->connectCheck('admin');
 
-        $Adherents = new AdherentModel();
+        $Adherent = new AdherentModel();
 
-        $Adherents->IdAdherents = $id['id'];
+        $Adherent->IdAdherent = $id['id'];
 
         if (isset($_POST['Update'])) {
             $datas = $this->validate($_POST, ['NPrenom', 'Tel', 'Mail', 'CP', 'GPS']);
             $this->Update(
                 $datas,
-                $Adherents,
-                ['NomPrenomAdherents', 'PhoneAdherents', 'MailAdherents', 'CodePostalAdherents', 'CoordonneesGPSAdherents', 'RaisonSocialeProducteur'],
-                'IdAdherents',
-                "AdherentsList"
+                $Adherent,
+                ['NomPrenomAdherent', 'PhoneAdherent', 'MailAdherent', 'CodePostalAdherent', 'CoordonneesGPSAdherent', 'RaisonSocialeProducteur'],
+                'IdAdherent',
+                "AdherentList"
             );
         }
 
-        $Liste = $Adherents->Find('*', 'Fetch');
+        $Liste = $Adherent->Find('*', 'Fetch');
 
         ViewController::Init('smarty');
         ViewController::Set('title', 'Modifier l\'adherent');
         ViewController::Set('adherent', $Liste);
-        ViewController::Display('admin/ModifAdherentsView');
+        ViewController::Display('admin/ModifAdherentView');
     }
 
     public function ProducteursList(): void
@@ -206,7 +206,6 @@ class AdminController extends MainController
         ViewController::Display('admin/ModifProducteurView');
     }
 
-    // TODO
     public function ProduitsProducteursList($id): void
     {
         $this->connectCheck('admin');
@@ -214,7 +213,7 @@ class AdminController extends MainController
         $ProduitProducteur = new ProduitProducteurModel();
 
         if (isset($_POST['Delete'])) {
-            $this->Delete($ProduitProducteur, 'IdProducteur', $_POST['Id'], "ProducteursList");
+            $this->Delete($ProduitProducteur, 'IdProduitProducteur', $_POST['Id'], "ProducteursList");
         } else {
             $Liste = $ProduitProducteur->getProduitProducteur($id['id']);
         }
@@ -433,7 +432,7 @@ class AdminController extends MainController
 
         if ($IsUser) {
             $Liste = $object->Find('*', 'Fetch');
-            in_array('MailProducteur', array_keys($Liste)) ? $Email = $Liste['MailProducteur'] : $Email = $Liste['MailAdherents'];
+            in_array('MailProducteur', array_keys($Liste)) ? $Email = $Liste['MailProducteur'] : $Email = $Liste['MailAdherent'];
 
             $User = new UserModel();
             $UserToDelete = $User->JoinUsers($_POST['Role'], $Email);

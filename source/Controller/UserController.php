@@ -72,13 +72,13 @@ class UserController extends MainController
                     switch ($User->RoleUser) {
                         case "Adherent":
 
-                            $Adherent->NomPrenomAdherents = htmlspecialchars($datas['Nom'] . " " . ($datas['Prenom']));
-                            $Adherent->PhoneAdherents = htmlspecialchars($datas['Tel']);
-                            $Adherent->CoordonneesGPSAdherents = htmlspecialchars($datas['GPS']);
-                            $Adherent->CodePostalAdherents = htmlspecialchars($datas['CodePostal']);
+                            $Adherent->NomPrenomAdherent = htmlspecialchars($datas['Nom'] . " " . ($datas['Prenom']));
+                            $Adherent->PhoneAdherent = htmlspecialchars($datas['Tel']);
+                            $Adherent->CoordonneesGPSAdherent = htmlspecialchars($datas['GPS']);
+                            $Adherent->CodePostalAdherent = htmlspecialchars($datas['CodePostal']);
                             // explique le (new dateTime())
-                            $Adherent->DateDebutAdherents = (new DateTime())->format('Y-m-d');
-                            $Adherent->MailAdherents = htmlspecialchars($datas['Email']);
+                            $Adherent->DateDebutAdherent = (new DateTime())->format('Y-m-d');
+                            $Adherent->MailAdherent = htmlspecialchars($datas['Email']);
                             $IdRole = $Adherent->Save();
                             break;
 
@@ -132,11 +132,11 @@ class UserController extends MainController
                 if ($Log) {
                     if (password_verify($_POST['Pass'], $Log['MdpUser'])) {
                         if ($Log['RoleUser'] === 'Adherent') {
-                            $Adherent->MailAdherents = $datas['Email'];
+                            $Adherent->MailAdherent = $datas['Email'];
                             $Result = $Adherent->Find('*', 'Fetch');
                             $UserArr = [
                                 'Id' => $Log['IdUser'],
-                                'IdRole' => $Result['IdAdherents'],
+                                'IdRole' => $Result['IdAdherent'],
                                 'Email' => $User->EmailUser,
                                 'RoleUser' => $Log['RoleUser'],
                                 'Username' => $Log['UsernameUser']
@@ -188,7 +188,7 @@ class UserController extends MainController
         switch ($_SESSION['user']['RoleUser']) {
             case "Adherent":
                 $NewUser = new AdherentModel();
-                $NewUser->MailAdherents = $_SESSION['user']['Email'];
+                $NewUser->MailAdherent = $_SESSION['user']['Email'];
                 break;
             case "Producteur":
                 $NewUser = new ProducteurModel();
@@ -198,10 +198,33 @@ class UserController extends MainController
         $Infos = $NewUser->Find('*', 'Fetch');
 
         ViewController::Init('smarty');
+        ViewController::Set('URI', $_SERVER['REQUEST_URI']);
         ViewController::Set('title', 'Profile');
         ViewController::Set('SessionInfo', $_SESSION['user']);
         ViewController::Set('Infos', $Infos);
         ViewController::Display('ProfileView');
+    }
+
+    private function UpdateAdherentProfil(): void
+    {
+        $idUser = $_SESSION['user']['IdRole'];
+
+        if (is_array($_POST['modification'])) {
+            foreach ($_POST['modification'] as $IdAdherent => $datas) {
+
+                $datas = $this->validate($datas, ['NomPrenomAdherent', 'PhoneAdherent', 'MailAdherent', 'CodePostalAdherent', 'CoordonneesGPSAdherent']);
+                if ($datas !== false) {
+
+                    $AdherentModif = new AdherentModel();
+                    $AdherentModif->NomPrenomAdherent = 'NomPrenomAdherent';
+                    $AdherentModif->PhoneAdherent = 'PhoneAdherent';
+                    $AdherentModif->MailAdherent = 'MailAdherent';
+                    $AdherentModif->CodePostalAdherent = 'CodePostalAdherent';
+                    $AdherentModif->CoordonneesGPSAdherent = 'CoordonneesGPSAdherent';
+                    $AdherentModif->Save();
+                }
+            }
+        }
     }
 
     // Déconnection de l'utilisateur
