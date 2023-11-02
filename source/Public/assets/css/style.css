@@ -331,3 +331,7 @@ iframe {
 .notification-dropdown a:hover {
   background-color: #f9f9f9;
 }
+
+#formProfil {
+  background-color: antiquewhite; padding:3em; border-radius:2em; height: 50%; width: 50%
+}

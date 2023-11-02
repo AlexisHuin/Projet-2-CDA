@@ -5,9 +5,9 @@
         <img src="../{$product['PhotoProduit']}" alt="{$product['DesignationProduit']}" />
     </a>
     <div class="product-description">
-        <h3>{$product['DesignationProduit']}</h3>
+        <h3 class="produit">{$product['DesignationProduit']}</h3>
         {if isset($product['DesignationCategorie'])}
-            <h3>{$product['DesignationCategorie']}</h3>
+            <h3 data-id="{$product['IdCategorie']}" class="categorie">{$product['DesignationCategorie']}</h3>
         {/if}
         {if isset($product['PrixProduitProducteur']) && isset($product['DetailsProduitProducteur']) && isset($product['QuantiteProduitProducteur']) && isset($product['ImageProduitProducteur'])}
             <input type="text" name="produit[{$product['IdProduitProducteur']}][DesignationProduitProducteur]"
