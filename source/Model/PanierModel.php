@@ -25,12 +25,12 @@ class PanierModel extends DbModel
 
     public function addToCart($IdProduit, $Quantite, $PrixPanier, $IdAdherentPanier)
     {
-        $query = "INSERT INTO Panier (IdProduit, Quantite, PrixPanier, IdAdherentsPanier) VALUES (:IdProduit, :Quantite, :PrixPanier, :IdAdherentsPanier)";
+        $query = "INSERT INTO Panier (IdProduit, Quantite, PrixPanier, IdAdherentPanier) VALUES (:IdProduit, :Quantite, :PrixPanier, :IdAdherentPanier)";
         $stmt = $this->db->prepare($query);
         $stmt->bindParam(':IdProduit', $IdProduit);
         $stmt->bindParam(':Quantite', $Quantite);
         $stmt->bindParam(':Prix', $PrixPanier);
-        $stmt->bindParam(':IdAdherentsPanier', $IdAdherentPanier);
+        $stmt->bindParam(':IdAdherentPanier', $IdAdherentPanier);
         $stmt->execute();
     }
 
@@ -41,7 +41,7 @@ class PanierModel extends DbModel
         $query = "DELETE FROM Panier WHERE IdProduit = :IdPRoduit AND user_id = :userId";
         $stmt = $this->db->prepare($query);
         $stmt->bindParam(':IdProduit', $IdProduit);
-        $stmt->bindParam(':IdAdherentsPanier', $IdAdherentPanier);
+        $stmt->bindParam(':IdAdherentPanier', $IdAdherentPanier);
         $stmt->execute();
     }
 

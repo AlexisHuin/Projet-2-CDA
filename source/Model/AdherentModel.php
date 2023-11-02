@@ -5,20 +5,22 @@ use Model\DbModel;
 
 class AdherentModel extends DbModel
 {
-    protected string $table = 'Adherents';  
-    protected string $id = 'IdAdherents';
+    protected string $table = 'Adherent';  
+    protected string $id = 'IdAdherent';
     
 
     
-    public function getAdherents() : object|array|string
+    public function getAdherent() : object|array|string
     {
-        return $this->Select('Select * from Adherents',[]);
+        return $this->Select('Select * from Adherent',[]);
     }
 
     public function getIdAdherent()
     {
         return $this->id;     
     }
+
+    
 }
 
 ?>

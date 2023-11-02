@@ -3,7 +3,7 @@
 
 <a href="/User/Deconnexion">Deconnexion</a>
 
-<button><a href="/Admin/AdherentsList">Liste des adherents</a></button>
+<button><a href="/Admin/AdherentList">Liste des adherents</a></button>
 <button><a href="/Admin/ProducteursList">Liste des producteurs</a></button>
 <button><a href="/Admin/ProductsList">Liste des produits</a></button>
 
