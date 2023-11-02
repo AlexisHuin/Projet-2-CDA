@@ -2,7 +2,7 @@
 
     <a href="/DescriptifProduit/{$product['IdProduit']}">
 
-        <img src="{$product['PhotoProduit']}" alt="{$product['DesignationProduit']}" />
+        <img src="../{$product['PhotoProduit']}" alt="{$product['DesignationProduit']}" />
     </a>
     <div class="product-description">
         <h3>{$product['DesignationProduit']}</h3>

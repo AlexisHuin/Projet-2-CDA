@@ -66,7 +66,7 @@ class PanierController extends HomeController
         $panier->IdProduitProducteurPanier = $_POST['IdProduit'];
         $panier->QuantitePanier = $_POST['Quantite'];
         $panier->PrixPanier = $PrixTotalLignePanier;
-        $panier->IdAdherentsPanier = $_SESSION['user']['IdRole'];
+        $panier->IdAdherentPanier = $_SESSION['user']['IdRole'];
     
         exit(); // Assurez-vous que cela est utilisé dans le contexte approprié de votre application
     }

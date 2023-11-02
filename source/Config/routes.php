@@ -72,13 +72,13 @@ $routes = [
         'method'=>['GET', 'POST'],
         'controller'=>['Controller\AdminController','Dashboard']
     ],
-    '/Admin/AdherentsList' => [
+    '/Admin/AdherentList' => [
         'method'=>['GET', 'POST'],
-        'controller'=>['Controller\AdminController','AdherentsList']
+        'controller'=>['Controller\AdminController','AdherentList']
     ],
-    '/Admin/ModifAdherents{id:\d+}' => [
+    '/Admin/ModifAdherent{id:\d+}' => [
         'method'=>['GET', 'POST'],
-        'controller'=>['Controller\AdminController','ModifAdherents']
+        'controller'=>['Controller\AdminController','ModifAdherent']
     ],
     '/Admin/ProducteursList' => [
         'method'=>['GET', 'POST'],
