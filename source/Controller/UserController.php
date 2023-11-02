@@ -184,6 +184,26 @@ class UserController extends MainController
             }
         }
 
+        if (isset($_POST["modification"])) {
+            if ($_SESSION['user']['RoleUser'] === "Adherent") 
+            {
+                $NewUser = new AdherentModel();
+                $datas = $this->validate($_POST, ['NomPrenomAdherent', 'PhoneAdherent', 'CodePostalAdherent', 'CoordonneesGPSAdherent']);
+                $this->UpdateProfil($datas, $NewUser, ['NomPrenomAdherent', 'PhoneAdherent', 'CodePostalAdherent', 'CoordonneesGPSAdherent'], '/User/Profile');
+        }
+            else if ($_SESSION['user']['RoleUser'] === "Producteur") 
+            { 
+                $NewUser = new ProducteurModel();
+                $datas = $this->validate($_POST, ['NomPrenomProducteur', 'PhoneProducteur', 'CodePostalProducteur', 'CoordonneesGPSProducteur', 'RaisonSocialeProducteur']);
+                $this->UpdateProfil($datas, $NewUser, ['NomPrenomProducteur', 'PhoneProducteur', 'CodePostalProducteur', 'CoordonneesGPSProducteur', 'RaisonSocialeProducteur'], '/User/Profile');
+    }
+          
+            } else {
+                ExceptionHandler::SetUserError("Veuillez remplir tout les champs");
+            }
+        
+
+
 
         switch ($_SESSION['user']['RoleUser']) {
             case "Adherent":
@@ -205,27 +225,46 @@ class UserController extends MainController
         ViewController::Display('ProfileView');
     }
 
-    private function UpdateAdherentProfil(): void
+    // private function UpdateProfil($datas): void
+    // {
+    //     $idUser = $_SESSION['user']['IdRole'];
+
+    //     $AdherentModif = new AdherentModel();
+    //     $AdherentModif->NomPrenomAdherent = $datas['NomPrenomAdherent'];
+    //     $AdherentModif->PhoneAdherent = $datas['PhoneAdherent'];
+    //     $AdherentModif->CodePostalAdherent = $datas['CodePostalAdherent'];
+    //     $AdherentModif->CoordonneesGPSAdherent = $datas['CoordonneesGPSAdherent'];
+    //     $AdherentModif->Where($idUser);
+    //     $AdherentModif->Update();
+    //     header('Refresh:1;/User/Profile');
+    //     echo 'Modifications effectuées';
+    //     exit();
+    // } 
+
+    private function UpdateProfil(array|string $datas, object $object, array $properties, string $header): bool
     {
-        $idUser = $_SESSION['user']['IdRole'];
 
-        if (is_array($_POST['modification'])) {
-            foreach ($_POST['modification'] as $IdAdherent => $datas) {
+        if (empty($datas)) {
+            return false;
+        } else {
+            $idUser = $_SESSION['user']['IdRole'];
+            $keys = array_values($datas);
 
-                $datas = $this->validate($datas, ['NomPrenomAdherent', 'PhoneAdherent', 'MailAdherent', 'CodePostalAdherent', 'CoordonneesGPSAdherent']);
-                if ($datas !== false) {
-
-                    $AdherentModif = new AdherentModel();
-                    $AdherentModif->NomPrenomAdherent = 'NomPrenomAdherent';
-                    $AdherentModif->PhoneAdherent = 'PhoneAdherent';
-                    $AdherentModif->MailAdherent = 'MailAdherent';
-                    $AdherentModif->CodePostalAdherent = 'CodePostalAdherent';
-                    $AdherentModif->CoordonneesGPSAdherent = 'CoordonneesGPSAdherent';
-                    $AdherentModif->Save();
-                }
+            for ($i = 0; $i != (count($keys) - 1); $i++) {
+                $cleanProp = stripslashes($properties[$i]);
+                $object->$cleanProp = $keys[$i];
             }
+
+            $object->Where($idUser);
+
+            $object->Update();
+            header('Refresh:1;' . $header);
+            echo "Modifié avec succès";
+            exit();
         }
+        return true;
     }
+
 
     // Déconnection de l'utilisateur
     public function Deconnexion(): void
