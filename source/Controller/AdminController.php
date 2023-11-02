@@ -206,7 +206,6 @@ class AdminController extends MainController
         ViewController::Display('admin/ModifProducteurView');
     }
 
-    // TODO
     public function ProduitsProducteursList($id): void
     {
         $this->connectCheck('admin');
@@ -214,7 +213,7 @@ class AdminController extends MainController
         $ProduitProducteur = new ProduitProducteurModel();
 
         if (isset($_POST['Delete'])) {
-            $this->Delete($ProduitProducteur, 'IdProducteur', $_POST['Id'], "ProducteursList");
+            $this->Delete($ProduitProducteur, 'IdProduitProducteur', $_POST['Id'], "ProducteursList");
         } else {
             $Liste = $ProduitProducteur->getProduitProducteur($id['id']);
         }
