@@ -409,7 +409,7 @@ class AdminController extends MainController
                 $object->$cleanProp = $keys[$i];
             }
 
-            $object->Where($object, $object->$whereClause);
+            $object->Where($object->$whereClause);
 
             $object->Update();
             header('Refresh:1;/Admin/' . $header);
