@@ -10,6 +10,7 @@ class DbModel
     private array $datas;
     private array $where = [];
     private array $order = [];
+    private array $join = [];
 
     static function Connect(): void
     {
@@ -52,6 +53,20 @@ class DbModel
         }
 
         return $this->where;
+    }
+
+    // This functions takes an associative array as argument.
+    public function Join(array $fieldsJoin, array $tableJoin): int|string|array|object
+    {
+        $keys = array_keys($tableJoin);
+        $values = array_values($tableJoin);
+
+        for ($i = 0; $i < count($fieldsJoin); $i++) {
+            $field = stripslashes($fieldsJoin[$i]);
+            $this->join[$field] = $keys[$i] . "." . $values[$i];
+        }
+
+        return $this->join;
     }
 
     // public function Order(array $order=[]): int|string|array|object
@@ -98,7 +113,7 @@ class DbModel
 
             $sql .= $And . $whereConds[$i] . " = " . $whereVals[$i];
         }
-       
+
         $rq = self::$db->prepare($sql);
         return $rq->execute($this->datas);
     }
@@ -147,44 +162,50 @@ class DbModel
         return $rq->fetchAll();
     }
 
-// WESH NICO SELECTIONNE CHAMP A SELECT
-
     public function Find(
         string $champSelect = '*',
         string $fetch = 'FetchAll',
         int $limit = 0,
-        
     ) {
 
-        if (!empty($this->datas)) {
-           
-            $columns = array_keys($this->datas);
+        $sql    = 'SELECT ' . $champSelect  . ' FROM ' . $this->table;
 
-            
-            $sql    = 'SELECT ' . $champSelect  . ' FROM ' . $this->table . ' WHERE ';
+        if (!empty($this->join)) {
+
+            $joinKeys = array_keys($this->join);
+            $joinValues = array_values($this->join);
+
+            $sql = 'SELECT ' . $champSelect  . ' FROM ' . $this->table . ' JOIN ';
+
+            for ($i = 0; $i < count($joinKeys); $i++) {
+                $i > 0 ? $Join = ' JOIN ' : $Join = "";
+
+                $separate = explode(".", $joinValues[$i]);
+                $table = $separate[0];
+
+                $sql .= $Join . $table . " ON " . $this->table . "." . $joinKeys[$i] . " = " . $joinValues[$i];
+            }
+        }
+
+        if (!empty($this->datas)) {
+            $columns = array_keys($this->datas);
+            $sql .= ' WHERE ';
 
             foreach ($columns as $key => $column) {
                 $sql   .= $column . '=:' . $column;
                 if ($key < (count($columns) - 1))
                     $sql   .= ',';
             }
-           
-            if ($limit > 0) {
-                $sql .= ' LIMIT ' . $limit;
-            }
-            
-            $rq = self::$db->prepare($sql);
-            $rq->execute($this->datas);
-            
-        } else {
+        } 
 
-            $sql = 'SELECT ' . $champSelect  . ' FROM ' . $this->table;
-            if ($limit > 0) {
-                $sql .= ' LIMIT ' . $limit;
-            }
-            
-            
-            $rq = self::$db->prepare($sql);
+        if ($limit > 0) {
+            $sql .= ' LIMIT ' . $limit;
+        }
+
+        $rq = self::$db->prepare($sql);
+        if(isset($columns)){
+            $rq->execute($this->datas);
+        } else{
             $rq->execute();
         }
 
