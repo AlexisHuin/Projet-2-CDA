@@ -62,10 +62,10 @@ class HomeController extends MainController
 
             if ($now >= $debut && $now <= $fin) {
                 $produits[] = [
-                    "DesignationProduit" => $datas[$i]['DesignationProduit'],
-                    "DesignationCategorie" => $datas[$i]['DesignationCategorie'],
                     "IdProduit" => $datas[$i]['IdProduit'],
                     "DesignationProduit" => $datas[$i]['DesignationProduit'],
+                    "IdCategorie" => $datas[$i]['IdCategorieProduit'],
+                    "DesignationCategorie" => $datas[$i]['DesignationCategorie'],
                     "PhotoProduit" => $datas[$i]['PhotoProduit'],
                 ];
             }

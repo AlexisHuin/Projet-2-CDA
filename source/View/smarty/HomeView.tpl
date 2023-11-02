@@ -11,18 +11,14 @@
         </div>
     </div>
 
-    <form action="" method="post">
-        <label for="type">Type :</label>
-        <select id="type" name="IdCategorieProduit">
-            <option value="">Tous les types</option>
-            {foreach key=key item=categorie from=$categories}
-                <option value="{$categorie.IdCategorie}">{$categorie.DesignationCategorie}</option>
-            {/foreach}
-        </select>
-
-        <input type="text" name="DesignationProduit" id="productName" placeholder="Nom du produit">
-        <button type="submit">Filtrer</button>
-    </form>
+    <label for="type">Type :</label>
+    <select id="type" name="IdCategorieProduit">
+        <option value="all">Tous</option>
+        {foreach key=key item=categorie from=$categories}
+            <option value="{$categorie.IdCategorie}">{$categorie.DesignationCategorie}</option>
+        {/foreach}
+    </select>
+    <input type="text" name="DesignationProduit" id="productName" placeholder="Nom du produit">
 
     <div class="products">
         {foreach key=key item=product from=$products}
