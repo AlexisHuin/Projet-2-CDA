@@ -53,17 +53,16 @@ class PanierController extends HomeController
         
         
          array_push($_SESSION['panier'], [
-          "IdProduitProducteur" => $_POST["IdProduit"],
+          "IdProduit" => $_POST["IdProduit"],
           "Quantite" => $_POST["Quantite"],
-         
+          
          ]);
-       
-        
 
         $panier = new PanierModel();
     
         // Calcul du prix total de la ligne de panier
         $PrixTotalLignePanier = $_POST['Quantite'];
+        var_dump($PrixTotalLignePanier);
     
         // Définition des propriétés de l'objet PanierModel
         $panier->IdProduitProducteurPanier = $_POST['IdProduit'];
