@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : db
--- Généré le : jeu. 02 nov. 2023 à 15:36
+-- Généré le : jeu. 02 nov. 2023 à 15:39
 -- Version du serveur : 11.1.2-MariaDB-1:11.1.2+maria~ubu2204
 -- Version de PHP : 8.2.11
 
@@ -253,42 +253,42 @@ INSERT INTO `Produit` (`IdProduit`, `DesignationProduit`, `IdSaisonProduit`, `Id
 (1, 'Pomme Gala', 1, 1, 'assets/images/Pomme.jpg'),
 (2, 'Carotte Orange', 2, 2, 'assets/images/Carrote.jpg'),
 (3, 'Ananas Victoria', 3, 3, 'assets/images/Ananas.jpg'),
-(4, 'Patate Douce', 4, 1, 'assets/images/PatateDouce.jpg'),
-(5, 'Mangue Alphonso', 1, 2, 'assets/images/Mangue.jpg'),
-(6, 'Brocoli', 2, 3, 'assets/images/Brocoli.jpg'),
+(4, 'Patate Douce', 4, 2, 'assets/images/PatateDouce.jpg'),
+(5, 'Mangue Alphonso', 1, 3, 'assets/images/Mangue.jpg'),
+(6, 'Brocoli', 2, 2, 'assets/images/Brocoli.jpg'),
 (7, 'Poire Williams', 3, 1, 'assets/images/Poire.jpg'),
 (8, 'Tomate Roma', 4, 2, 'assets/images/Tomate.jpg'),
 (9, 'Papaye Solo', 1, 3, 'assets/images/Papaye.jpg'),
-(10, 'Courgette Verte', 2, 1, 'assets/images/Courgette.jpg'),
-(11, 'Pomelo Rose', 3, 2, 'assets/images/Pomelo.jpg'),
+(10, 'Courgette Verte', 2, 2, 'assets/images/Courgette.jpg'),
+(11, 'Pomelo Rose', 3, 3, 'assets/images/Pomelo.jpg'),
 (12, 'Figue Noire', 4, 3, 'assets/images/Figue.jpg'),
-(13, 'Banane Cavendish', 1, 1, 'assets/images/Bananas.jpg'),
+(13, 'Banane Cavendish', 1, 3, 'assets/images/Bananas.jpg'),
 (14, 'Épinard Frais', 2, 2, 'assets/images/Epinard.jpg'),
 (15, 'Kiwi Hayward', 3, 3, 'assets/images/Kiwi.jpg'),
-(16, 'Aubergine Longue', 4, 1, 'assets/images/Aubergine.jpg'),
-(17, 'Pastèque Sugar Baby', 1, 2, 'assets/images/Pasteque.jpg'),
-(18, 'Chou-fleur', 2, 3, 'assets/images/ChouFleur.jpg'),
+(16, 'Aubergine Longue', 4, 2, 'assets/images/Aubergine.jpg'),
+(17, 'Pastèque Sugar Baby', 1, 3, 'assets/images/Pasteque.jpg'),
+(18, 'Chou-fleur', 2, 2, 'assets/images/ChouFleur.jpg'),
 (19, 'Raisin Thompson', 3, 1, 'assets/images/Raisin.jpg'),
 (20, 'Poivron Rouge', 4, 2, 'assets/images/Poivron.jpg'),
 (21, 'Litchi', 1, 3, 'assets/images/Litchi.jpg'),
-(22, 'Pomme de Terre Russet', 2, 1, 'assets/images/PommeDeTerre.jpg'),
-(23, 'Melon Charentais', 3, 2, 'assets/images/Melon.jpg'),
-(24, 'Courge Butternut', 4, 3, 'assets/images/Butternut.jpg'),
+(22, 'Pomme de Terre Russet', 2, 2, 'assets/images/PommeDeTerre.jpg'),
+(23, 'Melon Charentais', 3, 1, 'assets/images/Melon.jpg'),
+(24, 'Courge Butternut', 4, 2, 'assets/images/Butternut.jpg'),
 (25, 'Orange Navel', 1, 1, 'assets/images/Orange.jpg'),
 (26, 'Poivron Jaune', 2, 2, 'assets/images/Poivron.jpg'),
-(27, 'Cerise Griotte', 3, 3, 'assets/images/Cerise.jpg'),
-(28, 'Asperge Verte', 4, 1, 'assets/images/Asperge.jpg'),
-(29, 'Fraise Gariguette', 1, 2, 'assets/images/Fraise.jpg'),
-(30, 'Haricot Vert', 2, 3, 'assets/images/HaricotVert.jpg'),
+(27, 'Cerise Griotte', 3, 1, 'assets/images/Cerise.jpg'),
+(28, 'Asperge Verte', 4, 2, 'assets/images/Asperge.jpg'),
+(29, 'Fraise Gariguette', 1, 1, 'assets/images/Fraise.jpg'),
+(30, 'Haricot Vert', 2, 2, 'assets/images/HaricotVert.jpg'),
 (31, 'Pêche de Vigne', 3, 1, 'assets/images/Peche.jpg'),
 (32, 'Ail Rose', 4, 2, 'assets/images/Ail.jpg'),
-(33, 'Citron Jaune', 1, 3, 'assets/images/Citron.jpg'),
-(34, 'Oignon Jaune', 2, 1, 'assets/images/Oignons.jpg'),
-(35, 'Abricot Bergeron', 3, 2, 'assets/images/Abricot.jpg'),
-(36, 'Concombre', 4, 3, 'assets/images/Concombre.jpg'),
-(37, 'Poireau', 1, 1, 'assets/images/Poireaux.jpg'),
+(33, 'Citron Jaune', 1, 1, 'assets/images/Citron.jpg'),
+(34, 'Oignon Jaune', 2, 2, 'assets/images/Oignons.jpg'),
+(35, 'Abricot Bergeron', 3, 1, 'assets/images/Abricot.jpg'),
+(36, 'Concombre', 4, 2, 'assets/images/Concombre.jpg'),
+(37, 'Poireau', 1, 2, 'assets/images/Poireaux.jpg'),
 (38, 'Céleri', 2, 2, 'assets/images/Celeri.jpg'),
-(39, 'Rhubarbe', 3, 3, 'assets/images/Rhubarde.jpg'),
+(39, 'Rhubarbe', 3, 2, 'assets/images/Rhubarde.jpg'),
 (40, 'Pomme Granny Smith', 4, 1, 'assets/images/Pomme.jpg'),
 (41, 'Champignon de Paris', 1, 2, 'assets/images/ChampignonDeParis.jpg'),
 (43, 'Mûre', 3, 1, 'assets/images/Mûre.jpg'),
@@ -565,7 +565,7 @@ ALTER TABLE `Producteur`
 -- AUTO_INCREMENT pour la table `Produit`
 --
 ALTER TABLE `Produit`
-  MODIFY `IdProduit` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
+  MODIFY `IdProduit` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
 
 --
 -- AUTO_INCREMENT pour la table `ProduitProducteur`
