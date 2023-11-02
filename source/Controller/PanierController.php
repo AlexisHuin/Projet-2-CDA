@@ -7,6 +7,7 @@ use Model\PanierModel;
 use Controller\ExceptionHandler;
 use Controller\ViewController;
 
+
 class PanierController extends HomeController
  
 { 
@@ -38,35 +39,38 @@ class PanierController extends HomeController
     {
         unset($_SESSION["panier"]);
         if (!$this->validate_array_format(["IdProduit", "Quantite"], $_POST) &&  
-        (intval($_POST["Quantite"]) > 10 && intval($_POST["Quantite"]) < 1)) {
+        (intval($_POST["Quantite"]) > 10 && intval($_POST["Quantite"]) < 1)) 
+
+        {
             echo "Paramètres incorrects";
             return;
         }
     
         if (!isset($_SESSION["panier"])) {
             $_SESSION["panier"] = [];
+            
         }
         
         
-        array_push($_SESSION['panier'], [
-            "IdProduitProducteur" => $_POST["IdProduit"],
-            // "Quantite" => $_POST["Quantite"],
-            // "PrixPanier" => $_POST['PrixProduitProducteur'],
-            // "IdAdherent" => $_SESSION['IdRole'],['user']
-        ]);
+         array_push($_SESSION['panier'], [
+          "IdProduitProducteur" => $_POST["IdProduit"],
+          "Quantite" => $_POST["Quantite"],
+         
+         ]);
        
         
 
         $panier = new PanierModel();
     
         // Calcul du prix total de la ligne de panier
-        $PrixTotalLignePanier = $_POST['Quantite'] * $_POST['PrixProduitProducteur'];
+        $PrixTotalLignePanier = $_POST['Quantite'];
     
         // Définition des propriétés de l'objet PanierModel
         $panier->IdProduitProducteurPanier = $_POST['IdProduit'];
         $panier->QuantitePanier = $_POST['Quantite'];
         $panier->PrixPanier = $PrixTotalLignePanier;
-        $panier->IdAdherentsPanier = $_SESSION['user']['IdRole'];
+        var_dump($_SESSION["panier"]);
+        
     
         exit(); // Assurez-vous que cela est utilisé dans le contexte approprié de votre application
     }

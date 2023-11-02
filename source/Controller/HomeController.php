@@ -62,6 +62,7 @@ class HomeController extends MainController
         ViewController::Display('HomeView');
     }
     
+    
     public function DescriptifProduit($params=[])
     {
        
@@ -77,10 +78,6 @@ class HomeController extends MainController
         ViewController::Set('h1', 'Smarty : Hello World !');
         ViewController::Set('produitProducteur',$Produit);
         ViewController::Display('DescriptifProduitView');
-        
-
-        
-    
     }
     
     
