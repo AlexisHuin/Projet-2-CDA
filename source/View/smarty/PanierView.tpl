@@ -2,14 +2,10 @@
 
 <body>
     <div>
-        {foreach from=$produits item=item key=key}
-            <h3>{$produit['nom']}</h3>
-            <p>Prix : {$produit['prix']}</p>
-            <p>Quantité : {$produit['Quantite']}</p>
+        {foreach from=$produit item=produit key=k}
+            {include file="../Partials/_CardView.tpl"}
         {/foreach}
-        {var_dump($panier)}
-
-
+        
     </div>
 </body>
 
