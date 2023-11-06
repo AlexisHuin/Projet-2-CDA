@@ -17,12 +17,16 @@ class PanierController extends HomeController
         
         $panier = PanierController::getPanier();
         $produits = [];
-        $prd = new ProduitModel();
-        foreach ($panier as $id => $quantite) {
-            $produits[$id] = $prd->getProduits();
-            $produits[$id]["Quantite"] = $quantite;
+        $prd = new ProduitProducteurModel();
+        foreach ($panier as $id => $Quantite) {
+            $datas = $prd->getProduitsProducteur($id);
+            if($datas !== false && !empty($datas))
+            {
+                $produits[$id] = $datas;
+                $produits[$id]["Quantite"] = $Quantite;
+            }
         }
-        
+
         if (isset($_GET["err"])) {
            
         }
@@ -33,17 +37,15 @@ class PanierController extends HomeController
 
     public function ajouterProduitPanier()
     {
-        if (!$this->validerFormatTableau(["IdProduit", "quantite"], $_POST) || (intval($_POST["quantite"]) > 10 && intval($_POST["quantite"]) < 1)) {
+        if (!$this->validerFormatTableau(["IdProduit", "Quantite"], $_POST) || (intval($_POST["Quantite"]) > 10 && intval($_POST["Quantite"]) < 1)) {
             echo "Paramètres incorrects";
             return;
         }
         if (!isset($_SESSION["panier"])) {
             $_SESSION["panier"] = [];
         }
-        $_SESSION["panier"][$_POST["IdProduit"]] = $_POST["quantite"];
-        $prd = new ProduitModel();
-        $typeid = $prd->getAllProduitsInfos();
-        header("Location: /produits/" . $typeid);
+        $_SESSION["panier"][$_POST["IdProduit"]] = $_POST["Quantite"];
+        header("Location: /produits/" . $_POST['IdProduit']);
         exit();
     }
 
@@ -61,19 +63,19 @@ class PanierController extends HomeController
         exit();
     }
 
-    static public function getPanier()
+    public function getPanier()
     {
         return $_SESSION["panier"];
     }
 
-    static public function viderPanier()
+    public function viderPanier()
     {
         unset($_SESSION["panier"]);
-        header("Location: /panier");
+        header("Location: /");
         exit();
     }
 
-    static function validerPanier(array $args, bool $redirect = true)
+    function validerPanier(array $args, bool $redirect = true)
     {
         if (Sessioncontroller::Start() === "adh") {
             header("Location: /");

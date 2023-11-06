@@ -17,6 +17,12 @@ class ProduitProducteurModel extends DbModel
         FROM ProduitProducteur INNER JOIN Produit ON ProduitProducteur.IdProduitProduitProducteur=Produit.IdProduit
         WHERE IdProducteurProduitProducteur=:IdProducteurProduitProducteur", [':IdProducteurProduitProducteur' => $id]);
     }
+    public function getProduitsProducteur($id): string|object|array
+    {
+        $this->IdProduitProduitProducteur = $id;
+        $result = $this->Find('*', 'Fetch');
+        return $result;
+    }
 
 
     // Méthode pour mettre à jour les informations d'un produit du producteur
