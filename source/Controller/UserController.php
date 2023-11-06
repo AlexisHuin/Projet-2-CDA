@@ -118,6 +118,15 @@ class UserController extends MainController
 
             $datas = $this->validate($_POST, ['Email', 'Pass']);
 
+
+
+
+
+
+
+
+
+            
             if ($datas) {
                 if (!filter_var($datas["Email"], FILTER_VALIDATE_EMAIL)) {
                     ExceptionHandler::SetUserError("Veuillez entrer une adresse e-mail valide.");
