@@ -2,24 +2,24 @@ let type = document.getElementById("type")
 let productName = document.getElementById("productName")
 let products = document.getElementsByClassName("product");
 
-type.addEventListener('input', filterProducts);
-productName.addEventListener('input', filterProducts);
+// type.addEventListener('input', filterProducts);
+// productName.addEventListener('input', filterProducts);
 
-function filterProducts() {
+// function filterProducts() {
 
-  for (let i = 0; i < products.length; i++) {
-    const product = products[i];
-    const productNameText = product.getElementsByClassName("product-description")[0].getElementsByClassName("produit")[0].innerText;
-    const productCategorie = product.getElementsByClassName("product-description")[0].getElementsByClassName("categorie")[0].getAttribute('data-id');
+//   for (let i = 0; i < products.length; i++) {
+//     const product = products[i];
+//     const productNameText = product.getElementsByClassName("product-description")[0].getElementsByClassName("produit")[0].innerText;
+//     const productCategorie = product.getElementsByClassName("product-description")[0].getElementsByClassName("categorie")[0].getAttribute('data-id');
 
-    if ((type.value === 'all' || productCategorie == type.value) &&
-      (productNameText.toLowerCase().includes(productName.value.toLowerCase()))) {
-      product.style.display = "block";
-    } else {
-      product.style.display = "none";
-    }
-  }
-};
+//     if ((type.value === 'all' || productCategorie == type.value) &&
+//       (productNameText.toLowerCase().includes(productName.value.toLowerCase()))) {
+//       product.style.display = "block";
+//     } else {
+//       product.style.display = "none";
+//     }
+//   }
+// };
 
 // Fonction pour gérer l'événement de pression des touches
 (function konamiCodeHandler() {
@@ -105,12 +105,20 @@ function filterProducts() {
   });
 })();
 
-function Paiement() {
-  document.querySelector("#paiementCoor").style.display = "flex";
+function CloseOpen(button, div, display) {
+
+  let target = document.querySelector(button);
+  target.addEventListener('click', ()=> {
+    document.querySelector(div).style.display = display;
+  })
+  
 }
 
-function CloseButton() {
+CloseOpen('.paiementButton', '#paiementCoor', 'flex')
+CloseOpen('#closeButton', '#paiementCoor', 'none')
+CloseOpen('#resiliationProfil', '#resiliationCoor', 'flex')
+CloseOpen('#closeRes', '#resiliationCoor', 'none')
 
-  document.querySelector("#paiementCoor").style.display = "none";
 
-}
+
+
