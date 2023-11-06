@@ -8,10 +8,9 @@
     
 {/foreach}
 
-<form method="POST" action="/panier/ajouter">
+<form method="POST" action="/panier">
 <label for="Quantite">Quantité :</label>
 <input type="number" id="Quantite" name="Quantite" min="0" >
-<input type="hidden" id="IdProduit" name="IdProduit" value="{$product['IdProduit']}" >
 <button type="submit">Ajouter au Panier</button>
 </form>
 
