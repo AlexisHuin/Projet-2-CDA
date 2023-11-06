@@ -71,7 +71,7 @@ class PanierController extends HomeController
     public function viderPanier()
     {
         unset($_SESSION["panier"]);
-        header("Location: /");
+        header("Location: /panier");
         exit();
     }
 
