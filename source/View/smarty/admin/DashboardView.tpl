@@ -18,7 +18,7 @@
             <p><strong>Prix de vente proposé : </strong>{$demandeEnCours.PrixProposeDemande}</p>
             <div style="place-self:center; width: 50%; display: flex; flex-direction: row; justify-content:space-between;">
                 <form method="post">
-                    <input type="hidden" name="Id" id="IdDemande" value="{$demandeEnCours.IdDemande}">
+                    <input type="hidden" name="Id" value="{$demandeEnCours.IdDemande}">
                     <input type="hidden" name="IdProduitProducteur" value="{$demandeEnCours.IdProduitProducteurDemande}">
                     <input type="hidden" name="DesignationProduit" value="{$demandeEnCours.DesignationProduitDemande}">
                     <input type="hidden" name="IdProd" value="{$demandeEnCours.IdProducteurDemande}">
@@ -52,4 +52,4 @@
     {/if}
 {/foreach}
 
-{* <script src="/assets/js/Admin.js"></script> *}
+<script src="/assets/js/Admin.js"></script>
