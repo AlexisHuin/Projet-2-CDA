@@ -67,18 +67,21 @@
 
                 <li class="notification-icon">
                     <a href="#"><img class="header_img" src="/assets/images/cart.svg" alt="Notifications"></a>
-                    <div class="notification-count">{$notificationCount}</div>
+                    <div class="notification-count">{* $notificationCount *}</div>
                     <div class="notification-dropdown">
-                        {foreach from=$notifications key=idx item=notification}
-                            <a href="{$notification.url}">{$notification.message}</a>
+                        {foreach from=$notifications key=k item=notification}
+                            <form action="">
+                                <p>{$}</p>
+                                <input type="submit" name="Delete">
+                            </form>
                         {/foreach}
                     </div>
                 </li>
-        
 
 
-                
+
+
             </ul>
 
         </nav>
-    </header>
+</header>

@@ -5,8 +5,10 @@ let products = document.getElementsByClassName("product");
 type.addEventListener('input', filterProducts);
 productName.addEventListener('input', filterProducts);
 
-function filterProducts() {
+let h2_exists = false;
 
+function filterProducts() {
+  let results = 0;
   for (let i = 0; i < products.length; i++) {
     const product = products[i];
     const productNameText = product.getElementsByClassName("product-description")[0].getElementsByClassName("produit")[0].innerText;
@@ -15,8 +17,17 @@ function filterProducts() {
     if ((type.value === 'all' || productCategorie == type.value) &&
       (productNameText.toLowerCase().includes(productName.value.toLowerCase()))) {
       product.style.display = "block";
+      results++;
     } else {
       product.style.display = "none";
+    }
+  }
+  if (results == 0) {
+    if (h2_exists === false) {
+      let h2 = document.createElement("h2");
+      h2.innerText = "Aucun produit correspondant";
+      document.querySelector('.products').appendChild(h2);
+      h2_exists = true;
     }
   }
 };
