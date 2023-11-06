@@ -253,3 +253,57 @@
     background-color: #ff4500; /* Couleur du fond du bouton au survol */
 }
 
+
+
+
+
+
+
+
+ /*notification*/
+/* Style de la liste déroulante */
+.deroulant {
+    position: relative;
+    list-style: none;
+}
+
+.sous {
+    display: block;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    opacity: 0;
+    visibility: hidden;
+    background-color: rgba(255, 255, 255, 0.9); /* Fond transparent */
+    border: 1px solid #ccc;
+    width: 200px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    z-index: 1;
+}
+
+/* Afficher la liste déroulante lorsque la case à cocher est cochée ou en focus */
+.toggle-checkbox:checked + .toggle-label + .sous,
+.toggle-label:focus + .sous {
+    opacity: 1;
+    visibility: visible;
+}
+
+.sous li {
+    padding: 10px;
+}
+
+.sous li:hover {
+    background-color: #f1f1f1;
+}
+
+/* Style de l'icône */
+.header_img {
+    width: 20px;
+    height: auto;
+}
+
+/* Cacher la case à cocher */
+.toggle-checkbox {
+    display: none;
+}

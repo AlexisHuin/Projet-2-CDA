@@ -1,6 +1,14 @@
 {include file="../Partials/_HeaderView.tpl"}
 
 <main>
+ 
+<div class="image-with-text">
+<img src="/assets/images/fruit.jpg" alt="Votre Image">
+<div class="text-overlay">
+    <p>Une AMAP, ou Association pour le Maintien de l'Agriculture Paysanne, est un partenariat entre des consommateurs et des agriculteurs locaux. Les membres de l'AMAP s'engagent à acheter régulièrement des produits frais directement auprès des agriculteurs, favorisant ainsi une agriculture durable et équitable.</p>
+</div>
+</div>
+
 <form action="" method="post">
     <label for="type">Type :</label>
         <select id="type" name="IdCategorieProduit">
@@ -21,13 +29,7 @@
         <input type="text" name="DesignationProduit" id="productName" placeholder="Nom du produit">
         <button type="submit">Filtrer</button>
 </form> 
-        
-        <div class="image-with-text">
-            <img src="/assets/images/fruit.jpg" alt="Votre Image">
-            <div class="text-overlay">
-                <p>Une AMAP, ou Association pour le Maintien de l'Agriculture Paysanne, est un partenariat entre des consommateurs et des agriculteurs locaux. Les membres de l'AMAP s'engagent à acheter régulièrement des produits frais directement auprès des agriculteurs, favorisant ainsi une agriculture durable et équitable.</p>
-            </div>
-        </div>
+       
         
         
         <div class="products">
