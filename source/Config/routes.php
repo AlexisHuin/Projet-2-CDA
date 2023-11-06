@@ -30,7 +30,7 @@ $routes = [
     ],
     '/panier' => [
         'method' => ['GET','POST'],
-        'controller' => ['Controller\PanierController', 'DisplayPanier']
+        'controller' => ['Controller\PanierController', 'afficherPanier']
     ],
     '/panier/ajouter' => [
         'method' => ['POST'],

@@ -17,6 +17,7 @@ abstract class InfosReglementController
         $infosReglement->IdAdherentInfosReglement = $_SESSION['user']['IdRole'];
         $result = $infosReglement->Find('IdInfosReglement', 'Fetch');
 
+
         if (strlen($datas['NumeroCB']) !== 16) {
             ExceptionHandler::SetUserError("Veuillez insérer un numéro valide");
         }
@@ -28,7 +29,7 @@ abstract class InfosReglementController
             ExceptionHandler::SetUserError("Veuillez insérer un numéro valide");
         }
         $errors = ExceptionHandler::GetUserError();
-
+       
         if (count($errors) == 0) {
             $infosReglement->CodeCBInfosReglement = password_hash($datas['NumeroCB'], PASSWORD_ARGON2ID);
             $infosReglement->TitulaireInfosReglement = $datas['Titulaire'];
@@ -47,5 +48,13 @@ abstract class InfosReglementController
         } else {
             var_dump($errors);
         }
+    }
+
+    public static function GetOneInfosReglement() :array|string|object
+    {   
+        $oneInfosReglement = new InfosReglementModel();
+        $oneInfosReglement->IdAdherentInfosReglement = $_SESSION['user']['IdRole'];
+        return $oneInfosReglement->Find('*', 'Fetch');
+    
     }
 }
