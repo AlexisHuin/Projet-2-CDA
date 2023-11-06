@@ -17,12 +17,16 @@ class PanierController extends HomeController
         
         $panier = PanierController::getPanier();
         $produits = [];
-        $prd = new ProduitModel();
+        $prd = new ProduitProducteurModel();
         foreach ($panier as $id => $quantite) {
-            $produits[$id] = $prd->getProduits();
-            $produits[$id]["Quantite"] = $quantite;
+            $datas = $prd->getProduitsProducteur($id);
+            if($datas !== false && !empty($datas))
+            {
+                $produits[$id] = $datas;
+                $produits[$id]["Quantite"] = $quantite;
+            }
         }
-        
+
         if (isset($_GET["err"])) {
            
         }
@@ -41,9 +45,7 @@ class PanierController extends HomeController
             $_SESSION["panier"] = [];
         }
         $_SESSION["panier"][$_POST["IdProduit"]] = $_POST["quantite"];
-        $prd = new ProduitModel();
-        $typeid = $prd->getAllProduitsInfos();
-        header("Location: /produits/" . $typeid);
+        header("Location: /produits/" . $_POST['IdProduit']);
         exit();
     }
 
@@ -69,7 +71,7 @@ class PanierController extends HomeController
     static public function viderPanier()
     {
         unset($_SESSION["panier"]);
-        header("Location: /panier");
+        header("Location: /");
         exit();
     }
 

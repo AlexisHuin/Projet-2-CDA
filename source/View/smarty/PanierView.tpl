@@ -3,16 +3,17 @@
 <div class="panier">
     {if $produits}
         <div class="produits-container">
+
             {foreach $produits as $p}
                 <div class="card_row5">
-                    <p>Nom: {$p["DesignationProduit"]}</p>
+                    <p>Nom: {$p["DesignationProduitProducteur"]}</p>
                     <p>Prix: <span class="prix" id="{$p["IdProduit"]}">{$p["PrixProduitProducteur"]}</span>€</p>
-                    <form action="/panier/modifier" method="post">
+                    <form action="/panier/modifier" method="POST">
                         <input type="hidden" name="IdProduit" value="{$p["IdProduit"]}">
                         Quantité:
                         <select name="Quantite" onchange="this.form.submit()">
-                            {for $number=1 to 10}
-                                <option name="Quantite" value="{$number}" {if $number == $p["Quantite"]}selected
+                            {for $number=1 to 100}
+                                <option name="Quantite" value="{$number}" {if $number === $p["Quantite"]}selected
                                     id="Quantite-{$p["IdProduit"]}" {/if}>{$number}</option>
                             {/for}
                         </select>
