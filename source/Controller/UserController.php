@@ -183,6 +183,10 @@ class UserController extends MainController
     {
 
         $this->connectCheck('user');
+
+               $Reglement = InfosReglementController::GetOneInfosReglement();
+          
+           
         if (isset($_POST["Confirmation"])) {
 
             $datas = $this->validate($_POST, ['Titulaire', 'NumeroCB', 'DateExpiration', 'CCV']);
@@ -230,6 +234,8 @@ class UserController extends MainController
         ViewController::Set('URI', $_SERVER['REQUEST_URI']);
         ViewController::Set('title', 'Profile');
         ViewController::Set('SessionInfo', $_SESSION['user']);
+        // ViewController::Set('idAdherent', $idAdherent);
+        ViewController::Set('Reglement', $Reglement);
         ViewController::Set('Infos', $Infos);
         ViewController::Display('ProfileView');
     }

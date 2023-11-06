@@ -1,14 +1,8 @@
 {include file="../Partials/_HeaderView.tpl"}
 
 
-
-
 {if $SessionInfo['RoleUser'] === "Adherent" }
-
-    <div class="adh">
-
-
-
+    <div class="adh" style="flex:1">
         <form method="POST">
             <h1>Espace Adhérent</h1>
             <h2>Mes coordonnées</h2>
@@ -24,11 +18,10 @@
                 </div>
                 <label>GPS :<input name='CoordonneesGPSAdherent' value='{$Infos.CoordonneesGPSAdherent}'> </label>
                 <button style="margin: 0 0 1em 0;" type='submit' name='modification'>Confirmer</button>
-        </div>
-        </form>
-
-    {else}
-
+            {else}
+                {if empty($Reglement)}
+                    <h2>Vous n'avez pas encore renseigné vos informations de paiement.</h2>
+                 
         <div id="paiementCoor" style="position: fixed; top:0;left:0;height: 100vh;
             width: 100vw;
             display: none;
@@ -61,26 +54,35 @@
                 </form>
             </div>
         </div>
-
-
+           {else}    
+        {if $SessionInfo['IdRole'] == $Reglement['IdAdherentInfosReglement']}
+     
+            <div>
+            <h2> Coordonnées Bancaires</h2>
+            <p> Titulaire : {$Reglement['TitulaireInfosReglement']}</p>
+            <p> Date d'expiration : {$Reglement['ExpirationInfosReglement']}</p>
+            <p> Chiffre CB : *********** </p>
+            <p> CVV : ************ </p>
+            </div>
+           
+        {/if}
+    {/if}
+        <div>
         <p>Nom Prénom : {$Infos.NomPrenomAdherent}</p>
         <p>Tel : {$Infos.PhoneAdherent}</p>
         <p>Email : {$Infos.MailAdherent}</p>
         <p>Code Postal : {$Infos.CodePostalAdherent}</p>
         <p>GPS : {$Infos.CoordonneesGPSAdherent}</p>
         <p>Date d'inscription : {$Infos.DateDebutAdherent}</p>
-
-
+        </div>
+        <div>
 <button style="margin: 0 0 1em 0;" type="button"><a style="text-decoration:none; width:100%; height:100%; color:white"
         href="/User/Profile?edit">Modifier</a></button>
 <button class="paiementButton" onclick="Paiement()">Ajouter mode de paiement</button>
+</div>
 
-
-
-
-{/if}
-
-
+            {/if}
+</form>
 
 {else if $SessionInfo['RoleUser'] === "Producteur"}
 <div class="adh">
@@ -125,6 +127,6 @@
 {/if}
 
 
-
+</div>
 
 {include file="../Partials/_FooterView.tpl"}
