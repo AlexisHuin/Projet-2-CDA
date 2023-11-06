@@ -6,7 +6,7 @@
             {foreach $produits as $p}
                 <div class="card_row5">
                     <p>Nom: {$p["DesignationProduit"]}</p>
-                    <p>Prix: <span class="prix" id="{$p["IdProduit"]}">{$p["PrixUnitaire"]}</span>€/{$p["TypeTarification"]}</p>
+                    <p>Prix: <span class="prix" id="{$p["IdProduit"]}">{$p["PrixProduitProducteur"]}</span>€</p>
                     <form action="/panier/modifier" method="post">
                         <input type="hidden" name="IdProduit" value="{$p["IdProduit"]}">
                         Quantité:
