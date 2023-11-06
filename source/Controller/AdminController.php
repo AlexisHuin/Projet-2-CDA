@@ -79,7 +79,6 @@ class AdminController extends MainController
         $this->connectCheck('admin');
 
         $Demandes = new DemandesModel();
-
         if (isset($_POST['Accept'])) {
 
             $Demandes->EtatDemande = "Accepted";
@@ -87,10 +86,6 @@ class AdminController extends MainController
 
             $Demandes->Update();
             $this->TraitementDemande($Demandes->EtatDemande);
-
-            header('Refresh:1;/Admin/Dashboard');
-            echo "Demande acceptée avec succès";
-            exit();
         }
 
         if (isset($_POST['Deny'])) {
@@ -99,15 +94,9 @@ class AdminController extends MainController
 
             $Demandes->Update();
             $this->TraitementDemande($Demandes->EtatDemande);
-
-            header('Refresh:1;/Admin/Dashboard');
-            echo "Demande refusée avec succès";
-            exit();
         }
 
         $Liste = $Demandes->getDemandes();
-
-      
 
         ViewController::Init('smarty');
         ViewController::Set('title', 'Dashboard');
@@ -348,7 +337,6 @@ class AdminController extends MainController
     // PRIVATE FUNCTIONS
     private function TraitementDemande(string $state): void
     {
-
         $ProduitProducteur = new ProduitProducteurModel();
         $Notifications = new NotificationsModel();
 
@@ -366,13 +354,14 @@ class AdminController extends MainController
                 $Notifications->DateEnvoiNotification = date('Y-m-d H:i');
 
                 if ($state === "Denied") {
-                    $Notifications->MotifNotification = "Votre demande concernant la modification du prix de " . $_POST['DesignationProduit'] . " à été refusée.";
+                    $Notifications->MotifNotification = "Votre demande concernant la modification du prix de " . $_POST['DesignationProduit'] . " a été refusée.";
                 } else {
-                    $Notifications->MotifNotification = "Votre demande concernant la modification du prix de " . $_POST['DesignationProduit'] . " à été acceptée.";
+                    $Notifications->MotifNotification = "Votre demande concernant la modification du prix de " . $_POST['DesignationProduit'] . " a été acceptée.";
                 }
 
                 $Notifications->Save();
                 break;
+
             case "Ajout":
                 if ($state === "Accepted") {
                     $ProduitProducteur->Where($_POST['IdProduitProducteur']);
@@ -385,15 +374,26 @@ class AdminController extends MainController
                 $Notifications->DateEnvoiNotification = date('Y-m-d H:i');
 
                 if ($state === "Denied") {
-                    $Notifications->MotifNotification = "Votre demande concernant l'ajout du produit " . $_POST['DesignationProduit'] . " à été refusée.";
+                    $Notifications->MotifNotification = "Votre demande concernant l'ajout du produit " . $_POST['DesignationProduit'] . " a été refusée.";
                 } else {
-                    $Notifications->MotifNotification = "Votre demande concernant l'ajout du produit " . $_POST['DesignationProduit'] . " à été acceptée.";
+                    $Notifications->MotifNotification = "Votre demande concernant l'ajout du produit " . $_POST['DesignationProduit'] . " a été acceptée.";
                 }
-
 
                 $Notifications->Save();
                 break;
+
+            case "Achat":
+                break;
         }
+
+        $mailto = [
+            "Email" => $_POST['EmailProd'],
+            "Subject" => $state,
+            "Motif" => $Notifications->MotifNotification
+        ];
+
+        header('Location:mailto:' . $mailto['Email'] . '?subject=' . $mailto['Subject'] . '&body=' . $mailto['Motif']);
+        exit();
     }
 
     private function Update(array|string $datas, object $object, array $properties, string $whereClause, string $header): bool

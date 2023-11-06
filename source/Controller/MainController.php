@@ -2,6 +2,8 @@
 
 namespace Controller;
 
+use Controller\MailerController;
+
 //use Controller\Session;
 use Model\DbModel;
 use Controller\ExceptionHandler;
@@ -10,6 +12,7 @@ use Controller\SessionController;
 
 class MainController
 {
+
     static function Route($routes): void
     {
         $dispatcher = \FastRoute\simpleDispatcher(function (\FastRoute\RouteCollector $r) use ($routes) {
@@ -57,6 +60,7 @@ class MainController
     {
         SessionController::Start();
         DbModel::Connect();
+        // MailerController::SetSTMP();
     }
 
     protected function connectCheck(string $session, string $role = "", string $Location = "/"): void

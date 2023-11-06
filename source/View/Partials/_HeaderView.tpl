@@ -38,7 +38,6 @@
                 <li><a href="/User"><img class="header_img" src="/assets/images/cart.svg" alt="Cart"></a></li>
                 <li><a href="/User"><img class="header_img" src="/assets/images/login.svg" alt="Login"></a></li>
             {/if}
-
            
             <li class="deroulant">
                 <input type="checkbox" id="toggleNotification" class="toggle-checkbox">
@@ -51,8 +50,6 @@
                     <li><a href="#">Notification 3</a></li>
                 </ul>
             </li>
-
-
 
             <li class="search-bar">
                 <input type="text" placeholder="Rechercher...">
