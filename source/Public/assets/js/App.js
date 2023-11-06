@@ -1,24 +1,25 @@
-// function filterProducts() {
-//     const type = document.getElementById("type").value;
-//     const saison = document.getElementById("saison").value;
-//     const productName = document.getElementById("productName").value;
-//     const products = document.getElementsByClassName("product");
+let type = document.getElementById("type")
+let productName = document.getElementById("productName")
+let products = document.getElementsByClassName("product");
 
-//     for (let i = 0; i < products.length; i++) {
-//         const product = products[i];
-//         const productNameText = product.getElementsByClassName("product-description")[0].getElementsByTagName("h3")[0].innerText;
-//         const productCategorie = product.getElementsByClassName("product-description")[0].getElementsByTagName("h4")[0].innerText;
-//         const productSaison = product.getElementsByClassName("product-description")[0].getElementsByTagName("p")[0].innerText;
+type.addEventListener('input', filterProducts);
+productName.addEventListener('input', filterProducts);
 
-//         if ((type === 'all' || productCategorie.includes(type)) &&
-//             (saison === 'all' || productSaison.toLowerCase().includes(saison.toLowerCase())) &&
-//             (productNameText.toLowerCase().includes(productName.toLowerCase()))) {
-//             product.style.display = "block";
-//         } else {
-//             product.style.display = "none";
-//         }
-//     }
-// }
+function filterProducts() {
+
+  for (let i = 0; i < products.length; i++) {
+    const product = products[i];
+    const productNameText = product.getElementsByClassName("product-description")[0].getElementsByClassName("produit")[0].innerText;
+    const productCategorie = product.getElementsByClassName("product-description")[0].getElementsByClassName("categorie")[0].getAttribute('data-id');
+
+    if ((type.value === 'all' || productCategorie == type.value) &&
+      (productNameText.toLowerCase().includes(productName.value.toLowerCase()))) {
+      product.style.display = "block";
+    } else {
+      product.style.display = "none";
+    }
+  }
+};
 
 // Fonction pour gérer l'événement de pression des touches
 (function konamiCodeHandler() {
@@ -105,14 +106,11 @@
 })();
 
 function Paiement() {
- document.querySelector('#paiementCoor').style.display = "flex";
- 
+  document.querySelector("#paiementCoor").style.display = "flex";
 }
 
-function CloseButton(){
-let cancelBtn = document.getElementById("cancel");
+function CloseButton() {
 
-cancelBtn.addEventListener('click', ()=> {
-  document.querySelector('#paiementCoor').style.display = "none";
-})
-};
+  document.querySelector("#paiementCoor").style.display = "none";
+
+}

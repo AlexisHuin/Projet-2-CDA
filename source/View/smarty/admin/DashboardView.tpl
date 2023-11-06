@@ -3,7 +3,7 @@
 
 <a href="/User/Deconnexion">Deconnexion</a>
 
-<button><a href="/Admin/AdherentsList">Liste des adherents</a></button>
+<button><a href="/Admin/AdherentList">Liste des adherents</a></button>
 <button><a href="/Admin/ProducteursList">Liste des producteurs</a></button>
 <button><a href="/Admin/ProductsList">Liste des produits</a></button>
 
@@ -11,7 +11,7 @@
 
 {foreach from=$Demandes item=demandeEnCours key=key}
     {if $demandeEnCours.EtatDemande === "Opened"}
-        <div style="width:35%; background-color: rgb(197, 109, 109); display: grid;">
+        <div style="width:35%; background-color: rgb(197, 109, 109); display: grid; margin-bottom: 1rem">
             <p><strong>Demande numéro : </strong>{$demandeEnCours.IdDemande}</p>
             <p><strong>Auteur : </strong> {$demandeEnCours.NomPrenomProducteur}</p>
             <p><strong>Motif : </strong>{$demandeEnCours.MotifDemande}</p>
@@ -40,7 +40,7 @@
 
 {foreach from=$Demandes item=demandeTraitees key=k}
     {if $demandeTraitees.EtatDemande != "Opened"}
-        <div style="width:35%; background-color: rgb(197, 109, 109); display: grid;">
+        <div style="width:35%; background-color: rgb(197, 109, 109); display: grid; margin-bottom: 1rem">
             <p><strong>Demande numéro : </strong>{$demandeTraitees.IdDemande}</p>
             <p><strong>Auteur : </strong> {$demandeTraitees.NomPrenomProducteur}</p>
             <p><strong>Objet : </strong>{$demandeTraitees.ObjetDemande}</p>

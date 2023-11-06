@@ -28,7 +28,6 @@ $routes = [
         'method'=>['GET', 'POST'],
         'controller'=>['Controller\ProducteurController','AddProduct']
     ],
-
     '/panier' => [
         'method' => ['GET','POST'],
         'controller' => ['Controller\PanierController', 'DisplayPanier']
@@ -73,13 +72,13 @@ $routes = [
         'method'=>['GET', 'POST'],
         'controller'=>['Controller\AdminController','Dashboard']
     ],
-    '/Admin/AdherentsList' => [
+    '/Admin/AdherentList' => [
         'method'=>['GET', 'POST'],
-        'controller'=>['Controller\AdminController','AdherentsList']
+        'controller'=>['Controller\AdminController','AdherentList']
     ],
-    '/Admin/ModifAdherents{id:\d+}' => [
+    '/Admin/ModifAdherent{id:\d+}' => [
         'method'=>['GET', 'POST'],
-        'controller'=>['Controller\AdminController','ModifAdherents']
+        'controller'=>['Controller\AdminController','ModifAdherent']
     ],
     '/Admin/ProducteursList' => [
         'method'=>['GET', 'POST'],
@@ -88,6 +87,10 @@ $routes = [
     '/Admin/ModifProducteurs{id:\d+}' => [
         'method'=>['GET', 'POST'],
         'controller'=>['Controller\AdminController','ModifProducteurs']
+    ],
+    '/Admin/ProduitsProducteursList{id:\d+}' => [
+        'method'=>['GET', 'POST'],
+        'controller'=>['Controller\AdminController','ProduitsProducteursList']
     ],
     '/Admin/StatsProducteur' => [
         'method'=>['GET', 'POST'],

@@ -5,12 +5,13 @@ namespace Controller;
 use Model\UserModel;
 use Model\AdherentModel;
 use Model\ProducteurModel;
-use Model\ProduitModel;
-use Model\ProduitProducteurModel;
+
 
 use Controller\ViewController;
 use Controller\SessionController;
 use Controller\ExceptionHandler;
+use Controller\InfosReglementController;
+
 use DateTime;
 
 // Classe UserController héritant de MainController
@@ -71,13 +72,13 @@ class UserController extends MainController
                     switch ($User->RoleUser) {
                         case "Adherent":
 
-                            $Adherent->NomPrenomAdherents = htmlspecialchars($datas['Nom'] . " " . ($datas['Prenom']));
-                            $Adherent->PhoneAdherents = htmlspecialchars($datas['Tel']);
-                            $Adherent->CoordonneesGPSAdherents = htmlspecialchars($datas['GPS']);
-                            $Adherent->CodePostalAdherents = htmlspecialchars($datas['CodePostal']);
+                            $Adherent->NomPrenomAdherent = htmlspecialchars($datas['Nom'] . " " . ($datas['Prenom']));
+                            $Adherent->PhoneAdherent = htmlspecialchars($datas['Tel']);
+                            $Adherent->CoordonneesGPSAdherent = htmlspecialchars($datas['GPS']);
+                            $Adherent->CodePostalAdherent = htmlspecialchars($datas['CodePostal']);
                             // explique le (new dateTime())
-                            $Adherent->DateDebutAdherents = (new DateTime())->format('Y-m-d');
-                            $Adherent->MailAdherents = htmlspecialchars($datas['Email']);
+                            $Adherent->DateDebutAdherent = (new DateTime())->format('Y-m-d');
+                            $Adherent->MailAdherent = htmlspecialchars($datas['Email']);
                             $IdRole = $Adherent->Save();
                             break;
 
@@ -136,23 +137,22 @@ class UserController extends MainController
                 }
 
                 // Rechercher l'utilisateur dans la base de données
-                $Log = $User->FindOne();
+                $Log = $User->Find('*', 'Fetch');
                 if ($Log) {
                     if (password_verify($_POST['Pass'], $Log['MdpUser'])) {
-                        if($Log['RoleUser'] === 'Adherent') {
-                        $Adherent->MailAdherents= $datas['Email'];
-                        $Result=$Adherent->findOne();
-                        $UserArr = [
-                            'Id' => $Log['IdUser'],
-                            'IdRole' => $Result['IdAdherents'],
-                            'Email' => $User->EmailUser,
-                            'RoleUser' => $Log['RoleUser'],
-                            'Username' => $Log['UsernameUser']
-                        ];
-                    } else if($Log['RoleUser'] === 'Producteur') 
-                        {
-                            $Producteur->MailProducteur= $datas['Email'];
-                            $Result=$Producteur->findOne();
+                        if ($Log['RoleUser'] === 'Adherent') {
+                            $Adherent->MailAdherent = $datas['Email'];
+                            $Result = $Adherent->Find('*', 'Fetch');
+                            $UserArr = [
+                                'Id' => $Log['IdUser'],
+                                'IdRole' => $Result['IdAdherent'],
+                                'Email' => $User->EmailUser,
+                                'RoleUser' => $Log['RoleUser'],
+                                'Username' => $Log['UsernameUser']
+                            ];
+                        } else if ($Log['RoleUser'] === 'Producteur') {
+                            $Producteur->MailProducteur = $datas['Email'];
+                            $Result = $Producteur->Find('*', 'Fetch');
                             $UserArr = [
                                 'Id' => $Log['IdUser'],
                                 'IdRole' => $Result['IdProducteur'],
@@ -160,8 +160,7 @@ class UserController extends MainController
                                 'RoleUser' => $Log['RoleUser'],
                                 'Username' => $Log['UsernameUser']
                             ];
-                        
-                    }
+                        }
                         SessionController::Set("user", $UserArr);
                         SessionController::Save();
                         header('location:/User/Profile ');
@@ -182,27 +181,100 @@ class UserController extends MainController
     }
     public function Profile(): void
     {
-        
+
         $this->connectCheck('user');
+        if (isset($_POST["Confirmation"])) {
+
+            $datas = $this->validate($_POST, ['Titulaire', 'NumeroCB', 'DateExpiration', 'CCV']);
+            if ($datas) {
+                InfosReglementController::AddInfosReglement($datas);
+            } else {
+                ExceptionHandler::SetUserError("Veuillez remplir tout les champs");
+            }
+        }
+
+        if (isset($_POST["modification"])) {
+            if ($_SESSION['user']['RoleUser'] === "Adherent") 
+            {
+                $NewUser = new AdherentModel();
+                $datas = $this->validate($_POST, ['NomPrenomAdherent', 'PhoneAdherent', 'CodePostalAdherent', 'CoordonneesGPSAdherent']);
+                $this->UpdateProfil($datas, $NewUser, ['NomPrenomAdherent', 'PhoneAdherent', 'CodePostalAdherent', 'CoordonneesGPSAdherent'], '/User/Profile');
+        }
+            else if ($_SESSION['user']['RoleUser'] === "Producteur") 
+            { 
+                $NewUser = new ProducteurModel();
+                $datas = $this->validate($_POST, ['NomPrenomProducteur', 'PhoneProducteur', 'CodePostalProducteur', 'CoordonneesGPSProducteur', 'RaisonSocialeProducteur']);
+                $this->UpdateProfil($datas, $NewUser, ['NomPrenomProducteur', 'PhoneProducteur', 'CodePostalProducteur', 'CoordonneesGPSProducteur', 'RaisonSocialeProducteur'], '/User/Profile');
+    }
+          
+            } else {
+                ExceptionHandler::SetUserError("Veuillez remplir tout les champs");
+            }
+        
+
+
 
         switch ($_SESSION['user']['RoleUser']) {
             case "Adherent":
                 $NewUser = new AdherentModel();
-                $NewUser->MailAdherents = $_SESSION['user']['Email'];
+                $NewUser->MailAdherent = $_SESSION['user']['Email'];
                 break;
             case "Producteur":
                 $NewUser = new ProducteurModel();
                 $NewUser->MailProducteur = $_SESSION['user']['Email'];
                 break;
         }
-        $Infos = $NewUser->FindOne();
+        $Infos = $NewUser->Find('*', 'Fetch');
 
         ViewController::Init('smarty');
+        ViewController::Set('URI', $_SERVER['REQUEST_URI']);
         ViewController::Set('title', 'Profile');
         ViewController::Set('SessionInfo', $_SESSION['user']);
         ViewController::Set('Infos', $Infos);
         ViewController::Display('ProfileView');
     }
+
+    // private function UpdateProfil($datas): void
+    // {
+    //     $idUser = $_SESSION['user']['IdRole'];
+
+    //     $AdherentModif = new AdherentModel();
+    //     $AdherentModif->NomPrenomAdherent = $datas['NomPrenomAdherent'];
+    //     $AdherentModif->PhoneAdherent = $datas['PhoneAdherent'];
+    //     $AdherentModif->CodePostalAdherent = $datas['CodePostalAdherent'];
+    //     $AdherentModif->CoordonneesGPSAdherent = $datas['CoordonneesGPSAdherent'];
+    //     $AdherentModif->Where($idUser);
+    //     $AdherentModif->Update();
+    //     header('Refresh:1;/User/Profile');
+    //     echo 'Modifications effectuées';
+    //     exit();
+    // } 
+
+    private function UpdateProfil(array|string $datas, object $object, array $properties, string $header): bool
+    {
+
+        if (empty($datas)) {
+            return false;
+        } else {
+            $idUser = $_SESSION['user']['IdRole'];
+            $keys = array_values($datas);
+
+            for ($i = 0; $i != (count($keys) - 1); $i++) {
+                $cleanProp = stripslashes($properties[$i]);
+                $object->$cleanProp = $keys[$i];
+            }
+
+            $object->Where($idUser);
+
+            $object->Update();
+            header('Refresh:1;' . $header);
+            echo "Modifié avec succès";
+            exit();
+        }
+        return true;
+    }
+
+
     // Déconnection de l'utilisateur
     public function Deconnexion(): void
     {
@@ -211,7 +283,6 @@ class UserController extends MainController
         header('Location: /');
         exit;
     }
-   
 }
 
 

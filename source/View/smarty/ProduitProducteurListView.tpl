@@ -24,7 +24,7 @@
             {/if}
         {/foreach}
     </div>
-    <Button type="submit" name="update">Modifier</Button>
+    
     <button type="submit" name="delete">Supprimer</button>
 </form>
 

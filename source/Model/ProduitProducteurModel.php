@@ -57,4 +57,3 @@ class ProduitProducteurModel extends DbModel
 }
 
 
-// voir pour supprimé l'image de VS CODE quand je supprime un produit  Unlink

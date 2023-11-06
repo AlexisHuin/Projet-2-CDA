@@ -1,89 +1,76 @@
 <?php
+
 namespace Controller;
 
 use Controller\ViewController;
 use Model\ProduitModel;
 use Model\CategorieModel;
-use Model\SaisonModel;
-use model\ProduitProducteurModel;
+use Model\ProduitProducteurModel;
 
-
-
-
+use DateTime;
 
 class HomeController extends MainController
 {
     public function Index()
     {
+
+        $ProduitModel = new ProduitModel();
+        $CategorieModel = new CategorieModel;
+
+        $allProducts = $ProduitModel->getProduits();
+        $categories = $CategorieModel->Find();
+
+        $sortedProducts = $this->sortBySaison($allProducts);
+
         ViewController::Init('smarty');
         ViewController::Set('title', 'Home');
+        ViewController::Set('products', $sortedProducts);
+        ViewController::Set('categories', $categories);
         ViewController::Set('h1', 'Smarty : Hello World !');
-        
-        $ProduitModel = new ProduitModel();
-
-        $DesignationProduit = null;
-
-        if(isset($_POST['DesignationProduit']) && 
-        !empty($_POST['DesignationProduit']) && 
-        strlen($_POST['DesignationProduit']) >=3)
-        $DesignationProduit = $_POST['DesignationProduit'];
-
-        if(isset($_POST['IdCategorieProduit']) && 
-        !empty($_POST['IdCategorieProduit']) && 
-        isset($_POST['IdSaisonProduit']) && 
-        !empty($_POST['IdSaisonProduit'])
-        )
-        {
-            $ProduitsList = $ProduitModel->getFilterByCategorieSaison($_POST['IdCategorieProduit'],$_POST['IdSaisonProduit'],$DesignationProduit);
-        }
-        elseif(isset($_POST['IdCategorieProduit']) && 
-        !empty($_POST['IdCategorieProduit']) 
-        )
-        {
-            $ProduitsList = $ProduitModel->getFilterByCategorie($_POST['IdCategorieProduit'],$DesignationProduit);
-            
-        }
-        elseif(isset($_POST['IdSaisonProduit']) && 
-        !empty($_POST['IdSaisonProduit']) 
-        )
-        {
-            $ProduitsList = $ProduitModel->getFilterBySaison($_POST['IdSaisonProduit'],$DesignationProduit);
-            
-        }
-        else{
-            $ProduitsList = $ProduitModel->getFilterByDesignation($DesignationProduit);
-        }
-        
-        ViewController::Set('products',$ProduitsList);
-
-
-        $CategorieModel = new CategorieModel();
-        ViewController::Set('categories',$CategorieModel->getCategories());
-        
-        $SaisonModel = new SaisonModel();
-        ViewController::Set('saisons',$SaisonModel->getSaisons());
-
-
         ViewController::Display('HomeView');
     }
 
-    public function DescriptifProduit($params=[])
+    public function DescriptifProduit($params = [])
     {
-       
+
         $ProduitModel = new ProduitModel();
         $Produit = $ProduitModel->DescriptifProduit($params['id']);
-        $ProduitProducteurModel = new ProduitProducteurModel();
-        $ProduitProducteur = $ProduitProducteurModel->getProduitProducteur($Produit['IdProduit']);
-        // var_dump($Produit);
+        $produitProducteurModel = new ProduitProducteurModel();
+        $produitProducteurs = $produitProducteurModel->getProduitProducteur($params['id']);
+
+
         ViewController::Init('smarty');
         ViewController::Set('title', 'Home');
-        ViewController::Set('product',$Produit);
+        ViewController::Set('produit', $produitProducteurs);
         ViewController::Set('h1', 'Smarty : Hello World !');
-        ViewController::Set('productProducteur',$ProduitProducteur);
+        ViewController::Set('produitProducteur', $Produit);
         ViewController::Display('DescriptifProduitView');
-        var_dump($Produit);
+    }
 
-        
-    
+    private function sortBySaison($datas)
+    {
+        $nowNoFormat = new DateTime();
+        $now = $nowNoFormat->format('m-d');
+
+        $produits = array();
+        for ($i = 0; $i < count($datas); $i++) {
+            $debutNoFormat = new DateTime($datas[$i]['DateDebutSaison']);
+            $finNoFormat = new DateTime($datas[$i]['DateFinSaison']);
+
+            $debut = $debutNoFormat->format('m-d');
+            $fin = $finNoFormat->format('m-d');
+
+            if ($now >= $debut && $now <= $fin) {
+                $produits[] = [
+                    "IdProduit" => $datas[$i]['IdProduit'],
+                    "DesignationProduit" => $datas[$i]['DesignationProduit'],
+                    "IdCategorie" => $datas[$i]['IdCategorieProduit'],
+                    "DesignationCategorie" => $datas[$i]['DesignationCategorie'],
+                    "PhotoProduit" => $datas[$i]['PhotoProduit'],
+                ];
+            }
+        }
+
+        return $produits;
     }
 }

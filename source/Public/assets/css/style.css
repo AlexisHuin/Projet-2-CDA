@@ -39,6 +39,7 @@ nav {
 .header_img {
   height: 24px;
   width: 24px;
+  filter: brightness(0) invert(1);
 }
 
 .notification-icon {
@@ -257,6 +258,7 @@ header {
   width: 20px;
   vertical-align: middle;
   transition: transform 0.3s ease;
+  filter: brightness(0) invert(1);
 }
 
 .menu-list li:hover .header_img {
@@ -328,4 +330,8 @@ iframe {
 
 .notification-dropdown a:hover {
   background-color: #f9f9f9;
+}
+
+#formProfil {
+  background-color: antiquewhite; padding:3em; border-radius:2em; height: 50%; width: 50%
 }
