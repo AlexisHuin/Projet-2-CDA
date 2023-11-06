@@ -22,12 +22,19 @@ function filterProducts() {
       product.style.display = "none";
     }
   }
+  console.log(results);
   if (results == 0) {
     if (h2_exists === false) {
       let h2 = document.createElement("h2");
+      h2.setAttribute('id', 'nothing')
       h2.innerText = "Aucun produit correspondant";
       document.querySelector('.products').appendChild(h2);
       h2_exists = true;
+    }
+  } else {
+    if (h2_exists === true) {
+      document.getElementById('nothing').remove();
+      h2_exists = false;
     }
   }
 };
