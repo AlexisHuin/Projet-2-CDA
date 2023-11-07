@@ -1,11 +1,9 @@
 {include file="../Partials/_HeaderView.tpl"}
 
 <div class="panier">
+{var_dump($produits)}
     {if $produits}
         <div class="produits-container">
-        <pre>
-        {var_dump($produits)}
-        </pre>
             {foreach $produits as $p}
                 <div class="card_row5">
                     <p>Nom: {$p["DesignationProduitProducteur"]}</p>
@@ -48,7 +46,7 @@
             document.querySelector("#prix-total").textContent = prixTotal;
         </script>
     {else}
-        <p>Le panier est vide!</p>
+        <p>Le panier est vide!</p> 
     {/if}
 </div>
 {include file="../Partials/_FooterView.tpl"}
