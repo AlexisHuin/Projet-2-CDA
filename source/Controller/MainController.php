@@ -2,10 +2,9 @@
 
 namespace Controller;
 
-use Controller\MailerController;
-
-//use Controller\Session;
 use Model\DbModel;
+use Model\NotificationsModel;
+
 use Controller\ExceptionHandler;
 use Controller\ViewController;
 use Controller\SessionController;
@@ -60,7 +59,24 @@ class MainController
     {
         SessionController::Start();
         DbModel::Connect();
-        // MailerController::SetSTMP();
+        ViewController::Init('smarty');
+        $NotificationsModel = new NotificationsModel();
+
+        if(isset($_POST['Read'])){
+            $NotificationsModel->IsReadNotification = 1;
+            $NotificationsModel->Where($_POST['Id']);
+
+            $NotificationsModel->Update();
+
+            header('Refresh:0.01;' . $_SERVER['REQUEST_URI']);
+            exit();
+        }
+
+        $NotificationsModel->IdDestinataireNotification = $_SESSION['user']['IdRole'];
+        $NotificationsModel->IsReadNotification = 0;
+        $notifications = $NotificationsModel->Find();
+
+        ViewController::Set('notifications',$notifications);
     }
 
     protected function connectCheck(string $session, string $role = "", string $Location = "/"): void

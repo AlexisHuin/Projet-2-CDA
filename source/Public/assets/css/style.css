@@ -78,7 +78,7 @@ nav {
 }
 
 
-.image-with-text img{
+.image-with-text img {
   width: 80%;
   margin: 100px;
   border-radius: 25px;
@@ -132,8 +132,8 @@ button:hover {
   flex-wrap: wrap;
   justify-content: space-around;
   padding: 20px;
-  
-  
+
+
 }
 
 .product {
@@ -211,7 +211,7 @@ header {
   height: 15vh;
   vertical-align: middle;
   border-radius: 10px;
-  
+
 }
 
 .menu-list {
@@ -221,9 +221,8 @@ header {
 }
 
 .menu-list li {
-  margin: 0 15px;
   position: relative;
-  margin: 5vh;
+  padding: 1rem 0.5rem 0;
 }
 
 .menu-list a {
@@ -333,5 +332,9 @@ iframe {
 }
 
 #formProfil {
-  background-color: antiquewhite; padding:3em; border-radius:2em; height: 50%; width: 50%
+  background-color: antiquewhite;
+  padding: 3em;
+  border-radius: 2em;
+  height: 50%;
+  width: 50%
 }

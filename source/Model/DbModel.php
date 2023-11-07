@@ -194,7 +194,7 @@ class DbModel
             foreach ($columns as $key => $column) {
                 $sql   .= $column . '=:' . $column;
                 if ($key < (count($columns) - 1))
-                    $sql   .= ',';
+                    $sql   .= ' AND ';
             }
         } 
 

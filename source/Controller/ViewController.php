@@ -17,6 +17,8 @@ class ViewController
         {
             case 'smarty':
                 self::$tplMotor  = new \Smarty();
+                // Empecher balises html
+                self::$tplMotor->escape_html=true;
                 self::$tplMotor->setTemplateDir(DIR_VIEW.'smarty/');
                 self::$tplMotor->setCompileDir(DIR_PRIVATE.'templates_c/');
                 self::$tplMotor->setCacheDir(DIR_PRIVATE.'cache_c/');
