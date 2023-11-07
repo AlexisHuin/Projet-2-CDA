@@ -37,7 +37,7 @@ class PanierController extends HomeController
 
     public function ajouterProduitPanier()
     {
-        if (!$this->validerFormatTableau(["IdProduit", "Quantite"], $_POST) || (intval($_POST["Quantite"]) > 10 && intval($_POST["Quantite"]) < 1)) {
+        if (!$this->validate($_POST, ["IdProduit", "Quantite"]) || (intval($_POST["Quantite"]) < 1 || intval($_POST["Quantite"]) > 100)) {
             echo "Paramètres incorrects";
             return;
         }
@@ -51,7 +51,7 @@ class PanierController extends HomeController
 
     public function supprimerProduitPanier()
     {
-        if (!$this->validerFormatTableau(["IdProduit"], $_POST)) {
+        if (!$this->validate($_POST, [ "Quantite"])){
             echo "Paramètres incorrects";
             return;
         }
@@ -71,7 +71,7 @@ class PanierController extends HomeController
     public function viderPanier()
     {
         unset($_SESSION["panier"]);
-        header("Location: /");
+        header("Location: /panier");
         exit();
     }
 
