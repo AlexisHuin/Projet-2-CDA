@@ -57,4 +57,6 @@ abstract class InfosReglementController
         return $oneInfosReglement->Find('*', 'Fetch');
     
     }
+
+    
 }

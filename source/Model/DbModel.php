@@ -129,7 +129,7 @@ class DbModel
             if ($key < (count($columns) - 1))
                 $sql   .= ' AND ';
         }
-
+        
         $rq = self::$db->prepare($sql);
         return $rq->execute($this->datas);
     }

@@ -8,10 +8,10 @@
                 <div>
                     <label>Nom Prénom : <input name='NomPrenomProducteur' type="text"
                             value='{$Infos.NomPrenomProducteur}'></label>
-                    <label>Tel : <input name='PhoneProducteur' type="text" value='{$Infos.PhoneProducteur}'></label>
+                    <label>Tel : <input name='PhoneProducteur' type="tel" value='{$Infos.PhoneProducteur}'></label>
                 </div>
                 <div>
-                    <label>Email : <input readonly type="text" value='{$Infos.MailProducteur}'></label>
+                    <label>Email : <input readonly type="email" value='{$Infos.MailProducteur}'></label>
                     <label>Code Postal : <input name='CodePostalProducteur' type="text"
                             value='{$Infos.CodePostalProducteur}'></label><br>
                     <label>GPS : <input name='CoordonneesGPSProducteur' type="text"
