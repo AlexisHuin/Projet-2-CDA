@@ -1,41 +1,52 @@
-let type = document.getElementById("type")
-let productName = document.getElementById("productName")
-let products = document.getElementsByClassName("product");
+if (window.location.href == "http://127.0.0.1:8000/") {
+  let type = document.getElementById("type");
+  let productName = document.getElementById("productName");
+  let products = document.getElementsByClassName("product");
 
-let h2_exists = false;
+  type.addEventListener("input", filterProducts);
+  productName.addEventListener("input", filterProducts);
 
-function filterProducts() {
-  let results = 0;
-  for (let i = 0; i < products.length; i++) {
-    const product = products[i];
-    const productNameText = product.getElementsByClassName("product-description")[0].getElementsByClassName("produit")[0].innerText;
-    const productCategorie = product.getElementsByClassName("product-description")[0].getElementsByClassName("categorie")[0].getAttribute('data-id');
+  let h2_exists = false;
 
-    if ((type.value === 'all' || productCategorie == type.value) &&
-      (productNameText.toLowerCase().includes(productName.value.toLowerCase()))) {
-      product.style.display = "block";
-      results++;
+  function filterProducts() {
+    let results = 0;
+    for (let i = 0; i < products.length; i++) {
+      const product = products[i];
+      const productNameText = product
+        .getElementsByClassName("product-description")[0]
+        .getElementsByClassName("produit")[0].innerText;
+      const productCategorie = product
+        .getElementsByClassName("product-description")[0]
+        .getElementsByClassName("categorie")[0]
+        .getAttribute("data-id");
+
+      if (
+        (type.value === "all" || productCategorie == type.value) &&
+        productNameText.toLowerCase().includes(productName.value.toLowerCase())
+      ) {
+        product.style.display = "block";
+        results++;
+      } else {
+        product.style.display = "none";
+      }
+    }
+    console.log(results);
+    if (results == 0) {
+      if (h2_exists === false) {
+        let h2 = document.createElement("h2");
+        h2.setAttribute("id", "nothing");
+        h2.innerText = "Aucun produit correspondant";
+        document.querySelector(".products").appendChild(h2);
+        h2_exists = true;
+      }
     } else {
-      product.style.display = "none";
+      if (h2_exists === true) {
+        document.getElementById("nothing").remove();
+        h2_exists = false;
+      }
     }
   }
-  console.log(results);
-  if (results == 0) {
-    if (h2_exists === false) {
-      let h2 = document.createElement("h2");
-      h2.setAttribute('id', 'nothing')
-      h2.innerText = "Aucun produit correspondant";
-      document.querySelector('.products').appendChild(h2);
-      h2_exists = true;
-    }
-  } else {
-    if (h2_exists === true) {
-      document.getElementById('nothing').remove();
-      h2_exists = false;
-    }
-  }
-};
-
+}
 // Fonction pour gérer l'événement de pression des touches
 (function konamiCodeHandler() {
   // Séquence du Konami Code
@@ -120,20 +131,16 @@ function filterProducts() {
   });
 })();
 
-function CloseOpen(button, div, display) {
+if (window.location.href == "http://127.0.0.1:8000/User/Profile") {
+  function CloseOpen(button, div, display) {
+    let target = document.querySelector(button);
+    target.addEventListener("click", () => {
+      document.querySelector(div).style.display = display;
+    });
+  }
 
-  let target = document.querySelector(button);
-  target.addEventListener('click', ()=> {
-    document.querySelector(div).style.display = display;
-  })
-  
+  CloseOpen(".paiementButton", "#paiementCoor", "flex");
+  CloseOpen("#closeButton", "#paiementCoor", "none");
+  CloseOpen("#resiliationProfil", "#resiliationCoor", "flex");
+  CloseOpen("#closeRes", "#resiliationCoor", "none");
 }
-
-CloseOpen('.paiementButton', '#paiementCoor', 'flex')
-CloseOpen('#closeButton', '#paiementCoor', 'none')
-CloseOpen('#resiliationProfil', '#resiliationCoor', 'flex')
-CloseOpen('#closeRes', '#resiliationCoor', 'none')
-
-
-
-

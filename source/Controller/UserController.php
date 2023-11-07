@@ -13,6 +13,7 @@ use Controller\ExceptionHandler;
 use Controller\InfosReglementController;
 
 use DateTime;
+use Model\InfosReglementModel;
 
 // Classe UserController héritant de MainController
 class UserController extends MainController
@@ -104,7 +105,7 @@ class UserController extends MainController
                     SessionController::Set("user", $UserArr);
                     SessionController::Save();
                     header('location: /User/Profile ');
-                    exit;
+                    exit();
                 }
             } else {
                 ExceptionHandler::SetUserError("Remplir tout les champs");
@@ -183,11 +184,8 @@ class UserController extends MainController
     {
 
         $this->connectCheck('user');
-
-               $Reglement = InfosReglementController::GetOneInfosReglement();
-          
-           
-        if (isset($_POST["Confirmation"])) {
+              $Reglement = InfosReglementController::GetOneInfosReglement();
+            if (isset($_POST["Confirmation"])) {
 
             $datas = $this->validate($_POST, ['Titulaire', 'NumeroCB', 'DateExpiration', 'CCV']);
             if ($datas) {
@@ -196,7 +194,15 @@ class UserController extends MainController
                 ExceptionHandler::SetUserError("Veuillez remplir tout les champs");
             }
         }
+        if(isset($_POST['Supprimer'])) {
+           $OneInfosReglement = new InfosReglementModel();
+           $OneInfosReglement->IdInfosReglement = $_POST['Id'];
+           $OneInfosReglement->Delete();
 
+           header('Refresh:1;/User/Profile');
+           echo "Données bancaires supprimées";
+           exit();
+        }
         if (isset($_POST["modification"])) {
             if ($_SESSION['user']['RoleUser'] === "Adherent") 
             {
@@ -215,9 +221,6 @@ class UserController extends MainController
                 ExceptionHandler::SetUserError("Veuillez remplir tout les champs");
             }
         
-
-
-
         switch ($_SESSION['user']['RoleUser']) {
             case "Adherent":
                 $NewUser = new AdherentModel();
@@ -234,7 +237,6 @@ class UserController extends MainController
         ViewController::Set('URI', $_SERVER['REQUEST_URI']);
         ViewController::Set('title', 'Profile');
         ViewController::Set('SessionInfo', $_SESSION['user']);
-        // ViewController::Set('idAdherent', $idAdherent);
         ViewController::Set('Reglement', $Reglement);
         ViewController::Set('Infos', $Infos);
         ViewController::Display('ProfileView');
@@ -265,7 +267,7 @@ class UserController extends MainController
             $idUser = $_SESSION['user']['IdRole'];
             $keys = array_values($datas);
 
-            for ($i = 0; $i != (count($keys) - 1); $i++) {
+            for ($i = 0; $i != (count($properties) - 1); $i++) {
                 $cleanProp = stripslashes($properties[$i]);
                 $object->$cleanProp = $keys[$i];
             }
