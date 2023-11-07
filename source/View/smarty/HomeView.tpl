@@ -1,3 +1,4 @@
+{* {assign var=notifications value=$notifications scope="parent"} *}
 {include file="../Partials/_HeaderView.tpl"}
 
 <main>

@@ -384,6 +384,7 @@ class AdminController extends MainController
 
             case "Achat":
                 break;
+            case "Mensualite"
         }
 
         $mailto = [
