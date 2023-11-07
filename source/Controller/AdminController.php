@@ -391,8 +391,8 @@ class AdminController extends MainController
             "Subject" => $state,
             "Motif" => $Notifications->MotifNotification
         ];
+        echo json_encode($mailto);
 
-        header('Location:mailto:' . $mailto['Email'] . '?subject=' . $mailto['Subject'] . '&body=' . $mailto['Motif']);
         exit();
     }
 

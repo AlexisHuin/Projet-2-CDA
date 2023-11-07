@@ -2,9 +2,6 @@ let type = document.getElementById("type")
 let productName = document.getElementById("productName")
 let products = document.getElementsByClassName("product");
 
-type.addEventListener('input', filterProducts);
-productName.addEventListener('input', filterProducts);
-
 let h2_exists = false;
 
 function filterProducts() {
@@ -22,12 +19,19 @@ function filterProducts() {
       product.style.display = "none";
     }
   }
+  console.log(results);
   if (results == 0) {
     if (h2_exists === false) {
       let h2 = document.createElement("h2");
+      h2.setAttribute('id', 'nothing')
       h2.innerText = "Aucun produit correspondant";
       document.querySelector('.products').appendChild(h2);
       h2_exists = true;
+    }
+  } else {
+    if (h2_exists === true) {
+      document.getElementById('nothing').remove();
+      h2_exists = false;
     }
   }
 };
@@ -116,12 +120,20 @@ function filterProducts() {
   });
 })();
 
-function Paiement() {
-  document.querySelector("#paiementCoor").style.display = "flex";
+function CloseOpen(button, div, display) {
+
+  let target = document.querySelector(button);
+  target.addEventListener('click', ()=> {
+    document.querySelector(div).style.display = display;
+  })
+  
 }
 
-function CloseButton() {
+CloseOpen('.paiementButton', '#paiementCoor', 'flex')
+CloseOpen('#closeButton', '#paiementCoor', 'none')
+CloseOpen('#resiliationProfil', '#resiliationCoor', 'flex')
+CloseOpen('#closeRes', '#resiliationCoor', 'none')
 
-  document.querySelector("#paiementCoor").style.display = "none";
 
-}
+
+
