@@ -69,7 +69,7 @@ class AdminController extends MainController
             var_dump($errors);
         }
 
-        ViewController::Init('smarty');
+        ('smarty');
         ViewController::Set('title', 'Admin Login');
         ViewController::Display('admin/AdminConnexionView');
     }
@@ -98,7 +98,7 @@ class AdminController extends MainController
 
         $Liste = $Demandes->getDemandes();
 
-        ViewController::Init('smarty');
+        ('smarty');
         ViewController::Set('title', 'Dashboard');
         ViewController::Set('Demandes', $Liste);
         ViewController::Set('Username', $_SESSION['admin']['Username']);
@@ -117,7 +117,7 @@ class AdminController extends MainController
             $Liste = $Adherent->Find();
         }
 
-        ViewController::Init('smarty');
+        ('smarty');
         ViewController::Set('title', 'Liste des adherents');
         ViewController::Set('Liste', $Liste);
         ViewController::Display('admin/AdherentListView');
@@ -144,7 +144,7 @@ class AdminController extends MainController
 
         $Liste = $Adherent->Find('*', 'Fetch');
 
-        ViewController::Init('smarty');
+        ('smarty');
         ViewController::Set('title', 'Modifier l\'adherent');
         ViewController::Set('adherent', $Liste);
         ViewController::Display('admin/ModifAdherentView');
@@ -162,7 +162,7 @@ class AdminController extends MainController
             $Liste = $Producteur->Find();
         }
 
-        ViewController::Init('smarty');
+        ('smarty');
         ViewController::Set('title', 'Liste des producteurs');
         ViewController::Set('Liste', $Liste);
         ViewController::Display('admin/ProducteursListView');
@@ -189,7 +189,7 @@ class AdminController extends MainController
 
         $Liste = $Producteur->Find('*', 'Fetch');
 
-        ViewController::Init('smarty');
+        ('smarty');
         ViewController::Set('title', 'Modifier le producteur');
         ViewController::Set('Producteur', $Liste);
         ViewController::Display('admin/ModifProducteurView');
@@ -207,7 +207,7 @@ class AdminController extends MainController
             $Liste = $ProduitProducteur->getProduitProducteur($id['id']);
         }
 
-        ViewController::Init('smarty');
+        ('smarty');
         ViewController::Set('title', 'Liste des producteurs');
         ViewController::Set('Liste', $Liste);
         ViewController::Display('admin/ProduitsProducteursListView');
@@ -221,7 +221,7 @@ class AdminController extends MainController
 
         $Liste = $Producteur->Find();
 
-        ViewController::Init('smarty');
+        ('smarty');
         ViewController::Set('title', 'Liste des producteurs');
         ViewController::Set('Liste', $Liste);
         ViewController::Display('admin/StatsProducteurView');
@@ -248,7 +248,7 @@ class AdminController extends MainController
             });
         }
 
-        ViewController::Init('smarty');
+        ('smarty');
         ViewController::Set('title', 'Liste des produits');
         ViewController::Set('Liste', $Liste);
         ViewController::Display('admin/ProductsListView');
@@ -278,7 +278,7 @@ class AdminController extends MainController
         $Categorie = (new CategorieModel())->Find();
         $Saison = (new SaisonModel())->Find();
 
-        ViewController::Init('smarty');
+        ('smarty');
         ViewController::Set('title', 'Modifier le produit');
         ViewController::Set('Categories', $Categorie);
         ViewController::Set('Saisons', $Saison);
@@ -309,7 +309,7 @@ class AdminController extends MainController
         $Categorie = (new CategorieModel())->Find();
         $Saison = (new SaisonModel())->Find();
 
-        ViewController::Init('smarty');
+        ('smarty');
         ViewController::Set('title', 'Ajouter un produit');
         ViewController::Set('Categories', $Categorie);
         ViewController::Set('Saisons', $Saison);
@@ -384,7 +384,8 @@ class AdminController extends MainController
 
             case "Achat":
                 break;
-            case "Mensualite"
+            case "Mensualite":
+                break;
         }
 
         $mailto = [

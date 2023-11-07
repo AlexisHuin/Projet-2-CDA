@@ -1,4 +1,5 @@
 <?php
+
 namespace Controller;
 
 
@@ -14,23 +15,21 @@ class PanierController extends HomeController
         if (!isset($_SESSION["panier"])) {
             $_SESSION["panier"] = [];
         }
-        
+
         $panier = PanierController::getPanier();
         $produits = [];
         $prd = new ProduitProducteurModel();
         foreach ($panier as $id => $Quantite) {
             $datas = $prd->getProduitsProducteur($id);
-            if($datas !== false && !empty($datas))
-            {
+            if ($datas !== false && !empty($datas)) {
                 $produits[$id] = $datas;
                 $produits[$id]["Quantite"] = $Quantite;
             }
         }
 
         if (isset($_GET["err"])) {
-           
         }
-        ViewController::init("smarty");
+        ("smarty");
         ViewController::set("produits", $produits);
         ViewController::display("PanierView");
     }
@@ -51,7 +50,7 @@ class PanierController extends HomeController
 
     public function supprimerProduitPanier()
     {
-        if (!$this->validate($_POST, [ "Quantite"])){
+        if (!$this->validate($_POST, ["Quantite"])) {
             echo "Paramètres incorrects";
             return;
         }
@@ -102,15 +101,14 @@ class PanierController extends HomeController
     public function afficherPrepaiementPanier()
     {
         PanierController::validerPanier([], false);
-        
+
         $produits = [];
         $prod = new ProduitModel();
         foreach (PanierController::getPanier() as $id => $q) {
             $produits[] = $prod->getOneProduitInfos($id);
         }
-        ViewController::init("Pre-paiement");
+        ("Pre-paiement");
         ViewController::set("produits", $produits);
         ViewController::display("PanierPrepaiement");
     }
 }
-

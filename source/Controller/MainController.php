@@ -60,9 +60,10 @@ class MainController
         SessionController::Start();
         DbModel::Connect();
         ViewController::Init('smarty');
+
         $NotificationsModel = new NotificationsModel();
 
-        if(isset($_POST['Read'])){
+        if (isset($_POST['Read'])) {
             $NotificationsModel->IsReadNotification = 1;
             $NotificationsModel->Where($_POST['Id']);
 
@@ -71,27 +72,32 @@ class MainController
             header('Refresh:0.01;' . $_SERVER['REQUEST_URI']);
             exit();
         }
-
-        $NotificationsModel->IdDestinataireNotification = $_SESSION['user']['IdRole'];
-        $NotificationsModel->IsReadNotification = 0;
-        $notifications = $NotificationsModel->Find();
-
-        ViewController::Set('notifications',$notifications);
+        if (isset($_SESSION['user'])) {
+            $NotificationsModel->IdDestinataireNotification = $_SESSION['user']['IdRole'];
+            $NotificationsModel->IsReadNotification = 0;
+            $notifications = $NotificationsModel->Find();
+        } else {
+            $notifications = [];
+        }
+        ViewController::Set('notifications', $notifications);
     }
 
-    protected function connectCheck(string $session, string $role = "", string $Location = "/"): void
+    protected function connectCheck(string $session, string $role = "", string $Location = "/"): bool
     {
         if (!empty($role)) {
             if (!isset($_SESSION[$session]) && $_SESSION[$session]['RoleUser'] !== $role) {
                 header('Location: ' . $Location);
-
                 exit();
+            } else {
+                return true;
             }
         } else {
             if (!isset($_SESSION[$session])) {
                 header('Location: ' . $Location);
 
                 exit();
+            } else {
+                return true;
             }
         }
     }

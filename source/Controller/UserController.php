@@ -127,7 +127,7 @@ class UserController extends MainController
 
 
 
-            
+
             if ($datas) {
                 if (!filter_var($datas["Email"], FILTER_VALIDATE_EMAIL)) {
                     ExceptionHandler::SetUserError("Veuillez entrer une adresse e-mail valide.");
@@ -176,7 +176,7 @@ class UserController extends MainController
         }
 
         // Initialisation de la vue (Smarty)
-        ViewController::Init('smarty');
+        ('smarty');
         ViewController::Set('title', 'Login');
         ViewController::Display('LoginView');
     }
@@ -184,8 +184,8 @@ class UserController extends MainController
     {
 
         $this->connectCheck('user');
-              $Reglement = InfosReglementController::GetOneInfosReglement();
-            if (isset($_POST["Confirmation"])) {
+        $Reglement = InfosReglementController::GetOneInfosReglement();
+        if (isset($_POST["Confirmation"])) {
 
             $datas = $this->validate($_POST, ['Titulaire', 'NumeroCB', 'DateExpiration', 'CCV']);
             if ($datas) {
@@ -194,33 +194,29 @@ class UserController extends MainController
                 ExceptionHandler::SetUserError("Veuillez remplir tout les champs");
             }
         }
-        if(isset($_POST['Supprimer'])) {
-           $OneInfosReglement = new InfosReglementModel();
-           $OneInfosReglement->IdInfosReglement = $_POST['Id'];
-           $OneInfosReglement->Delete();
+        if (isset($_POST['Supprimer'])) {
+            $OneInfosReglement = new InfosReglementModel();
+            $OneInfosReglement->IdInfosReglement = $_POST['Id'];
+            $OneInfosReglement->Delete();
 
-           header('Refresh:1;/User/Profile');
-           echo "Données bancaires supprimées";
-           exit();
+            header('Refresh:1;/User/Profile');
+            echo "Données bancaires supprimées";
+            exit();
         }
         if (isset($_POST["modification"])) {
-            if ($_SESSION['user']['RoleUser'] === "Adherent") 
-            {
+            if ($_SESSION['user']['RoleUser'] === "Adherent") {
                 $NewUser = new AdherentModel();
                 $datas = $this->validate($_POST, ['NomPrenomAdherent', 'PhoneAdherent', 'CodePostalAdherent', 'CoordonneesGPSAdherent']);
                 $this->UpdateProfil($datas, $NewUser, ['NomPrenomAdherent', 'PhoneAdherent', 'CodePostalAdherent', 'CoordonneesGPSAdherent'], '/User/Profile');
-        }
-            else if ($_SESSION['user']['RoleUser'] === "Producteur") 
-            { 
+            } else if ($_SESSION['user']['RoleUser'] === "Producteur") {
                 $NewUser = new ProducteurModel();
                 $datas = $this->validate($_POST, ['NomPrenomProducteur', 'PhoneProducteur', 'CodePostalProducteur', 'CoordonneesGPSProducteur', 'RaisonSocialeProducteur']);
                 $this->UpdateProfil($datas, $NewUser, ['NomPrenomProducteur', 'PhoneProducteur', 'CodePostalProducteur', 'CoordonneesGPSProducteur', 'RaisonSocialeProducteur'], '/User/Profile');
-    }
-          
-            } else {
-                ExceptionHandler::SetUserError("Veuillez remplir tout les champs");
             }
-        
+        } else {
+            ExceptionHandler::SetUserError("Veuillez remplir tout les champs");
+        }
+
         switch ($_SESSION['user']['RoleUser']) {
             case "Adherent":
                 $NewUser = new AdherentModel();
@@ -233,7 +229,7 @@ class UserController extends MainController
         }
         $Infos = $NewUser->Find('*', 'Fetch');
 
-        ViewController::Init('smarty');
+        ('smarty');
         ViewController::Set('URI', $_SERVER['REQUEST_URI']);
         ViewController::Set('title', 'Profile');
         ViewController::Set('SessionInfo', $_SESSION['user']);
@@ -289,7 +285,7 @@ class UserController extends MainController
         session_destroy();
         // A la déconnection renvoyer a la page d'acceuil
         header('Location: /');
-        exit;
+        exit();
     }
 }
 
