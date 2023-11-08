@@ -88,8 +88,8 @@ class ProducteurController extends UserController
             return strcmp($a['DesignationProduit'], $b['DesignationProduit']);
         });
         $info = (isset($_GET['info'])) ? $_GET['info'] : '';
-        // Initialise la vue avec des données
-        ('smarty');
+            // Initialise la vue avec des données
+        ;
         ViewController::Set('info', $info);
 
         ViewController::Set('title', 'Gestion de produit');
@@ -115,8 +115,8 @@ class ProducteurController extends UserController
         $Produits = new ProduitProducteurModel();
         $AllProduits = $Produits->getProduitProducteur($_SESSION['user']['IdRole']);
 
-        // Initialise la vue et fournit les données à afficher
-        ('smarty');
+            // Initialise la vue et fournit les données à afficher
+        ;
         ViewController::Set('title', 'Mes produits');
         ViewController::Set('SessionInfo', $_SESSION['user']);
         ViewController::Set('AllProduits', $AllProduits);

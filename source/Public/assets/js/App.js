@@ -1,14 +1,14 @@
 if (window.location.href == "http://127.0.0.1:8000/") {
   let type = document.getElementById("type");
   let productName = document.getElementById("productName");
-  let products = document.getElementsByClassName("product");
-
+  
   type.addEventListener("input", filterProducts);
   productName.addEventListener("input", filterProducts);
-
+  
   let h2_exists = false;
-
+  
   function filterProducts() {
+    let products = document.querySelectorAll(".product");
     let results = 0;
     for (let i = 0; i < products.length; i++) {
       const product = products[i];
@@ -32,7 +32,7 @@ if (window.location.href == "http://127.0.0.1:8000/") {
     }
     console.log(results);
     if (results == 0) {
-      if (h2_exists === false) {
+      if (document.querySelector("#nothing") == null) {
         let h2 = document.createElement("h2");
         h2.setAttribute("id", "nothing");
         h2.innerText = "Aucun produit correspondant";
@@ -40,7 +40,7 @@ if (window.location.href == "http://127.0.0.1:8000/") {
         h2_exists = true;
       }
     } else {
-      if (h2_exists === true) {
+      if (document.querySelector("#nothing") != null) {
         document.getElementById("nothing").remove();
         h2_exists = false;
       }
