@@ -1,4 +1,7 @@
 <?php
+setlocale(LC_TIME, 'fr_FR.UTF-8');
+date_default_timezone_set('Europe/Paris');
+
 define('DIR_BASE',__DIR__.'/../');
 define('DIR_CONFIG',DIR_BASE.'Config/');
 define('DIR_CONTROLLER',DIR_BASE.'Controller/');

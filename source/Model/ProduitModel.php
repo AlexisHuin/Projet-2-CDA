@@ -3,22 +3,17 @@
 namespace Model;
 
 use Model\DbModel;
+use DateTime;
 
 class ProduitModel extends DbModel
 {
     protected $table = 'Produit';
-    protected string $id = 'IdProduit';
 
-    public function getProduits(): string|object|array
+    public function getProduits()
     {
-        $produitsPasSaison = DbModel::Select('Select * from Produit inner join Categorie ON
-        Produit.IdCategorieProduit=Categorie.IdCategorie
-        inner join Saison ON
-        
-        Produit.IdSaisonProduit=Saison.IdSaison
-        ');
+        $this->Join(["IdCategorieProduit", "IdSaisonProduit"], ["Categorie" => "IdCategorie","Saison" => "IdSaison"]);
 
-        return $produitsPasSaison;
+        return $this->Find();
     }
 
     public function getAllProduitsInfos(): string|object|array
@@ -38,18 +33,12 @@ class ProduitModel extends DbModel
         FROM Produit 
         INNER JOIN Categorie ON Produit.IdCategorieProduit=Categorie.IdCategorie
         INNER JOIN Saison ON Produit.IdSaisonProduit=Saison.IdSaison
-        WHERE IdProduit = '$id'", "Fetch");
+        WHERE IdProduit = '$id'", [],  "Fetch");
     }
 
-
-    public function DescriptifProduit($id): string|object|array
+    public function DescriptifProduit($id)
     {
         $this->IdProduit = $id;
-        return $this->FindOne();
+        return $this->Find('*', 'Fetch');
     }
-    
-
- 
-
-
 }

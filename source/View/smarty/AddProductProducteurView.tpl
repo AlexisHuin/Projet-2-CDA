@@ -1,11 +1,12 @@
 {include file="../Partials/_HeaderView.tpl"}
 
 
-   
+<div class="addproduct">
+<a href="/User/ProductList">Liste de mes produits</a>
 <h1>Ajout nouveau produit</h1>
 {$info}
 
-<form method="POST" enctype="multipart/form-data">
+<form method="POST" enctype="multipart/form-data" class="addproduct">
     <select name="IdProduitProduitProducteur">
        {foreach from=$AllProducts key=k item=produit}
             <option value="{$produit.IdProduit}"> {$produit.DesignationProduit} </option>
@@ -20,11 +21,11 @@
     <label for="QuantiteProduitProducteur">Quantité produit</label>
     <input type="number" name="QuantiteProduitProducteur" required>
     <label for="ImageProduitProducteur">Image</label>
-    <input type="file" name="ImageProduitProducteur">
+    <input type="file" name="ImageProduitProducteur" accept="image/jpeg, image/png, image/webp">
     <input  type="submit" name="Ajouter" value="Envoyer">
 </form>
-<a href="/User/ProductList">Liste de mes produits</a>
 
+</div>
 
 
 

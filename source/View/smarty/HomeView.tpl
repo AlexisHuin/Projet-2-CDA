@@ -1,26 +1,7 @@
+{* {assign var=notifications value=$notifications scope="parent"} *}
 {include file="../Partials/_HeaderView.tpl"}
 
 <main>
-    <label for="type">Type :</label>
-    <select id="type">
-        <option value="all">Tous les types</option>
-        {foreach key=key item=categorie from=$categories}
-            <option value="{$categorie.DesignationCategorie}">{$categorie.DesignationCategorie}</option>
-        {/foreach}
-    </select>
-
-    <label for="saison">Saison :</label>
-    <select id="saison">
-        <option value="all">Toutes les saisons</option>
-        {foreach key=key item=Saison from=$saisons}
-            <option value="{$Saison.NomSaison}">{$Saison.NomSaison}</option>
-        {/foreach}
-    </select>
-
-    <input type="text" id="productName" placeholder="Nom du produit">
-    <button onclick="filterProducts()">Filtrer</button>
-
-
     <div class="image-with-text">
         <img src="/assets/images/fruit.jpg" alt="Votre Image">
         <div class="text-overlay">
@@ -31,23 +12,22 @@
         </div>
     </div>
 
+    <label for="type">Type :</label>
+    <select id="type" name="IdCategorieProduit">
+        <option value="all">Tous</option>
+        {foreach key=key item=categorie from=$categories}
+            <option value="{$categorie.IdCategorie}">{$categorie.DesignationCategorie}</option>
+        {/foreach}
+    </select>
+    <input type="text" name="DesignationProduit" id="productName" placeholder="Nom du produit">
 
     <div class="products">
         {foreach key=key item=product from=$products}
-        <div class="product">
 
-            <a href="/DescriptifProduit/{$product['IdProduit']}">
+            {include file="../Partials/_CardView.tpl"}
 
-                <img src="/assets/images/fruit.jpg" alt="<?= $product['name'] ?>">
-            </a>
-            <div class="product-description">
-                <h3>{$product['DesignationProduit']}</h3>
-                <h4>{$product['DesignationCategorie']}</h4>
-                </div>
-            </div>
         {/foreach}
     </div>
 </main>
-
 
 {include file="../Partials/_FooterView.tpl"}

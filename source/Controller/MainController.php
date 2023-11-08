@@ -2,15 +2,17 @@
 
 namespace Controller;
 
-//use Controller\Session;
 use Model\DbModel;
+use Model\NotificationsModel;
+
 use Controller\ExceptionHandler;
 use Controller\ViewController;
 use Controller\SessionController;
 
 class MainController
 {
-    static function Route($routes) : void
+
+    static function Route($routes): void
     {
         $dispatcher = \FastRoute\simpleDispatcher(function (\FastRoute\RouteCollector $r) use ($routes) {
             foreach ($routes as $uri => $route) {
@@ -31,7 +33,8 @@ class MainController
         $routeInfo = $dispatcher->dispatch($httpMethod, $uri);
         switch ($routeInfo[0]) {
             case \FastRoute\Dispatcher::NOT_FOUND:
-                ExceptionHandler::RouteErrors('404', '404 Not Found', $_SERVER['REQUEST_URI']);
+                // ExceptionHandler::RouteErrors('404', '404 Not Found', $_SERVER['REQUEST_URI']);
+                header('Location: /');
                 break;
             case \FastRoute\Dispatcher::METHOD_NOT_ALLOWED:
                 $allowedMethods = $routeInfo[1];
@@ -56,15 +59,46 @@ class MainController
     {
         SessionController::Start();
         DbModel::Connect();
+        ViewController::Init('smarty');
+
+        $NotificationsModel = new NotificationsModel();
+
+        if (isset($_POST['Read'])) {
+            $NotificationsModel->IsReadNotification = 1;
+            $NotificationsModel->Where($_POST['Id']);
+
+            $NotificationsModel->Update();
+
+            header('Refresh:0.01;' . $_SERVER['REQUEST_URI']);
+            exit();
+        }
+        if (isset($_SESSION['user'])) {
+            $NotificationsModel->IdDestinataireNotification = $_SESSION['user']['IdRole'];
+            $NotificationsModel->IsReadNotification = 0;
+            $notifications = $NotificationsModel->Find();
+        } else {
+            $notifications = [];
+        }
+        ViewController::Set('notifications', $notifications);
     }
 
-    protected function connectCheck(string $session, string $Location = "/"): void
+    protected function connectCheck(string $session, string $role = "", string $Location = "/"): bool
     {
+        if (!empty($role)) {
+            if (!isset($_SESSION[$session]) && $_SESSION[$session]['RoleUser'] !== $role) {
+                header('Location: ' . $Location);
+                exit();
+            } else {
+                return true;
+            }
+        } else {
+            if (!isset($_SESSION[$session])) {
+                header('Location: ' . $Location);
 
-        if (!isset($_SESSION[$session])) {
-            header('Location: ' . $Location);
-
-            exit();
+                exit();
+            } else {
+                return true;
+            }
         }
     }
 
