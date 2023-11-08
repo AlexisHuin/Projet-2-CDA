@@ -27,19 +27,29 @@
                 <li><a href="/Contact">Contact</a></li>
 
                 {if isset($smarty.session.user)}
-                    {if $smarty.session.user.RoleUser eq "Adherent" or $smarty.session.user.RoleUser eq "Producteur"}
-                        <li><a href="/Adherents/Panier"><img class="header_img" src="/assets/images/cart.svg" alt="Cart"></a>
+                    {if $smarty.session.user.RoleUser eq "Adherent" }
+
+                        <li>
+                            <a href="/Panier"><img class="header_img" src="/assets/images/cart.svg" alt="Cart">
+                                {if {$smarty.session.panier|@count} > 0}
+                                    <sup>{$smarty.session.panier|@count}</sup>
+                                {/if}
+                            </a>
                         </li>
                         <li><a href="/User/Profile"><img class="header_img" src="/assets/images/profile.svg" alt="Profile"></a>
                         </li>
                         <li><a href="/User/Deconnexion"><img class="header_img" src="/assets/images/logout.svg"
                                     alt="Logout"></a></li>
-                    {else}
-                        <li><a href="/User"><img class="header_img" src="/assets/images/cart.svg" alt="Cart"></a></li>
-                        <li><a href="/User"><img class="header_img" src="/assets/images/login.svg" alt="Login"></a></li>
+                    {else if $smarty.session.user.RoleUser eq "Producteur"}
+
+                        <li><a href="/User/Profile"><img class="header_img" src="/assets/images/profile.svg" alt="Profile"></a>
+                        </li>
+                        <li><a href="/User/Deconnexion"><img class="header_img" src="/assets/images/logout.svg"> </li>
+
                     {/if}
                 {else}
-                    <li><a href="/User"><img class="header_img" src="/assets/images/cart.svg" alt="Cart"></a></li>
+                    <li><a href="/User"><img class="header_img" src="/assets/images/cart.svg" alt="Cart"></a>
+                    </li>
                     <li><a href="/User"><img class="header_img" src="/assets/images/login.svg" alt="Login"></a></li>
                 {/if}
 

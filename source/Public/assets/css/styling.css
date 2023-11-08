@@ -261,12 +261,12 @@
   position: relative;
 }
 
-.toggle-label sup {
+.toggle-label sup, .header_img + sup {
   position: absolute;
   background-color: red;
   border-radius: 50%;
-  top: 0;
-  right: 0;
+  top: -10px;
+  right: -10px;
   width: 15px;
   height: 15px;
   display: flex;
