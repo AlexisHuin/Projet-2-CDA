@@ -9,6 +9,7 @@ use Model\ProduitProducteurModel;
 use Model\NotificationsModel;
 
 use DateTime;
+use Model\PanierModel;
 
 class HomeController extends MainController
 {
@@ -24,21 +25,73 @@ class HomeController extends MainController
         $sortedProducts = $this->sortBySaison($allProducts);
 
         ViewController::Set('title', 'Home');
+        ViewController::Set('URI', $_SERVER['REQUEST_URI']);
         ViewController::Set('products', $sortedProducts);
         ViewController::Set('categories', $categories);
         ViewController::Display('HomeView');
     }
 
-    public function DescriptifProduit($params = [])
+    public function DescriptifProduit($id)
     {
+        if (isset($_POST['Add'])) {
+            $this->connectCheck('user', 'Adherent', "User/");
+            $datas = $this->validate($_POST, ["Prix", "Description", "QuantiteTotal", "Quantite"]);
+
+            if ($datas) {
+
+                if ($datas['Quantite'] > $datas['QuantiteTotal'] || $datas['Quantite'] <= 0) {
+                    ExceptionHandler::SetUserError("Quantité invalide.");
+                } else if (isset($_SESSION['panier'][0])) {
+                    foreach ($_SESSION['panier'] as $panier) {
+                        if ($panier['Produit'] == $datas['Id']) {
+                            if (($panier['Quantite'] + $datas['Quantite']) > $datas['QuantiteTotal']) {
+                                ExceptionHandler::SetUserError("Quantité dans le panier supérieure à la quantité totale disponible.");
+                            } else {
+                                break;
+                            }
+                        }
+                    }
+                }
+
+                $errors = ExceptionHandler::GetUserError();
+                if (count($errors) == 0) {
+                    $panierModel = new PanierModel();
+                    $panierModel->ProduitPanier = $datas['Id'];
+                    $panierModel->QuantitePanier = $datas['Quantite'];
+                    $panierModel->PrixPanier = ($datas['Prix'] * $datas['Quantite']);
+                    $panierModel->IdAdherentsPanier = $_SESSION['user']['IdRole'];
+                    $LigneId = $panierModel->Save();
+
+                    $LignePanier = [
+                        "IdLigne" => $LigneId,
+                        "Produit" => $panierModel->ProduitPanier,
+                        "Quantite" => $panierModel->QuantitePanier,
+                        "Prix" => $panierModel->PrixPanier
+                    ];
+
+                    array_push($_SESSION['panier'], $LignePanier);
+
+                    header('Refresh:0.01;' . $_SERVER['REQUEST_URI']);
+                    exit();
+                }
+            }
+            var_dump($errors);
+        }
 
         $ProduitModel = new ProduitModel();
-        $Produit = $ProduitModel->DescriptifProduit($params['id']);
         $produitProducteurModel = new ProduitProducteurModel();
-        $produitProducteurs = $produitProducteurModel->getProduitProducteur($params['id']);;
+
+        $ProduitModel->IdProduit = $id['id'];
+        $Produit = $ProduitModel->Find('DesignationProduit', 'Fetch');
+
+        $produitProducteurs = $produitProducteurModel->getProduitProducteur($id['id'], true);
+
+
         ViewController::Set('title', 'Home');
-        ViewController::Set('produit', $produitProducteurs);
-        ViewController::Set('produitProducteur', $Produit);
+        ViewController::Set('URI', $_SERVER['REQUEST_URI']);
+        ViewController::Set('Id', $id['id']);
+        ViewController::Set('produitProducteur', $produitProducteurs);
+        ViewController::Set('produit', $Produit);
         ViewController::Display('DescriptifProduitView');
     }
 

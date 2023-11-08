@@ -11,12 +11,15 @@ class ProduitProducteurModel extends DbModel
     protected string $IdProducteur = 'IdProducteurProduitProducteur';
 
     // Méthode pour récupérer les produits du producteur en fonction de son ID
-    public function getProduitProducteur($id): string|object|array
+    public function getProduitProducteur(string|int $id, bool $validate = false): string|object|array
     {
-        return DbModel::Select("SELECT * 
-        FROM ProduitProducteur INNER JOIN Produit ON ProduitProducteur.IdProduitProduitProducteur=Produit.IdProduit
-        WHERE IdProducteurProduitProducteur=:IdProducteurProduitProducteur", [':IdProducteurProduitProducteur' => $id]);
+        $this->IdProduitProduitProducteur = $id;
+        if($validate){
+            $this->IsValidateProduitProducteur = 1;
+        }
+        return $this->Find();
     }
+    
     public function getProduitsProducteur($id): string|object|array
     {
         $this->IdProduitProduitProducteur = $id;
@@ -57,9 +60,6 @@ class ProduitProducteurModel extends DbModel
         return DbModel::Select("
         SELECT *
         FROM ProduitProducteur 
-        WHERE IdProduitProducteur=:id",[':id'=>$id],'Fetch');
+        WHERE IdProduitProducteur=:id", [':id' => $id], 'Fetch');
     }
-
 }
-
-
