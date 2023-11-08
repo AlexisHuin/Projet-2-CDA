@@ -144,3 +144,14 @@ if (window.location.href == "http://127.0.0.1:8000/User/Profile") {
   CloseOpen("#resiliationProfil", "#resiliationCoor", "flex");
   CloseOpen("#closeRes", "#resiliationCoor", "none");
 }
+
+// Code JS pour l'api MapTiles
+// https://www.maptilesapi.com/
+
+
+
+var map = L.map('map').setView([47.586092, 1.332357], 15);
+L.tileLayer('https://maptiles.p.rapidapi.com/en/map/v1/{z}/{x}/{y}.png?rapidapi-key=c4820222c7msh65f46e1adff42efp19af5bjsnfe9965f14b4c', {
+attribution: 'Tiles &copy: <a href="https://www.maptilesapi.com/">MapTiles API</a>, Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+maxZoom: 19
+}).addTo(map);

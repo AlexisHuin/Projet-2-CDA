@@ -11,6 +11,14 @@ use Controller\ExceptionHandler;
 
 class ProducteurController extends UserController
 {
+
+    // Fonction qui permet au producteur log depuis la page profil d'ajouter de nouveaux produits
+    // Les images sont vérifié suivant leur type, taille, le chemin pour l'image est stocké en base de données, et l'image sauvegarder 
+    // dans le fichier assets/images
+    // La fonction dans un deuxiéme temps permet d'envoyé une demande de validation a l'admin, qui permet au producteur depuis la page profil
+    // de voir les produits en attente, et ce validé. 
+    
+
     public function AddProduct(): void
     {
         $this->connectCheck('user', 'Producteur');
@@ -98,6 +106,8 @@ class ProducteurController extends UserController
         ViewController::Display('AddProductProducteurView');
     }
 
+
+    // fonction pour listé la liste des produits du producteurs, qui s'adapte au formulaire de suppresion, et d'update.
     public function ProductList(): void
     {
         $this->connectCheck('user', 'Producteur');
@@ -121,6 +131,9 @@ class ProducteurController extends UserController
         ViewController::Set('AllProduits', $AllProduits);
         ViewCOntroller::Display('ProduitProducteurListView');
     }
+
+ // function pour mettre a jour les produits du producteurs, uniquement le prix, elle gére également la demande de modification pour emettre
+ // a l'admin
 
     private function UpdateProductProducteur(): void
     {
@@ -151,6 +164,8 @@ class ProducteurController extends UserController
         }
     }
 
+// function qui permet de supprimer un ou des produits producteur par le producteurs.
+
     private function DeleteProductProducteur(): void
     {
         // Vérifie si un formulaire de suppression a été soumis
@@ -177,4 +192,3 @@ class ProducteurController extends UserController
 
 
 
-// Récupéré l'id de l'élement avec find One par exemple.
