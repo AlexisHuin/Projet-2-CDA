@@ -56,6 +56,11 @@ $routes = [
         'method' => ['GET'],
         'controller' => ['Controller\PanierController', 'ViderPanier']
     ],
+    '/Contact' => [
+        'method' => ['GET', 'POST'],
+        'controller' => ['Controller\ContactController', 'Contact']
+    ],
+    
 
 
     '/Admin' => [
