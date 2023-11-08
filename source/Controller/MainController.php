@@ -79,6 +79,7 @@ class MainController
         } else {
             $notifications = [];
         }
+        
         ViewController::Set('notifications', $notifications);
     }
 
