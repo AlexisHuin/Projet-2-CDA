@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : db
--- Généré le : jeu. 02 nov. 2023 à 15:39
+-- Généré le : mer. 08 nov. 2023 à 14:31
 -- Version du serveur : 11.1.2-MariaDB-1:11.1.2+maria~ubu2204
 -- Version de PHP : 8.2.11
 
@@ -199,11 +199,10 @@ INSERT INTO `Notifications` (`IdNotification`, `IdDestinataireNotification`, `Mo
 
 CREATE TABLE `Panier` (
   `IdPanier` int(11) NOT NULL,
-  `DesignationPanier` varchar(255) DEFAULT NULL,
+  `ProduitPanier` int(11) NOT NULL,
   `QuantitePanier` int(11) NOT NULL,
   `PrixPanier` int(11) NOT NULL,
-  `IdAdherentsPanier` int(11) NOT NULL,
-  `IsBundlePanier` tinyint(1) NOT NULL DEFAULT 0
+  `IdAdherentsPanier` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 
 -- --------------------------------------------------------
@@ -450,7 +449,8 @@ ALTER TABLE `Notifications`
 --
 ALTER TABLE `Panier`
   ADD PRIMARY KEY (`IdPanier`),
-  ADD KEY `IdAdherentsPanier` (`IdAdherentsPanier`) USING BTREE;
+  ADD KEY `IdAdherentsPanier` (`IdAdherentsPanier`) USING BTREE,
+  ADD KEY `ProduitPanier` (`ProduitPanier`);
 
 --
 -- Index pour la table `Producteur`

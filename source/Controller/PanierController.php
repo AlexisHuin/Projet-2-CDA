@@ -25,6 +25,8 @@ class PanierController extends MainController
         }
         if(isset($_POST['delete'])){
             $panier = new PanierModel();
+            $panier->IdPanier = $_POST['IdPanier'];
+            $panier->Delete();
 
             unset($_SESSION['panier'][$_POST['Id']]);
             header('Refresh:0.01;' . $_SERVER['REQUEST_URI']);
