@@ -6,7 +6,7 @@
     </a>
     <div class="product-description">
         <h3 class="produit">{$product['DesignationProduit']}</h3>
-        {if isset($product['DesignationCategorie'])}
+         {if isset($product['DesignationCategorie'])}
             <h3 data-id="{$product['IdCategorie']}" class="categorie">{$product['DesignationCategorie']}</h3>
         {/if}
         {if isset($product['PrixProduitProducteur']) && isset($product['DetailsProduitProducteur']) && isset($product['QuantiteProduitProducteur']) && isset($product['ImageProduitProducteur'])}
