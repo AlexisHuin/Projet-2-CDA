@@ -3,6 +3,9 @@
 
         <h1>Espace Adhérent</h1>
         <h2>Mes coordonnées</h2>
+
+        {* affichage de la page de modification des coordonnées adhérents *}
+
         {if str_replace('/User/Profile', '', $URI) === '?edit'}
             <form method="POST">
                 <div>
@@ -17,6 +20,9 @@
                 <label>GPS :<input type="text" name='CoordonneesGPSAdherent' value='{$Infos.CoordonneesGPSAdherent}'> </label>
                 <button style="margin: 0 0 1em 0;" type='submit' name='modification'>Confirmer</button>
             </form>
+
+{* modale pour ajouter une CB *}
+
         {else}
             <div id="paiementCoor" style="position: fixed; top:0;left:0;height: 100vh;
                 width: 100vw;
@@ -49,9 +55,15 @@
                     </form>
                 </div>
             </div>
+
+            {* si il n'y a aucune CB enregistré afficher le message pour rappel d'adhésion *}
+
             {if empty($Reglement)}
                 <h2> Pour nous rejoindre, pensez à enregistrer un mode de paiement </h2>
                 <p>Adhésion : 15€ par mois, prélevé tout les 1er du mois</p>
+
+                {* Modale pour supprimé les données de CB *}
+
             {else}
                 <div id="resiliationCoor" style="position: fixed; top:0;left:0;height: 100vh;
                         width: 100vw;
@@ -78,6 +90,9 @@
             </form>
         </div>
     </div>
+
+        {* Si les coordonnées de CB sont présente, les affichées *}
+
     {if $SessionInfo['IdRole'] == $Reglement['IdAdherentInfosReglement']}
 
     <div>
@@ -92,6 +107,9 @@
                 {/if}
 
             {/if}
+
+            {* Affichage des coordonnées de l'adherent *}
+
             <div>
                 <p>Nom Prénom : {$Infos.NomPrenomAdherent}</p>
                 <p>Tel : {$Infos.PhoneAdherent}</p>
