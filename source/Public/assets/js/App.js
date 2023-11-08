@@ -146,6 +146,7 @@ if (window.location.href == "http://127.0.0.1:8000/User/Profile") {
 }
 
 // Code JS pour l'api MapTiles
+// https://www.maptilesapi.com/
 
 
 

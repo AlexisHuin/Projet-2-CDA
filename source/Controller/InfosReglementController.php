@@ -4,12 +4,14 @@ namespace Controller;
 
 use DateTime;
 use Model\InfosReglementModel;
-use Model\AdherentModel;
-
-use Controller\SessionController;
 
 abstract class InfosReglementController
 {
+
+    // Fonction pour ajouté les coordonnées bancaire de l'adhérent, pour le formulaire sur la page Profil
+    // Toutes les données sauf expiration, et titulaire sont cryptés, et les données attendu vérifié avec un compte pour les erreurs
+    // La fonction permet aussi d'update si des données sont déja présente.
+
     public static function AddInfosReglement(array|string|object $datas): void
     {
 
@@ -29,7 +31,7 @@ abstract class InfosReglementController
             ExceptionHandler::SetUserError("Veuillez insérer un numéro valide");
         }
         $errors = ExceptionHandler::GetUserError();
-       
+
         if (count($errors) == 0) {
             $infosReglement->CodeCBInfosReglement = password_hash($datas['NumeroCB'], PASSWORD_ARGON2ID);
             $infosReglement->TitulaireInfosReglement = $datas['Titulaire'];
@@ -50,13 +52,13 @@ abstract class InfosReglementController
         }
     }
 
-    public static function GetOneInfosReglement() :array|string|object
-    {   
+    // Fonction pour récupéré les coordonnées bancaires si elles sont présente pour affiché sur la page profil si il dois
+    // ajouter ou non un mode de paiement.
+
+    public static function GetOneInfosReglement(): array|string|object
+    {
         $oneInfosReglement = new InfosReglementModel();
         $oneInfosReglement->IdAdherentInfosReglement = $_SESSION['user']['IdRole'];
         return $oneInfosReglement->Find('*', 'Fetch');
-    
     }
-
-    
 }

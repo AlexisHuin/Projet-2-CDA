@@ -3,6 +3,9 @@
 namespace Controller;
 
 class ContactController extends MainController {
+
+    // fonction pour afficher la page Contact
+
     public function Contact(): void {
 
         
