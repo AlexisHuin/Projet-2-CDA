@@ -4,18 +4,21 @@
 <head>
     <link rel="stylesheet" href="/assets/css/style.css">
     <link rel="stylesheet" href="/assets/css/styling.css">
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin=""/>
-    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
+    {* API MAP NE PAS INVERSER LE LINK ET SCRIPT *}
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+        integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+        crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+        integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+        crossorigin=""></script>
+    {* API MAP NE PAS INVERSER LE LINK ET SCRIPT *}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script defer src="/assets/js/App.js"></script>
     <title>{$title}</title>
-
-
 </head>
 
 <body>
-
     <header>
         <nav class="navbar">
             <div class="logo-div">
@@ -25,7 +28,6 @@
             <ul class="menu-list">
                 <li><a href="/">Accueil</a></li>
                 <li><a href="/Contact">Contact</a></li>
-
                 {if isset($smarty.session.user)}
                     {if $smarty.session.user.RoleUser eq "Adherent" or $smarty.session.user.RoleUser eq "Producteur"}
                         <li><a href="/Adherents/Panier"><img class="header_img" src="/assets/images/cart.svg" alt="Cart"></a>
@@ -42,7 +44,6 @@
                     <li><a href="/User"><img class="header_img" src="/assets/images/cart.svg" alt="Cart"></a></li>
                     <li><a href="/User"><img class="header_img" src="/assets/images/login.svg" alt="Login"></a></li>
                 {/if}
-
                 <li class="deroulant">
                     <input type="checkbox" id="toggleNotification" class="toggle-checkbox">
                     <label style="position: relative;" for="toggleNotification" class="toggle-label">
@@ -69,12 +70,10 @@
                         </ul>
                     </label>
                 </li>
-
                 <li class="search-bar">
                     <input type="text" placeholder="Rechercher...">
                     <button type="button">Rechercher</button>
                 </li>
-
             </ul>
         </nav>
 </header>
