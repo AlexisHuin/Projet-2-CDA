@@ -115,8 +115,7 @@ class ProducteurController extends UserController
         $Produits = new ProduitProducteurModel();
         $AllProduits = $Produits->getProduitProducteur($_SESSION['user']['IdRole']);
 
-            // Initialise la vue et fournit les données à afficher
-        ;
+        ViewController::Set('URI', $_SERVER['REQUEST_URI']);
         ViewController::Set('title', 'Mes produits');
         ViewController::Set('SessionInfo', $_SESSION['user']);
         ViewController::Set('AllProduits', $AllProduits);

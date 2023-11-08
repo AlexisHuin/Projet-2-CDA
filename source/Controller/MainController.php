@@ -8,6 +8,7 @@ use Model\NotificationsModel;
 use Controller\ExceptionHandler;
 use Controller\ViewController;
 use Controller\SessionController;
+use Model\PanierModel;
 
 class MainController
 {
@@ -59,7 +60,27 @@ class MainController
     {
         SessionController::Start();
         DbModel::Connect();
-        ViewController::Init('smarty');
+        if (isset($_SESSION['user']) && $_SESSION['user']['RoleUser'] === "Adherent" && !isset($_SESSION["panier"])) {   
+            $panier = new PanierModel();
+            $panier->IdAdherentsPanier = $_SESSION['user']['IdRole'];
+            $results = $panier->Find();
+            if($results){ 
+                foreach($results as $result){
+                    $Ligne = [
+                        "IdLigne" => $result['IdPanier'],
+                        "Produit" => $result['ProduitPanier'],
+                        "Quantite" => $result['QuantitePanier'],
+                        "Prix" => $result['PrixPanier']
+                    ];
+                    $LignePanier[] = $Ligne;
+                }
+            } else {
+                $LignePanier = [];
+            }
+
+            SessionController::Set("panier", $LignePanier);
+            SessionController::Save();
+        }
 
         $NotificationsModel = new NotificationsModel();
 
@@ -72,6 +93,7 @@ class MainController
             header('Refresh:0.01;' . $_SERVER['REQUEST_URI']);
             exit();
         }
+
         if (isset($_SESSION['user'])) {
             $NotificationsModel->IdDestinataireNotification = $_SESSION['user']['IdRole'];
             $NotificationsModel->IsReadNotification = 0;
@@ -79,7 +101,8 @@ class MainController
         } else {
             $notifications = [];
         }
-        
+
+        ViewController::Init('smarty');
         ViewController::Set('notifications', $notifications);
     }
 
