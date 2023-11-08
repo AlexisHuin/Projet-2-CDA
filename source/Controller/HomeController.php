@@ -35,10 +35,7 @@ class HomeController extends MainController
         $ProduitModel = new ProduitModel();
         $Produit = $ProduitModel->DescriptifProduit($params['id']);
         $produitProducteurModel = new ProduitProducteurModel();
-        $produitProducteurs = $produitProducteurModel->getProduitProducteur($params['id']);
-
-
-        ('smarty');
+        $produitProducteurs = $produitProducteurModel->getProduitProducteur($params['id']);;
         ViewController::Set('title', 'Home');
         ViewController::Set('produit', $produitProducteurs);
         ViewController::Set('produitProducteur', $Produit);

@@ -175,8 +175,7 @@ class UserController extends MainController
             var_dump($errors);
         }
 
-        // Initialisation de la vue (Smarty)
-        ('smarty');
+            // Initialisation de la vue (Smarty)
         ViewController::Set('title', 'Login');
         ViewController::Display('LoginView');
     }
@@ -227,9 +226,7 @@ class UserController extends MainController
                 $NewUser->MailProducteur = $_SESSION['user']['Email'];
                 break;
         }
-        $Infos = $NewUser->Find('*', 'Fetch');
-
-        ('smarty');
+        $Infos = $NewUser->Find('*', 'Fetch');;
         ViewController::Set('URI', $_SERVER['REQUEST_URI']);
         ViewController::Set('title', 'Profile');
         ViewController::Set('SessionInfo', $_SESSION['user']);
