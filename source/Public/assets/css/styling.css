@@ -254,18 +254,10 @@
   /* Couleur du fond du bouton au survol */
 }
 
-
-
-
-
-
-
-
 /*notification*/
 /* Style de la liste déroulante */
 
 .toggle-label {
-
   position: relative;
 }
 
@@ -299,8 +291,8 @@
 }
 
 /* Afficher la liste déroulante lorsque la case à cocher est cochée ou en focus */
-.toggle-checkbox:checked+.toggle-label .sous,
-.toggle-checkbox+.toggle-label .sous:hover {
+.toggle-checkbox:checked + .toggle-label .sous,
+.toggle-checkbox + .toggle-label .sous:hover {
   opacity: 1;
   visibility: visible;
 }
@@ -309,7 +301,7 @@
   cursor: pointer;
   background: transparent;
   border: none;
-  transition: all .2s ease;
+  transition: all 0.2s ease;
   padding: 1rem 0;
   margin: 0;
 }
@@ -319,7 +311,7 @@
 }
 
 .sous form {
-  transition: all .2s ease;
+  transition: all 0.2s ease;
 }
 
 .sous form:hover {
@@ -335,4 +327,11 @@
 /* Cacher la case à cocher */
 .toggle-checkbox {
   display: none;
+}
+
+/* CSS DE LA MAP PAGE PROFIL */
+
+#map {
+  height: 30em;
+  width: 30em;
 }
