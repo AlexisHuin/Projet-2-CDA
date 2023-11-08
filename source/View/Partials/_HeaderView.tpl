@@ -23,7 +23,7 @@
 
             <ul class="menu-list">
                 <li><a href="/">Accueil</a></li>
-                <li><a href="#">Contact</a></li>
+                <li><a href="/Contact">Contact</a></li>
 
                 {if isset($smarty.session.user)}
                     {if $smarty.session.user.RoleUser eq "Adherent" or $smarty.session.user.RoleUser eq "Producteur"}
@@ -76,4 +76,4 @@
 
             </ul>
         </nav>
-</header
+</header>
