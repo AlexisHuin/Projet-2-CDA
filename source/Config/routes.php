@@ -28,6 +28,10 @@ $routes = [
         'method'=>['GET', 'POST'],
         'controller'=>['Controller\ProducteurController','AddProduct']
     ],
+    '/Bundle' => [
+        'method' => ['GET', 'POST'],
+        'controller' => ['Controller\BundleController', 'Bundle']
+    ],
     '/Panier' => [
         'method' => ['GET','POST'],
         'controller' => ['Controller\PanierController', 'Panier']
