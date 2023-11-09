@@ -33,29 +33,52 @@ class HomeController extends MainController
 
     public function DescriptifProduit($id)
     {
+        //TODO Continuer commentaires
+        //Vérification si l'utilisateur est connecté
+        //? fonction $this->connectCheck inutilisable pour raison inconnue.
+        if (!isset($_SESSION['user'])) {
+            header('Location: /User');
+            exit();
+        }
+        // $this->connectCheck('user', 'Adherent', "User/");
+
         if (isset($_POST['Add'])) {
-            $this->connectCheck('user', 'Adherent', "User/");
+            //Check si les champs sont valides
             $datas = $this->validate($_POST, ["Prix", "Description", "QuantiteTotal", "Quantite"]);
 
             if ($datas) {
-
+                $panierModel = new PanierModel();
+                // Check si quantité demandée et plus élevée que la quantité proposée par le producteur
                 if ($datas['Quantite'] > $datas['QuantiteTotal'] || $datas['Quantite'] <= 0) {
                     ExceptionHandler::SetUserError("Quantité invalide.");
-                } else if (isset($_SESSION['panier'][0])) {
+                } 
+                // check si il existe au moins une ligne dans le panier
+                else if (isset($_SESSION['panier'][0])) {
+                    // Initialisation d'un compteur de boucle
+                    $Line = 0;
+                    //Itérations dans la session panier
                     foreach ($_SESSION['panier'] as $panier) {
+                        // Check si l'id du produit dans la ligne actuelle du panier correspont à celui que l'on essaie d'insérer
                         if ($panier['Produit'] == $datas['Id']) {
                             if (($panier['Quantite'] + $datas['Quantite']) > $datas['QuantiteTotal']) {
                                 ExceptionHandler::SetUserError("Quantité dans le panier supérieure à la quantité totale disponible.");
                             } else {
-                                break;
+                                $_SESSION['panier'][$Line]['Quantite'] = $panier['Quantite'] + $datas['Quantite'];
+                                $panierModel->QuantitePanier = $_SESSION['panier'][$Line]['Quantite'];
+                                $panierModel->Where($_SESSION['panier'][$Line]['IdLigne']);
+
+                                $panierModel->Update();
+
+                                header('Refresh:0.01;' . $_SERVER['REQUEST_URI']);
+                                exit();
                             }
                         }
+                        $Line++;
                     }
                 }
 
                 $errors = ExceptionHandler::GetUserError();
                 if (count($errors) == 0) {
-                    $panierModel = new PanierModel();
                     $panierModel->ProduitPanier = $datas['Id'];
                     $panierModel->QuantitePanier = $datas['Quantite'];
                     $panierModel->PrixPanier = ($datas['Prix'] * $datas['Quantite']);
@@ -84,7 +107,7 @@ class HomeController extends MainController
         $ProduitModel->IdProduit = $id['id'];
         $Produit = $ProduitModel->Find('DesignationProduit', 'Fetch');
 
-        $produitProducteurs = $produitProducteurModel->getProduitProducteur($id['id'], true);
+        $produitProducteurs = $produitProducteurModel->getProduitProducteur($id['id'], false, true);
 
 
         ViewController::Set('title', 'Home');

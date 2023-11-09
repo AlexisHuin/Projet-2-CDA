@@ -5,6 +5,7 @@ use Model\DbModel;
 class PanierModel extends DbModel
 {
     public string $table = "Panier";
+    public string $id = "IdPanier";
 }
 
 

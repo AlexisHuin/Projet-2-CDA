@@ -8,7 +8,7 @@
                 <p>Produit : {$item.Produit}</p>
                 <p>Quantite : {$item.Quantite}</p>
                 <p>Prix : {$item.Prix}€</p>
-                <input type="hidden" name="Id" value="{$item@index}">
+                <input type="hidden" name="Id" value="{$k}">
                 <input type="hidden" name="IdPanier" value="{$item.IdLigne}">
                 <input type="submit" name="delete" value="Supprimer">
             </form>
@@ -18,12 +18,16 @@
         <form method="post">
             <input type="submit" value="Vider le panier" name="deleteAll">
         </form>
-        <p> Prix total commande : {$total}</p>
+        <p> Prix total commande : {$total}€</p>
         <form method="post">
             <input type="submit" value="Achat" name="Validate">
         </form>
     {else}
         <p>Le panier est vide!</p>
     {/if}
+
+    <p>{$noticeQt}</p>
+    <p>{$noticePrix}</p>
+
 </div>
 {include file="../Partials/_FooterView.tpl"}
