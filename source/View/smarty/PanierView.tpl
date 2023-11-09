@@ -8,7 +8,7 @@
                 <p>Produit : {$item.Produit}</p>
                 <p>Quantite : {$item.Quantite}</p>
                 <p>Prix : {$item.Prix}€</p>
-                <input type="hidden" name="Id" value="{$item@index}">
+                <input type="hidden" name="Id" value="{$k}">
                 <input type="hidden" name="IdPanier" value="{$item.IdLigne}">
                 <input type="submit" name="delete" value="Supprimer">
             </form>
