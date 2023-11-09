@@ -35,7 +35,7 @@ class HomeController extends MainController
     {
         //TODO Continuer commentaires
         //Vérification si l'utilisateur est connecté
-        //! fonction $this->connectCheck inutilisable pour raison inconnue.
+        //? fonction $this->connectCheck inutilisable pour raison inconnue.
         if (!isset($_SESSION['user'])) {
             header('Location: /User');
             exit();
@@ -107,7 +107,7 @@ class HomeController extends MainController
         $ProduitModel->IdProduit = $id['id'];
         $Produit = $ProduitModel->Find('DesignationProduit', 'Fetch');
 
-        $produitProducteurs = $produitProducteurModel->getProduitProducteur($id['id'], true);
+        $produitProducteurs = $produitProducteurModel->getProduitProducteur($id['id'], false, true);
 
 
         ViewController::Set('title', 'Home');
