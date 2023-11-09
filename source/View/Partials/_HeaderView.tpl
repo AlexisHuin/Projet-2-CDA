@@ -44,9 +44,9 @@
                                     alt="Logout"></a></li>
                     {else if $smarty.session.user.RoleUser eq "Producteur"}
 
-                        <li><a href="/User/Profile"><img class="header_img" src="/assets/images/profile.svg" alt="Profile"></a>
+                        <li><a href="/User/Profile"></a><img class="header_img" src="/assets/images/profile.svg" alt="Profile"></a>
                         </li>
-                        <li><a href="/User/Deconnexion"><img class="header_img" src="/assets/images/logout.svg"> </li>
+                        <li><a href="/User/Deconnexion"></a><img class="header_img" src="/assets/images/logout.svg"> </li>
 
                     {/if}
                 {else}
