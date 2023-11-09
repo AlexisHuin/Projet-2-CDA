@@ -132,7 +132,6 @@ if (window.location.href == "http://127.0.0.1:8000/") {
   })();
 }
 
-
 // fonction pour JS pour géré l'ouverture de mes modales, elle permet aussi bien d'ouvrir et fermer.
 
 if (window.location.href == "http://127.0.0.1:8000/User/Profile") {
@@ -152,24 +151,26 @@ if (window.location.href == "http://127.0.0.1:8000/User/Profile") {
 // Code JS pour l'api MapTiles
 // https://www.maptilesapi.com/
 
-
 if (window.location.href == "http://127.0.0.1:8000/Contact") {
+  var map = L.map("map").setView([47.5851502, 1.3333517], 20);
+  L.tileLayer(
+    "https://maptiles.p.rapidapi.com/en/map/v1/{z}/{x}/{y}.png?rapidapi-key=c4820222c7msh65f46e1adff42efp19af5bjsnfe9965f14b4c",
+    {
+      attribution:
+        'Tiles &copy: <a href="https://www.maptilesapi.com/">MapTiles API</a>, Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+      maxZoom: 19,
+    }
+  ).addTo(map);
 
-  var map = L.map('map').setView([47.5851502,1.3333517], 20);
-  L.tileLayer('https://maptiles.p.rapidapi.com/en/map/v1/{z}/{x}/{y}.png?rapidapi-key=c4820222c7msh65f46e1adff42efp19af5bjsnfe9965f14b4c', {
-    attribution: 'Tiles &copy: <a href="https://www.maptilesapi.com/">MapTiles API</a>, Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-    maxZoom: 19
-  }).addTo(map);
-  
   //Fonction pour définir le logo sur la map
-  
-   var cursor = L.marker(map.getCenter(), {
+
+  var cursor = L.marker(map.getCenter(), {
     icon: L.divIcon({
-        className: 'cursor-icon',
-        iconSize: [20, 20],
-        html: '<div style="width: 20px; height: 20px; border: 2px solid red; border-radius: 50%;"></div>'
+      className: "cursor-icon",
+      iconSize: [20, 20],
+      html: '<div style="width: 20px; height: 20px; border: 2px solid red; border-radius: 50%;"></div>',
     }),
-}).addTo(map);
+  }).addTo(map);
 }
 
 //fonction filtrage page bundle
@@ -178,9 +179,9 @@ if (window.location.href == "http://127.0.0.1:8000/Contact") {
   let input = document.querySelector("#searchInput_produitBundle");
   let cardBundles = document.querySelectorAll(".cardBundle");
 
-  input.addEventListener('input', () => {
+  input.addEventListener("input", () => {
     let filterValue = input.value.toLowerCase().trim();
-    
+
     for (let i = 0; i < cardBundles.length; i++) {
       let cardBundle = cardBundles[i];
       let text = cardBundle.textContent.toLowerCase();
@@ -195,3 +196,16 @@ if (window.location.href == "http://127.0.0.1:8000/Contact") {
   });
 })();
 
+//fonction pour ajouter un produit au bundle
+
+(function addNewProductAtBundle() {
+  let bundle = document.querySelector("#bundle_form");
+  let produitTargets = document.querySelectorAll(".cardBundle");
+
+  produitTargets.forEach((produitTarget) => {
+    let target = produitTarget.querySelector("button");
+    target.addEventListener("click", () => {
+      console.log(target);
+    });
+  });
+})();

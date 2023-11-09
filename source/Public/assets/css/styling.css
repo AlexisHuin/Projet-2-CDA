@@ -340,10 +340,45 @@
   display: flex;
 }
 
+.container_bundle {
+ display: flex;
+ flex-wrap: wrap;
+ /* justify-content: space-between; */
+
+}
+
 .cardBundle {
-  display:flex;
-  flex-wrap: wrap;
-  padding: 5em;
+  width: calc(25% - 1em); /* 25% de largeur avec marges de 1em */
+  display: flex;
   margin: 1em;
   border: 1px solid black;
+  align-items: center; /* Centre le contenu verticalement */
+  text-align: center; /* Centre le texte horizontalement */
+  flex-direction: column;
 }
+
+.cardBundle img {
+  width: calc(50% - 1em); /* 50% de largeur avec marges de 1em pour les écrans plus petits */
+}
+
+.interface_left{
+  flex:1;
+}
+
+.interface_left_select label,
+.interface_left_select input {
+  width: 30%;
+  display: block; /* Affiche les labels et les champs d'entrée l'un au-dessus de l'autre */
+  margin-bottom: 10px; /* Ajoute un espacement entre les éléments */
+}
+
+.interface_right {
+  margin-right: 1em;
+ flex:1;
+ border: 1px solid black;
+}
+
+.interface {
+  display: flex;
+}
+
