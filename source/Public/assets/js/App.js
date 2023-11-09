@@ -160,3 +160,25 @@ if (window.location.href == "http://127.0.0.1:8000/Contact") {
     maxZoom: 19
   }).addTo(map);
 }
+
+
+(function showDropdownBundle() {
+  let input = document.querySelector("#searchInput_produitBundle");
+  let cardBundles = document.querySelectorAll(".cardBundle");
+
+  input.addEventListener('input', () => {
+    let filterValue = input.value.toLowerCase().trim();
+    
+    for (let i = 0; i < cardBundles.length; i++) {
+      let cardBundle = cardBundles[i];
+      let text = cardBundle.textContent.toLowerCase();
+
+      if (text.includes(filterValue)) {
+        cardBundle.style.display = "flex";
+        cardBundle.style.flexDirection = "column";
+      } else {
+        cardBundle.style.display = "none"; // Masquer le cardBundle s'il ne correspond pas
+      }
+    }
+  });
+})();
