@@ -72,6 +72,21 @@ INSERT INTO `Admin` (`IdAdmin`, `UsernameAdmin`, `MdpAdmin`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Structure de la table `Bundle`
+--
+
+CREATE TABLE `Bundle` (
+  `IdBundle` int(11) NOT NULL,
+  `DesignationBundle` varchar(75) NOT NULL,
+  `IdProduitsBundle` varchar(20) NOT NULL,
+  `QuantiteProduitsBundle` varchar(20) NOT NULL,
+  `IdProducteurBundle` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+
+--
 -- Structure de la table `Categorie`
 --
 
