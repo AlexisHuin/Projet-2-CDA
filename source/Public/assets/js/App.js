@@ -156,4 +156,12 @@ if (window.location.href == "http://127.0.0.1:8000/Contact") {
     attribution: 'Tiles &copy: <a href="https://www.maptilesapi.com/">MapTiles API</a>, Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
     maxZoom: 19
   }).addTo(map);
+  var cursor = L.marker(map.getCenter(), {
+    icon: L.divIcon({
+        className: 'cursor-icon',
+        iconSize: [20, 20],
+        html: '<div style="width: 20px; height: 20px; border: 2px solid red; border-radius: 50%;"></div>'
+    }),
+}).addTo(map);
+
 }
