@@ -1,4 +1,5 @@
 {if $URI === "/User/ProductList"}
+        
     <input type="text" name="produit[{$product['IdProduitProducteur']}][DesignationProduitProducteur]"
         value="{$product['DesignationProduitProducteur']}" readonly />
     <p>Prix : <input type="text" name="produit[{$product['IdProduitProducteur']}][PrixProduitProducteur]"
