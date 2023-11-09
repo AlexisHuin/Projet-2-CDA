@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : db
--- Généré le : jeu. 09 nov. 2023 à 09:52
+-- Généré le : mer. 08 nov. 2023 à 14:31
 -- Version du serveur : 11.1.2-MariaDB-1:11.1.2+maria~ubu2204
 -- Version de PHP : 8.2.11
 
@@ -72,20 +72,6 @@ INSERT INTO `Admin` (`IdAdmin`, `UsernameAdmin`, `MdpAdmin`) VALUES
 -- --------------------------------------------------------
 
 --
--- Structure de la table `Bundle`
---
-
-CREATE TABLE `Bundle` (
-  `IdBundle` int(11) NOT NULL,
-  `DesignationBundle` varchar(75) NOT NULL,
-  `IdProduitsBundle` varchar(20) NOT NULL,
-  `QuantiteProduitsBundle` varchar(20) NOT NULL,
-  `IdProducteurBundle` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
 -- Structure de la table `Categorie`
 --
 
@@ -140,10 +126,7 @@ CREATE TABLE `Demandes` (
 INSERT INTO `Demandes` (`IdDemande`, `ObjetDemande`, `PrixProposeDemande`, `DesignationProduitDemande`, `MotifDemande`, `IdProducteurDemande`, `IdProduitProducteurDemande`, `EtatDemande`) VALUES
 (33, 'Prix', 9, 'Aubergine du coin', 'Le producteur prod.prod souhaite modifié le prix de Aubergine du coin au prix de 9', 7, 13, 'Denied'),
 (34, 'Prix', 50, 'Aubergine du coin', 'Le producteur prod.prod souhaite modifié le prix de Aubergine du coin au prix de 50', 7, 13, 'Accepted'),
-(35, 'Prix', 52, 'Aubergine du coin', 'Le producteur prod.prod souhaite modifié le prix de Aubergine du coin au prix de 52', 7, 13, 'Accepted'),
-(36, 'Ajout', 2.5, 'Abricot rouge', 'Le producteur prod.prod souhaite ajouter le produit Abricot rouge au prix de 2.50', 7, 14, 'Accepted'),
-(37, 'Ajout', 1.45, 'Asperge bien verte', 'Le producteur prod.prod souhaite ajouter le produit Asperge bien verte au prix de 1.45', 7, 15, 'Opened'),
-(38, 'Ajout', 1.36, 'Raison bien jaune', 'Le producteur prod.prod souhaite ajouter le produit Raison bien jaune au prix de 1.36', 7, 16, 'Opened');
+(35, 'Prix', 52, 'Aubergine du coin', 'Le producteur prod.prod souhaite modifié le prix de Aubergine du coin au prix de 52', 7, 13, 'Opened');
 
 -- --------------------------------------------------------
 
@@ -206,9 +189,7 @@ CREATE TABLE `Notifications` (
 --
 
 INSERT INTO `Notifications` (`IdNotification`, `IdDestinataireNotification`, `MotifNotification`, `IsReadNotification`, `DateEnvoiNotification`) VALUES
-(1, 7, 'Votre demande concernant la modification du prix de Aubergine du coin à été refusée.', 0, '2023-11-01 17:25'),
-(2, 7, 'Votre demande concernant la modification du prix de Aubergine du coin a été acceptée.', 1, '2023-11-08 11:56'),
-(3, 7, 'Votre demande concernant l\'ajout du produit Abricot rouge a été acceptée.', 0, '2023-11-09 09:52');
+(1, 7, 'Votre demande concernant la modification du prix de Aubergine du coin à été refusée.', 0, '2023-11-01 17:25');
 
 -- --------------------------------------------------------
 
@@ -218,11 +199,10 @@ INSERT INTO `Notifications` (`IdNotification`, `IdDestinataireNotification`, `Mo
 
 CREATE TABLE `Panier` (
   `IdPanier` int(11) NOT NULL,
-  `DesignationPanier` varchar(255) DEFAULT NULL,
+  `ProduitPanier` int(11) NOT NULL,
   `QuantitePanier` int(11) NOT NULL,
   `PrixPanier` int(11) NOT NULL,
-  `IdAdherentsPanier` int(11) NOT NULL,
-  `IsBundlePanier` tinyint(1) NOT NULL DEFAULT 0
+  `IdAdherentsPanier` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 
 -- --------------------------------------------------------
@@ -342,10 +322,7 @@ CREATE TABLE `ProduitProducteur` (
 --
 
 INSERT INTO `ProduitProducteur` (`IdProduitProducteur`, `IsValidateProduitProducteur`, `DesignationProduitProducteur`, `PrixProduitProducteur`, `DateModifPrixProduitProducteur`, `DetailsProduitProducteur`, `QuantiteProduitProducteur`, `ImageProduitProducteur`, `IdProducteurProduitProducteur`, `IdProduitProduitProducteur`) VALUES
-(13, 1, 'Aubergine du coin', '52', '2023-11-08 11:56', 'Super sucré', 12, 'assets/images/653f7631bb3e2.png', 7, 35),
-(14, 1, 'Abricot rouge', '2.50', NULL, 'Abricot bien rouge ta vu', 125, 'assets/images/654c9cf94cce8.jpg', 7, 35),
-(15, 0, 'Asperge bien verte', '1.45', NULL, 'Asperge tavu', 3, 'assets/images/654c9d3989b39.jpg', 7, 28),
-(16, 0, 'Raison bien jaune', '1.36', NULL, 'Raison bien bon', 36, 'assets/images/654c9d759277c.jpg', 7, 19);
+(13, 1, 'Aubergine du coin', '52', '2023-10-30 10:53', 'Super sucré', 12, 'assets/images/653f7631bb3e2.png', 7, 35);
 
 -- --------------------------------------------------------
 
@@ -427,13 +404,6 @@ ALTER TABLE `Admin`
   ADD PRIMARY KEY (`IdAdmin`);
 
 --
--- Index pour la table `Bundle`
---
-ALTER TABLE `Bundle`
-  ADD PRIMARY KEY (`IdBundle`),
-  ADD KEY `IdProducteurBundle` (`IdProducteurBundle`) USING BTREE;
-
---
 -- Index pour la table `Categorie`
 --
 ALTER TABLE `Categorie`
@@ -479,7 +449,8 @@ ALTER TABLE `Notifications`
 --
 ALTER TABLE `Panier`
   ADD PRIMARY KEY (`IdPanier`),
-  ADD KEY `IdAdherentsPanier` (`IdAdherentsPanier`) USING BTREE;
+  ADD KEY `IdAdherentsPanier` (`IdAdherentsPanier`) USING BTREE,
+  ADD KEY `ProduitPanier` (`ProduitPanier`);
 
 --
 -- Index pour la table `Producteur`
@@ -543,12 +514,6 @@ ALTER TABLE `Admin`
   MODIFY `IdAdmin` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- AUTO_INCREMENT pour la table `Bundle`
---
-ALTER TABLE `Bundle`
-  MODIFY `IdBundle` int(11) NOT NULL AUTO_INCREMENT;
-
---
 -- AUTO_INCREMENT pour la table `Categorie`
 --
 ALTER TABLE `Categorie`
@@ -564,13 +529,13 @@ ALTER TABLE `Commandes`
 -- AUTO_INCREMENT pour la table `Demandes`
 --
 ALTER TABLE `Demandes`
-  MODIFY `IdDemande` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
+  MODIFY `IdDemande` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 
 --
 -- AUTO_INCREMENT pour la table `InfosReglement`
 --
 ALTER TABLE `InfosReglement`
-  MODIFY `IdInfosReglement` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `IdInfosReglement` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT pour la table `ModeReglement`
@@ -582,7 +547,7 @@ ALTER TABLE `ModeReglement`
 -- AUTO_INCREMENT pour la table `Notifications`
 --
 ALTER TABLE `Notifications`
-  MODIFY `IdNotification` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `IdNotification` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT pour la table `Panier`
@@ -606,7 +571,7 @@ ALTER TABLE `Produit`
 -- AUTO_INCREMENT pour la table `ProduitProducteur`
 --
 ALTER TABLE `ProduitProducteur`
-  MODIFY `IdProduitProducteur` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `IdProduitProducteur` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT pour la table `Reglement`
@@ -625,16 +590,6 @@ ALTER TABLE `Saison`
 --
 ALTER TABLE `User`
   MODIFY `IdUser` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
-
-DELIMITER $$
---
--- Évènements
---
-CREATE DEFINER=`root`@`%` EVENT `MiseAJourDepenseMensuelle` ON SCHEDULE EVERY 1 MONTH STARTS '2023-11-01 00:00:00' ON COMPLETION NOT PRESERVE ENABLE DO BEGIN
-    UPDATE Adherent SET DepenseAdherent = 0;
-END$$
-
-DELIMITER ;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
