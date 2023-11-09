@@ -160,12 +160,38 @@ if (window.location.href == "http://127.0.0.1:8000/Contact") {
     attribution: 'Tiles &copy: <a href="https://www.maptilesapi.com/">MapTiles API</a>, Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
     maxZoom: 19
   }).addTo(map);
-  var cursor = L.marker(map.getCenter(), {
+  
+  //Fonction pour définir le logo sur la map
+  
+   var cursor = L.marker(map.getCenter(), {
     icon: L.divIcon({
         className: 'cursor-icon',
         iconSize: [20, 20],
         html: '<div style="width: 20px; height: 20px; border: 2px solid red; border-radius: 50%;"></div>'
     }),
 }).addTo(map);
-
 }
+
+//fonction filtrage page bundle
+
+(function showDropdownBundle() {
+  let input = document.querySelector("#searchInput_produitBundle");
+  let cardBundles = document.querySelectorAll(".cardBundle");
+
+  input.addEventListener('input', () => {
+    let filterValue = input.value.toLowerCase().trim();
+    
+    for (let i = 0; i < cardBundles.length; i++) {
+      let cardBundle = cardBundles[i];
+      let text = cardBundle.textContent.toLowerCase();
+
+      if (text.includes(filterValue)) {
+        cardBundle.style.display = "flex";
+        cardBundle.style.flexDirection = "column";
+      } else {
+        cardBundle.style.display = "none"; // Masquer le cardBundle s'il ne correspond pas
+      }
+    }
+  });
+})();
+

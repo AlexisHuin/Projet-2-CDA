@@ -335,3 +335,15 @@
   height: 30em;
   width: 30em;
 }
+
+.dropdown_produitBundle {
+  display: flex;
+}
+
+.cardBundle {
+  display:flex;
+  flex-wrap: wrap;
+  padding: 5em;
+  margin: 1em;
+  border: 1px solid black;
+}
