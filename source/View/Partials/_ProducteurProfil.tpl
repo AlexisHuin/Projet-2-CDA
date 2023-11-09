@@ -39,6 +39,8 @@
                                 href="/User/AddProduct">Consulter/Ajouter mes produits</a></button>
                 <button style="margin: 0 0 1em 0;" type="button"><a style="text-decoration:none; width:100%; height:100%; color:white"
                                 href="/User/Profile?edit">Modifier</a></button>
+                <button style="margin: 0 0 1em 0;" type="button"><a style="text-decoration:none; width:100%; height:100%; color:white"
+                                href="/Bundle">Gérer mes bundles</a></button>
                 </div>
                 </form>
         {/if}
