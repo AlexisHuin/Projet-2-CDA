@@ -11,9 +11,14 @@ class ProduitProducteurModel extends DbModel
     protected string $IdProducteur = 'IdProducteurProduitProducteur';
 
     // Méthode pour récupérer les produits du producteur en fonction de son ID
-    public function getProduitProducteur(string|int $id, bool $validate = false): string|object|array
+    public function getProduitProducteur(string|int $id, bool $isProd = false, bool $validate = false): string|object|array
     {
-        $this->IdProduitProduitProducteur = $id;
+        if($isProd){
+            $this->IdProducteurProduitProducteur = $id;
+        } else{
+            $this->IdProduitProduitProducteur = $id;
+        }
+        
         if($validate){
             $this->IsValidateProduitProducteur = 1;
         }

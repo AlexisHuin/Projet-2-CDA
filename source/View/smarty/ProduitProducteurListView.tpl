@@ -5,7 +5,7 @@
 <form method="post" action="">
     <div class="products">
         {foreach key=key item=product from=$AllProduits}
-            {if $product.IsValidateProduitProducteur == True}
+            {if $product.IsValidateProduitProducteur == 1}
                 {include file="../Partials/_CardView.tpl"}
             {/if}
         {/foreach}

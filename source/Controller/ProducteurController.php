@@ -123,7 +123,7 @@ class ProducteurController extends UserController
 
         // Crée une instance de ProduitProducteurModel pour gérer les produits du producteur
         $Produits = new ProduitProducteurModel();
-        $AllProduits = $Produits->getProduitProducteur($_SESSION['user']['IdRole']);
+        $AllProduits = $Produits->getProduitProducteur($_SESSION['user']['IdRole'], true);
 
         ViewController::Set('URI', $_SERVER['REQUEST_URI']);
         ViewController::Set('title', 'Mes produits');
