@@ -14,13 +14,15 @@
     </div>
     <div style="display: flex; flex-direction:row">
         <label for="QuantiteTotal">Quantité totale :
-            {foreach from=$smarty.session.panier item=panier key=key}
-                {if $panier.Produit == $product['IdProduitProduitProducteur']}
-                    {if ({$product['QuantiteProduitProducteur']} - {$panier.Quantite}) < 5}
-                        <span style="color:red"> Attention, il ne reste plus que {($product['QuantiteProduitProducteur'] -{$panier.Quantite})} unités de ce produit</span>
-                    {/if}
+            {if isset($smarty.session.panier)}
+                {foreach from=$smarty.session.panier item=panier key=key}
+                    {if $panier.Produit == $product['IdProduitProduitProducteur']}
+                        {if ({$product['QuantiteProduitProducteur']} - {$panier.Quantite}) < 5} <span style="color:red"> Attention, il
+                                ne reste plus que {($product['QuantiteProduitProducteur'] -{$panier.Quantite})} unités de ce produit</span>
+                            {/if}
+                        {/if}
+                    {/foreach}
                 {/if}
-            {/foreach}
         </label>
         <input type="text" name="QuantiteTotal" value="{$product['QuantiteProduitProducteur']}" readonly>
     </div>

@@ -23,6 +23,7 @@ class PanierController extends MainController
             $_SESSION['panier'] = [];
             header('Refresh:0.01;' . $_SERVER['REQUEST_URI']);
         }
+        
         if(isset($_POST['delete'])){
             $panier = new PanierModel();
             $panier->IdPanier = $_POST['IdPanier'];
@@ -32,6 +33,7 @@ class PanierController extends MainController
             header('Refresh:0.01;' . $_SERVER['REQUEST_URI']);
         }
 
+        ViewController::Set('title', 'Panier');
         ViewController::Set("panier", $_SESSION['panier']);
         ViewController::Display("PanierView");
     }
