@@ -91,7 +91,6 @@ class DbModel
         $rq->execute($this->datas);
         return self::$db->lastInsertId();
     }
-    
     public function Update(): string|int|object|array
     {
         $columns = array_keys($this->datas);
@@ -114,6 +113,7 @@ class DbModel
 
             $sql .= $And . $whereConds[$i] . " = " . $whereVals[$i];
         }
+
         $rq = self::$db->prepare($sql);
         return $rq->execute($this->datas);
     }

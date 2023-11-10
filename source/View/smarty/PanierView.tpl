@@ -18,16 +18,12 @@
         <form method="post">
             <input type="submit" value="Vider le panier" name="deleteAll">
         </form>
-        <p> Prix total commande : {$total}€</p>
+        <p> Prix total commande : {$total}</p>
         <form method="post">
             <input type="submit" value="Achat" name="Validate">
         </form>
     {else}
         <p>Le panier est vide!</p>
     {/if}
-
-    <p>{$noticeQt}</p>
-    <p>{$noticePrix}</p>
-
 </div>
 {include file="../Partials/_FooterView.tpl"}
