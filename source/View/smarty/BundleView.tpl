@@ -1,7 +1,7 @@
 {include file="../Partials/_HeaderView.tpl"}
 <div style="display: flex">
-<h1 style="flex:1">Ajouter un bundle </h1>
-<h1 style="flex:1">Liste des produits de votre futur bundle</h1>
+    <h1 style="flex:1">Ajouter un bundle </h1>
+    <h1 style="flex:1">Liste des produits de votre futur bundle</h1>
 </div>
 
 <div class="interface">
@@ -26,11 +26,21 @@
         </div>
     </div>
     <div class="interface_right">
-       
+
         <form id="bundle_form" method="POST">
-
-
+        <p class="addCount"></p>
+            {foreach from=$AllProduits item=product key=key }
+                <div class="cardBundle_hide">
+                    <label>Nom</label>
+                    <p style="justify-content: center;">{$product['DesignationProduitProducteur']}</p>
+                    <label style="padding:1em;">Quantité</label>
+                    <p style="padding-bottom: 3em;">{$product['QuantiteProduitProducteur']}</p>
+                    <img style="width: 50%;" src="{$product['ImageProduitProducteur']}" alt="">
+                    <button class="deleteProdBundle">Supprimer</button>
+                </div>
+            {/foreach}
         </form>
+
     </div>
 </div>
 {include file="../Partials/_FooterView.tpl"}
