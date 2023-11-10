@@ -1,4 +1,5 @@
 {include file="../Partials/_HeaderView.tpl"}
+
 <div class="panier">
     <h1>Votre panier</h1>
     {if !empty($panier)}
@@ -35,8 +36,6 @@
     {foreach from=$errors item=$error key=key}
         {$error}
     {/foreach}
-
 </div>
-
 
 {include file="../Partials/_FooterView.tpl"}

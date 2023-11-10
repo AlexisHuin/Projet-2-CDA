@@ -91,7 +91,6 @@ class DbModel
         $rq->execute($this->datas);
         return self::$db->lastInsertId();
     }
-    
     public function Update(): string|int|object|array
     {
         $columns = array_keys($this->datas);
