@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : db
--- Généré le : mer. 08 nov. 2023 à 14:31
+-- Généré le : ven. 10 nov. 2023 à 08:48
 -- Version du serveur : 11.1.2-MariaDB-1:11.1.2+maria~ubu2204
 -- Version de PHP : 8.2.11
 
@@ -68,6 +68,20 @@ CREATE TABLE `Admin` (
 INSERT INTO `Admin` (`IdAdmin`, `UsernameAdmin`, `MdpAdmin`) VALUES
 (2, 'zab', '$argon2id$v=19$m=65536,t=4,p=1$Mk1lM2hCVkR6b0RqNU9QaQ$K2b9zhdKs5+jTZ7E8ah7hzy4az4H3sg+g7lTtRHmbsg'),
 (3, 'zabzab', '$argon2id$v=19$m=65536,t=4,p=1$TEs0Nmd0L1hJdWwwMENVMg$hKO6MNuvVeu66qDG06nC+rW7lQe9Njx7H8r4PKcASuw');
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `Bundle`
+--
+
+CREATE TABLE `Bundle` (
+  `IdBundle` int(11) NOT NULL,
+  `DesignationBundle` varchar(75) NOT NULL,
+  `IdProduitsBundle` varchar(20) NOT NULL,
+  `QuantiteProduitsBundle` varchar(20) NOT NULL,
+  `IdProducteurBundle` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -189,7 +203,7 @@ CREATE TABLE `Notifications` (
 --
 
 INSERT INTO `Notifications` (`IdNotification`, `IdDestinataireNotification`, `MotifNotification`, `IsReadNotification`, `DateEnvoiNotification`) VALUES
-(1, 7, 'Votre demande concernant la modification du prix de Aubergine du coin à été refusée.', 0, '2023-11-01 17:25');
+(1, 7, 'Votre demande concernant la modification du prix de Aubergine du coin à été refusée.', 1, '2023-11-01 17:25');
 
 -- --------------------------------------------------------
 
@@ -322,7 +336,30 @@ CREATE TABLE `ProduitProducteur` (
 --
 
 INSERT INTO `ProduitProducteur` (`IdProduitProducteur`, `IsValidateProduitProducteur`, `DesignationProduitProducteur`, `PrixProduitProducteur`, `DateModifPrixProduitProducteur`, `DetailsProduitProducteur`, `QuantiteProduitProducteur`, `ImageProduitProducteur`, `IdProducteurProduitProducteur`, `IdProduitProduitProducteur`) VALUES
-(13, 1, 'Aubergine du coin', '52', '2023-10-30 10:53', 'Super sucré', 12, 'assets/images/653f7631bb3e2.png', 7, 35);
+(13, 1, 'Aubergine du coin', '52', '2023-10-30 10:53', 'Super sucré', 12, 'assets/images/653f7631bb3e2.png', 7, 35),
+(14, 1, 'Aubergine du coin', '52', '2023-10-30 10:53', 'Super sucré', 52, 'assets/images/653f7631bb3e2.png', 7, 28),
+(15, 1, 'Aubergine du coin', '52', '2023-10-30 10:53', 'Super sucré', 122, 'assets/images/653f7631bb3e2.png', 7, 10),
+(16, 1, 'Aubergine du coin', '52', '2023-10-30 10:53', 'Super sucré', 612, 'assets/images/653f7631bb3e2.png', 7, 7),
+(17, 1, 'Aubergine du coin', '52', '2023-10-30 10:53', 'Super sucré', 212, 'assets/images/653f7631bb3e2.png', 7, 28),
+(18, 1, 'Aubergine du coin', '52', '2023-10-30 10:53', 'Super sucré', 612, 'assets/images/653f7631bb3e2.png', 7, 23),
+(19, 1, 'Aubergine du coin', '52', '2023-10-30 10:53', 'Super sucré', 15, 'assets/images/653f7631bb3e2.png', 7, 10),
+(20, 1, 'Aubergine du coin', '52', '2023-10-30 10:53', 'Super sucré', 22, 'assets/images/653f7631bb3e2.png', 7, 9),
+(21, 1, 'Aubergine du coin', '52', '2023-10-30 10:53', 'Super sucré', 12, 'assets/images/653f7631bb3e2.png', 7, 35),
+(22, 1, 'Aubergine du coin', '52', '2023-10-30 10:53', 'Super sucré', 12, 'assets/images/653f7631bb3e2.png', 7, 35),
+(23, 1, 'Aubergine du coin', '52', '2023-10-30 10:53', 'Super sucré', 52, 'assets/images/653f7631bb3e2.png', 7, 28),
+(24, 1, 'Aubergine du coin', '52', '2023-10-30 10:53', 'Super sucré', 122, 'assets/images/653f7631bb3e2.png', 7, 10),
+(25, 1, 'Aubergine du coin', '52', '2023-10-30 10:53', 'Super sucré', 12, 'assets/images/653f7631bb3e2.png', 7, 35),
+(26, 1, 'Aubergine du coin', '52', '2023-10-30 10:53', 'Super sucré', 52, 'assets/images/653f7631bb3e2.png', 7, 28),
+(27, 1, 'Aubergine du coin', '52', '2023-10-30 10:53', 'Super sucré', 122, 'assets/images/653f7631bb3e2.png', 7, 10),
+(28, 1, 'Aubergine du coin', '52', '2023-10-30 10:53', 'Super sucré', 612, 'assets/images/653f7631bb3e2.png', 7, 7),
+(29, 1, 'Aubergine du coin', '52', '2023-10-30 10:53', 'Super sucré', 212, 'assets/images/653f7631bb3e2.png', 7, 28),
+(30, 1, 'Aubergine du coin', '52', '2023-10-30 10:53', 'Super sucré', 612, 'assets/images/653f7631bb3e2.png', 7, 23),
+(31, 1, 'Aubergine du coin', '52', '2023-10-30 10:53', 'Super sucré', 15, 'assets/images/653f7631bb3e2.png', 7, 10),
+(32, 1, 'Aubergine du coin', '52', '2023-10-30 10:53', 'Super sucré', 22, 'assets/images/653f7631bb3e2.png', 7, 9),
+(33, 1, 'Aubergine du coin', '52', '2023-10-30 10:53', 'Super sucré', 12, 'assets/images/653f7631bb3e2.png', 7, 35),
+(34, 1, 'Aubergine du coin', '52', '2023-10-30 10:53', 'Super sucré', 12, 'assets/images/653f7631bb3e2.png', 7, 35),
+(35, 1, 'Aubergine du coin', '52', '2023-10-30 10:53', 'Super sucré', 52, 'assets/images/653f7631bb3e2.png', 7, 28),
+(36, 1, 'Aubergine du coin', '52', '2023-10-30 10:53', 'Super sucré', 122, 'assets/images/653f7631bb3e2.png', 7, 10);
 
 -- --------------------------------------------------------
 
@@ -571,7 +608,7 @@ ALTER TABLE `Produit`
 -- AUTO_INCREMENT pour la table `ProduitProducteur`
 --
 ALTER TABLE `ProduitProducteur`
-  MODIFY `IdProduitProducteur` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `IdProduitProducteur` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 
 --
 -- AUTO_INCREMENT pour la table `Reglement`
