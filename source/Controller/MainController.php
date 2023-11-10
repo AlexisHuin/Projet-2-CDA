@@ -158,21 +158,21 @@ class MainController
     }
 
     // Valide si tous les champs du formulaire sont remplis
-    public function validate(array $form, array $champsObligatoires, array $champsFacultatifs = []): array
+    public function validate(array $form, array $champsObligatoires, array $champsFacultatifs = []): array|bool
     {
         $champsCheck = array_merge($champsObligatoires, $champsFacultatifs);
-
+        $datas = [];
         foreach ($champsCheck as $champObligatoire) {
-            if (in_array($champsCheck, $champsObligatoires)) {
+            if (in_array($champObligatoire, $champsObligatoires)) {
                 // Si le champ est absent ou vide dans le formulaire
                 if (!isset($form[$champObligatoire]) || empty($form[$champObligatoire])) {
                     return false;
                 } else {
-                    $form[$champObligatoire] = htmlspecialchars(stripslashes(trim($form[$champObligatoire])));
+                    $datas[$champObligatoire] = htmlspecialchars(stripslashes(trim($form[$champObligatoire])));
                 }
             }
         }
-        return $form;
+        return $datas;
     }
 
     public function __destruct()

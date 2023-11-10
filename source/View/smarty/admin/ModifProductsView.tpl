@@ -21,5 +21,6 @@
             {/if}
         {/foreach}
     </select>
+    <input type="hidden" name="Id" value="{$Product.IdProduit}">
     <input type="submit" name="Update" value="Update">
 </form>

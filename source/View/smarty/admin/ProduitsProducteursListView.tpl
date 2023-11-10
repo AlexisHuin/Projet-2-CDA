@@ -13,7 +13,6 @@
             {if $product.IsValidateProduitProducteur == True}
                 <div class="product">
                     <form method="post" class="product-description">
-                        <h3>{$product['DesignationProduit']}</h3>
                         <h4>{$product['DesignationProduitProducteur']}</h4>
                         <p style="padding: .5rem 0 ; width: 100%; display: flex; justify-content: space-between"> Prix : <span
                                 style="width:50%; text-align: left;"> {$product['PrixProduitProducteur']} </span> </p>

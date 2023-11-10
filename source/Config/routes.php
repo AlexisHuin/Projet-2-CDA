@@ -61,7 +61,7 @@ $routes = [
         'method'=>['GET', 'POST'],
         'controller'=>['Controller\AdminController','AdherentList']
     ],
-    '/Admin/ModifAdherent{id:\d+}' => [
+    '/Admin/ModifAdherent/{id:\d+}' => [
         'method'=>['GET', 'POST'],
         'controller'=>['Controller\AdminController','ModifAdherent']
     ],
@@ -69,11 +69,11 @@ $routes = [
         'method'=>['GET', 'POST'],
         'controller'=>['Controller\AdminController','ProducteursList']
     ],
-    '/Admin/ModifProducteurs{id:\d+}' => [
+    '/Admin/ModifProducteurs/{id:\d+}' => [
         'method'=>['GET', 'POST'],
         'controller'=>['Controller\AdminController','ModifProducteurs']
     ],
-    '/Admin/ProduitsProducteursList{id:\d+}' => [
+    '/Admin/ProduitsProducteursList/{id:\d+}' => [
         'method'=>['GET', 'POST'],
         'controller'=>['Controller\AdminController','ProduitsProducteursList']
     ],
@@ -85,7 +85,7 @@ $routes = [
         'method'=>['GET', 'POST'],
         'controller'=>['Controller\AdminController','ProductsList']
     ],
-    '/Admin/ModifProducts{id:\d+}' => [
+    '/Admin/ModifProducts/{id:\d+}' => [
         'method'=>['GET', 'POST'],
         'controller'=>['Controller\AdminController','ModifProducts']
     ],
