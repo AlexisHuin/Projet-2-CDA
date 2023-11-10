@@ -202,18 +202,17 @@ if (window.location.href == "http://127.0.0.1:8000/Bundle") {
     });
   })();
 
-  // Bloc de code pour la page bundle
   (function () {
     // Déclaration de la variable counter en dehors des fonctions
     let counter = 5;
-
+  
     // Récupération des éléments DOM une seule fois
     let addCount = document.querySelector(".addCount");
     let produitTargets = document.querySelectorAll(".cardBundle");
     let produitTargetsHide = document.querySelectorAll(".cardBundle_hide");
     let cardBundleHide = document.querySelectorAll(".cardBundle_hide");
     let cardBundleArr = [];
-
+  
     // Mettre à jour le texte du compteur
     function updateCounter() {
       addCount.innerText = `Vous pouvez ajouter encore ${counter} produit${
@@ -224,25 +223,28 @@ if (window.location.href == "http://127.0.0.1:8000/Bundle") {
         addCount.style.color = "red";
       }
     }
-
+  
     // Fonction pour afficher l'élément correspondant
     function showCorrespondingElement(button, index) {
       let buttonId = button.name;
       let correspondingHideElement = produitTargetsHide[index];
-
+  
+      // Vérifie si l'élément n'est pas déjà dans le tableau
       if (
         correspondingHideElement &&
         counter >= 1 &&
-        !cardBundleArr.includes(correspondingHideElement)
+        !isElementInArray(correspondingHideElement)
       ) {
         correspondingHideElement.style.display = "flex";
         counter--;
-        cardBundleArr.push(correspondingHideElement);
+        let uniqueId = "element_" + new Date().getTime();
+        correspondingHideElement.setAttribute("data-id", uniqueId);
+        cardBundleArr.push({ id: uniqueId, element: correspondingHideElement });
         // Mettre à jour le compteur après chaque ajout
         updateCounter();
       }
     }
-
+  
     // Fonction pour supprimer un produit
     function deleteProductFromBundle() {
       let countColor = document.querySelector(".addCount");
@@ -250,14 +252,27 @@ if (window.location.href == "http://127.0.0.1:8000/Bundle") {
         let target = produitTargetHide.querySelector(".deleteProdBundle");
         target.addEventListener("click", (e) => {
           e.preventDefault();
+          let uniqueId = produitTargetHide.getAttribute("data-id");
           produitTargetHide.style.display = "none";
           countColor.style.color = "black";
+  
+          // Retirer l'élément correspondant du tableau cardBundleArr
+          let indexToRemove = cardBundleArr.findIndex((el) => el.id === uniqueId);
+          if (indexToRemove !== -1) {
+            cardBundleArr.splice(indexToRemove, 1);
+          }
+  
           counter++;
           updateCounter();
         });
       });
     }
-
+  
+    // Vérifie si un élément est déjà dans le tableau
+    function isElementInArray(element) {
+      return cardBundleArr.some((el) => el.element === element);
+    }
+  
     // Ajouter des écouteurs d'événements pour chaque produit
     produitTargets.forEach((produitTarget, index) => {
       let target = produitTarget.querySelector("button");
@@ -265,10 +280,10 @@ if (window.location.href == "http://127.0.0.1:8000/Bundle") {
         showCorrespondingElement(target, index);
       });
     });
-
+  
     // Appeler la fonction pour initialiser le compteur
     updateCounter();
-
+  
     // Appeler la fonction pour supprimer un produit
     deleteProductFromBundle();
   })();
