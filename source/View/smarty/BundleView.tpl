@@ -1,5 +1,5 @@
 {include file="../Partials/_HeaderView.tpl"}
-<div style="display: flex;">
+<div style="display: flex">
 <h1 style="flex:1">Ajouter un bundle </h1>
 <h1 style="flex:1">Liste des produits de votre futur bundle</h1>
 </div>
@@ -22,7 +22,7 @@
                     <img style="width: 50%;" src="{$product['ImageProduitProducteur']}" alt="">
                     <button name="{$product['IdProduitProducteur']}">Ajouter</button>
                 </div>
-            {{/foreach}}
+            {/foreach}
         </div>
     </div>
     <div class="interface_right">
