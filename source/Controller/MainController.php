@@ -9,6 +9,7 @@ use Controller\ExceptionHandler;
 use Controller\ViewController;
 use Controller\SessionController;
 use Model\PanierModel;
+use Model\ProduitProducteurModel;
 
 class MainController
 {
@@ -60,17 +61,45 @@ class MainController
     {
         SessionController::Start();
         DbModel::Connect();
-        if (isset($_SESSION['user']) && $_SESSION['user']['RoleUser'] === "Adherent" && !isset($_SESSION["panier"])) {   
+
+        $noticePrix = $noticeQt = "";
+
+        if (isset($_SESSION['user']) && $_SESSION['user']['RoleUser'] === "Adherent") {
             $panier = new PanierModel();
+            $produitproducteur = new ProduitProducteurModel();
+
             $panier->IdAdherentsPanier = $_SESSION['user']['IdRole'];
             $results = $panier->Find();
-            if($results){ 
-                foreach($results as $result){
+            if ($results) {
+                foreach ($results as $result) {
+                    $produitproducteur->IdProduitProducteur = $result['ProduitPanier'];
+                    $resultProduitProd = $produitproducteur->Find("*", "Fetch");
+
+                    if ($resultProduitProd['PrixProduitProducteur'] != ($result['PrixPanier'] / $result['QuantitePanier'])) {
+                        $result['PrixPanier'] = ($resultProduitProd['PrixProduitProducteur'] * $result['QuantitePanier']);
+
+                        $noticePrix = "Le prix de " . $resultProduitProd['DesignationProduitProducteur'] . " a été changé. Le montant total a été recalculé";
+                    }
+
+                    if ($resultProduitProd['QuantiteProduitProducteur'] < $result['QuantitePanier']) {
+                        $result['QuantitePanier'] = $resultProduitProd['QuantiteProduitProducteur'];
+
+                        $noticeQt = 'La quantité que vous aviez selectionné pour ' . $resultProduitProd['DesignationProduitProducteur'] . ' n\'est plus disponible et a été adaptée à la nouvelle quantité';
+                    }
+
+                    if (isset($noticePrix) || isset($noticeQt)) {
+                        $panier->QuantitePanier = $result['QuantitePanier'];
+                        $panier->PrixPanier = $result['PrixPanier'];
+                        $panier->Where($result['IdPanier']);
+                        $panier->Update();
+                    }
+
                     $Ligne = [
                         "IdLigne" => $result['IdPanier'],
                         "Produit" => $result['ProduitPanier'],
                         "Quantite" => $result['QuantitePanier'],
-                        "Prix" => $result['PrixPanier']
+                        "Prix" => $result['PrixPanier'],
+                        "Producteur" => $result['IdProducteurProduitPanier']
                     ];
                     $LignePanier[] = $Ligne;
                 }
@@ -103,6 +132,8 @@ class MainController
         }
 
         ViewController::Init('smarty');
+        ViewController::Set("noticeQt", $noticeQt);
+        ViewController::Set("noticePrix", $noticePrix);
         ViewController::Set('notifications', $notifications);
     }
 

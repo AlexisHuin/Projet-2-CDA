@@ -375,10 +375,32 @@
 .interface_right {
   margin-right: 1em;
  flex:1;
- border: 1px solid black;
+ 
 }
 
 .interface {
   display: flex;
 }
 
+#bundle_form {
+  display: flex;
+ flex-wrap: wrap;
+}
+
+.cardBundle_hide {
+  width: calc(25% - 1em); /* 25% de largeur avec marges de 1em */
+  display: none;
+  margin: 1em;
+  border: 1px solid black;
+  align-items: center; /* Centre le contenu verticalement */
+  text-align: center; /* Centre le texte horizontalement */
+  flex-direction: column;
+}
+
+.deleteProdBundle {
+  margin-top: 1em;
+}
+
+.addCount {
+ text-align: center;
+}

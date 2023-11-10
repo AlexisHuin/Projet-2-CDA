@@ -18,7 +18,7 @@
                 {foreach from=$smarty.session.panier item=panier key=key}
                     {if $panier.Produit == $product['IdProduitProduitProducteur']}
                         {if ({$product['QuantiteProduitProducteur']} - {$panier.Quantite}) < 5} <span style="color:red"> Attention, il
-                                ne reste plus que {($product['QuantiteProduitProducteur'] -{$panier.Quantite})} unités de ce produit</span>
+                                ne reste plus que {($product['QuantiteProduitProducteur'] - {$panier.Quantite})} unités de ce produit</span>
                             {/if}
                         {/if}
                     {/foreach}
@@ -28,7 +28,8 @@
     </div>
     <div style="display: flex; flex-direction:row">
         <input type="text" name="Quantite" placeholder="Quantité à ajouter">
-        <input type="hidden" name="Id" value="{$product['IdProduitProduitProducteur']}">
+        <input type="hidden" name="Id" value="{$product['IdProduitProducteur']}">
+        <input type="hidden" name="IdProd" value="{$product['IdProducteurProduitProducteur']}">
         <input type="submit" name="Add">
     </div>
 {/if}

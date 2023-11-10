@@ -82,6 +82,7 @@ class HomeController extends MainController
                     $panierModel->ProduitPanier = $datas['Id'];
                     $panierModel->QuantitePanier = $datas['Quantite'];
                     $panierModel->PrixPanier = ($datas['Prix'] * $datas['Quantite']);
+                    $panierModel->IdProducteurProduitPanier = $datas['IdProd'];
                     $panierModel->IdAdherentsPanier = $_SESSION['user']['IdRole'];
                     $LigneId = $panierModel->Save();
 
@@ -89,7 +90,8 @@ class HomeController extends MainController
                         "IdLigne" => $LigneId,
                         "Produit" => $panierModel->ProduitPanier,
                         "Quantite" => $panierModel->QuantitePanier,
-                        "Prix" => $panierModel->PrixPanier
+                        "Prix" => $panierModel->PrixPanier,
+                        "Producteur" => $datas['IdProd']
                     ];
 
                     array_push($_SESSION['panier'], $LignePanier);
@@ -107,8 +109,7 @@ class HomeController extends MainController
         $ProduitModel->IdProduit = $id['id'];
         $Produit = $ProduitModel->Find('DesignationProduit', 'Fetch');
 
-        $produitProducteurs = $produitProducteurModel->getProduitProducteur($id['id'], true);
-
+        $produitProducteurs = $produitProducteurModel->getProduitProducteur($id['id'], false, true);
 
         ViewController::Set('title', 'Home');
         ViewController::Set('URI', $_SERVER['REQUEST_URI']);
