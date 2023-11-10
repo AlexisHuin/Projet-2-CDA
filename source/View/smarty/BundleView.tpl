@@ -1,6 +1,6 @@
 {include file="../Partials/_HeaderView.tpl"}
 <div style="display: flex;">
-<h1 style="flex:1">Ajouter un bundle</h1>
+<h1 style="flex:1">Ajouter un bundle </h1>
 <h1 style="flex:1">Liste des produits de votre futur bundle</h1>
 </div>
 
