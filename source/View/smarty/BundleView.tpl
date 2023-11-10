@@ -19,7 +19,7 @@
                     <label style="padding:1em;">Quantité</label>
                     <p style="padding-bottom: 3em;">{$product['QuantiteProduitProducteur']}</p>
                     <img style="width: 50%;" src="{$product['ImageProduitProducteur']}" alt="">
-                    <button name="{$product['IdProduitProducteur']}">Ajouter</button>
+                    <button style="margin: 1em 0;" name="{$product['IdProduitProducteur']}">Ajouter</button>
                 </div>
             {/foreach}
         </div>

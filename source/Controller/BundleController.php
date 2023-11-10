@@ -3,14 +3,18 @@
 namespace Controller;
 
 use Model\ProduitProducteurModel;
+
 class BundleController extends MainController {
 
     // fonction pour afficher la page Contact
 
     public function Bundle(): void {
+        
 
         $Produits = new ProduitProducteurModel();
-        $AllProduits = $Produits->getProduitProducteur($_SESSION['user']['IdRole'], true);
+        $AllProduits = $Produits->getProduitProducteur($_SESSION['user']['IdRole'], true, true);
+
+
 
 
         ViewController::Set('title', 'Gérer mes bundles');
