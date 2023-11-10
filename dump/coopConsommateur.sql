@@ -3,7 +3,6 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : db
--- Généré le : ven. 10 nov. 2023 à 08:48
 -- Version du serveur : 11.1.2-MariaDB-1:11.1.2+maria~ubu2204
 -- Version de PHP : 8.2.11
 
@@ -38,7 +37,7 @@ CREATE TABLE `Adherent` (
   `CoordonneesGPSAdherent` varchar(255) NOT NULL,
   `DateDebutAdherent` date NOT NULL,
   `DateFinAdherent` date DEFAULT NULL,
-  `DepenseAdherent` decimal(15,3) NOT NULL DEFAULT 0.000,
+  `DepenseAdherent` decimal(15,2) NOT NULL DEFAULT 0.00,
   `EtatAbonnementAdherent` tinyint(1) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -47,7 +46,7 @@ CREATE TABLE `Adherent` (
 --
 
 INSERT INTO `Adherent` (`IdAdherent`, `NomPrenomAdherent`, `PhoneAdherent`, `MailAdherent`, `CodePostalAdherent`, `CoordonneesGPSAdherent`, `DateDebutAdherent`, `DateFinAdherent`, `DepenseAdherent`, `EtatAbonnementAdherent`) VALUES
-(12, 'ade ade', '0254477889', 'ade@ade.ade', 41000, '52564562', '2023-11-02', NULL, 0.000, 0);
+(12, 'ade ade', '0254477889', 'ade@ade.ade', 41000, '52564562', '2023-11-02', NULL, 4836.00, 0);
 
 -- --------------------------------------------------------
 
@@ -111,10 +110,18 @@ INSERT INTO `Categorie` (`IdCategorie`, `DesignationCategorie`) VALUES
 
 CREATE TABLE `Commandes` (
   `IdCommande` int(11) NOT NULL,
-  `DateCommande` date NOT NULL,
-  `DescriptionCommande` varchar(1028) NOT NULL,
-  `IdAdherentsCommandes` int(11) NOT NULL
+  `TotalCommande` int(11) NOT NULL,
+  `ProduitsCommande` varchar(20) NOT NULL,
+  `QuantitesCommande` varchar(20) NOT NULL,
+  `ProducteursCommande` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Déchargement des données de la table `Commandes`
+--
+
+INSERT INTO `Commandes` (`IdCommande`, `TotalCommande`, `ProduitsCommande`, `QuantitesCommande`, `ProducteursCommande`) VALUES
+(1, 4836, '17,14', '43,50', '7,7');
 
 -- --------------------------------------------------------
 
@@ -145,6 +152,26 @@ INSERT INTO `Demandes` (`IdDemande`, `ObjetDemande`, `PrixProposeDemande`, `Desi
 -- --------------------------------------------------------
 
 --
+-- Structure de la table `Facture`
+--
+
+CREATE TABLE `Facture` (
+  `IdFacture` int(11) NOT NULL,
+  `MontantFacture` decimal(11,2) NOT NULL,
+  `DatePrelevementFacture` varchar(12) DEFAULT NULL,
+  `IdAdherentFacture` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Déchargement des données de la table `Facture`
+--
+
+INSERT INTO `Facture` (`IdFacture`, `MontantFacture`, `DatePrelevementFacture`, `IdAdherentFacture`) VALUES
+(1, 0.00, NULL, 12);
+
+-- --------------------------------------------------------
+
+--
 -- Structure de la table `InfosReglement`
 --
 
@@ -163,26 +190,6 @@ CREATE TABLE `InfosReglement` (
 
 INSERT INTO `InfosReglement` (`IdInfosReglement`, `CodeCBInfosReglement`, `TitulaireInfosReglement`, `ExpirationInfosReglement`, `CVVInfosReglement`, `IdAdherentInfosReglement`) VALUES
 (1, '$argon2i$v=19$m=65536,t=4,p=1$NEswVjFlUnRuWUNMLmU4ZQ$X323MZYjFKFz/IvOvGviuw4URxeQh8fFaIpi6d+l0mY', 'Kevin', '06-24', '$argon2i$v=19$m=65536,t=4,p=1$MkRBYldnbktkWjhqdTRBUA$DxI0ZtpwjyxsNmE3o0ec362pvogDePj3pn6V7aq7F/c', 11);
-
--- --------------------------------------------------------
-
---
--- Structure de la table `ModeReglement`
---
-
-CREATE TABLE `ModeReglement` (
-  `IdModeReglement` int(11) NOT NULL,
-  `DesignationModeReglement` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Déchargement des données de la table `ModeReglement`
---
-
-INSERT INTO `ModeReglement` (`IdModeReglement`, `DesignationModeReglement`) VALUES
-(1, 'Carte Bancaire'),
-(2, 'Paypal'),
-(3, 'ApplePay');
 
 -- --------------------------------------------------------
 
@@ -216,6 +223,7 @@ CREATE TABLE `Panier` (
   `ProduitPanier` int(11) NOT NULL,
   `QuantitePanier` int(11) NOT NULL,
   `PrixPanier` int(11) NOT NULL,
+  `IdProducteurProduitPanier` int(11) NOT NULL,
   `IdAdherentsPanier` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 
@@ -364,22 +372,6 @@ INSERT INTO `ProduitProducteur` (`IdProduitProducteur`, `IsValidateProduitProduc
 -- --------------------------------------------------------
 
 --
--- Structure de la table `Reglement`
---
-
-CREATE TABLE `Reglement` (
-  `IdReglement` int(11) NOT NULL,
-  `DateReglement` date NOT NULL,
-  `MontantReglement` decimal(11,3) NOT NULL,
-  `EtatReglement` tinyint(1) NOT NULL,
-  `IdCommandeReglement` int(11) NOT NULL,
-  `IdModeReglement` int(11) NOT NULL,
-  `IdAdminReglement` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
 -- Structure de la table `Saison`
 --
 
@@ -451,7 +443,8 @@ ALTER TABLE `Categorie`
 --
 ALTER TABLE `Commandes`
   ADD PRIMARY KEY (`IdCommande`),
-  ADD KEY `Commandes_Adherents_FK` (`IdAdherentsCommandes`);
+  ADD KEY `Commandes_Adherents_FK` (`TotalCommande`),
+  ADD KEY `TotalCommande` (`TotalCommande`);
 
 --
 -- Index pour la table `Demandes`
@@ -462,17 +455,18 @@ ALTER TABLE `Demandes`
   ADD KEY `IdProduitProducteurDemande` (`IdProduitProducteurDemande`) USING BTREE;
 
 --
+-- Index pour la table `Facture`
+--
+ALTER TABLE `Facture`
+  ADD PRIMARY KEY (`IdFacture`),
+  ADD KEY `IdAdherentFacture` (`IdAdherentFacture`);
+
+--
 -- Index pour la table `InfosReglement`
 --
 ALTER TABLE `InfosReglement`
   ADD PRIMARY KEY (`IdInfosReglement`),
   ADD KEY `IdAdherentInfosReglement` (`IdAdherentInfosReglement`);
-
---
--- Index pour la table `ModeReglement`
---
-ALTER TABLE `ModeReglement`
-  ADD PRIMARY KEY (`IdModeReglement`);
 
 --
 -- Index pour la table `Notifications`
@@ -487,7 +481,7 @@ ALTER TABLE `Notifications`
 ALTER TABLE `Panier`
   ADD PRIMARY KEY (`IdPanier`),
   ADD KEY `IdAdherentsPanier` (`IdAdherentsPanier`) USING BTREE,
-  ADD KEY `ProduitPanier` (`ProduitPanier`);
+  ADD KEY `IdProducteurProduitPanier` (`IdProducteurProduitPanier`);
 
 --
 -- Index pour la table `Producteur`
@@ -511,15 +505,6 @@ ALTER TABLE `ProduitProducteur`
   ADD PRIMARY KEY (`IdProduitProducteur`),
   ADD KEY `ProduitProducteur_Producteur_FK` (`IdProducteurProduitProducteur`),
   ADD KEY `ProduitProducteur_Produit0_FK` (`IdProduitProduitProducteur`);
-
---
--- Index pour la table `Reglement`
---
-ALTER TABLE `Reglement`
-  ADD PRIMARY KEY (`IdReglement`),
-  ADD KEY `Reglement_Commandes_FK` (`IdCommandeReglement`),
-  ADD KEY `Reglement_ModeReglement0_FK` (`IdModeReglement`),
-  ADD KEY `Reglement_Admin1_FK` (`IdAdminReglement`);
 
 --
 -- Index pour la table `Saison`
@@ -560,7 +545,7 @@ ALTER TABLE `Categorie`
 -- AUTO_INCREMENT pour la table `Commandes`
 --
 ALTER TABLE `Commandes`
-  MODIFY `IdCommande` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `IdCommande` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT pour la table `Demandes`
@@ -569,16 +554,16 @@ ALTER TABLE `Demandes`
   MODIFY `IdDemande` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 
 --
+-- AUTO_INCREMENT pour la table `Facture`
+--
+ALTER TABLE `Facture`
+  MODIFY `IdFacture` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT pour la table `InfosReglement`
 --
 ALTER TABLE `InfosReglement`
   MODIFY `IdInfosReglement` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
---
--- AUTO_INCREMENT pour la table `ModeReglement`
---
-ALTER TABLE `ModeReglement`
-  MODIFY `IdModeReglement` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT pour la table `Notifications`
@@ -590,7 +575,7 @@ ALTER TABLE `Notifications`
 -- AUTO_INCREMENT pour la table `Panier`
 --
 ALTER TABLE `Panier`
-  MODIFY `IdPanier` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `IdPanier` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT pour la table `Producteur`
@@ -608,13 +593,8 @@ ALTER TABLE `Produit`
 -- AUTO_INCREMENT pour la table `ProduitProducteur`
 --
 ALTER TABLE `ProduitProducteur`
-  MODIFY `IdProduitProducteur` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 
---
--- AUTO_INCREMENT pour la table `Reglement`
---
-ALTER TABLE `Reglement`
-  MODIFY `IdReglement` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `IdProduitProducteur` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 
 --
 -- AUTO_INCREMENT pour la table `Saison`

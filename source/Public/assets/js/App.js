@@ -1,7 +1,6 @@
-// document.addEventListener('contextmenu', (e) => {
-//   console.log('salut');
-//   e.preventDefault();
-// }, false)
+document.addEventListener('contextmenu', (e) => {
+  e.preventDefault();
+}, false)
 
 if (window.location.href == "http://127.0.0.1:8000/") {
   let type = document.getElementById("type");
