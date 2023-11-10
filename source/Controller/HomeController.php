@@ -109,8 +109,7 @@ class HomeController extends MainController
         $ProduitModel->IdProduit = $id['id'];
         $Produit = $ProduitModel->Find('DesignationProduit', 'Fetch');
 
-        $produitProducteurs = $produitProducteurModel->getProduitProducteur($id['id'], true);
-
+        $produitProducteurs = $produitProducteurModel->getProduitProducteur($id['id'], false, true);
 
         ViewController::Set('title', 'Home');
         ViewController::Set('URI', $_SERVER['REQUEST_URI']);

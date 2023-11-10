@@ -118,7 +118,7 @@ class AdminController extends MainController
 
         ViewController::Set('title', 'Liste des adherents');
         ViewController::Set('Liste', $Liste);
-        ViewController::Display('admin/AdherentListView');
+        ViewController::Display('admin/AdherentsListView');
     }
 
     public function ModifAdherent($id): void

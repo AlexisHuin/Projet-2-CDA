@@ -88,23 +88,25 @@ class PanierController extends MainController
                 $commande->ProduitsCommande = implode(",", $produits);
                 $commande->QuantitesCommande = implode(",", $quantites);
                 $commande->ProducteursCommande = implode(",", $_POST['IdProd']);
+                $commande->IdAdherentCommande = $_SESSION['user']['IdRole'];
                 $commande->Save();
 
-                // Traitements table Facture et Adherents
-                $depenses = $adherent->Find("DepenseAdherent", "Fetch");
+                // Traitements table Facture
+                $adherent->IdAdherent = $_SESSION['user']['IdRole'];
+                $adherent->Find();
+                $facture->MontantFacture = $total;
 
-                $facture->MontantFacture = $depenses['DepenseAdherent'];
+                $facture->Where([$_SESSION['user']['IdRole'],"NULL"], ['idAdherent','datePrelevement']);
+                $facture->Update();
 
-                $facture->Where([$adherent->IdAdherent,"NULL"], ['id','datePrelevement']);
-                // $facture->Update();
-
-                // Traitements table Adherent
+                // Traitement table Adherent
                 $adherent->DepenseAdherent = $total;
                 $adherent->Where($_SESSION['user']['IdRole']);
 
                 $adherent->Update();
 
-                header('Location: /Panier');
+                header('Refresh:3;/Panier');
+                echo "Votre commande a bien été validée !"; 
 
             } else {
                 header('Refresh:1;/Panier');
