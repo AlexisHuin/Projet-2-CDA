@@ -10,6 +10,6 @@
         <input type="hidden" value="Adherent" name="Role">
         <input type="hidden" value="{$adherent.IdAdherent}" name="Id">
         <input type="submit" value="Delete" name="Delete">
-        <a href="/Admin/ModifAdherent{$adherent.IdAdherent}">Modifier infos</a>
+        <a href="/Admin/ModifAdherent/{$adherent.IdAdherent}">Modifier infos</a>
     </form>
 {/foreach}

@@ -190,6 +190,7 @@ class AdminController extends MainController
         ViewController::Display('admin/ModifProducteurView');
     }
 
+    //! FIX !//
     public function ProduitsProducteursList($id): void
     {
         $this->connectCheck('admin');
@@ -199,7 +200,7 @@ class AdminController extends MainController
         if (isset($_POST['Delete'])) {
             $this->Delete($ProduitProducteur, 'IdProduitProducteur', $_POST['Id'], "ProducteursList");
         } else {
-            $Liste = $ProduitProducteur->getProduitProducteur($id['id']);
+            $Liste = $ProduitProducteur->getProduitProducteur($id['id'], true);
         }
 
         ViewController::Set('title', 'Liste des producteurs');
@@ -249,7 +250,6 @@ class AdminController extends MainController
         $this->connectCheck('admin');
 
         $Product = new ProduitModel();
-
         $Product->IdProduit = $id['id'];
 
         if (isset($_POST['Update'])) {
@@ -257,9 +257,9 @@ class AdminController extends MainController
             $this->Update(
                 $datas,
                 $Product,
-                ['Produit', 'Saison', 'Categorie'],
-                $Product->IdProduit,
-                "ProductsListView"
+                ['DesignationProduit', 'IdSaisonProduit', 'IdCategorieProduit'],
+                "IdProduit",
+                "ProductsList"
             );
         }
 
@@ -320,7 +320,7 @@ class AdminController extends MainController
     //     </form>';
     // }
 
-    // PRIVATE FUNCTIONS
+    //* PRIVATE FUNCTIONS
     private function TraitementDemande(string $state): void
     {
         $ProduitProducteur = new ProduitProducteurModel();

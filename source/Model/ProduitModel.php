@@ -8,6 +8,7 @@ use DateTime;
 class ProduitModel extends DbModel
 {
     protected $table = 'Produit';
+    protected $id = 'IdProduit';
 
     public function getProduits()
     {
