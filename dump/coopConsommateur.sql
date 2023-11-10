@@ -48,7 +48,7 @@ CREATE TABLE `Adherent` (
 
 INSERT INTO `Adherent` (`IdAdherent`, `NomPrenomAdherent`, `PhoneAdherent`, `MailAdherent`, `CodePostalAdherent`, `CoordonneesGPSAdherent`, `DateDebutAdherent`, `DateFinAdherent`, `DepenseAdherent`, `EtatAbonnementAdherent`) VALUES
 
-(12, 'ade ade', '0254477889', 'ade@ade.ade', 41000, '52564562', '2023-11-02', NULL, 4836.00, 0);
+(12, 'ade ade', '0254477889', 'ade@ade.ade', 41000, '52564562', '2023-11-02', NULL, 0.00, 0);
 
 
 -- --------------------------------------------------------
@@ -118,13 +118,6 @@ CREATE TABLE `Commandes` (
   `QuantitesCommande` varchar(20) NOT NULL,
   `ProducteursCommande` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Déchargement des données de la table `Commandes`
---
-
-INSERT INTO `Commandes` (`IdCommande`, `TotalCommande`, `ProduitsCommande`, `QuantitesCommande`, `ProducteursCommande`) VALUES
-(1, 4836, '17,14', '43,50', '7,7');
 
 -- --------------------------------------------------------
 
@@ -555,7 +548,7 @@ ALTER TABLE `Categorie`
 -- AUTO_INCREMENT pour la table `Commandes`
 --
 ALTER TABLE `Commandes`
-  MODIFY `IdCommande` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `IdCommande` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 
 --
 -- AUTO_INCREMENT pour la table `Demandes`
