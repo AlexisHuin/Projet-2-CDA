@@ -72,21 +72,6 @@ INSERT INTO `Admin` (`IdAdmin`, `UsernameAdmin`, `MdpAdmin`) VALUES
 -- --------------------------------------------------------
 
 --
--- Structure de la table `Bundle`
---
-
-CREATE TABLE `Bundle` (
-  `IdBundle` int(11) NOT NULL,
-  `DesignationBundle` varchar(75) NOT NULL,
-  `IdProduitsBundle` varchar(20) NOT NULL,
-  `QuantiteProduitsBundle` varchar(20) NOT NULL,
-  `IdProducteurBundle` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
-
---
 -- Structure de la table `Categorie`
 --
 
@@ -337,14 +322,7 @@ CREATE TABLE `ProduitProducteur` (
 --
 
 INSERT INTO `ProduitProducteur` (`IdProduitProducteur`, `IsValidateProduitProducteur`, `DesignationProduitProducteur`, `PrixProduitProducteur`, `DateModifPrixProduitProducteur`, `DetailsProduitProducteur`, `QuantiteProduitProducteur`, `ImageProduitProducteur`, `IdProducteurProduitProducteur`, `IdProduitProduitProducteur`) VALUES
-(13, 1, 'Aubergine du coin', '52', '2023-10-30 10:53', 'Super sucré', 12, 'assets/images/653f7631bb3e2.png', 7, 35),
-(14, 1, 'Aubergine du coin', '52', '2023-10-30 10:53', 'Super sucré', 52, 'assets/images/653f7631bb3e2.png', 7, 28),
-(15, 1, 'Aubergine du coin', '52', '2023-10-30 10:53', 'Super sucré', 122, 'assets/images/653f7631bb3e2.png', 7, 10),
-(16, 1, 'Aubergine du coin', '52', '2023-10-30 10:53', 'Super sucré', 612, 'assets/images/653f7631bb3e2.png', 7, 7),
-(17, 1, 'Aubergine du coin', '52', '2023-10-30 10:53', 'Super sucré', 212, 'assets/images/653f7631bb3e2.png', 7, 28),
-(18, 1, 'Aubergine du coin', '52', '2023-10-30 10:53', 'Super sucré', 612, 'assets/images/653f7631bb3e2.png', 7, 23),
-(19, 1, 'Aubergine du coin', '52', '2023-10-30 10:53', 'Super sucré', 15, 'assets/images/653f7631bb3e2.png', 7, 10),
-(20, 1, 'Aubergine du coin', '52', '2023-10-30 10:53', 'Super sucré', 22, 'assets/images/653f7631bb3e2.png', 7, 9);
+(13, 1, 'Aubergine du coin', '52', '2023-10-30 10:53', 'Super sucré', 12, 'assets/images/653f7631bb3e2.png', 7, 35);
 
 -- --------------------------------------------------------
 

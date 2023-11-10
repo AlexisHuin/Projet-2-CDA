@@ -4,7 +4,6 @@
 <h1 style="flex:1">Liste des produits de votre futur bundle</h1>
 </div>
 
-
 <div class="interface">
     <div class="interface_left">
         <div class="interface_left_select">
@@ -34,11 +33,4 @@
         </form>
     </div>
 </div>
-{* <h1 style="width: 50%;margin:auto">Liste des bundles</h1>
-
-<p style="width: 50%;margin:auto"> Ici je dois listé mon bundles, produit par produit avec une boucle, de type
-    designation, quantité, et le montant total pour chaques</p> *}
-
-
-
 {include file="../Partials/_FooterView.tpl"}

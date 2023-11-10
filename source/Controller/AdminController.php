@@ -340,9 +340,9 @@ class AdminController extends MainController
                 $Notifications->DateEnvoiNotification = date('Y-m-d H:i');
 
                 if ($state === "Denied") {
-                    $Notifications->MotifNotification = htmlspecialchars("Votre demande concernant la modification du prix de " . $_POST['DesignationProduit'] . " a été refusée.", ENT_QUOTES);
+                    $Notifications->MotifNotification = "Votre demande concernant la modification du prix de " . $_POST['DesignationProduit'] . " a été refusée.";
                 } else {
-                    $Notifications->MotifNotification = htmlspecialchars("Votre demande concernant la modification du prix de " . $_POST['DesignationProduit'] . " a été acceptée.", ENT_QUOTES);
+                    $Notifications->MotifNotification = "Votre demande concernant la modification du prix de " . $_POST['DesignationProduit'] . " a été acceptée.";
                 }
 
                 $Notifications->Save();
@@ -360,9 +360,9 @@ class AdminController extends MainController
                 $Notifications->DateEnvoiNotification = date('Y-m-d H:i');
 
                 if ($state === "Denied") {
-                    $Notifications->MotifNotification = htmlspecialchars("Votre demande concernant l'ajout du produit " . $_POST['DesignationProduit'] . " a été refusée.", ENT_QUOTES);
+                    $Notifications->MotifNotification = "Votre demande concernant l'ajout du produit " . $_POST['DesignationProduit'] . " a été refusée.";
                 } else {
-                    $Notifications->MotifNotification = htmlspecialchars("Votre demande concernant l'ajout du produit " . $_POST['DesignationProduit'] . " a été acceptée.", ENT_QUOTES);
+                    $Notifications->MotifNotification = "Votre demande concernant l'ajout du produit " . $_POST['DesignationProduit'] . " a été acceptée.";
                 }
 
                 $Notifications->Save();
