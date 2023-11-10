@@ -98,7 +98,8 @@ class MainController
                         "IdLigne" => $result['IdPanier'],
                         "Produit" => $result['ProduitPanier'],
                         "Quantite" => $result['QuantitePanier'],
-                        "Prix" => $result['PrixPanier']
+                        "Prix" => $result['PrixPanier'],
+                        "Producteur" => $result['IdProducteurProduitPanier']
                     ];
                     $LignePanier[] = $Ligne;
                 }

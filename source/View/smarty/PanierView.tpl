@@ -1,26 +1,30 @@
 {include file="../Partials/_HeaderView.tpl"}
-{assign var="total" value=0}
 <div class="panier">
+    <h1>Votre panier</h1>
     {if !empty($panier)}
-        {foreach from=$panier item=item key=k}
-            <form method="post">
-                <p>Id :{$item.IdLigne}</p>
-                <p>Produit : {$item.Produit}</p>
-                <p>Quantite : {$item.Quantite}</p>
-                <p>Prix : {$item.Prix}€</p>
-                <input type="hidden" name="Id" value="{$k}">
-                <input type="hidden" name="IdPanier" value="{$item.IdLigne}">
-                <input type="submit" name="delete" value="Supprimer">
-            </form>
-            <hr>
-            {assign var="total" value=($total + $item.Prix)}
-        {/foreach}
         <form method="post">
-            <input type="submit" value="Vider le panier" name="deleteAll">
-        </form>
-        <p> Prix total commande : {$total}€</p>
-        <form method="post">
-            <input type="submit" value="Achat" name="Validate">
+            {foreach from=$panier item=item key=k}
+                <fieldset id="DeleteOne">
+                    <label>Id :</label> <input type="text" name="Id[]" readonly value="{$item.IdLigne}">
+                    <label>Produit : </label> <input type="text" name="Produit[]" readonly value="{$item.Produit}">
+                    <label>Quantite : </label> <input type="text" name="Quantite[]" readonly value="{$item.Quantite}">
+                    <label>Prix : </label> <input type="text" name="Prix[]" readonly value="{$item.Prix}">
+                    <input type="hidden" name="Index[]" value="{$k}">
+                    <input type="hidden" name="IdPanier[]" value="{$item.IdLigne}">
+                    <input type="hidden" name="IdProd[]" value="{$item.Producteur}">
+                    <input type="submit" name="delete_{$item.IdLigne}" value="Supprimer">
+                </fieldset>
+                <hr>
+            {/foreach}
+            <fieldset id="DeleteAll">
+                <input type="submit" value="Vider le panier" name="deleteAll">
+            </fieldset>
+            <fieldset id="Validate">
+                <label> Prix total commande :
+                    <input type="text" name="Total" value="{$total}" readonly>€
+                </label>
+                <input type="submit" value="Validate" name="Validate">
+            </fieldset>
         </form>
     {else}
         <p>Le panier est vide!</p>
@@ -28,6 +32,11 @@
 
     <p>{$noticeQt}</p>
     <p>{$noticePrix}</p>
+    {foreach from=$errors item=$error key=key}
+        {$error}
+    {/foreach}
 
 </div>
+
+
 {include file="../Partials/_FooterView.tpl"}

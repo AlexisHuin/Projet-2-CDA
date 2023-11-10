@@ -114,6 +114,7 @@ class DbModel
 
             $sql .= $And . $whereConds[$i] . " = " . $whereVals[$i];
         }
+
         $rq = self::$db->prepare($sql);
         return $rq->execute($this->datas);
     }
