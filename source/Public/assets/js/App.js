@@ -1,3 +1,8 @@
+// document.addEventListener('contextmenu', (e) => {
+//   console.log('salut');
+//   e.preventDefault();
+// }, false)
+
 if (window.location.href == "http://127.0.0.1:8000/") {
   let type = document.getElementById("type");
   let productName = document.getElementById("productName");
@@ -132,7 +137,6 @@ if (window.location.href == "http://127.0.0.1:8000/") {
   })();
 }
 
-
 // fonction pour JS pour géré l'ouverture de mes modales, elle permet aussi bien d'ouvrir et fermer.
 
 if (window.location.href == "http://127.0.0.1:8000/User/Profile") {
@@ -152,20 +156,120 @@ if (window.location.href == "http://127.0.0.1:8000/User/Profile") {
 // Code JS pour l'api MapTiles
 // https://www.maptilesapi.com/
 
-
 if (window.location.href == "http://127.0.0.1:8000/Contact") {
+  var map = L.map("map").setView([47.5851502, 1.3333517], 20);
+  L.tileLayer(
+    "https://maptiles.p.rapidapi.com/en/map/v1/{z}/{x}/{y}.png?rapidapi-key=c4820222c7msh65f46e1adff42efp19af5bjsnfe9965f14b4c",
+    {
+      attribution:
+        'Tiles &copy: <a href="https://www.maptilesapi.com/">MapTiles API</a>, Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+      maxZoom: 19,
+    }
+  ).addTo(map);
 
-  var map = L.map('map').setView([47.5851502,1.3333517], 20);
-  L.tileLayer('https://maptiles.p.rapidapi.com/en/map/v1/{z}/{x}/{y}.png?rapidapi-key=c4820222c7msh65f46e1adff42efp19af5bjsnfe9965f14b4c', {
-    attribution: 'Tiles &copy: <a href="https://www.maptilesapi.com/">MapTiles API</a>, Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-    maxZoom: 19
-  }).addTo(map);
+  //Fonction pour définir le logo sur la map
+
   var cursor = L.marker(map.getCenter(), {
     icon: L.divIcon({
-        className: 'cursor-icon',
-        iconSize: [20, 20],
-        html: '<div style="width: 20px; height: 20px; border: 2px solid red; border-radius: 50%;"></div>'
+      className: "cursor-icon",
+      iconSize: [20, 20],
+      html: '<div style="width: 20px; height: 20px; border: 2px solid red; border-radius: 50%;"></div>',
     }),
-}).addTo(map);
+  }).addTo(map);
+}
 
+// Vérifier si l'URL actuelle est celle du bundle
+if (window.location.href == "http://127.0.0.1:8000/Bundle") {
+  // Fonction pour filtrer les éléments de la page bundle
+  (function FiltrageBundle() {
+    let input = document.querySelector("#searchInput_produitBundle");
+    let cardBundles = document.querySelectorAll(".cardBundle");
+
+    input.addEventListener("input", () => {
+      let filterValue = input.value.toLowerCase().trim();
+
+      for (let i = 0; i < cardBundles.length; i++) {
+        let cardBundle = cardBundles[i];
+        let text = cardBundle.textContent.toLowerCase();
+
+        if (text.includes(filterValue)) {
+          cardBundle.style.display = "flex";
+          cardBundle.style.flexDirection = "column";
+        } else {
+          cardBundle.style.display = "none"; // Masquer le cardBundle s'il ne correspond pas
+        }
+      }
+    });
+  })();
+
+  // Bloc de code pour la page bundle
+  (function () {
+    // Déclaration de la variable counter en dehors des fonctions
+    let counter = 5;
+
+    // Récupération des éléments DOM une seule fois
+    let addCount = document.querySelector(".addCount");
+    let produitTargets = document.querySelectorAll(".cardBundle");
+    let produitTargetsHide = document.querySelectorAll(".cardBundle_hide");
+    let cardBundleHide = document.querySelectorAll(".cardBundle_hide");
+    let cardBundleArr = [];
+
+    // Mettre à jour le texte du compteur
+    function updateCounter() {
+      addCount.innerText = `Vous pouvez ajouter encore ${counter} produit${
+        counter !== 1 ? "s" : ""
+      }`;
+      if (counter === 0) {
+        addCount.innerText = "Vous ne pouvez plus ajouter de produit";
+        addCount.style.color = "red";
+      }
+    }
+
+    // Fonction pour afficher l'élément correspondant
+    function showCorrespondingElement(button, index) {
+      let buttonId = button.name;
+      let correspondingHideElement = produitTargetsHide[index];
+
+      if (
+        correspondingHideElement &&
+        counter >= 1 &&
+        !cardBundleArr.includes(correspondingHideElement)
+      ) {
+        correspondingHideElement.style.display = "flex";
+        counter--;
+        cardBundleArr.push(correspondingHideElement);
+        // Mettre à jour le compteur après chaque ajout
+        updateCounter();
+      }
+    }
+
+    // Fonction pour supprimer un produit
+    function deleteProductFromBundle() {
+      let countColor = document.querySelector(".addCount");
+      cardBundleHide.forEach((produitTargetHide) => {
+        let target = produitTargetHide.querySelector(".deleteProdBundle");
+        target.addEventListener("click", (e) => {
+          e.preventDefault();
+          produitTargetHide.style.display = "none";
+          countColor.style.color = "black";
+          counter++;
+          updateCounter();
+        });
+      });
+    }
+
+    // Ajouter des écouteurs d'événements pour chaque produit
+    produitTargets.forEach((produitTarget, index) => {
+      let target = produitTarget.querySelector("button");
+      target.addEventListener("click", () => {
+        showCorrespondingElement(target, index);
+      });
+    });
+
+    // Appeler la fonction pour initialiser le compteur
+    updateCounter();
+
+    // Appeler la fonction pour supprimer un produit
+    deleteProductFromBundle();
+  })();
 }
