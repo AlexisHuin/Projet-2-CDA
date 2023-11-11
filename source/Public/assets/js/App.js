@@ -201,89 +201,79 @@ if (window.location.href == "http://127.0.0.1:8000/Bundle") {
     });
   })();
 
-  (function () {
-    // Déclaration de la variable counter en dehors des fonctions
-    let counter = 5;
-  
-    // Récupération des éléments DOM une seule fois
-    let addCount = document.querySelector(".addCount");
-    let produitTargets = document.querySelectorAll(".cardBundle");
-    let produitTargetsHide = document.querySelectorAll(".cardBundle_hide");
-    let cardBundleHide = document.querySelectorAll(".cardBundle_hide");
-    let cardBundleArr = [];
-  
-    // Mettre à jour le texte du compteur
-    function updateCounter() {
-      addCount.innerText = `Vous pouvez ajouter encore ${counter} produit${
-        counter !== 1 ? "s" : ""
-      }`;
-      if (counter === 0) {
-        addCount.innerText = "Vous ne pouvez plus ajouter de produit";
-        addCount.style.color = "red";
-      }
+
+
+(function () {
+  let counter = 5;
+  let addCount = document.querySelector(".addCount");
+  let containerRight = document.querySelector(".container_bundle_right");
+  let produitTargets = document.querySelectorAll(".cardBundle");
+  let cardBundleArr = [];
+  let addButtonLeft = document.getElementById("addButtonLeft"); 
+
+  function updateCounter() {
+    addCount.innerText = `Vous pouvez ajouter encore ${counter} produit${counter !== 1 ? "s" : ""}`;
+    if (counter === 0) {
+      addCount.innerText = "Vous ne pouvez plus ajouter de produit";
+      addCount.style.color = "#ff0000";
+    } else {
+      addCount.style.color = "black"; 
     }
+
+    // j'essaye de retiré le bouton si limite atteinte, work in progress
+    if (cardBundleArr.length >= 5) {
+      addButtonLeft.style.display = "none";
+    } else {
+      addButtonLeft.style.display = "block";
+    }
+  }
+
+  function showCorrespondingElement(index) {
+    let correspondingHideElement = produitTargets[index];
   
-    // Fonction pour afficher l'élément correspondant
-    function showCorrespondingElement(button, index) {
-      let buttonId = button.name;
-      let correspondingHideElement = produitTargetsHide[index];
+    if (correspondingHideElement && counter > 0 && cardBundleArr.length < 5) {
+      let clonedElement = correspondingHideElement.cloneNode(true);
+      counter--;
   
-      // Vérifie si l'élément n'est pas déjà dans le tableau
-      if (
-        correspondingHideElement &&
-        counter >= 1 &&
-        !isElementInArray(correspondingHideElement)
-      ) {
-        correspondingHideElement.style.display = "flex";
-        counter--;
-        let uniqueId = "element_" + new Date().getTime();
-        correspondingHideElement.setAttribute("data-id", uniqueId);
-        cardBundleArr.push({ id: uniqueId, element: correspondingHideElement });
-        // Mettre à jour le compteur après chaque ajout
+      // quand je clone, je check si le bouton ajouter est présent, sinon je le retire
+      let buttonAjouter = clonedElement.querySelector('button');
+      if (buttonAjouter) {
+        buttonAjouter.parentNode.removeChild(buttonAjouter);
+      }
+  
+      // Ajout bouton de suppression dans l'élément cloné
+      let buttonSupprimer = document.createElement('button');
+      buttonSupprimer.className = 'deleteProdBundle';
+      buttonSupprimer.innerText = 'Supprimer';
+      buttonSupprimer.addEventListener('click', function () {
+        this.closest('.cardBundle_hide').remove();
+        counter++;
         updateCounter();
-      }
-    }
-  
-    // Fonction pour supprimer un produit
-    function deleteProductFromBundle() {
-      let countColor = document.querySelector(".addCount");
-      cardBundleHide.forEach((produitTargetHide) => {
-        let target = produitTargetHide.querySelector(".deleteProdBundle");
-        target.addEventListener("click", (e) => {
-          e.preventDefault();
-          let uniqueId = produitTargetHide.getAttribute("data-id");
-          produitTargetHide.style.display = "none";
-          countColor.style.color = "black";
-  
-          // Retirer l'élément correspondant du tableau cardBundleArr
-          let indexToRemove = cardBundleArr.findIndex((el) => el.id === uniqueId);
-          if (indexToRemove !== -1) {
-            cardBundleArr.splice(indexToRemove, 1);
-          }
-  
-          counter++;
-          updateCounter();
-        });
       });
-    }
   
-    // Vérifie si un élément est déjà dans le tableau
-    function isElementInArray(element) {
-      return cardBundleArr.some((el) => el.element === element);
-    }
+      // je fais sauté la balise style présente, je ne sais pas pourquoi car j'ai une classe CSS
+      clonedElement.removeAttribute('style');
+      clonedElement.classList.remove('cardBundle');
+      clonedElement.classList.add('cardBundle_hide');
+      // j'ajoute le nouveau boutton supprimé, mais j'ai pas récup l'ID présent sur le bouton ajouter
+      clonedElement.appendChild(buttonSupprimer);
   
-    // Ajouter des écouteurs d'événements pour chaque produit
-    produitTargets.forEach((produitTarget, index) => {
-      let target = produitTarget.querySelector("button");
-      target.addEventListener("click", () => {
-        showCorrespondingElement(target, index);
-      });
+      containerRight.appendChild(clonedElement);
+
+      updateCounter();
+  
+    }
+  }
+
+  // je fais disparaitre les produit a gauche quand je les place a droite
+  produitTargets.forEach((produitTarget, index) => {
+    let target = produitTarget.querySelector("button");
+    target.addEventListener("click", () => {
+      produitTarget.style.display = "none";
+      showCorrespondingElement(index);
     });
-  
-    // Appeler la fonction pour initialiser le compteur
-    updateCounter();
-  
-    // Appeler la fonction pour supprimer un produit
-    deleteProductFromBundle();
-  })();
+  });
+
+  updateCounter();
+}) ();
 }

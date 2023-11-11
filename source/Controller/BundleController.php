@@ -22,8 +22,8 @@ class BundleController extends MainController
         if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['addBundle'])) {
 
             $this->AddNewBundle($_POST);
-
         }
+        
         ViewController::Display('BundleView');
     }
 
@@ -37,9 +37,9 @@ class BundleController extends MainController
         $bundle->IdProducteurBundle = $_SESSION['user']['IdRole'];
 
 
-        $bundle->PrixBundle = $this->buildConcatenatedString($datas, 'PrixBundle');
-        $bundle->QuantiteProduitsBundle = $this->buildConcatenatedString($datas, 'QuantiteProduitsBundle');
-        $bundle->IdProduitsBundle = $this->buildConcatenatedString($datas, 'IdProduitProducteur');
+        $bundle->PrixBundle = $this->concatenationPower($datas, 'PrixBundle');
+        $bundle->QuantiteProduitsBundle = $this->concatenationPower($datas, 'QuantiteProduitsBundle');
+        $bundle->IdProduitsBundle = $this->concatenationPower($datas, 'IdProduitProducteur');
 
 
 
@@ -52,7 +52,7 @@ class BundleController extends MainController
 
     }
 
-    private function buildConcatenatedString(array $datas, string $fieldName): string
+    private function concatenationPower(array $datas, string $fieldName): string
     {
         // Filtrer les éléments vides
         $filteredArray = array_filter($datas[$fieldName]);
