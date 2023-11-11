@@ -21,7 +21,7 @@
                     <label>Prix (Unité?) </label>
                     <p style="padding-bottom: 3em;">{$product['PrixProduitProducteur']}</p>
                     <img style="width: 50%;" src="{$product['ImageProduitProducteur']}" alt="">
-                    <button style="margin: 1em 0;" value="{$product['IdProduitProducteur']}">Ajouter</button>
+                    <button id="addButtonLeft" style="margin: 1em 0;" value="{$product['IdProduitProducteur']}">Ajouter</button>
                 </div>
             {/foreach}
         </div>
@@ -38,24 +38,13 @@
                     <p class="addCount"></p>
                     <button style="margin: 1em;" type="submit" name="addBundle">Validation</button>
                     <input name="IdProducteurBundle" type="hidden">
-                </div>
+                    </div>
             </div>
-            {foreach from=$AllProduits item=product key=key }
-                <div class="cardBundle_hide">
-                    <label>Nom</label>
-                    <p style="justify-content: center;">{$product['DesignationProduitProducteur']}</p>
-                    <label>Prix (kg/€) </label>
-                    <input name="PrixBundle[]" style="width: 50%;" value="{$product['PrixProduitProducteur']}" type="text"
-                        required>
-                    <label style="padding:1em;">Quantité</label>
-                    <p style="padding-bottom: 1em;">{$product['QuantiteProduitProducteur']}</p>
-                    <img style="width: 20%;" src="assets/images/arrow-down.svg" alt="">
-                    <input name="QuantiteProduitsBundle[]" style="width: 50%;" value="0" type="number" required>
-                    <img style="width: 50%;" src="{$product['ImageProduitProducteur']}" alt="">
-                    <input name="IdProduitProducteur[]" value="{$product['IdProduitProducteur']}" type="hidden">
-                    <button class="deleteProdBundle">Supprimer</button>
-                </div>
-            {/foreach}
+                    <div class="container_bundle_right">
+                    
+                    {* C'est ici que j'ai besoin de toi chatGPT *}
+                    </div>
+           
         </form>
     </div>
 </div>
