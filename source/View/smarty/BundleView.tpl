@@ -16,10 +16,12 @@
                 <div class="cardBundle">
                     <label>Nom</label>
                     <p style="justify-content: center;">{$product['DesignationProduitProducteur']}</p>
-                    <label style="padding:1em;">Quantité</label>
-                    <p style="padding-bottom: 3em;">{$product['QuantiteProduitProducteur']}</p>
+                    <label>Quantité</label>
+                    <p style="padding-bottom: 1em;">{$product['QuantiteProduitProducteur']}</p>
+                    <label>Prix (Unité?) </label>
+                    <p style="padding-bottom: 3em;">{$product['PrixProduitProducteur']}</p>
                     <img style="width: 50%;" src="{$product['ImageProduitProducteur']}" alt="">
-                    <button style="margin: 1em 0;" name="{$product['IdProduitProducteur']}">Ajouter</button>
+                    <button style="margin: 1em 0;" value="{$product['IdProduitProducteur']}">Ajouter</button>
                 </div>
             {/foreach}
         </div>
@@ -34,23 +36,27 @@
                 </div>
                 <div style="flex:1; margin:2em 0 0 0; text-align: center;">
                     <p class="addCount"></p>
-                    <button style="margin: 1em;"  type="submit" name="addBundle">Validation</button>
+                    <button style="margin: 1em;" type="submit" name="addBundle">Validation</button>
+                    <input name="IdProducteurBundle" type="hidden">
                 </div>
             </div>
             {foreach from=$AllProduits item=product key=key }
                 <div class="cardBundle_hide">
                     <label>Nom</label>
                     <p style="justify-content: center;">{$product['DesignationProduitProducteur']}</p>
+                    <label>Prix (kg/€) </label>
+                    <input name="PrixBundle[]" style="width: 50%;" value="{$product['PrixProduitProducteur']}" type="text"
+                        required>
                     <label style="padding:1em;">Quantité</label>
                     <p style="padding-bottom: 1em;">{$product['QuantiteProduitProducteur']}</p>
                     <img style="width: 20%;" src="assets/images/arrow-down.svg" alt="">
-                    <input style="width: 50%;" type="text">
+                    <input name="QuantiteProduitsBundle[]" style="width: 50%;" value="0" type="number" required>
                     <img style="width: 50%;" src="{$product['ImageProduitProducteur']}" alt="">
-                    <input name="{$product['IdProduitProducteur']}" type="hidden">
+                    <input name="IdProduitProducteur[]" value="{$product['IdProduitProducteur']}" type="hidden">
                     <button class="deleteProdBundle">Supprimer</button>
                 </div>
             {/foreach}
-    </form>
+        </form>
     </div>
-    </div>
+</div>
 {include file="../Partials/_FooterView.tpl"}
