@@ -404,3 +404,12 @@
 .addCount {
  text-align: center;
 }
+
+.addButtonLeft {
+  margin: 1em 0;
+  display: block;
+}
+
+.hidden {
+  display: none;
+}

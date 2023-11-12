@@ -16,12 +16,17 @@
                 <div class="cardBundle">
                     <label>Nom</label>
                     <p style="justify-content: center;">{$product['DesignationProduitProducteur']}</p>
-                    <label>Quantité</label>
-                    <p style="padding-bottom: 1em;">{$product['QuantiteProduitProducteur']}</p>
-                    <label>Prix (Unité?) </label>
-                    <p style="padding-bottom: 3em;">{$product['PrixProduitProducteur']}</p>
-                    <img style="width: 50%;" src="{$product['ImageProduitProducteur']}" alt="">
-                    <button id="addButtonLeft" style="margin: 1em 0;" value="{$product['IdProduitProducteur']}">Ajouter</button>
+                    <label  >Quantité</label>
+                    <p id="quantiteBundle" style="padding-bottom: 1em;">{$product['QuantiteProduitProducteur']}</p>
+                    <img id="svgBundle"  src="" alt="">
+                    <label id="prixBundle">Prix (Unité?) </label>
+                    <div style="display: flex; align-items: center;
+                    justify-content: center;">
+                    <p id="prixArticleBundle"   style="padding-bottom: 3em; flex: 1; justify-content:center">{$product['PrixProduitProducteur']}</p>
+                    </div>
+                    <img id="imgProduitProd" style="width: 50%;" src="{$product['ImageProduitProducteur']}" alt="">
+                    <input name="IdProduitProducteur[]" value="{$product['IdProduitProducteur']}" type="hidden">
+                    <button class="addButtonLeft"  value="{$product['IdProduitProducteur']}">Ajouter</button>
                 </div>
             {/foreach}
         </div>
@@ -42,7 +47,7 @@
             </div>
                     <div class="container_bundle_right">
                     
-                    {* C'est ici que j'ai besoin de toi chatGPT *}
+                 
                     </div>
            
         </form>
