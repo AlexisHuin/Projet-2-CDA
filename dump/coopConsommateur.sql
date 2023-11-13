@@ -116,7 +116,8 @@ CREATE TABLE `Commandes` (
   `TotalCommande` int(11) NOT NULL,
   `ProduitsCommande` varchar(20) NOT NULL,
   `QuantitesCommande` varchar(20) NOT NULL,
-  `ProducteursCommande` varchar(20) NOT NULL
+  `ProducteursCommande` varchar(20) NOT NULL,
+  `ÌdAdherentCommande` int(11) NOT NULL,
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------

@@ -23,27 +23,11 @@ class PanierController extends MainController
         }
 
         if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['deleteAll'])) {
-            $panier = new PanierModel();
-            $panier->IdAdherentsPanier = $_SESSION['user']['IdRole'];
-            $panier->Delete();
-
-            // $_SESSION['panier'] = [];
-            header('Refresh:0.01;' . $_SERVER['REQUEST_URI']);
+            $this->deletePanier();
         }
 
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            foreach ($_POST as $key => $value) {
-                if (strpos($key, 'delete_') === 0) {
-                    $idToDelete = substr($key, 7); // Extrait l'ID à partir de la clé
-
-                    $panier = new PanierModel();
-                    $panier->IdPanier = $idToDelete;
-
-                    $panier->Delete();
-
-                    header('Refresh:0.01;' . $_SERVER['REQUEST_URI']);
-                }
-            }
+            $this->deleteOnePanier();
         }
 
         if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['Validate'])) {
@@ -63,7 +47,6 @@ class PanierController extends MainController
                         ExceptionHandler::SetUserError("C'est marrant d'utiliser l'inspecteur pd ?");
                         break;
                     } else {
-                        $produitproducteur = new ProduitProducteurModel();
                         if ($names[$i] === "Produit") {
                             $produits[] = $_SESSION['panier'][$j][$names[$i]];
                         } else if ($names[$i] === "Quantite") {
@@ -78,6 +61,7 @@ class PanierController extends MainController
                 $commande = new CommandesModel();
                 $facture = new FactureModel();
                 $adherent = new AdherentModel();
+                $produitProducteur = new ProduitProducteurModel();
 
                 // Traitements table Panier
                 $panier->IdAdherentsPanier = $_SESSION['user']['IdRole'];
@@ -96,7 +80,7 @@ class PanierController extends MainController
                 $adherent->Find();
                 $facture->MontantFacture = $total;
 
-                $facture->Where([$_SESSION['user']['IdRole'],"NULL"], ['idAdherent','datePrelevement']);
+                $facture->Where([$_SESSION['user']['IdRole'], "En cours"], ['idAdherent', 'datePrelevement']);
                 $facture->Update();
 
                 // Traitement table Adherent
@@ -105,9 +89,25 @@ class PanierController extends MainController
 
                 $adherent->Update();
 
-                header('Refresh:3;/Panier');
-                echo "Votre commande a bien été validée !"; 
+                foreach ($_POST['Produit'] as $key => $idProduit) {
+                    $produitProducteur->IdProduitProducteur = $idProduit;
+                    $qt = $produitProducteur->Find('QuantiteProduitProducteur', 'Fetch');
 
+
+                    $produitProducteur->QuantiteProduitProducteur = $qt['QuantiteProduitProducteur'] - $quantites[$key];
+
+                    $produitProducteur->Where($idProduit);
+                    $produitProducteur->Update();
+                }
+
+                $mailto = [
+                    "Email" => $_SESSION['user']['Email'],
+                    "Subject" => "Validation de votre commande",
+                    "Motif" => "Votre commande a bien été validée et vous disposez à présent de 2 jours pour venir la retirer sur place. Merci d'avoir choisi nos services !"
+                ];
+                echo json_encode($mailto);
+
+                exit();
             } else {
                 header('Refresh:1;/Panier');
             }
@@ -120,81 +120,29 @@ class PanierController extends MainController
         ViewController::Display("PanierView");
     }
 
-    // public function ajouterProduitPanier()
-    // {
-    //     if (!$this->validate($_POST, ["IdProduit", "Quantite"]) || (intval($_POST["Quantite"]) < 1 || intval($_POST["Quantite"]) > 100)) {
-    //         echo "Paramètres incorrects";
-    //         return;
-    //     }
-    //     if (!isset($_SESSION["panier"])) {
-    //         $_SESSION["panier"] = [];
-    //     }
-    //     $_SESSION["panier"][$_POST["IdProduit"]] = $_POST["Quantite"];
-    //     header("Location: /produits/" . $_POST['IdProduit']);
-    //     exit();
-    // }
+    private function deleteOnePanier(): void
+    {
+        foreach ($_POST as $key => $value) {
+            if (strpos($key, 'delete_') === 0) {
+                $idToDelete = substr($key, 7); // Extrait l'ID à partir de la clé
 
-    // public function supprimerProduitPanier()
-    // {
-    //     if (!$this->validate($_POST, ["Quantite"])) {
-    //         echo "Paramètres incorrects";
-    //         return;
-    //     }
-    //     if (!isset($_SESSION["panier"])) {
-    //         $_SESSION["panier"] = [];
-    //     }
-    //     unset($_SESSION["panier"][$_POST["IdProduit"]]);
-    //     header("Location: /panier");
-    //     exit();
-    // }
+                $panier = new PanierModel();
+                $panier->IdPanier = $idToDelete;
 
-    // public function getPanier()
-    // {
-    //     return $_SESSION["panier"];
-    // }
+                $panier->Delete();
 
-    // public function viderPanier()
-    // {
-    //     unset($_SESSION["panier"]);
-    //     header("Location: /panier");
-    //     exit();
-    // }
+                header('Refresh:0.01;' . $_SERVER['REQUEST_URI']);
+            }
+        }
+    }
 
-    // function validerPanier(array $args, bool $redirect = true)
-    // {
-    //     if (Sessioncontroller::Start() === "adh") {
-    //         header("Location: /");
-    //         exit();
-    //     }
-    //     $prop = new  ProduitProducteurModel();
-    //     try {
-    //         foreach (PanierController::getPanier() as $id => $q) {
-    //             if ($prop->getProduitProducteur($id) < $q) {
-    //                 header("Location: ./panier?err=" . htmlspecialchars("Un produit n'est plus disponible."));
-    //                 exit();
-    //             }
-    //         }
-    //     } catch (\Exception $e) {
-    //         // Gérer l'exception ici
-    //     }
+    private function deletePanier(): void
+    {
+        $panier = new PanierModel();
+        $panier->IdAdherentsPanier = $_SESSION['user']['IdRole'];
+        $panier->Delete();
 
-    //     if ($redirect) {
-    //         header("Location: /panier/prepaiement");
-    //         exit();
-    //     }
-    // }
-
-    // public function afficherPrepaiementPanier()
-    // {
-    //     PanierController::validerPanier([], false);
-
-    //     $produits = [];
-    //     $prod = new ProduitModel();
-    //     foreach (PanierController::getPanier() as $id => $q) {
-    //         $produits[] = $prod->getOneProduitInfos($id);
-    //     }
-    //     ("Pre-paiement");
-    //     ViewController::set("produits", $produits);
-    //     ViewController::display("PanierPrepaiement");
-    // }
+        // $_SESSION['panier'] = [];
+        header('Refresh:0.01;' . $_SERVER['REQUEST_URI']);
+    }
 }
