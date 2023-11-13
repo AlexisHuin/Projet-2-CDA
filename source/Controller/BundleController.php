@@ -63,7 +63,7 @@ class BundleController extends MainController
         $Demandes = new DemandesModel();
         $Demandes->IdProducteurDemande = $IdProducteur;
         $Demandes->IdProduitProducteurDemande = $IdBundle;
-        $Demandes->ObjetDemande = 'Ajout Bundle';
+        $Demandes->ObjetDemande = 'Bundle';
         $Demandes->PrixProposeDemande = $PrixReduction;
         $Demandes->DesignationProduitDemande = htmlentities($datas['DesignationBundle'], ENT_QUOTES);
         $Demandes->MotifDemande = "Le producteur " . $_SESSION['user']['Username'] . " souhaite ajouter le bundle " . htmlentities($datas['DesignationBundle'], ENT_QUOTES) .

@@ -5,7 +5,7 @@
                         <h2>Mes coordonnées</h2>
 
 
-                        {* Affichage de la page pour modifié les coordonnées du producteur *}
+                        {* * Affichage de la page pour modifié les coordonnées du producteur *}
 
                         {if str_replace('/User/Profile', '', $URI) === '?edit'}
                                 <div>
@@ -27,20 +27,25 @@
                 </div>
         {else}
 
-                {* affichage des Coordonées du producteur *}
+                {* * affichage des Coordonées du producteur *}
+                <div>
+                        <p>Nom Prénom : {$Infos.NomPrenomProducteur}</p>
+                        <p>Tel : {$Infos.PhoneProducteur}</p>
+                        <p>Email : {$Infos.MailProducteur}</p>
+                        <p>Code Postal : {$Infos.CodePostalProducteur}</p>
+                        <p>GPS : {$Infos.CoordonneesGPSProducteur}</p>
+                        <p>Raison Sociale : {$Infos.RaisonSocialeProducteur}</p>
+                        <button style="margin: 0 0 1em 0;" type="button"><a
+                                        style="text-decoration:none; width:100%; height:100%; color:white"
+                                        href="/User/Profile?edit">Modifier</a></button>
+                </div>
+                <button style="margin: 0 0 1em 0;" type="button"><a style="text-decoration:none; width:100%; height:100%; color:white"
+                                href="/User/AddProduct">Ajouter un produit</a></button>
+                <button style="margin: 0 0 1em 0;" type="button"><a style="text-decoration:none; width:100%; height:100%; color:white"
+                                href="/User/ProductList">Mes produits et bundles</a></button>
 
-                <p>Nom Prénom : {$Infos.NomPrenomProducteur}</p>
-                <p>Tel : {$Infos.PhoneProducteur}</p>
-                <p>Email : {$Infos.MailProducteur}</p>
-                <p>Code Postal : {$Infos.CodePostalProducteur}</p>
-                <p>GPS : {$Infos.CoordonneesGPSProducteur}</p>
-                <p>Raison Sociale : {$Infos.RaisonSocialeProducteur}</p>
                 <button style="margin: 0 0 1em 0;" type="button"><a style="text-decoration:none; width:100%; height:100%; color:white"
-                                href="/User/AddProduct">Consulter/Ajouter mes produits</a></button>
-                <button style="margin: 0 0 1em 0;" type="button"><a style="text-decoration:none; width:100%; height:100%; color:white"
-                                href="/User/Profile?edit">Modifier</a></button>
-                <button style="margin: 0 0 1em 0;" type="button"><a style="text-decoration:none; width:100%; height:100%; color:white"
-                                href="/Bundle">Gérer mes bundles</a></button>
+                                href="/Bundle">Ajouter un bundle</a></button>
                 </div>
                 </form>
         {/if}
