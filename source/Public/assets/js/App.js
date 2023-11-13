@@ -181,6 +181,11 @@ if (window.location.href == "http://127.0.0.1:8000/Contact") {
   }).addTo(map);
 }
 
+if (window.location.href == "http://127.0.0.1:8000/Panier") {
+  
+}
+
+
 // Vérifier si l'URL actuelle est celle du bundle
 if (window.location.href == "http://127.0.0.1:8000/Bundle") {
   // Fonction pour filtrer les éléments de la page bundle

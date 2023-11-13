@@ -44,7 +44,7 @@ class HomeController extends MainController
 
         if (isset($_POST['Add'])) {
             //Check si les champs sont valides
-            $datas = $this->validate($_POST, ["Prix", "Description", "QuantiteTotal", "Quantite"]);
+            $datas = $this->validate($_POST, ["Prix", "Description", "QuantiteTotal", "Quantite", "Id", "IdProd"]);
 
             if ($datas) {
                 $panierModel = new PanierModel();
@@ -112,6 +112,7 @@ class HomeController extends MainController
         $produitProducteurs = $produitProducteurModel->getProduitProducteur($id['id'], false, true);
 
         ViewController::Set('title', 'Home');
+        ViewController::Set('panier', $_SESSION['panier']);
         ViewController::Set('URI', $_SERVER['REQUEST_URI']);
         ViewController::Set('Id', $id['id']);
         ViewController::Set('produitProducteur', $produitProducteurs);

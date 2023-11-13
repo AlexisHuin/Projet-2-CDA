@@ -77,6 +77,7 @@ class UserController extends MainController
                     $User->RoleUser = $datas['RoleUser'];
                     $IdUser = $User->Save();
 
+                    //! SI adherent, créer un enregistrement dans table facture
                     switch ($User->RoleUser) {
                         case "Adherent":
 

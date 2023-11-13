@@ -52,4 +52,4 @@
     {/if}
 {/foreach}
 
-<script src="/assets/js/Admin.js"></script>
+<script src="/assets/js/SendMail.js"></script>
