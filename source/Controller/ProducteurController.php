@@ -113,13 +113,14 @@ class ProducteurController extends UserController
     {
 
         $AllBundles = $this->listBundle();
-
+      
+        $ProduitsBundle = [];
         if ($AllBundles) {
-            $ProduitsBundle = $this->listProduitsBundle($AllBundles);
-        } else {
-            $ProduitsBundle = [];
+          foreach($AllBundles as $bundle) {
+              $ProduitsBundle[] = $this->listProduitsBundle($bundle);
+          }
         }
-
+         
         $this->connectCheck('user', 'Producteur');
         //* Vérifie si l'utilisateur a soumis un formulaire de suppression
         if (isset($_POST['delete'])) {
@@ -215,8 +216,8 @@ class ProducteurController extends UserController
     {
 
         $produitProducteur = new ProduitProducteurModel();
-        $produitProducteur->IdProduitProducteur = $produits[0]['IdProduitsBundle'];
-        $Produits = $produitProducteur->Find('DesignationProduitProducteur', "FetchAll", true);
+        $produitProducteur->IdProduitProducteur = $produits['IdProduitsBundle'];
+        $Produits = $produitProducteur->Find('DesignationProduitProducteur',"FetchAll", true);
 
         return $Produits;
     }

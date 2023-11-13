@@ -1,6 +1,10 @@
-document.addEventListener('contextmenu', (e) => {
-  e.preventDefault();
-}, false)
+document.addEventListener(
+  "contextmenu",
+  (e) => {
+    e.preventDefault();
+  },
+  false
+);
 
 if (window.location.href == "http://127.0.0.1:8000/") {
   let type = document.getElementById("type");
@@ -138,6 +142,7 @@ if (window.location.href == "http://127.0.0.1:8000/") {
 
 // fonction pour JS pour géré l'ouverture de mes modales, elle permet aussi bien d'ouvrir et fermer.
 
+//! pour les modif de la page connexion, alexis   if (window.location.href == "http://127.0.0.1:8000/User") {
 if (window.location.href == "http://127.0.0.1:8000/User/Profile") {
   function CloseOpen(button, div, display) {
     let target = document.querySelector(button);
@@ -202,88 +207,151 @@ if (window.location.href == "http://127.0.0.1:8000/Bundle") {
   })();
 
   (function () {
-    // Déclaration de la variable counter en dehors des fonctions
     let counter = 5;
-  
-    // Récupération des éléments DOM une seule fois
     let addCount = document.querySelector(".addCount");
+    let containerRight = document.querySelector(".container_bundle_right");
+
     let produitTargets = document.querySelectorAll(".cardBundle");
-    let produitTargetsHide = document.querySelectorAll(".cardBundle_hide");
-    let cardBundleHide = document.querySelectorAll(".cardBundle_hide");
+    let addButtonLeft = document.querySelectorAll(".addButtonLeft");
     let cardBundleArr = [];
-  
-    // Mettre à jour le texte du compteur
+
+
+    // Initialisatin et gestion du message pour le counter
     function updateCounter() {
       addCount.innerText = `Vous pouvez ajouter encore ${counter} produit${
         counter !== 1 ? "s" : ""
       }`;
       if (counter === 0) {
         addCount.innerText = "Vous ne pouvez plus ajouter de produit";
-        addCount.style.color = "red";
+        addCount.style.color = "#ff0000";
+      } else {
+        addCount.style.color = "black";
+      }
+
+
+      // je gére ici avec le counter si j'ajoute la class ou retire .hidden des élément de gauche
+      addButtonLeft.forEach((button) => {
+        if (counter === 0) {
+          button.classList.add("hidden");
+        } else {
+          button.classList.remove("hidden");
+        }
+      });
+    }
+
+
+    // Fonction qui gére la suppression des élément de droite
+    function removeFromRight(e) {
+      e.remove();
+      counter++;
+      updateCounter();
+
+      // Réapparition de l'élément à gauche
+      let correspondingLeftElement = document.querySelector(".interface_left");
+      if (correspondingLeftElement) {
+        correspondingLeftElement.style.display = "block";
       }
     }
-  
-    // Fonction pour afficher l'élément correspondant
-    function showCorrespondingElement(button, index) {
-      let buttonId = button.name;
-      let correspondingHideElement = produitTargetsHide[index];
-  
-      // Vérifie si l'élément n'est pas déjà dans le tableau
-      if (
-        correspondingHideElement &&
-        counter >= 1 &&
-        !isElementInArray(correspondingHideElement)
-      ) {
-        correspondingHideElement.style.display = "flex";
+
+
+    // Fonction qui gére le cloneNode ( je ne connaissais pas, c'est fantastique)
+    function showCorrespondingElement(index) {
+      // Je stock ici l'index de chaque élément de mon produitTargets qui retourne querrySelectorAll
+      let correspondingHideElement = produitTargets[index];
+     
+// Je met un premier controle pour savoir si je peux ajouter ou non des élements a droite d'aprés mon counter
+      if (correspondingHideElement && counter > 0 && cardBundleArr.length < 5) {
+        // Je clone la card de gauche suivant son index
+        let clonedElement = correspondingHideElement.cloneNode(true);
         counter--;
-        let uniqueId = "element_" + new Date().getTime();
-        correspondingHideElement.setAttribute("data-id", uniqueId);
-        cardBundleArr.push({ id: uniqueId, element: correspondingHideElement });
-        // Mettre à jour le compteur après chaque ajout
+
+        // Je prépare cible le bouton ajouter pour le supprimer de mon clone
+
+        let buttonAjouter = clonedElement.querySelector("button");
+        let buttonAjouterValue = buttonAjouter.value;
+
+        // si il existe je le delete
+        if (buttonAjouter) {
+          buttonAjouter.parentNode.removeChild(buttonAjouter);
+        }
+
+        // je prépare mon bouton supprimer, et je récupére la value qui contiens l'id de mon produit ( je ne l'utilise pas au final)
+        let buttonSupprimer = document.createElement("button");
+        buttonSupprimer.className = "deleteProdBundle";
+        buttonSupprimer.innerText = "Supprimer";
+        buttonSupprimer.value = buttonAjouterValue;
+
+        // ici j'appelle ma fonction removeFromRight au clic sur le boutton supprimer sur la partie droite, pour retiré un élément
+        buttonSupprimer.addEventListener("click", function () {
+          removeFromRight(this.closest(".cardBundle_hide"));
+        });
+
+
+        // suite a un soucis de CSS, la balise style m'a posé probléme alors que pas présente dans le fichier CSS, je la supprime de force
+        // pour évité les problémes
+        clonedElement.removeAttribute("style");
+        clonedElement.classList.remove("cardBundle");
+        clonedElement.classList.add("cardBundle_hide");
+
+        //j'ajoute le bouton supprimé a mon clone en ayant retiré le bouton ajouter
+        clonedElement.appendChild(buttonSupprimer);
+
+        // AJOUT DE NOUVEAUX ELEMENTS AU CLONE
+        // je dois bouclé sur toutes les cards car je pars d'un querrySelectorAll
+
+        // Ajout de l'icone du chariot dans chaque BundleRight depuis le clone
+        let targetQuantite = clonedElement.querySelectorAll("#quantiteBundle");
+        targetQuantite.forEach((quantiteElement) => {
+          let imgElement = document.createElement("img");
+          imgElement.style.width = "50%";
+          imgElement.src = "assets/images/arrow-down.svg";
+          quantiteElement.insertAdjacentHTML("afterend", imgElement.outerHTML);
+        });
+
+        // Ajout de l'input de quantité dans chaque BundleRight depuis le clone
+        let inputQuantite = clonedElement.querySelectorAll("#svgBundle");
+        inputQuantite.forEach((quantiteElement) => {
+          let inputQuantite = document.createElement("input");
+          inputQuantite.name = "QuantiteProduitsBundle[]";
+          inputQuantite.value = "0";
+          inputQuantite.type = "number";
+          inputQuantite.style.width = "50%";
+          console.log(inputQuantite)
+          quantiteElement.insertAdjacentHTML("afterend", inputQuantite.outerHTML);
+        });
+
+        console.log(inputQuantite)
+
+        // // Ajout de l'input de prix dans chaque BundleRight depuis le clone
+        // let inputPrix = clonedElement.querySelectorAll("#prixArticleBundle");
+        // inputPrix.forEach((quantiteElement) => {
+        //   let inputPrix = document.createElement("input");
+        //   inputPrix.name = "PrixBundle[]";
+        //   inputPrix.type = "number";
+        //   inputPrix.style.width = "10%";
+        //   inputPrix.style.flex = "1";
+        //   console.log(inputPrix)
+        //   quantiteElement.insertAdjacentHTML("afterend", inputPrix.outerHTML);
+        // });
+
+        // ici j'intégre mon éléments cloné, et complété dans la partie de droite
+        containerRight.appendChild(clonedElement);
+
         updateCounter();
       }
     }
-  
-    // Fonction pour supprimer un produit
-    function deleteProductFromBundle() {
-      let countColor = document.querySelector(".addCount");
-      cardBundleHide.forEach((produitTargetHide) => {
-        let target = produitTargetHide.querySelector(".deleteProdBundle");
-        target.addEventListener("click", (e) => {
-          e.preventDefault();
-          let uniqueId = produitTargetHide.getAttribute("data-id");
-          produitTargetHide.style.display = "none";
-          countColor.style.color = "black";
-  
-          // Retirer l'élément correspondant du tableau cardBundleArr
-          let indexToRemove = cardBundleArr.findIndex((el) => el.id === uniqueId);
-          if (indexToRemove !== -1) {
-            cardBundleArr.splice(indexToRemove, 1);
-          }
-  
-          counter++;
-          updateCounter();
-        });
-      });
-    }
-  
-    // Vérifie si un élément est déjà dans le tableau
-    function isElementInArray(element) {
-      return cardBundleArr.some((el) => el.element === element);
-    }
-  
-    // Ajouter des écouteurs d'événements pour chaque produit
+
+// le coeur de ma fonction, pour chaque boutons ajouter, j'écoute l'événement, et au click, je fais disparaitre la card a gauche, et grace a 
+// showCorrespondingElement j'ajoute et personnalise la card de droite
+
     produitTargets.forEach((produitTarget, index) => {
       let target = produitTarget.querySelector("button");
       target.addEventListener("click", () => {
-        showCorrespondingElement(target, index);
+        produitTarget.style.display = "none";
+        showCorrespondingElement(index);
       });
     });
-  
-    // Appeler la fonction pour initialiser le compteur
+
     updateCounter();
-  
-    // Appeler la fonction pour supprimer un produit
-    deleteProductFromBundle();
   })();
 }
