@@ -423,3 +423,22 @@ input[readonly] {
 #tmort {
   border: none;
 }
+
+.bundles {
+ 
+display: flex;
+ 
+ 
+}
+
+.bundle {
+  width: calc(25% - 40px);
+  margin: 20px;
+  padding: 20px;
+  text-align: center;
+  background-color: white;
+  border: 1px solid #ddd;
+  box-shadow: 0 2px 4px rgb(0 0 0 / 10%);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border-radius: 10%;
+}
