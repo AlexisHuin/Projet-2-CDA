@@ -16,6 +16,7 @@ use Model\ProducteurModel;
 use Model\UserModel;
 // Traitement des demandes et notifications
 use Model\AdminModel;
+use Model\BundleModel;
 use Model\ProduitProducteurModel;
 use Model\DemandesModel;
 use Model\NotificationsModel;
@@ -190,7 +191,6 @@ class AdminController extends MainController
         ViewController::Display('admin/ModifProducteurView');
     }
 
-    //! FIX !//
     public function ProduitsProducteursList($id): void
     {
         $this->connectCheck('admin');
@@ -325,6 +325,7 @@ class AdminController extends MainController
     {
         $ProduitProducteur = new ProduitProducteurModel();
         $Notifications = new NotificationsModel();
+        $Bundle = new BundleModel();
 
         switch ($_POST['Objet']) {
             case "Prix":
@@ -368,9 +369,26 @@ class AdminController extends MainController
                 $Notifications->Save();
                 break;
 
-            case "Achat":
+            case "Bundle" :
+                if ($state === "Accepted") {
+                    $Bundle->Where($_POST['IdProduitProducteur']);
+                    $Bundle->IsValidateBundle = true;
+
+                    $Bundle->Update();
+                }
+
+                $Notifications->IdDestinataireNotification = $_POST['IdProd'];
+                $Notifications->DateEnvoiNotification = date('Y-m-d H:i');
+
+                if ($state === "Denied") {
+                    $Notifications->MotifNotification = "Votre demande concernant la création de votre bundle a été refusée.";
+                } else {
+                    $Notifications->MotifNotification = "Votre demande concernant la création de votre bundle a été acceptée.";
+                }
+
+                $Notifications->Save();
                 break;
-            case "Mensualite":
+            case "Achat":
                 break;
         }
 

@@ -140,7 +140,7 @@ class MainController
     protected function connectCheck(string $session, string $role = "", string $Location = "/"): bool
     {
         if (!empty($role)) {
-            if (!isset($_SESSION[$session]) && $_SESSION[$session]['RoleUser'] !== $role) {
+            if (!isset($_SESSION[$session]) || $_SESSION[$session]['RoleUser'] !== $role) {
                 header('Location: ' . $Location);
                 exit();
             } else {
