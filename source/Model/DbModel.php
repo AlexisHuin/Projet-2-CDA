@@ -55,7 +55,7 @@ class DbModel
         return $this->where;
     }
 
-    // This functions takes an associative array as argument.
+    //* This functions takes an associative array as argument.
     public function Join(array $fieldsJoin, array $tableJoin): int|string|array|object
     {
         $keys = array_keys($tableJoin);
@@ -165,6 +165,7 @@ class DbModel
     public function Find(
         string $champSelect = '*',
         string $fetch = 'FetchAll',
+        bool $In = false,
         int $limit = 0,
     ) {
 
@@ -192,20 +193,25 @@ class DbModel
             $sql .= ' WHERE ';
 
             foreach ($columns as $key => $column) {
-                $sql   .= $column . '=:' . $column;
-                if ($key < (count($columns) - 1))
-                    $sql   .= ' AND ';
+                //? Only if one parameter is passed in datas
+                if ($In) {
+                    $sql   .= $column . ' IN(' . $this->datas[$column] . ')';
+                } else {
+                    $sql   .= $column . '=:' . $column;
+                    if ($key < (count($columns) - 1))
+                        $sql   .= ' AND ';
+                }
             }
-        } 
+        }
 
         if ($limit > 0) {
             $sql .= ' LIMIT ' . $limit;
         }
 
         $rq = self::$db->prepare($sql);
-        if(isset($columns)){
+        if (isset($columns) && $In == false) {
             $rq->execute($this->datas);
-        } else{
+        } else {
             $rq->execute();
         }
 

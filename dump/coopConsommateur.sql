@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : db
--- Généré le : lun. 13 nov. 2023 à 09:54
+-- Généré le : lun. 13 nov. 2023 à 12:57
 -- Version du serveur : 11.1.2-MariaDB-1:11.1.2+maria~ubu2204
 -- Version de PHP : 8.2.11
 
@@ -78,10 +78,11 @@ INSERT INTO `Admin` (`IdAdmin`, `UsernameAdmin`, `MdpAdmin`) VALUES
 CREATE TABLE `Bundle` (
   `IdBundle` int(11) NOT NULL,
   `DesignationBundle` varchar(75) NOT NULL,
+  `IsValidateBundle` tinyint(1) NOT NULL DEFAULT 0,
   `IdProduitsBundle` varchar(20) NOT NULL,
   `QuantiteProduitsBundle` varchar(20) NOT NULL,
   `IdProducteurBundle` int(11) NOT NULL,
-  `PrixBundle` DECIMAL(15,2) NOT NULL
+  `PrixBundle` decimal(15,2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -123,8 +124,8 @@ CREATE TABLE `Commandes` (
 -- Déchargement des données de la table `Commandes`
 --
 
-INSERT INTO `Commandes` (`IdCommande`, `TotalCommande`, `ProduitsCommande`, `QuantitesCommande`, `ProducteursCommande`) VALUES
-(1, 4836, '17,14', '43,50', '7,7');
+INSERT INTO `Commandes` (`IdCommande`, `TotalCommande`, `ProduitsCommande`, `QuantitesCommande`, `ProducteursCommande`, `IdAdherentCommande`) VALUES
+(1, 4836, '17,14', '43,50', '7,7', 0);
 
 -- --------------------------------------------------------
 
@@ -150,7 +151,8 @@ CREATE TABLE `Demandes` (
 INSERT INTO `Demandes` (`IdDemande`, `ObjetDemande`, `PrixProposeDemande`, `DesignationProduitDemande`, `MotifDemande`, `IdProducteurDemande`, `IdProduitProducteurDemande`, `EtatDemande`) VALUES
 (33, 'Prix', 9, 'Aubergine du coin', 'Le producteur prod.prod souhaite modifié le prix de Aubergine du coin au prix de 9', 7, 13, 'Denied'),
 (34, 'Prix', 50, 'Aubergine du coin', 'Le producteur prod.prod souhaite modifié le prix de Aubergine du coin au prix de 50', 7, 13, 'Accepted'),
-(35, 'Prix', 52, 'Aubergine du coin', 'Le producteur prod.prod souhaite modifié le prix de Aubergine du coin au prix de 52', 7, 13, 'Opened');
+(35, 'Prix', 52, 'Aubergine du coin', 'Le producteur prod.prod souhaite modifié le prix de Aubergine du coin au prix de 52', 7, 13, 'Opened'),
+(36, 'Ajout Bundle', 64.088, 'Le meilleur bundle', 'Le producteur prod.prod souhaite ajouter le bundle Le meilleur bundle au prix de 64.088', 7, 1, 'Opened');
 
 -- --------------------------------------------------------
 
@@ -556,7 +558,7 @@ ALTER TABLE `Admin`
 -- AUTO_INCREMENT pour la table `Bundle`
 --
 ALTER TABLE `Bundle`
-  MODIFY `IdBundle` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `IdBundle` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT pour la table `Categorie`
@@ -574,7 +576,7 @@ ALTER TABLE `Commandes`
 -- AUTO_INCREMENT pour la table `Demandes`
 --
 ALTER TABLE `Demandes`
-  MODIFY `IdDemande` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
+  MODIFY `IdDemande` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 
 --
 -- AUTO_INCREMENT pour la table `Facture`
