@@ -113,7 +113,7 @@ INSERT INTO `Categorie` (`IdCategorie`, `DesignationCategorie`) VALUES
 
 CREATE TABLE `Commandes` (
   `IdCommande` int(11) NOT NULL,
-  `TotalCommande` int(11) NOT NULL,
+  `TotalCommande` decimal(11,2) NOT NULL,
   `ProduitsCommande` varchar(20) NOT NULL,
   `QuantitesCommande` varchar(20) NOT NULL,
   `ProducteursCommande` varchar(20) NOT NULL,
@@ -227,7 +227,7 @@ CREATE TABLE `Panier` (
   `IdPanier` int(11) NOT NULL,
   `ProduitPanier` int(11) NOT NULL,
   `QuantitePanier` int(11) NOT NULL,
-  `PrixPanier` int(11) NOT NULL,
+  `PrixPanier` decimal(11,2) NOT NULL,
   `IdProducteurProduitPanier` int(11) NOT NULL,
   `IdAdherentsPanier` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;

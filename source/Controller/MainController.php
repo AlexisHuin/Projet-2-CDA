@@ -124,7 +124,7 @@ class MainController
         }
 
         if (isset($_SESSION['user'])) {
-            $NotificationsModel->IdDestinataireNotification = $_SESSION['user']['IdRole'];
+            $NotificationsModel->IdDestinataireNotification = $_SESSION['user']['Id'];
             $NotificationsModel->IsReadNotification = 0;
             $notifications = $NotificationsModel->Find();
         } else {
