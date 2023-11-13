@@ -6,6 +6,7 @@
         <form method="post">
             {foreach from=$panier item=item key=k}
                 <fieldset id="DeleteOne">
+                    <label>Id :</label> <input type="text" name="Id[]" readonly value="{$item.IdLigne}">
                     <label>Produit : </label> <input type="text" name="Produit[]" readonly value="{$item.Produit}">
                     <label>Quantite : </label> <input type="text" name="Quantite[]" readonly value="{$item.Quantite}">
                     <label>Prix : </label> <input type="text" name="Prix[]" readonly value="{$item.Prix}">
@@ -36,6 +37,5 @@
         {$error}
     {/foreach}
 </div>
-<script src="/assets/js/SendMail.js"></script>
 
 {include file="../Partials/_FooterView.tpl"}

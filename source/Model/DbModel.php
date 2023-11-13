@@ -30,6 +30,8 @@ class DbModel
     {
         self::Connect();
     }
+    
+    //? If enough time, change parameter 1 to be an array and associate in with it's operator (=, <=, >=, <, >, !=, IN, LIKE) 
     public function __set($var, $value)
     {
         $this->datas[$var] = $value;
@@ -165,6 +167,7 @@ class DbModel
     public function Find(
         string $champSelect = '*',
         string $fetch = 'FetchAll',
+        bool $In = false,
         int $limit = 0,
     ) {
 
@@ -192,20 +195,25 @@ class DbModel
             $sql .= ' WHERE ';
 
             foreach ($columns as $key => $column) {
-                $sql   .= $column . '=:' . $column;
-                if ($key < (count($columns) - 1))
-                    $sql   .= ' AND ';
+                //?
+                if ($In == true) {
+                    $sql   .= $column . ' IN(:' . $column . ")";
+                } else {
+                    $sql   .= $column . '=:' . $column;
+                    if ($key < (count($columns) - 1))
+                        $sql   .= ' AND ';
+                }
             }
-        } 
+        }
 
         if ($limit > 0) {
             $sql .= ' LIMIT ' . $limit;
         }
 
         $rq = self::$db->prepare($sql);
-        if(isset($columns)){
+        if (isset($columns)) {
             $rq->execute($this->datas);
-        } else{
+        } else {
             $rq->execute();
         }
 

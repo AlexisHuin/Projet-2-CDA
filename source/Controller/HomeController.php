@@ -35,12 +35,7 @@ class HomeController extends MainController
     {
         //TODO Continuer commentaires
         //Vérification si l'utilisateur est connecté
-        //! fonction $this->connectCheck inutilisable pour raison inconnue.
-        if (!isset($_SESSION['user'])) {
-            header('Location: /User');
-            exit();
-        }
-        // $this->connectCheck('user', 'Adherent', "User/");
+        $this->connectCheck('user', 'Adherent', "User/");
 
         if (isset($_POST['Add'])) {
             //Check si les champs sont valides

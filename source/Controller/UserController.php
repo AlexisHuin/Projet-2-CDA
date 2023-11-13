@@ -13,6 +13,7 @@ use Controller\ExceptionHandler;
 use Controller\InfosReglementController;
 
 use DateTime;
+use Model\FactureModel;
 use Model\InfosReglementModel;
 
 // Classe UserController héritant de MainController
@@ -77,10 +78,9 @@ class UserController extends MainController
                     $User->RoleUser = $datas['RoleUser'];
                     $IdUser = $User->Save();
 
-                    //! SI adherent, créer un enregistrement dans table facture
+                    //! Si adherent, créer un enregistrement dans table facture
                     switch ($User->RoleUser) {
                         case "Adherent":
-
                             $Adherent->NomPrenomAdherent = htmlspecialchars($datas['Nom'] . " " . ($datas['Prenom']));
                             $Adherent->PhoneAdherent = htmlspecialchars($datas['Tel']);
                             $Adherent->CoordonneesGPSAdherent = htmlspecialchars($datas['GPS']);
@@ -89,6 +89,11 @@ class UserController extends MainController
                             $Adherent->DateDebutAdherent = (new DateTime())->format('Y-m-d');
                             $Adherent->MailAdherent = htmlspecialchars($datas['Email']);
                             $IdRole = $Adherent->Save();
+
+                            $facture = new FactureModel();
+                            $facture->MontantFaxcture = 15.00;
+                            $facture->IdAdherentFacture = $IdRole;
+                            $facture->Save();
                             break;
 
                         case "Producteur":

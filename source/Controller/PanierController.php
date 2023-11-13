@@ -37,13 +37,13 @@ class PanierController extends MainController
             $produits = [];
             $quantites = [];
 
-            if (intval($_POST['Total']) !== $total) {
+            if (floatval($_POST['Total']) !== $total) {
                 ExceptionHandler::SetUserError("C'est marrant d'utiliser l'inspecteur pour essayer de payer moins cher petit pd ?");
             }
 
             for ($j = 0; $j < count($_SESSION['panier']); $j++) {
                 for ($i = 0; $i < (count($names)); $i++) {
-                    if (intval($_SESSION['panier'][$j][$names[$i]]) !== intval($post[$i][$j])) {
+                    if (floatval($_SESSION['panier'][$j][$names[$i]]) !== floatval($post[$i][$j])) {
                         ExceptionHandler::SetUserError("C'est marrant d'utiliser l'inspecteur pd ?");
                         break;
                     } else {
@@ -57,15 +57,13 @@ class PanierController extends MainController
             }
 
             if (count(ExceptionHandler::GetUserError()) == 0) {
-                $panier = new PanierModel();
                 $commande = new CommandesModel();
                 $facture = new FactureModel();
                 $adherent = new AdherentModel();
                 $produitProducteur = new ProduitProducteurModel();
 
                 // Traitements table Panier
-                $panier->IdAdherentsPanier = $_SESSION['user']['IdRole'];
-                $panier->Delete();
+                $this->deletePanier();
 
                 // Traitements table Commandes
                 $commande->TotalCommande = $total;
@@ -77,16 +75,17 @@ class PanierController extends MainController
 
                 // Traitements table Facture
                 $adherent->IdAdherent = $_SESSION['user']['IdRole'];
-                $adherent->Find();
-                $facture->MontantFacture = $total;
+                $totalActuel = $adherent->Find('DepenseAdherent', 'Fetch');
 
-                $facture->Where([$_SESSION['user']['IdRole'], "En cours"], ['idAdherent', 'datePrelevement']);
+                $facture->MontantFacture = $totalActuel['DepenseAdherent'] + $total;
+
+                $facture->Where([$_SESSION['user']['IdRole'], "'En cours'"], ['idAdherent', 'datePrelevement']);
                 $facture->Update();
 
                 // Traitement table Adherent
-                $adherent->DepenseAdherent = $total;
-                $adherent->Where($_SESSION['user']['IdRole']);
+                $adherent->DepenseAdherent = $totalActuel['DepenseAdherent'] + $total;
 
+                $adherent->Where($_SESSION['user']['IdRole']);
                 $adherent->Update();
 
                 foreach ($_POST['Produit'] as $key => $idProduit) {
@@ -100,12 +99,13 @@ class PanierController extends MainController
                     $produitProducteur->Update();
                 }
 
-                $mailto = [
-                    "Email" => $_SESSION['user']['Email'],
-                    "Subject" => "Validation de votre commande",
-                    "Motif" => "Votre commande a bien été validée et vous disposez à présent de 2 jours pour venir la retirer sur place. Merci d'avoir choisi nos services !"
-                ];
-                echo json_encode($mailto);
+
+                // $mailto = [
+                //     "Email" => $_SESSION['user']['Email'],
+                //     "Subject" => "Validation de votre commande",
+                //     "Motif" => "Votre commande a bien été validée et vous disposez à présent de 2 jours pour venir la retirer sur place. Merci d'avoir choisi nos services !"
+                // ];
+                // echo json_encode($mailto);
 
                 exit();
             } else {
