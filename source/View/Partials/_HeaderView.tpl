@@ -2,9 +2,9 @@
 <html lang="fr">
 
 <head>
-    {* <link rel="stylesheet" href="/assets/css/style.css"> *}
+   
     <link rel="stylesheet" href="/assets/css/styling.css">
-    {* API MAP NE PAS INVERSER LE LINK ET SCRIPT *}
+    {*! API MAP NE PAS INVERSER LE LINK ET SCRIPT *}
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
         integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
         crossorigin="" />
