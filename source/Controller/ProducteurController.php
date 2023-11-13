@@ -69,7 +69,7 @@ class ProducteurController extends UserController
                 $IdProduitProducteur = $ProduitProducteur->Save();
 
                 $Demandes = new DemandesModel();
-                $Demandes->IdProducteurDemande = $idProducteur;
+                $Demandes->IdUserDemande = $_SESSION['user']['Id'];
                 $Demandes->IdProduitProducteurDemande = $IdProduitProducteur;
                 $Demandes->ObjetDemande = 'Ajout';
                 $Demandes->PrixProposeDemande = $datas['PrixProduitProducteur'];
@@ -113,13 +113,13 @@ class ProducteurController extends UserController
     {
 
         $AllBundles = $this->listBundle();
+      
         $ProduitsBundle = [];
-        foreach($AllBundles as $bundle) {
-            $ProduitsBundle[] = $this->listProduitsBundle($bundle);
+        if ($AllBundles) {
+          foreach($AllBundles as $bundle) {
+              $ProduitsBundle[] = $this->listProduitsBundle($bundle);
+          }
         }
-        echo "<pre>";
-         var_dump($ProduitsBundle);
-         echo "</pre>";
          
         $this->connectCheck('user', 'Producteur');
         //* Vérifie si l'utilisateur a soumis un formulaire de suppression
@@ -164,7 +164,7 @@ class ProducteurController extends UserController
                     $ProduitProducteurModel->producteurProduitUpdate($datas, $idProducteur, $IdProduitProducteur);
 
                     $demandes = new DemandesModel();
-                    $demandes->IdProducteurDemande = $idProducteur;
+                    $demandes->IdUserDemande = $_SESSION['user']['Id'];
                     $demandes->IdProduitProducteurDemande = $IdProduitProducteur;
                     $demandes->ObjetDemande = 'Prix';
                     $demandes->DesignationProduitDemande = htmlentities($datas['DesignationProduitProducteur'], ENT_QUOTES);
@@ -207,18 +207,18 @@ class ProducteurController extends UserController
         $producteurs = new ProducteurModel();
         $producteurs->IdProducteur = $_SESSION['user']['IdRole'];
         $producteurs->Join(['IdProducteur'], ['Bundle' => 'IdProducteurBundle']);
-        $AllBundles = $producteurs->Find('*', 'FetchAll'); 
+        $AllBundles = $producteurs->Find('*', 'FetchAll');
 
         return $AllBundles;
     }
 
-    private function listProduitsBundle(array $produits): object|array {
-        
+    private function listProduitsBundle(array $produits): object|array
+    {
+
         $produitProducteur = new ProduitProducteurModel();
         $produitProducteur->IdProduitProducteur = $produits['IdProduitsBundle'];
         $Produits = $produitProducteur->Find('DesignationProduitProducteur',"FetchAll", true);
 
         return $Produits;
     }
-
 }

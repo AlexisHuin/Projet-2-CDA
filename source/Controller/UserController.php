@@ -91,7 +91,7 @@ class UserController extends MainController
                             $IdRole = $Adherent->Save();
 
                             $facture = new FactureModel();
-                            $facture->MontantFaxcture = 15.00;
+                            $facture->MontantFacture = 15.00;
                             $facture->IdAdherentFacture = $IdRole;
                             $facture->Save();
                             break;

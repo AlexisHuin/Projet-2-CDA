@@ -57,11 +57,11 @@ class BundleController extends MainController
         $bundle->QuantiteProduitsBundle = $this->concatenationPower($datas, 'QuantiteProduitsBundle');
         $bundle->IdProduitsBundle = $this->concatenationPower($datas, 'IdProduitProducteur');
         $IdBundle = $bundle->Save();
-       
+
 
 
         $Demandes = new DemandesModel();
-        $Demandes->IdProducteurDemande = $IdProducteur;
+        $Demandes->IdUserDemande = $_SESSION['user']['Id'];
         $Demandes->IdProduitProducteurDemande = $IdBundle;
         $Demandes->ObjetDemande = 'Bundle';
         $Demandes->PrixProposeDemande = $PrixReduction;
