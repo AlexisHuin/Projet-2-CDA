@@ -209,7 +209,7 @@ class DbModel
         if ($limit > 0) {
             $sql .= ' LIMIT ' . $limit;
         }
-
+        
         $rq = self::$db->prepare($sql);
         if (isset($columns) && $In == false) {
             $rq->execute($this->datas);
