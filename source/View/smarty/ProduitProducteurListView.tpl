@@ -2,8 +2,8 @@
 <h1>Vos bundles en vente</h1>
 <form method="post" action="">
     <div class="bundles">
-        {foreach key=key item=bundle from=$AllBundles}
-            {if $bundle.IsValidateBundle == 1}
+    {foreach from=$ProduitsBundle item=produits key=key}
+            {if $AllBundles.$key.IsValidateBundle == 1}
                 {include file="../Partials/_FinalBundleView.tpl"}
             {/if}
         {/foreach}
@@ -17,8 +17,8 @@
 <h1>Vos bundles en attentes</h1>
 <form method="post" action="">
     <div class="bundles">
-        {foreach key=key item=bundle from=$AllBundles}
-            {if $bundle.IsValidateBundle == 0}
+    {foreach from=$ProduitsBundle item=Produits key=key}
+            {if $AllBundles.$key.IsValidateBundle == 0}
                 {include file="../Partials/_FinalBundleView.tpl"}
             {/if}
         {/foreach}
