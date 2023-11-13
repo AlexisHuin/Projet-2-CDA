@@ -142,6 +142,7 @@ if (window.location.href == "http://127.0.0.1:8000/") {
 
 // fonction pour JS pour géré l'ouverture de mes modales, elle permet aussi bien d'ouvrir et fermer.
 
+//! pour les modif de la page connexion, alexis   if (window.location.href == "http://127.0.0.1:8000/User") {
 if (window.location.href == "http://127.0.0.1:8000/User/Profile") {
   function CloseOpen(button, div, display) {
     let target = document.querySelector(button);
