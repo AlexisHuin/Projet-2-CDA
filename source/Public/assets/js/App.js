@@ -321,17 +321,17 @@ if (window.location.href == "http://127.0.0.1:8000/Bundle") {
 
         console.log(inputQuantite)
 
-        // Ajout de l'input de prix dans chaque BundleRight depuis le clone
-        let inputPrix = clonedElement.querySelectorAll("#prixArticleBundle");
-        inputPrix.forEach((quantiteElement) => {
-          let inputPrix = document.createElement("input");
-          inputPrix.name = "PrixBundle[]";
-          inputPrix.type = "number";
-          inputPrix.style.width = "10%";
-          inputPrix.style.flex = "1";
-          console.log(inputPrix)
-          quantiteElement.insertAdjacentHTML("afterend", inputPrix.outerHTML);
-        });
+        // // Ajout de l'input de prix dans chaque BundleRight depuis le clone
+        // let inputPrix = clonedElement.querySelectorAll("#prixArticleBundle");
+        // inputPrix.forEach((quantiteElement) => {
+        //   let inputPrix = document.createElement("input");
+        //   inputPrix.name = "PrixBundle[]";
+        //   inputPrix.type = "number";
+        //   inputPrix.style.width = "10%";
+        //   inputPrix.style.flex = "1";
+        //   console.log(inputPrix)
+        //   quantiteElement.insertAdjacentHTML("afterend", inputPrix.outerHTML);
+        // });
 
         // ici j'intégre mon éléments cloné, et complété dans la partie de droite
         containerRight.appendChild(clonedElement);
