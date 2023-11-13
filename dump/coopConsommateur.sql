@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : db
--- Généré le : ven. 10 nov. 2023 à 14:54
+-- Généré le : lun. 13 nov. 2023 à 09:54
 -- Version du serveur : 11.1.2-MariaDB-1:11.1.2+maria~ubu2204
 -- Version de PHP : 8.2.11
 
@@ -47,9 +47,7 @@ CREATE TABLE `Adherent` (
 --
 
 INSERT INTO `Adherent` (`IdAdherent`, `NomPrenomAdherent`, `PhoneAdherent`, `MailAdherent`, `CodePostalAdherent`, `CoordonneesGPSAdherent`, `DateDebutAdherent`, `DateFinAdherent`, `DepenseAdherent`, `EtatAbonnementAdherent`) VALUES
-
-(12, 'ade ade', '0254477889', 'ade@ade.ade', 41000, '52564562', '2023-11-02', NULL, 0.00, 0);
-
+(12, 'ade ade', '0254477889', 'ade@ade.ade', 41000, '52564562', '2023-11-02', NULL, 4836.00, 0);
 
 -- --------------------------------------------------------
 
@@ -82,7 +80,8 @@ CREATE TABLE `Bundle` (
   `DesignationBundle` varchar(75) NOT NULL,
   `IdProduitsBundle` varchar(20) NOT NULL,
   `QuantiteProduitsBundle` varchar(20) NOT NULL,
-  `IdProducteurBundle` int(11) NOT NULL
+  `IdProducteurBundle` int(11) NOT NULL,
+  `PrixBundle` DECIMAL(15,2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -117,8 +116,15 @@ CREATE TABLE `Commandes` (
   `ProduitsCommande` varchar(20) NOT NULL,
   `QuantitesCommande` varchar(20) NOT NULL,
   `ProducteursCommande` varchar(20) NOT NULL,
-  `ÌdAdherentCommande` int(11) NOT NULL,
+  `IdAdherentCommande` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Déchargement des données de la table `Commandes`
+--
+
+INSERT INTO `Commandes` (`IdCommande`, `TotalCommande`, `ProduitsCommande`, `QuantitesCommande`, `ProducteursCommande`) VALUES
+(1, 4836, '17,14', '43,50', '7,7');
 
 -- --------------------------------------------------------
 
@@ -163,10 +169,8 @@ CREATE TABLE `Facture` (
 -- Déchargement des données de la table `Facture`
 --
 
-
 INSERT INTO `Facture` (`IdFacture`, `MontantFacture`, `DatePrelevementFacture`, `IdAdherentFacture`) VALUES
 (1, 0.00, NULL, 12);
-
 
 -- --------------------------------------------------------
 
@@ -230,9 +234,12 @@ CREATE TABLE `Panier` (
 -- Déchargement des données de la table `Panier`
 --
 
-INSERT INTO `Panier` (`IdPanier`, `ProduitPanier`, `QuantitePanier`, `PrixPanier`, `IdAdherentsPanier`) VALUES
-(1, 19, 5, 25, 7),
-(2, 19, 5, 25, 13);
+INSERT INTO `Panier` (`IdPanier`, `ProduitPanier`, `QuantitePanier`, `PrixPanier`, `IdProducteurProduitPanier`, `IdAdherentsPanier`) VALUES
+(1, 19, 5, 25, 0, 7),
+(2, 19, 5, 25, 0, 13),
+(17, 7, 5, 95, 7, 7),
+(18, 7, 5, 95, 7, 7),
+(19, 7, 120, 2280, 7, 12);
 
 -- --------------------------------------------------------
 
@@ -351,26 +358,26 @@ CREATE TABLE `ProduitProducteur` (
 --
 
 INSERT INTO `ProduitProducteur` (`IdProduitProducteur`, `IsValidateProduitProducteur`, `DesignationProduitProducteur`, `PrixProduitProducteur`, `DateModifPrixProduitProducteur`, `DetailsProduitProducteur`, `QuantiteProduitProducteur`, `ImageProduitProducteur`, `IdProducteurProduitProducteur`, `IdProduitProduitProducteur`) VALUES
-(1, 1, 'Carotte', '5', '2023-10-30 10:53', 'Super sucré', 8, 'assets/images/Carotte.png', 7, 19),
-(2, 1, 'Brocoli', '23', '2023-10-30 10:53', 'Super salé', 13, 'assets/images/Brocoli.jpg', 7, 35),
-(3, 1, 'Pomme de terre', '4', '2023-10-30 10:53', 'Super poivré', 141, 'assets/images/PommeDeTerre.jpg', 7, 4),
-(4, 1, 'Courgette', '3', '2023-10-30 10:53', 'Bio', 252, 'assets/images/Courgette.jpg', 7, 46),
-(5, 1, 'Tomate', '6', '2023-10-30 10:53', 'Bio', 171, 'assets/images/Tomate.jpg', 7, 47),
-(6, 1, 'Poivron', '11', '2023-10-30 10:53', 'Saveur douce et texture ferme', 185, 'assets/images/Poivron.jpg', 7, 9),
-(7, 1, 'Oignon', '19', '2023-10-30 10:53', 'OGM', 240, 'assets/images/Oignons.jpg', 7, 7),
-(8, 1, 'Ail', '21', '2023-10-30 10:53', 'Forte saveur', 39, 'assets/images/Ail.jpg', 7, 27),
-(9, 1, 'Épinard', '14', '2023-10-30 10:53', 'Riche en fer et en vitamines', 36, 'assets/images/Epinard.jpg', 7, 52),
-(10, 1, 'Asperge', '5', '2023-10-30 10:53', 'Bio', 175, 'assets/images/Asperge.jpg', 7, 33),
-(11, 1, 'Haricot vert', '16', '2023-10-30 10:53', 'Cuisson rapide', 92, 'assets/images/Haricotvert.jpg', 7, 49),
-(12, 1, 'Champignon', '11', '2023-10-30 10:53', 'Gros champignons bruns', 205, 'assets/images/ChampignonDeParis.jpg', 7, 47),
-(13, 1, 'Concombre', '5', '2023-10-30 10:53', 'Parfait pour les salades ou les sandwichs', 220, 'assets/images/Concombre.jpg', 7, 11),
-(14, 1, 'Chou-fleur', '19', '2023-10-30 10:53', 'Enfants', 102, 'assets/images/ChouFleur.jpg', 7, 31),
-(15, 1, 'Pois', '9', '2023-10-30 10:53', 'Sugar Snap', 219, 'assets/images/Poire.jpg', 7, 27),
-(16, 1, 'Navet', '17', '2023-10-30 10:53', 'Idéale pour les purées ou les ragoûts', 168, 'assets/images/Navet.jpg', 7, 22),
-(17, 1, 'Radis', '15', '2023-10-30 10:53', 'Saveur piquante', 230, 'assets/images/Radis.jpg', 7, 2),
-(18, 1, 'Aubergine', '18', '2023-10-30 10:53', 'Italian Eggplant', 217, 'assets/images/Aubergine.jpg', 7, 43),
-(19, 1, 'Céleri', '19', '2023-10-30 10:53', 'Racine à la saveur de céler', 175, 'assets/images/Celeri.jpg', 7, 14),
-(20, 1, 'Patate douce', '14', '2023-10-30 10:53', 'Riche en vitamine A', 14, 'assets/images/Patatedouce.jpg', 7, 39);
+(1, 1, 'Carotte', '2.99', '2023-10-30 10:53', 'Super sucré', 8, 'assets/images/Carotte.png', 7, 19),
+(2, 1, 'Brocoli', '1', '2023-10-30 10:53', 'Super salé', 13, 'assets/images/Brocoli.jpg', 7, 35),
+(3, 1, 'Pomme de terre', '0.99', '2023-10-30 10:53', 'Super poivré', 141, 'assets/images/PommeDeTerre.jpg', 7, 4),
+(4, 1, 'Courgette', '2.99', '2023-10-30 10:53', 'Bio', 252, 'assets/images/Courgette.jpg', 7, 46),
+(5, 1, 'Tomate', '2.50', '2023-10-30 10:53', 'Bio', 171, 'assets/images/Tomate.jpg', 7, 47),
+(6, 1, 'Poivron', '3.20', '2023-10-30 10:53', 'Saveur douce et texture ferme', 185, 'assets/images/Poivron.jpg', 7, 9),
+(7, 1, 'Oignon', '1.68', '2023-10-30 10:53', 'OGM', 240, 'assets/images/Oignons.jpg', 7, 7),
+(8, 1, 'Ail', '2.10', '2023-10-30 10:53', 'Forte saveur', 39, 'assets/images/Ail.jpg', 7, 27),
+(9, 1, 'Épinard', '4.50', '2023-10-30 10:53', 'Riche en fer et en vitamines', 36, 'assets/images/Epinard.jpg', 7, 52),
+(10, 1, 'Asperge', '7.40', '2023-10-30 10:53', 'Bio', 175, 'assets/images/Asperge.jpg', 7, 33),
+(11, 1, 'Haricot vert', '1.45', '2023-10-30 10:53', 'Cuisson rapide', 92, 'assets/images/Haricotvert.jpg', 7, 49),
+(12, 1, 'Champignon', '1.10', '2023-10-30 10:53', 'Gros champignons bruns', 205, 'assets/images/ChampignonDeParis.jpg', 7, 47),
+(13, 1, 'Concombre', '5.30', '2023-10-30 10:53', 'Parfait pour les salades ou les sandwichs', 220, 'assets/images/Concombre.jpg', 7, 11),
+(14, 1, 'Chou-fleur', '1.2', '2023-10-30 10:53', 'Enfants', 102, 'assets/images/ChouFleur.jpg', 7, 31),
+(15, 1, 'Pois', '0.90', '2023-10-30 10:53', 'Sugar Snap', 219, 'assets/images/Poire.jpg', 7, 27),
+(16, 1, 'Navet', '1.70', '2023-10-30 10:53', 'Idéale pour les purées ou les ragoûts', 168, 'assets/images/Navet.jpg', 7, 22),
+(17, 1, 'Radis', '2.20', '2023-10-30 10:53', 'Saveur piquante', 230, 'assets/images/Radis.jpg', 7, 2),
+(18, 1, 'Aubergine', '6.50', '2023-10-30 10:53', 'Italian Eggplant', 217, 'assets/images/Aubergine.jpg', 7, 43),
+(19, 1, 'Céleri', '1.60', '2023-10-30 10:53', 'Racine à la saveur de céler', 175, 'assets/images/Celeri.jpg', 7, 14),
+(20, 1, 'Patate douce', '1.45', '2023-10-30 10:53', 'Riche en vitamine A', 14, 'assets/images/Patatedouce.jpg', 7, 39);
 
 -- --------------------------------------------------------
 
@@ -435,6 +442,12 @@ ALTER TABLE `Adherent`
 --
 ALTER TABLE `Admin`
   ADD PRIMARY KEY (`IdAdmin`);
+
+--
+-- Index pour la table `Bundle`
+--
+ALTER TABLE `Bundle`
+  ADD PRIMARY KEY (`IdBundle`);
 
 --
 -- Index pour la table `Categorie`
@@ -540,6 +553,12 @@ ALTER TABLE `Admin`
   MODIFY `IdAdmin` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
+-- AUTO_INCREMENT pour la table `Bundle`
+--
+ALTER TABLE `Bundle`
+  MODIFY `IdBundle` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT pour la table `Categorie`
 --
 ALTER TABLE `Categorie`
@@ -549,7 +568,7 @@ ALTER TABLE `Categorie`
 -- AUTO_INCREMENT pour la table `Commandes`
 --
 ALTER TABLE `Commandes`
-  MODIFY `IdCommande` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
+  MODIFY `IdCommande` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT pour la table `Demandes`
@@ -560,7 +579,6 @@ ALTER TABLE `Demandes`
 --
 -- AUTO_INCREMENT pour la table `Facture`
 --
-
 ALTER TABLE `Facture`
   MODIFY `IdFacture` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
@@ -580,8 +598,7 @@ ALTER TABLE `Notifications`
 -- AUTO_INCREMENT pour la table `Panier`
 --
 ALTER TABLE `Panier`
-  MODIFY `IdPanier` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
-
+  MODIFY `IdPanier` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT pour la table `Producteur`
@@ -599,7 +616,6 @@ ALTER TABLE `Produit`
 -- AUTO_INCREMENT pour la table `ProduitProducteur`
 --
 ALTER TABLE `ProduitProducteur`
-
   MODIFY `IdProduitProducteur` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 
 --
@@ -612,7 +628,7 @@ ALTER TABLE `Saison`
 -- AUTO_INCREMENT pour la table `User`
 --
 ALTER TABLE `User`
-  MODIFY `IdUser` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
+  MODIFY `IdUser` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

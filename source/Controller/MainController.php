@@ -167,10 +167,14 @@ class MainController
                 // Si le champ est absent ou vide dans le formulaire
                 if (!isset($form[$champObligatoire]) || empty($form[$champObligatoire])) {
                     return false;
-                } else {
-                    $datas[$champObligatoire] = htmlspecialchars(stripslashes(trim($form[$champObligatoire])));
-                }
+                } 
             }
+                    if (is_array($form[$champObligatoire])){
+                       $keys = array_keys($form[$champObligatoire]);
+                    $datas[$champObligatoire] = $this->validate($form[$champObligatoire], $keys);
+                } else {
+                $datas[$champObligatoire] = htmlspecialchars(stripslashes(trim($form[$champObligatoire])));
+                }
         }
         return $datas;
     }
