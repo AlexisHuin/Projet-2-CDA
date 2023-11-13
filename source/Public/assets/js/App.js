@@ -319,7 +319,7 @@ if (window.location.href == "http://127.0.0.1:8000/Bundle") {
           quantiteElement.insertAdjacentHTML("afterend", inputQuantite.outerHTML);
         });
 
-        console.log(inputQuantite)
+     
 
         // // Ajout de l'input de prix dans chaque BundleRight depuis le clone
         // let inputPrix = clonedElement.querySelectorAll("#prixArticleBundle");

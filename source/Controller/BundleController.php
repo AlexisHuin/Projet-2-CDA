@@ -4,6 +4,7 @@ namespace Controller;
 
 use Model\ProduitProducteurModel;
 use Model\BundleModel;
+use Model\DemandesModel;
 
 class BundleController extends MainController
 {
@@ -35,13 +36,13 @@ class BundleController extends MainController
     public function AddNewBundle($datas): void
     {
 
-
+        $IdProducteur = $_SESSION['user']['IdRole'];
         $bundle = new BundleModel();
 
 
 
         $bundle->DesignationBundle = htmlentities($datas['DesignationBundle'], ENT_QUOTES);
-        $bundle->IdProducteurBundle = $_SESSION['user']['IdRole'];
+        $bundle->IdProducteurBundle = $IdProducteur;
 
         //j'initialise mon total a 0, et pour chaque prix, je le multiplie par la quantitée
 
@@ -55,7 +56,20 @@ class BundleController extends MainController
         $bundle->PrixBundle = $PrixReduction;
         $bundle->QuantiteProduitsBundle = $this->concatenationPower($datas, 'QuantiteProduitsBundle');
         $bundle->IdProduitsBundle = $this->concatenationPower($datas, 'IdProduitProducteur');
-        $bundle->Save();
+        $IdBundle = $bundle->Save();
+       
+
+
+        $Demandes = new DemandesModel();
+        $Demandes->IdProducteurDemande = $IdProducteur;
+        $Demandes->IdProduitProducteurDemande = $IdBundle;
+        $Demandes->ObjetDemande = 'Ajout Bundle';
+        $Demandes->PrixProposeDemande = $PrixReduction;
+        $Demandes->DesignationProduitDemande = htmlentities($datas['DesignationBundle'], ENT_QUOTES);
+        $Demandes->MotifDemande = "Le producteur " . $_SESSION['user']['Username'] . " souhaite ajouter le bundle " . htmlentities($datas['DesignationBundle'], ENT_QUOTES) .
+            " au prix de " . $PrixReduction;
+        $Demandes->Save();
+
         header('Refresh:3;/Bundle');
         echo "Votre bundle a bien été validée !";
     }

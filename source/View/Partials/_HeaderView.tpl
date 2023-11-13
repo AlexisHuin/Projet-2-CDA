@@ -56,7 +56,7 @@
                 {/if}
                 <li class="deroulant">
                     <input type="checkbox" id="toggleNotification" class="toggle-checkbox">
-                    <label style="position: relative;" for="toggleNotification" class="toggle-label">
+                    <label id='tmort'   style="position: relative;" for="toggleNotification" class="toggle-label">
                         <img class="header_img" src="/assets/images/notif.svg" alt="Notification Icon">
                         {if ($notifications|@count) > 0}
                             <sup>{$notifications|@count}</sup>
