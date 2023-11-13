@@ -261,7 +261,8 @@
   position: relative;
 }
 
-.toggle-label sup, .header_img + sup {
+.toggle-label sup,
+.header_img + sup {
   position: absolute;
   background-color: red;
   border-radius: 50%;
@@ -340,11 +341,11 @@
   display: flex;
 }
 
-.container_bundle, .container_bundle_right{
- display: flex;
- flex-wrap: wrap;
- /* justify-content: space-between; */
-
+.container_bundle,
+.container_bundle_right {
+  display: flex;
+  flex-wrap: wrap;
+  /* justify-content: space-between; */
 }
 
 .cardBundle {
@@ -358,11 +359,13 @@
 }
 
 .cardBundle img {
-  width: calc(50% - 1em); /* 50% de largeur avec marges de 1em pour les écrans plus petits */
+  width: calc(
+    50% - 1em
+  ); /* 50% de largeur avec marges de 1em pour les écrans plus petits */
 }
 
-.interface_left{
-  flex:1;
+.interface_left {
+  flex: 1;
 }
 
 .interface_left_select label,
@@ -374,8 +377,7 @@
 
 .interface_right {
   margin-right: 1em;
- flex:1;
- 
+  flex: 1;
 }
 
 .interface {
@@ -384,7 +386,7 @@
 
 #bundle_form {
   display: flex;
- flex-wrap: wrap;
+  flex-wrap: wrap;
 }
 
 .cardBundle_hide {
@@ -402,7 +404,7 @@
 }
 
 .addCount {
- text-align: center;
+  text-align: center;
 }
 
 .addButtonLeft {
@@ -412,4 +414,12 @@
 
 .hidden {
   display: none;
+}
+
+input[readonly] {
+  border: none;
+}
+
+#tmort {
+  border: none;
 }
