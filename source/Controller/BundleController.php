@@ -20,12 +20,11 @@ class BundleController extends MainController
 
 
         if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['addBundle'])) {
-            echo '<pre>';
-            var_dump($_POST);
+
             $datas = $this->validate($_POST, [
                 'DesignationBundle', 'PrixBundle', 'QuantiteProduitsBundle', 'IdProduitProducteur'
             ]);
-            die;
+
 
             $this->AddNewBundle($datas);
         }
