@@ -20,9 +20,12 @@ class BundleController extends MainController
 
 
         if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['addBundle'])) {
+            echo '<pre>';
+            var_dump($_POST);
             $datas = $this->validate($_POST, [
-                'DesignationBundle', 'PrixBundle[]', 'QuantiteProduitsBundle[]', 'IdProduitProducteur[]'
+                'DesignationBundle', 'PrixBundle', 'QuantiteProduitsBundle', 'IdProduitProducteur'
             ]);
+            die;
 
             $this->AddNewBundle($datas);
         }
@@ -50,19 +53,10 @@ class BundleController extends MainController
 
         // je prend mon total, et je soustrait le pourcentage calculé de mon total
         $PrixReduction = $total - (($total / 100) * 20);
-
-
-
-
         $bundle->PrixBundle = $PrixReduction;
         $bundle->QuantiteProduitsBundle = $this->concatenationPower($datas, 'QuantiteProduitsBundle');
         $bundle->IdProduitsBundle = $this->concatenationPower($datas, 'IdProduitProducteur');
-
-
-
         $bundle->Save();
-
-
         header('Refresh:3;/Bundle');
         echo "Votre bundle a bien été validée !";
     }
