@@ -21,7 +21,7 @@
                     <input type="hidden" name="Id" value="{$demandeEnCours.IdDemande}">
                     <input type="hidden" name="IdProduitProducteur" value="{$demandeEnCours.IdProduitProducteurDemande}">
                     <input type="hidden" name="DesignationProduit" value="{$demandeEnCours.DesignationProduitDemande}">
-                    <input type="hidden" name="IdProd" value="{$demandeEnCours.IdProducteurDemande}">
+                    <input type="hidden" name="IdProd" value="{$demandeEnCours.IdUserDemande}">
                     <input type="hidden" name="EmailProd" value="{$demandeEnCours.MailProducteur}">
                     <input type="hidden" name="Objet" value="{$demandeEnCours.ObjetDemande}">
                     <input type="hidden" name="Prix" value="{$demandeEnCours.PrixProposeDemande}">
