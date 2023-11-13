@@ -173,8 +173,7 @@ class MainController
                        $keys = array_keys($form[$champObligatoire]);
                     $datas[$champObligatoire] = $this->validate($form[$champObligatoire], $keys);
                 } else {
-                echo $form[$champObligatoire];
-                    $datas[$champObligatoire] = htmlspecialchars(stripslashes(trim($form[$champObligatoire])));
+                $datas[$champObligatoire] = htmlspecialchars(stripslashes(trim($form[$champObligatoire])));
                 }
         }
         return $datas;
