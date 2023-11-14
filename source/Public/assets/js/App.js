@@ -207,7 +207,7 @@ if (window.location.href == "http://127.0.0.1:8000/Bundle") {
   })();
 
   (function () {
-    let form = document.querySelector('#bundle_form')
+    let form = document.querySelector("#bundle_form");
     let counter = 5;
     let addCount = document.querySelector(".addCount");
     let containerRight = document.querySelector(".container_bundle_right");
@@ -216,16 +216,18 @@ if (window.location.href == "http://127.0.0.1:8000/Bundle") {
     let addButtonLeft = document.querySelectorAll(".addButtonLeft");
     let cardBundleArr = [];
 
-    let buttonSubmit = document.querySelector('#button_form-bundle');
-    buttonSubmit.addEventListener('click', (e)=>{
-      if(counter === 5) {
-        alert('Vous ne pouvez pas ajouter un bunble vide')
+    // let quantiteProduit = document.querySelectorAll('')
+
+    let buttonSubmit = document.querySelector("#button_form-bundle");
+    buttonSubmit.addEventListener("click", (e) => {
+      if (counter === 5) {
+        alert("Vous ne pouvez pas ajouter un bunble vide");
         e.preventDefault();
       } else if (counter === 4) {
-        alert('Un bundle comprend minimum 2 produits')
+        alert("Un bundle comprend minimum 2 produits");
         e.preventDefault();
       }
-    })
+    });
     // Initialisatin et gestion du message pour le counter
     function updateCounter() {
       addCount.innerText = `Vous pouvez ajouter encore ${counter} produit${
@@ -238,7 +240,6 @@ if (window.location.href == "http://127.0.0.1:8000/Bundle") {
         addCount.style.color = "black";
       }
 
-
       // je gére ici avec le counter si j'ajoute la class ou retire .hidden des élément de gauche
       addButtonLeft.forEach((button) => {
         if (counter === 0) {
@@ -248,7 +249,6 @@ if (window.location.href == "http://127.0.0.1:8000/Bundle") {
         }
       });
     }
-
 
     // Fonction qui gére la suppression des élément de droite
     function removeFromRight(e) {
@@ -263,13 +263,12 @@ if (window.location.href == "http://127.0.0.1:8000/Bundle") {
       }
     }
 
-
     // Fonction qui gére le cloneNode ( je ne connaissais pas, c'est fantastique)
     function showCorrespondingElement(index) {
       // Je stock ici l'index de chaque élément de mon produitTargets qui retourne querrySelectorAll
       let correspondingHideElement = produitTargets[index];
-     
-// Je met un premier controle pour savoir si je peux ajouter ou non des élements a droite d'aprés mon counter
+
+      // Je met un premier controle pour savoir si je peux ajouter ou non des élements a droite d'aprés mon counter
       if (correspondingHideElement && counter > 0 && cardBundleArr.length < 5) {
         // Je clone la card de gauche suivant son index
         let clonedElement = correspondingHideElement.cloneNode(true);
@@ -296,7 +295,6 @@ if (window.location.href == "http://127.0.0.1:8000/Bundle") {
           removeFromRight(this.closest(".cardBundle_hide"));
         });
 
-
         // suite a un soucis de CSS, la balise style m'a posé probléme alors que pas présente dans le fichier CSS, je la supprime de force
         // pour évité les problémes
         clonedElement.removeAttribute("style");
@@ -322,27 +320,34 @@ if (window.location.href == "http://127.0.0.1:8000/Bundle") {
         let inputQuantite = clonedElement.querySelectorAll("#svgBundle");
         inputQuantite.forEach((quantiteElement) => {
           let inputQuantite = document.createElement("input");
-          
           inputQuantite.name = "QuantiteProduitsBundle[]";
-          inputQuantite.value = "0";
+
+          inputQuantite.value = "1";
           inputQuantite.type = "number";
           inputQuantite.style.width = "50%";
-          inputQuantite.min = "0";  // Valeur minimale autorisée
+          inputQuantite.min = "0"; // Valeur minimale autorisée
           inputQuantite.required = true;
-          console.log(inputQuantite)
-          quantiteElement.insertAdjacentHTML("afterend", inputQuantite.outerHTML);
+
+          inputQuantite.classList.add("bundleInput");
+          quantiteElement.insertAdjacentHTML(
+            "afterend",
+            inputQuantite.outerHTML
+          );
         });
 
-        
-        form.addEventListener('submit', (e)=> {
-          let inputQuantite = document.querySelector("input[name='QuantiteProduitsBundle[]']");
-          if (inputQuantite.value === "" || inputQuantite.value === "0") {
-            alert("La quantité ne peut pas être vide ou égale à 0. Veuillez saisir une valeur valide.");
-            e.preventDefault(); 
-          }
-        })
+        //! EN JS, VERIFIEZ QUE LA QUANTITE NE SOIS PAS SUPERIER A CELLE DISPONIBLE
 
-       
+        form.addEventListener("submit", (e) => {
+          let inputQuantite = document.querySelector(
+            "input[name='QuantiteProduitsBundle[]']"
+          );
+          if (inputQuantite.value === "" || inputQuantite.value === "0") {
+            alert(
+              "La quantité ne peut pas être vide ou égale à 0. Veuillez saisir une valeur valide."
+            );
+            e.preventDefault();
+          }
+        });
 
         // // Ajout de l'input de prix dans chaque BundleRight depuis le clone
         // let inputPrix = clonedElement.querySelectorAll("#prixArticleBundle");
@@ -362,18 +367,36 @@ if (window.location.href == "http://127.0.0.1:8000/Bundle") {
         updateCounter();
       }
     }
-
-// le coeur de ma fonction, pour chaque boutons ajouter, j'écoute l'événement, et au click, je fais disparaitre la card a gauche, et grace a 
-// showCorrespondingElement j'ajoute et personnalise la card de droite
-
     produitTargets.forEach((produitTarget, index) => {
-      let target = produitTarget.querySelector("button");
-      target.addEventListener("click", () => {
-        produitTarget.style.display = "none";
-        showCorrespondingElement(index);
-      });
-    });
+      // let targetInput = document.querySelector(".bundleInput");
+      // let targetLabel = document.querySelector("#quantiteBundle");
+      // let card = document.querySelector('.cardBundle_hide')
 
-    updateCounter();
+  
+      // if (card) {
+      //     targetInput.addEventListener("input", () => {
+      //         let inputValue = targetInput.value;
+      //         let labelValue = targetLabel.textContent;
+      //         console.log(inputValue)
+      //         console.log(labelValue)
+  
+      //         if (inputValue > labelValue) {
+      //             alert("Impossible d'ajouter plus que disponible");
+      //             // Réinitialiser la valeur si nécessaire
+      //             targetInput.value = labelValue;
+      //         }
+      //     });
+      // }
+  
+      let targetButton = produitTarget.querySelector("button");
+      if (targetButton) {
+          targetButton.addEventListener("click", () => {
+              produitTarget.style.display = "none";
+              showCorrespondingElement(index);
+          });
+      }
+  });
+  
+  updateCounter();
   })();
 }
