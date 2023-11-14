@@ -25,7 +25,6 @@ class HomeController extends MainController
         $sortedProducts = $this->sortBySaison($allProducts);
 
         ViewController::Set('title', 'Home');
-        ViewController::Set('URI', $_SERVER['REQUEST_URI']);
         ViewController::Set('products', $sortedProducts);
         ViewController::Set('categories', $categories);
         ViewController::Display('HomeView');
@@ -37,11 +36,22 @@ class HomeController extends MainController
         //Vérification si l'utilisateur est connecté
         $this->connectCheck('user', 'Adherent', "User/");
 
+        $errors = [];
         if (isset($_POST['Add'])) {
             //Check si les champs sont valides
-            $datas = $this->validate($_POST, ["Prix", "Description", "QuantiteTotal", "Quantite", "Id", "IdProd"]);
+            $datas = $this->validate($_POST, ["Quantite", "Id", "IdProd"]);
 
             if ($datas) {
+                $ProduitProducteur = new ProduitProducteurModel();
+                $ProduitProducteur->IdProduitProducteur = $datas['Id'];
+                $ProduitEnCours = $ProduitProducteur->Find("QuantiteProduitProducteur, PrixProduitProducteur", 'Fetch');
+
+                $datasProducteur = [
+                    "QuantiteTotal" => $ProduitEnCours['QuantiteProduitProducteur'],
+                    "Prix" => $ProduitEnCours['PrixProduitProducteur']
+                ];
+                $datas = array_merge($datas, $datasProducteur);
+
                 $panierModel = new PanierModel();
                 // Check si quantité demandée et plus élevée que la quantité proposée par le producteur
                 if ($datas['Quantite'] > $datas['QuantiteTotal'] || $datas['Quantite'] <= 0) {
@@ -95,7 +105,6 @@ class HomeController extends MainController
                     exit();
                 }
             }
-            var_dump($errors);
         }
 
         $ProduitModel = new ProduitModel();
@@ -108,10 +117,10 @@ class HomeController extends MainController
 
         ViewController::Set('title', 'Home');
         ViewController::Set('panier', $_SESSION['panier']);
-        ViewController::Set('URI', $_SERVER['REQUEST_URI']);
         ViewController::Set('Id', $id['id']);
         ViewController::Set('produitProducteur', $produitProducteurs);
         ViewController::Set('produit', $Produit);
+        ViewController::Set('errors', $errors);
         ViewController::Display('DescriptifProduitView');
     }
 

@@ -35,14 +35,13 @@ class UserController extends MainController
     public function ConnexionInscription(): void
     {
         // Vérifier si l'utilisateur est déjà connecté, le rediriger vers le profil
-        if (isset($_SESSION['user'])) {
-            header('Location: /User/Profile');
-            exit();
-        }
+        $this->connectCheck('user');
+
         $User = new UserModel();
         $Adherent = new AdherentModel();
         $Producteur = new ProducteurModel();
 
+        $errors = [];
         // Gestion de l'inscription
         if (isset($_POST["Inscription"])) {
 
@@ -129,7 +128,6 @@ class UserController extends MainController
                 ExceptionHandler::SetUserError("Remplir tout les champs");
                 $errors = ExceptionHandler::GetUserError();
             }
-            var_dump($errors);
         }
 
         // Gestion de la connexion
@@ -181,9 +179,9 @@ class UserController extends MainController
                     $errors = ExceptionHandler::GetUserError();
                 }
             }
-            var_dump($errors);
         }
 
+        ViewController::Set('errors', $errors);
         ViewController::Set('title', 'Login');
         ViewController::Display('LoginView');
     }
@@ -326,7 +324,6 @@ class UserController extends MainController
         }
 
         $Infos = $NewUser->Find('*', 'Fetch');;
-        ViewController::Set('URI', $_SERVER['REQUEST_URI']);
         ViewController::Set('title', 'Profile');
         ViewController::Set('SessionInfo', $_SESSION['user']);
         ViewController::Set('Reglement', $Reglement);

@@ -26,10 +26,9 @@ class AdminController extends MainController
 {
     public function Connexion(): void
     {
-        if (isset($_SESSION['admin'])) {
-            header('Location: /Admin/Dashboard');
-            exit();
-        }
+        $this->connectCheck('admin');
+
+        $errors = [];
 
         if (isset($_POST['AdminLogin'])) {
 
@@ -67,9 +66,8 @@ class AdminController extends MainController
                 }
             }
             $errors = ExceptionHandler::GetUserError();
-            var_dump($errors);
         }
-
+        ViewController::Set('errors', $errors);
         ViewController::Set('title', 'Admin Login');
         ViewController::Display('admin/AdminConnexionView');
     }

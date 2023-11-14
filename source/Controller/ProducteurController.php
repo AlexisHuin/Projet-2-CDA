@@ -23,6 +23,9 @@ class ProducteurController extends UserController
     public function AddProduct(): void
     {
         $this->connectCheck('user', 'Producteur');
+
+        $errors = [];
+
         //* Vérifie si le formulaire d'ajout a été soumis
         if (isset($_POST['Ajouter'])) {
             //* Valide les données du formulaire
@@ -87,7 +90,6 @@ class ProducteurController extends UserController
                 ExceptionHandler::SetUserError("Erreur");
                 $errors = ExceptionHandler::GetUserError();
             }
-            var_dump($errors);
         }
 
         //* Récupère la liste de tous les produits depuis la base de données
@@ -97,10 +99,10 @@ class ProducteurController extends UserController
             return strcmp($a['DesignationProduit'], $b['DesignationProduit']);
         });
         $info = (isset($_GET['info'])) ? $_GET['info'] : '';
-            //* Initialise la vue avec des données
-        ;
-        ViewController::Set('info', $info);
 
+        //* Initialise la vue avec des données
+        ViewController::Set('info', $info);
+        ViewController::Set('errors', $errors);
         ViewController::Set('title', 'Gestion de produit');
         ViewController::Set('SessionInfo', $_SESSION['user']);
         ViewController::Set('AllProducts', $allProducts);
@@ -113,14 +115,14 @@ class ProducteurController extends UserController
     {
 
         $AllBundles = $this->listBundle();
-      
+
         $ProduitsBundle = [];
         if ($AllBundles) {
-          foreach($AllBundles as $bundle) {
-              $ProduitsBundle[] = $this->listProduitsBundle($bundle);
-          }
+            foreach ($AllBundles as $bundle) {
+                $ProduitsBundle[] = $this->listProduitsBundle($bundle);
+            }
         }
-         
+
         $this->connectCheck('user', 'Producteur');
         //* Vérifie si l'utilisateur a soumis un formulaire de suppression
         if (isset($_POST['delete'])) {
@@ -136,7 +138,6 @@ class ProducteurController extends UserController
         $Produits = new ProduitProducteurModel();
         $AllProduits = $Produits->getProduitProducteur($_SESSION['user']['IdRole'], true);
 
-        ViewController::Set('URI', $_SERVER['REQUEST_URI']);
         ViewController::Set('title', 'Mes produits');
         ViewController::Set('SessionInfo', $_SESSION['user']);
         ViewController::Set('AllBundles', $AllBundles);
@@ -217,7 +218,7 @@ class ProducteurController extends UserController
 
         $produitProducteur = new ProduitProducteurModel();
         $produitProducteur->IdProduitProducteur = $produits['IdProduitsBundle'];
-        $Produits = $produitProducteur->Find('DesignationProduitProducteur',"FetchAll", true);
+        $Produits = $produitProducteur->Find('DesignationProduitProducteur', "FetchAll", true);
 
         return $Produits;
     }
