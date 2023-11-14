@@ -166,6 +166,7 @@ class MainController
             if (in_array($champObligatoire, $champsObligatoires)) {
                 // Si le champ est absent ou vide dans le formulaire
                 if (!isset($form[$champObligatoire]) || empty($form[$champObligatoire])) {
+                    var_dump($form[$champObligatoire]);
                     return false;
                 } 
             }

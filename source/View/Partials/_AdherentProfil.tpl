@@ -1,7 +1,7 @@
 {if $SessionInfo['RoleUser'] === "Adherent" }
     <div class="adh" style="flex:1">
 
-        <h1>Espace Adhérent</h1>
+        <h1>Espace Adhérent</h1> 
         <h2>Mes coordonnées</h2>
 
         {* affichage de la page de modification des coordonnées adhérents *}
