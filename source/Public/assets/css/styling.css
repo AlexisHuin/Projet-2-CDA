@@ -556,7 +556,17 @@ nav {
   /* Ajoutez de l'espace autour du formulaire si nécessaire */
 }
 
-label,
+
+.label_card {
+  margin: 15px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 16px;
+  margin-right: 10px;
+}
+
+
 select,
 input {
   margin: 15px;
@@ -773,3 +783,4 @@ iframe {
   height: 50%;
   width: 50%;
 }
+
