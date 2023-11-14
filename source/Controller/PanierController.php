@@ -92,7 +92,6 @@ class PanierController extends MainController
                     $produitProducteur->IdProduitProducteur = $idProduit;
                     $qt = $produitProducteur->Find('QuantiteProduitProducteur', 'Fetch');
 
-
                     $produitProducteur->QuantiteProduitProducteur = $qt['QuantiteProduitProducteur'] - $quantites[$key];
 
                     $produitProducteur->Where($idProduit);

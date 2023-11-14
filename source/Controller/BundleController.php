@@ -61,7 +61,7 @@ class BundleController extends MainController
 
 
         $Demandes = new DemandesModel();
-        $Demandes->IdUserDemande = $_SESSION['user']['Id'];
+        $Demandes->IdUserDemande = $_SESSION['user']['IdRole'];
         $Demandes->IdProduitProducteurDemande = $IdBundle;
         $Demandes->ObjetDemande = 'Bundle';
         $Demandes->PrixProposeDemande = $PrixReduction;
