@@ -14,21 +14,20 @@ abstract class InfosReglementController
 
     public static function AddInfosReglement(array|string|object $datas): void
     {
-
         $infosReglement = new InfosReglementModel();
         $infosReglement->IdAdherentInfosReglement = $_SESSION['user']['IdRole'];
         $result = $infosReglement->Find('IdInfosReglement', 'Fetch');
 
 
         if (strlen($datas['NumeroCB']) !== 16) {
-            ExceptionHandler::SetUserError("Veuillez insérer un numéro valide");
+            ExceptionHandler::SetUserError("Veuillez insérer un numéro de CB valide");
         }
         if (!preg_match("/^\pL+([a-zA-Z- ']\pL+)*$/u", $datas["Titulaire"])) {
             ExceptionHandler::SetUserError("Veuillez insérer un nom valide");
         }
 
         if (strlen($datas['CVV']) !== 3) {
-            ExceptionHandler::SetUserError("Veuillez insérer un numéro valide");
+            ExceptionHandler::SetUserError("Veuillez insérer un numéro de CVV valide");
         }
         $errors = ExceptionHandler::GetUserError();
 
@@ -47,8 +46,6 @@ abstract class InfosReglementController
                 header('Refresh:1;' . $_SERVER['REQUEST_URI']);
                 echo 'Ajouté avec succés';
             }
-        } else {
-            var_dump($errors);
         }
     }
 

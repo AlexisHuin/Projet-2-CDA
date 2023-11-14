@@ -1,3 +1,8 @@
+document.getElementById('GoBack').addEventListener('click', () =>{
+  history.back();
+})
+
+// Tableau pour stocker les liens visités
 document.addEventListener(
   "contextmenu",
   (e) => {
@@ -218,9 +223,8 @@ if (window.location.href == "http://127.0.0.1:8000/Bundle") {
 
     // Initialisatin et gestion du message pour le counter
     function updateCounter() {
-      addCount.innerText = `Vous pouvez ajouter encore ${counter} produit${
-        counter !== 1 ? "s" : ""
-      }`;
+      addCount.innerText = `Vous pouvez ajouter encore ${counter} produit${counter !== 1 ? "s" : ""
+        }`;
       if (counter === 0) {
         addCount.innerText = "Vous ne pouvez plus ajouter de produit";
         addCount.style.color = "#ff0000";
@@ -258,8 +262,8 @@ if (window.location.href == "http://127.0.0.1:8000/Bundle") {
     function showCorrespondingElement(index) {
       // Je stock ici l'index de chaque élément de mon produitTargets qui retourne querrySelectorAll
       let correspondingHideElement = produitTargets[index];
-     
-// Je met un premier controle pour savoir si je peux ajouter ou non des élements a droite d'aprés mon counter
+
+      // Je met un premier controle pour savoir si je peux ajouter ou non des élements a droite d'aprés mon counter
       if (correspondingHideElement && counter > 0 && cardBundleArr.length < 5) {
         // Je clone la card de gauche suivant son index
         let clonedElement = correspondingHideElement.cloneNode(true);
@@ -341,8 +345,8 @@ if (window.location.href == "http://127.0.0.1:8000/Bundle") {
       }
     }
 
-// le coeur de ma fonction, pour chaque boutons ajouter, j'écoute l'événement, et au click, je fais disparaitre la card a gauche, et grace a 
-// showCorrespondingElement j'ajoute et personnalise la card de droite
+    // le coeur de ma fonction, pour chaque boutons ajouter, j'écoute l'événement, et au click, je fais disparaitre la card a gauche, et grace a 
+    // showCorrespondingElement j'ajoute et personnalise la card de droite
 
     produitTargets.forEach((produitTarget, index) => {
       let target = produitTarget.querySelector("button");
