@@ -202,7 +202,7 @@ class UserController extends MainController
         $errors = [];
         if (isset($_POST["Confirmation"])) {
 
-            $datas = $this->validate($_POST, ['Titulaire', 'NumeroCB', 'DateExpiration', 'CCV']);
+            $datas = $this->validate($_POST, ['Titulaire', 'NumeroCB', 'DateExpiration', 'CVV']);
             if ($datas) {
                 InfosReglementController::AddInfosReglement($datas);
             } else {
