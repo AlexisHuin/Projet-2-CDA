@@ -27,7 +27,7 @@
                 </div>
                 <div style="flex:1; margin:2em 0 0 0; text-align: center;">
                     <p class="addCount"></p>
-                    <button style="margin: 1em;" type="submit" name="addBundle">Validation</button>
+                    <button style="margin: 1em;" id="button_form-bundle" type="submit" name="addBundle">Validation</button>
                     <input name="IdProducteurBundle" type="hidden">
                     </div>
             </div>

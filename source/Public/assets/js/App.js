@@ -207,6 +207,7 @@ if (window.location.href == "http://127.0.0.1:8000/Bundle") {
   })();
 
   (function () {
+    let form = document.querySelector('#bundle_form')
     let counter = 5;
     let addCount = document.querySelector(".addCount");
     let containerRight = document.querySelector(".container_bundle_right");
@@ -215,7 +216,16 @@ if (window.location.href == "http://127.0.0.1:8000/Bundle") {
     let addButtonLeft = document.querySelectorAll(".addButtonLeft");
     let cardBundleArr = [];
 
-
+    let buttonSubmit = document.querySelector('#button_form-bundle');
+    buttonSubmit.addEventListener('click', (e)=>{
+      if(counter === 5) {
+        alert('Vous ne pouvez pas ajouter un bunble vide')
+        e.preventDefault();
+      } else if (counter === 4) {
+        alert('Un bundle comprend minimum 2 produits')
+        e.preventDefault();
+      }
+    })
     // Initialisatin et gestion du message pour le counter
     function updateCounter() {
       addCount.innerText = `Vous pouvez ajouter encore ${counter} produit${
@@ -312,15 +322,27 @@ if (window.location.href == "http://127.0.0.1:8000/Bundle") {
         let inputQuantite = clonedElement.querySelectorAll("#svgBundle");
         inputQuantite.forEach((quantiteElement) => {
           let inputQuantite = document.createElement("input");
+          
           inputQuantite.name = "QuantiteProduitsBundle[]";
           inputQuantite.value = "0";
           inputQuantite.type = "number";
           inputQuantite.style.width = "50%";
+          inputQuantite.min = "0";  // Valeur minimale autorisée
+          inputQuantite.required = true;
           console.log(inputQuantite)
           quantiteElement.insertAdjacentHTML("afterend", inputQuantite.outerHTML);
         });
 
-        console.log(inputQuantite)
+        
+        form.addEventListener('submit', (e)=> {
+          let inputQuantite = document.querySelector("input[name='QuantiteProduitsBundle[]']");
+          if (inputQuantite.value === "" || inputQuantite.value === "0") {
+            alert("La quantité ne peut pas être vide ou égale à 0. Veuillez saisir une valeur valide.");
+            e.preventDefault(); 
+          }
+        })
+
+       
 
         // // Ajout de l'input de prix dans chaque BundleRight depuis le clone
         // let inputPrix = clonedElement.querySelectorAll("#prixArticleBundle");
