@@ -91,6 +91,7 @@ class BundleController extends MainController
 
 
 
+
         $IdBundle = $bundle->Save();
 
 
@@ -104,6 +105,7 @@ class BundleController extends MainController
         // $Demandes->MotifDemande = "Le producteur " . $_SESSION['user']['Username'] . " souhaite ajouter le bundle " . htmlentities($datas['DesignationBundle'], ENT_QUOTES) .
         //     " au prix de " . $PrixReduction;
         // $Demandes->Save();
+
 
         header('Refresh:3;/Bundle');
         echo "Votre bundle a bien été validée !";

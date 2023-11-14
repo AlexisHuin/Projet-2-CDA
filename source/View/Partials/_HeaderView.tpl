@@ -11,7 +11,7 @@
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
         integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
         crossorigin=""></script>
-    {* API MAP NE PAS INVERSER LE LINK ET SCRIPT *}
+    {*! API MAP NE PAS INVERSER LE LINK ET SCRIPT *}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script defer src="/assets/js/App.js"></script>
@@ -26,6 +26,7 @@
             </div>
 
             <ul class="menu-list">
+            <li><a href="{$arriere}"><img style="width: 30px; height: 25px; transform: rotateY(180deg); filter: invert(1);" src="/assets/images/return.svg"></a></li>
                 <li><a href="/">Accueil</a></li>
                 <li><a href="/Contact">Contact</a></li>
                 {if isset($smarty.session.user)}
