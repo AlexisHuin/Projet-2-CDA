@@ -25,6 +25,20 @@
 
                                 <button style="margin: 0 0 1em 0;" type='submit' name='modification'>Confirmer</button>
                 </div>
+
+        {else if str_replace('/User/Profile', '', $URI) === '?Mdp'}
+                <label for="CurrentMdp"> Mdp actuel
+                        <input type="password" name="CurrentMdp">
+                </label>
+                <label for="NewMdp"> Nouveau mdp
+                        <input type="password" name="NewMdp">
+                </label>
+                <label for="ConfirmNewMdp"> Confirmer nouveau mdp
+                        <input type="password" name="ConfirmNewMdp">
+                </label>
+
+                <button style="margin: 0 0 1em 0;" type='submit' name='ModifMdp'>Confirmer</button>
+                </div>
         {else}
 
                 {* * affichage des Coordonées du producteur *}
@@ -38,6 +52,9 @@
                         <button style="margin: 0 0 1em 0;" type="button"><a
                                         style="text-decoration:none; width:100%; height:100%; color:white"
                                         href="/User/Profile?edit">Modifier</a></button>
+                        <button style="margin: 0 0 1em 0;" type="button"><a
+                                        style="text-decoration:none; width:100%; height:100%; color:white"
+                                        href="/User/Profile?Mdp">Modifier mdp</a></button>
                 </div>
                 <button style="margin: 0 0 1em 0;" type="button"><a style="text-decoration:none; width:100%; height:100%; color:white"
                                 href="/User/AddProduct">Ajouter un produit</a></button>

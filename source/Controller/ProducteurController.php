@@ -69,7 +69,7 @@ class ProducteurController extends UserController
                 $IdProduitProducteur = $ProduitProducteur->Save();
 
                 $Demandes = new DemandesModel();
-                $Demandes->IdUserDemande = $_SESSION['user']['Id'];
+                $Demandes->IdUserDemande = $_SESSION['user']['IdRole'];
                 $Demandes->IdProduitProducteurDemande = $IdProduitProducteur;
                 $Demandes->ObjetDemande = 'Ajout';
                 $Demandes->PrixProposeDemande = $datas['PrixProduitProducteur'];
@@ -164,7 +164,7 @@ class ProducteurController extends UserController
                     $ProduitProducteurModel->producteurProduitUpdate($datas, $idProducteur, $IdProduitProducteur);
 
                     $demandes = new DemandesModel();
-                    $demandes->IdUserDemande = $_SESSION['user']['Id'];
+                    $demandes->IdUserDemande = $_SESSION['user']['IdRole'];
                     $demandes->IdProduitProducteurDemande = $IdProduitProducteur;
                     $demandes->ObjetDemande = 'Prix';
                     $demandes->DesignationProduitDemande = htmlentities($datas['DesignationProduitProducteur'], ENT_QUOTES);

@@ -21,7 +21,22 @@
                 <button style="margin: 0 0 1em 0;" type='submit' name='modification'>Confirmer</button>
             </form>
 
-{* modale pour ajouter une CB *}
+        {else if str_replace('/User/Profile', '', $URI) === '?Mdp'}
+            <form method="POST">
+
+                <label for="CurrentMdp"> Mdp actuel
+                    <input type="password" name="CurrentMdp">
+                </label>
+                <label for="NewMdp"> Nouveau mdp
+                    <input type="password" name="NewMdp">
+                </label>
+                <label for="ConfirmNewMdp"> Confirmer nouveau mdp
+                    <input type="password" name="ConfirmNewMdp">
+                </label>
+
+                <button style="margin: 0 0 1em 0;" type='submit' name='ModifMdp'>Confirmer</button>
+            </form>
+            {* modale pour ajouter une CB *}
 
         {else}
             <div id="paiementCoor" style="position: fixed; top:0;left:0;height: 100vh;
@@ -78,20 +93,20 @@
                             <div>
                                 <label for="Titulaire">Titulaire : {$Reglement['TitulaireInfosReglement']}</label>
                                 <label for="Expiration">Date d'expiration : {$Reglement['ExpirationInfosReglement']}</label>
-                                
-                                </div>
+
+                </div>
 
                 <div style="display: flex;">
                     <button id='closeRes' style="flex:1;margin-right:7em;" id="cancel" type="reset">Annuler</button>
                     <input type="hidden" name="Id" value="{$Reglement['IdInfosReglement']}">
-                    <button style="flex:1;margin-left:7em;" type="submit" style="text-align:end" 
+                    <button style="flex:1;margin-left:7em;" type="submit" style="text-align:end"
                         name="Supprimer">Confirmer</button>
                 </div>
             </form>
         </div>
     </div>
 
-        {* Si les coordonnées de CB sont présente, les affichées *}
+    {* Si les coordonnées de CB sont présente, les affichées *}
 
     {if $SessionInfo['IdRole'] == $Reglement['IdAdherentInfosReglement']}
 
@@ -122,6 +137,10 @@
                 <button style="margin: 0 0 1em 0;" type="button"><a
                         style="text-decoration:none; width:100%; height:100%; color:white"
                         href="/User/Profile?edit">Modifier</a></button>
+
+                <button style="margin: 0 0 1em 0;" type="button"><a
+                        style="text-decoration:none; width:100%; height:100%; color:white" href="/User/Profile?Mdp">Modifier
+                        Mdp</a></button>
                 <button class="paiementButton">Ajouter mode de paiement</button>
             </div>
         {/if}

@@ -132,6 +132,7 @@ class MainController
         }
 
         ViewController::Init('smarty');
+        ViewController::Set('arriere', $_SERVER['HTTP_REFERER']);
         ViewController::Set("noticeQt", $noticeQt);
         ViewController::Set("noticePrix", $noticePrix);
         ViewController::Set('notifications', $notifications);
