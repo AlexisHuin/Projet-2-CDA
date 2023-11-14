@@ -40,9 +40,6 @@ $routes = [
         'method' => ['GET', 'POST'],
         'controller' => ['Controller\ContactController', 'Contact']
     ],
-    
-
-
     '/Admin' => [
         'method'=>['GET', 'POST'],
         'controller'=>['Controller\AdminController','Connexion']

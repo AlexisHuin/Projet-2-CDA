@@ -35,7 +35,7 @@ class UserController extends MainController
     public function ConnexionInscription(): void
     {
         // Vérifier si l'utilisateur est déjà connecté, le rediriger vers le profil
-        $this->connectCheck('user');
+        $this->connectCheck('user', "", "/User/Profile", true);
 
         $User = new UserModel();
         $Adherent = new AdherentModel();
@@ -200,7 +200,7 @@ class UserController extends MainController
         $errors = [];
         if (isset($_POST["Confirmation"])) {
 
-            $datas = $this->validate($_POST, ['Titulaire', 'NumeroCB', 'DateExpiration', 'CVV']);
+            $datas = $this->validate($_POST, ['Titulaire', 'NumeroCB', 'DateExpiration', 'CCV']);
             if ($datas) {
                 InfosReglementController::AddInfosReglement($datas);
             } else {
