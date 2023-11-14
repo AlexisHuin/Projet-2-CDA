@@ -26,7 +26,7 @@ class AdminController extends MainController
 {
     public function Connexion(): void
     {
-        $this->connectCheck('admin');
+        $this->connectCheck('user', "", "/User/Profile", true);
 
         $errors = [];
 
@@ -356,7 +356,7 @@ class AdminController extends MainController
                 }
 
                 $Notifications->IdDestinataireNotification = $_POST['IdProd'];
-                $Notifications->DateEnvoiNotification = date('Y-m-d H:i');
+                $Notifications->DateEnvoiNotification = date('d-M-Y H:i');
 
                 if ($state === "Denied") {
                     $Notifications->MotifNotification = "Votre demande concernant l'ajout du produit " . $_POST['DesignationProduit'] . " a été refusée.";
@@ -376,7 +376,7 @@ class AdminController extends MainController
                 }
 
                 $Notifications->IdDestinataireNotification = $_POST['IdProd'];
-                $Notifications->DateEnvoiNotification = date('Y-m-d H:i');
+                $Notifications->DateEnvoiNotification = date('d-M-Y H:i');
 
                 if ($state === "Denied") {
                     $Notifications->MotifNotification = "Votre demande concernant la création de votre bundle a été refusée.";

@@ -64,25 +64,21 @@ class MainController
 
         $noticePrix = $noticeQt = "";
 
-        // ? Si j'ai le temps, reprendre ce code afin d'avoir un bouton retour en PHP
-        // if (!isset($_SESSION['history'])) {
-        //     $_SESSION['history'] = [];
-        // }
+        /* //? Si j'ai le temps, reprendre ce code afin d'avoir un bouton retour fonctionnel en PHP
+        if (!isset($_SESSION['history'])) {
+            $_SESSION['history'] = [];
+        }
+        if (strchr($_SERVER['REQUEST_URI'], "?Return") == "?Return") {
+            $previousPage = array_pop($_SESSION['history']);
 
-        // if (strchr($_SERVER['REQUEST_URI'], "?Return") == "?Return") {
-        //     // array_pop($_SESSION['history']);
-        //     $previousPage = array_pop($_SESSION['history']);
-
-        //     // header('Location:' . $previousPage);
-        //     // exit();
-        // } else {
-        //     if (end($_SESSION['history']) !== $_SERVER['REQUEST_URI'])
-        //         // Ajouter la page actuelle à l'historique
-        //         array_push($_SESSION['history'], $_SERVER['REQUEST_URI']);
-        // }
-
-        // var_dump($_SESSION['history']);
-
+            header('Location:' . $previousPage);
+            exit();
+        } else {
+            if (end($_SESSION['history']) !== $_SERVER['REQUEST_URI'])
+                // Ajouter la page actuelle à l'historique
+                array_push($_SESSION['history'], $_SERVER['REQUEST_URI']);
+        } 
+        var_dump($_SESSION['history']);*/
 
         if (isset($_SESSION['user']) && $_SESSION['user']['RoleUser'] === "Adherent") {
             $this->UpdatePanier();
@@ -97,7 +93,7 @@ class MainController
         ViewController::Set('notifications', $notifications);
     }
 
-    protected function connectCheck(string $session, string $role = "", string $Location = "/"): bool
+    protected function connectCheck(string $session, string $role = "", string $Location = "/", bool $isLogin = false): bool
     {
         if (!empty($role)) {
             if (!isset($_SESSION[$session]) || $_SESSION[$session]['RoleUser'] !== $role) {
@@ -107,9 +103,15 @@ class MainController
                 return true;
             }
         } else {
-            if (!isset($_SESSION[$session])) {
-                header('Location: ' . $Location);
-
+            if ($isLogin) {
+                if (isset($_SESSION[$session])) {
+                    header('Location:' . $Location);
+                    exit();
+                } else {
+                    return true;
+                }
+            } else if (!isset($_SESSION[$session])) {
+                header('Location:' . $Location);
                 exit();
             } else {
                 return true;
