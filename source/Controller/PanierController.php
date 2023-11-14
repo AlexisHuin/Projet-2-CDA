@@ -8,6 +8,7 @@ use Model\AdherentModel;
 use Model\PanierModel;
 use Model\CommandesModel;
 use Model\FactureModel;
+use Model\NotificationsModel;
 use Model\ProducteurModel;
 use Model\ProduitProducteurModel;
 
@@ -61,6 +62,7 @@ class PanierController extends MainController
                 $facture = new FactureModel();
                 $adherent = new AdherentModel();
                 $produitProducteur = new ProduitProducteurModel();
+                $notifications = new NotificationsModel();
 
                 // Traitements table Panier
                 $this->deletePanier();
@@ -98,14 +100,13 @@ class PanierController extends MainController
                     $produitProducteur->Update();
                 }
 
+                $notifications->IdDestinataireNotification = $_SESSION['user']['Id'];
+                $notifications->DateEnvoiNotification = date('d-M-Y H:i');
+                $notifications->MotifNotification = "Votre commande a bien été prise en compte, vous disposez à présent de 2 jours pour venir la récupérer, sans quoi, la commande sera annulée et vous serez tout de même débité.";
+                $notifications->Save();
 
-                // $mailto = [
-                //     "Email" => $_SESSION['user']['Email'],
-                //     "Subject" => "Validation de votre commande",
-                //     "Motif" => "Votre commande a bien été validée et vous disposez à présent de 2 jours pour venir la retirer sur place. Merci d'avoir choisi nos services !"
-                // ];
-                // echo json_encode($mailto);
-
+                header('Refresh:1;/Panier');
+                echo "Commande validé avec succès !";
                 exit();
             } else {
                 header('Refresh:1;/Panier');

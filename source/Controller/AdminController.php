@@ -26,10 +26,9 @@ class AdminController extends MainController
 {
     public function Connexion(): void
     {
-        if (isset($_SESSION['admin'])) {
-            header('Location: /Admin/Dashboard');
-            exit();
-        }
+        $this->connectCheck('user', "", "/User/Profile", true);
+
+        $errors = [];
 
         if (isset($_POST['AdminLogin'])) {
 
@@ -67,9 +66,8 @@ class AdminController extends MainController
                 }
             }
             $errors = ExceptionHandler::GetUserError();
-            var_dump($errors);
         }
-
+        ViewController::Set('errors', $errors);
         ViewController::Set('title', 'Admin Login');
         ViewController::Display('admin/AdminConnexionView');
     }
@@ -358,7 +356,7 @@ class AdminController extends MainController
                 }
 
                 $Notifications->IdDestinataireNotification = $_POST['IdProd'];
-                $Notifications->DateEnvoiNotification = date('Y-m-d H:i');
+                $Notifications->DateEnvoiNotification = date('d-M-Y H:i');
 
                 if ($state === "Denied") {
                     $Notifications->MotifNotification = "Votre demande concernant l'ajout du produit " . $_POST['DesignationProduit'] . " a été refusée.";
@@ -378,7 +376,7 @@ class AdminController extends MainController
                 }
 
                 $Notifications->IdDestinataireNotification = $_POST['IdProd'];
-                $Notifications->DateEnvoiNotification = date('Y-m-d H:i');
+                $Notifications->DateEnvoiNotification = date('d-M-Y H:i');
 
                 if ($state === "Denied") {
                     $Notifications->MotifNotification = "Votre demande concernant la création de votre bundle a été refusée.";
