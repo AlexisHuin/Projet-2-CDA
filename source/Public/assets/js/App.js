@@ -322,7 +322,6 @@ if (window.location.href == "http://127.0.0.1:8000/Bundle") {
           let inputQuantite = document.createElement("input");
           inputQuantite.name = "QuantiteProduitsBundle[]";
 
-          inputQuantite.value = "1";
           inputQuantite.type = "number";
           inputQuantite.style.width = "50%";
           inputQuantite.min = "0"; // Valeur minimale autorisée
@@ -364,39 +363,37 @@ if (window.location.href == "http://127.0.0.1:8000/Bundle") {
         // ici j'intégre mon éléments cloné, et complété dans la partie de droite
         containerRight.appendChild(clonedElement);
 
+        // ? Fonction de vérification pour ne pas ajouter plus que la quantitée disponible
+
+        let targetInput = clonedElement.querySelector(".bundleInput");
+        let targetLabel = clonedElement.querySelector("#quantiteBundle");
+
+        targetInput.addEventListener("input", () => {
+          let inputValue = targetInput.value;
+          let labelValue = targetLabel.getAttribute("data-label");
+          console.log(inputValue);
+          console.log(labelValue);
+
+          if (inputValue > labelValue) {
+            alert("Impossible d'ajouter plus que la quantitée disponible");
+            // ? Je prend le maximum quand même
+            targetInput.value = labelValue;
+          }
+        });
+
         updateCounter();
       }
     }
     produitTargets.forEach((produitTarget, index) => {
-      // let targetInput = document.querySelector(".bundleInput");
-      // let targetLabel = document.querySelector("#quantiteBundle");
-      // let card = document.querySelector('.cardBundle_hide')
-
-  
-      // if (card) {
-      //     targetInput.addEventListener("input", () => {
-      //         let inputValue = targetInput.value;
-      //         let labelValue = targetLabel.textContent;
-      //         console.log(inputValue)
-      //         console.log(labelValue)
-  
-      //         if (inputValue > labelValue) {
-      //             alert("Impossible d'ajouter plus que disponible");
-      //             // Réinitialiser la valeur si nécessaire
-      //             targetInput.value = labelValue;
-      //         }
-      //     });
-      // }
-  
       let targetButton = produitTarget.querySelector("button");
       if (targetButton) {
-          targetButton.addEventListener("click", () => {
-              produitTarget.style.display = "none";
-              showCorrespondingElement(index);
-          });
+        targetButton.addEventListener("click", () => {
+          produitTarget.style.display = "none";
+          showCorrespondingElement(index);
+        });
       }
-  });
-  
-  updateCounter();
+    });
+
+    updateCounter();
   })();
 }
