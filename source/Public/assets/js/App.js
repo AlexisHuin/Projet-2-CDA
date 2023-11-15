@@ -1,7 +1,7 @@
-document.getElementById('GoBack').addEventListener('click', () =>{
+document.getElementById("GoBack").addEventListener("click", () => {
   // -_-
   history.back();
-})
+});
 
 // Tableau pour stocker les liens visités
 document.addEventListener(
@@ -236,8 +236,9 @@ if (window.location.href == "http://127.0.0.1:8000/Bundle") {
     });
     // Initialisatin et gestion du message pour le counter
     function updateCounter() {
-      addCount.innerText = `Vous pouvez ajouter encore ${counter} produit${counter !== 1 ? "s" : ""
-        }`;
+      addCount.innerText = `Vous pouvez ajouter encore ${counter} produit${
+        counter !== 1 ? "s" : ""
+      }`;
       if (counter === 0) {
         addCount.innerText = "Vous ne pouvez plus ajouter de produit";
         addCount.style.color = "#ff0000";
@@ -332,7 +333,7 @@ if (window.location.href == "http://127.0.0.1:8000/Bundle") {
           inputQuantite.min = "0"; // Valeur minimale autorisée
           inputQuantite.required = true;
 
-          inputQuantite.classList.add("bundleInput");
+          inputQuantite.classList.add("bundleInput", "newInput");
           quantiteElement.insertAdjacentHTML(
             "afterend",
             inputQuantite.outerHTML
@@ -369,33 +370,29 @@ if (window.location.href == "http://127.0.0.1:8000/Bundle") {
         containerRight.appendChild(clonedElement);
 
         // ? Fonction de vérification pour ne pas ajouter plus que la quantitée disponible
+        let targetInputs = clonedElement.querySelectorAll(".newInput");
 
-        let targetInput = clonedElement.querySelector(".bundleInput");
-        let targetLabel = clonedElement.querySelector("#quantiteBundle");
-
-        targetInput.addEventListener("input", () => {
-          let inputValue = targetInput.value;
-          let labelValue = targetLabel.getAttribute("data-label");
-          console.log(inputValue);
-          console.log(labelValue);
-
-          if (inputValue > labelValue) {
-            alert("Impossible d'ajouter plus que la quantitée disponible");
-            // ? Je prend le maximum quand même
-            targetInput.value = labelValue;
-          }
+        targetInputs.forEach((targetInput) => {
+          targetInput.addEventListener("input", () => {
+            let inputValue = targetInput.value;
+            let labelValue = targetInput
+              .closest(".cardBundle_hide")
+              .querySelector("#quantiteBundle")
+              .getAttribute("data-label");
+            if (inputValue > labelValue) {
+              alert("Impossible d'ajouter plus que la quantitée disponible");
+              // ? Je prend le maximum quand même
+              targetInput.value = labelValue;
+            }
+          });
         });
-
         updateCounter();
       }
     }
 
-
-    // le coeur de ma fonction, pour chaque boutons ajouter, j'écoute l'événement, et au click, je fais disparaitre la card a gauche, et grace a 
+    // le coeur de ma fonction, pour chaque boutons ajouter, j'écoute l'événement, et au click, je fais disparaitre la card a gauche, et grace a
     // showCorrespondingElement j'ajoute et personnalise la card de droite
-
-
-    produitTargets.forEach((produitTarget, index) => {
+      produitTargets.forEach((produitTarget, index) => {
       let targetButton = produitTarget.querySelector("button");
       if (targetButton) {
         targetButton.addEventListener("click", () => {
