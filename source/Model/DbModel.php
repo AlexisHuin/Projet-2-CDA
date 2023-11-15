@@ -195,7 +195,7 @@ class DbModel
             $sql .= ' WHERE ';
 
             foreach ($columns as $key => $column) {
-                //? Only if one parameter is passed in datas
+                //! Only if one parameter is passed in datas
                 if ($In) {
                     $sql   .= $column . ' IN(' . $this->datas[$column] . ')';
                 } else {

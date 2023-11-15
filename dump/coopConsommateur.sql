@@ -136,8 +136,8 @@ CREATE TABLE Producteur (
 );
 
 INSERT INTO `Producteur` (`IdProducteur`, `RaisonSocialeProducteur`, `NomPrenomProducteur`, `PhoneProducteur`, `MailProducteur`, `CodePostalProducteur`, `CoordonneesGPSProducteur`, `SommeVentesProducteur`) VALUES
-(1, 'Hello', 'prodprod', '0943850653', 'prod@prod.prod', '41000', '3123123', 0.00),
-(2, 'Yo', 'aaaaaa', '0254477889', 'aaa@aaa.aaa', '41000', '0256464', 0.00);
+(1, 'Hello', 'prod prod', '0943850653', 'prod@prod.prod', '41000', '3123123', 0.00),
+(2, 'Yo', 'aaa aaa', '0254477889', 'aaa@aaa.aaa', '41000', '0256464', 0.00);
 
 -- Création de la table Produit
 CREATE TABLE Produit (

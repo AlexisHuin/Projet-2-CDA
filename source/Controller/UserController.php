@@ -101,7 +101,7 @@ class UserController extends MainController
                             break;
 
                         case "Producteur":
-                            $Producteur->NomPrenomProducteur = htmlspecialchars($datas['Nom'] . ($datas['Prenom']));
+                            $Producteur->NomPrenomProducteur = htmlspecialchars($datas['Nom'] . " " . ($datas['Prenom']));
                             $Producteur->PhoneProducteur = htmlspecialchars($datas['Tel']);
                             $Producteur->CoordonneesGPSProducteur = htmlspecialchars($datas['GPS']);
                             $Producteur->CodePostalProducteur = htmlspecialchars($datas['CodePostal']);
@@ -207,6 +207,7 @@ class UserController extends MainController
                 ExceptionHandler::SetUserError("Veuillez remplir tout les champs");
             }
         }
+
         if (isset($_POST['Supprimer'])) {
             $OneInfosReglement = new InfosReglementModel();
             $OneInfosReglement->IdInfosReglement = $_POST['Id'];
@@ -216,6 +217,7 @@ class UserController extends MainController
             echo "Données bancaires supprimées";
             exit();
         }
+
         if (isset($_POST["modification"])) {
             if ($_SESSION['user']['RoleUser'] === "Adherent") {
                 $NewUser = new AdherentModel();
@@ -229,86 +231,13 @@ class UserController extends MainController
         } else {
             ExceptionHandler::SetUserError("Veuillez remplir tout les champs");
         }
+        
         if (isset($_POST['DeleteAcc'])) {
-            $User = new UserModel();
-            $Notifications = new NotificationsModel();
-            $Id = $_SESSION['user']['Id'];
-
-            if ($_SESSION['user']['RoleUser'] == "Adherent") {
-                $Adherent = new AdherentModel();
-                $infosReglement = new InfosReglementModel();
-                $Panier = new PanierModel();
-                $Commandes = new CommandesModel();
-                $Facture = new FactureModel();
-
-                $infosReglement->IdAdherentInfosReglement =
-                    $Panier->IdAdherentsPanier =
-                    $Facture->IdAdherentFacture =
-                    $Commandes->IdAdherentCommande =
-                    $Adherent->IdAdherent = $_SESSION['user']['IdRole'];
-
-                $infosReglement->Delete();
-                $Panier->Delete();
-                $Facture->Delete();
-                $Commandes->Delete();
-                $Adherent->Delete();
-            } else {
-                $Producteur = new ProducteurModel();
-                $ProduitProducteur = new ProduitProducteurModel();
-                $Bundle = new BundleModel();
-                $Demandes = new DemandesModel();
-
-                $Bundle->IdProducteurBundle = $ProduitProducteur->IdProducteurProduitProducteur = $Demandes->IdUserDemande = $Producteur->IdProducteur = $_SESSION['user']['IdRole'];
-
-                $Demandes->Delete();
-                $Bundle->Delete();
-                $ProduitProducteur->Delete();
-                $Producteur->Delete();
-            }
-
-            $Notifications->IdDestinataireNotification = $Id;
-            $Notifications->Delete();
-
-            $User->EmailUser = $_SESSION['user']['Email'];
-            $User->Delete();
-
-            header('Refresh:1.5;/User/Deconnexion');
-            echo "Compte supprimé avec succès.";
-            exit();
+            $this->DeleteAcc();
         }
 
         if (isset($_POST['ModifMdp'])) {
-            $datas = $this->validate($_POST, ['CurrentMdp', 'NewMdp', 'ConfirmNewMdp']);
-
-            if ($datas) {
-                $user = new UserModel();
-
-                $user->IdUser = $_SESSION['user']['Id'];
-                $mdp = $user->Find("MdpUser", "Fetch");
-
-                if (password_verify($datas['CurrentMdp'], $mdp['MdpUser'])) {
-                    if ($datas['NewMdp'] === $datas['ConfirmNewMdp']) {
-                        if($datas['NewMdp'] !== $datas['CurrentMdp']){
-                            $user->MdpUser = password_hash($datas['NewMdp'], PASSWORD_ARGON2ID);
-                            $user->Where($user->IdUser);
-                            $user->Update();
-    
-                            header('Refresh:1; /User/Deconnexion');
-                            echo "Mot de passe changé avec succès, veuillez vous reconnecter.";
-                            exit();
-                        } else {
-                            ExceptionHandler::SetUserError('Le nouveau mot de passe ne peut pas être identique à l\'ancien');
-                        }
-                    } else {
-                        ExceptionHandler::SetUserError('Les 2 mdp ne correspondent pas');
-                    }
-                } else {
-                    ExceptionHandler::SetUserError('Mdp actuel incorrect');
-                }
-            } else {
-                ExceptionHandler::SetUserError('Veuillez remplir tous les champs');
-            }
-            $errors = ExceptionHandler::GetUserError();
+            $this->ModifMdp();
         }
 
 
@@ -368,5 +297,92 @@ class UserController extends MainController
         // A la déconnection renvoyer a la page d'acceuil
         header('Location: /');
         exit();
+    }
+
+    private function DeleteAcc(): void
+    {
+        $User = new UserModel();
+        $Notifications = new NotificationsModel();
+        $Id = $_SESSION['user']['Id'];
+
+        if ($_SESSION['user']['RoleUser'] == "Adherent") {
+            $Adherent = new AdherentModel();
+            $infosReglement = new InfosReglementModel();
+            $Panier = new PanierModel();
+            $Commandes = new CommandesModel();
+            $Facture = new FactureModel();
+
+            $infosReglement->IdAdherentInfosReglement =
+                $Panier->IdAdherentsPanier =
+                $Facture->IdAdherentFacture =
+                $Commandes->IdAdherentCommande =
+                $Adherent->IdAdherent = $_SESSION['user']['IdRole'];
+
+            $infosReglement->Delete();
+            $Panier->Delete();
+            $Facture->Delete();
+            $Commandes->Delete();
+            $Adherent->Delete();
+        } else {
+            $Producteur = new ProducteurModel();
+            $ProduitProducteur = new ProduitProducteurModel();
+            $Bundle = new BundleModel();
+            $Demandes = new DemandesModel();
+
+            $Bundle->IdProducteurBundle =
+                $ProduitProducteur->IdProducteurProduitProducteur =
+                $Demandes->IdUserDemande =
+                $Producteur->IdProducteur = $_SESSION['user']['IdRole'];
+
+            $Demandes->Delete();
+            $Bundle->Delete();
+            $ProduitProducteur->Delete();
+            $Producteur->Delete();
+        }
+
+        $Notifications->IdDestinataireNotification = $Id;
+        $Notifications->Delete();
+
+        $User->EmailUser = $_SESSION['user']['Email'];
+        $User->Delete();
+
+        header('Refresh:1.5;/User/Deconnexion');
+        echo "Compte supprimé avec succès.";
+        exit();
+    }
+
+    private function ModifMdp(): void
+    {
+        $datas = $this->validate($_POST, ['CurrentMdp', 'NewMdp', 'ConfirmNewMdp']);
+
+        if ($datas) {
+            $user = new UserModel();
+
+            $user->IdUser = $_SESSION['user']['Id'];
+            $mdp = $user->Find("MdpUser", "Fetch");
+
+            if (password_verify($datas['CurrentMdp'], $mdp['MdpUser'])) {
+                if ($datas['NewMdp'] === $datas['ConfirmNewMdp']) {
+                    if ($datas['NewMdp'] !== $datas['CurrentMdp']) {
+                        $user->MdpUser = password_hash($datas['NewMdp'], PASSWORD_ARGON2ID);
+                        $user->Where($user->IdUser);
+                        $user->Update();
+
+                        header('Refresh:1; /User/Deconnexion');
+                        echo "Mot de passe changé avec succès, veuillez vous reconnecter.";
+                        exit();
+                    } else {
+                        ExceptionHandler::SetUserError('Le nouveau mot de passe ne peut pas être identique à l\'ancien');
+                    }
+                } else {
+                    ExceptionHandler::SetUserError('Les 2 mdp ne correspondent pas');
+                }
+            } else {
+                ExceptionHandler::SetUserError('Mdp actuel incorrect');
+            }
+        } else {
+            ExceptionHandler::SetUserError('Veuillez remplir tous les champs');
+        }
+        $errors = ExceptionHandler::GetUserError();
     }
 }
