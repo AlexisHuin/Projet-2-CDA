@@ -1,3 +1,9 @@
+document.getElementById('GoBack').addEventListener('click', () =>{
+  // -_-
+  history.back();
+})
+
+// Tableau pour stocker les liens visités
 document.addEventListener(
   "contextmenu",
   (e) => {
@@ -230,9 +236,8 @@ if (window.location.href == "http://127.0.0.1:8000/Bundle") {
     });
     // Initialisatin et gestion du message pour le counter
     function updateCounter() {
-      addCount.innerText = `Vous pouvez ajouter encore ${counter} produit${
-        counter !== 1 ? "s" : ""
-      }`;
+      addCount.innerText = `Vous pouvez ajouter encore ${counter} produit${counter !== 1 ? "s" : ""
+        }`;
       if (counter === 0) {
         addCount.innerText = "Vous ne pouvez plus ajouter de produit";
         addCount.style.color = "#ff0000";
@@ -384,6 +389,12 @@ if (window.location.href == "http://127.0.0.1:8000/Bundle") {
         updateCounter();
       }
     }
+
+
+    // le coeur de ma fonction, pour chaque boutons ajouter, j'écoute l'événement, et au click, je fais disparaitre la card a gauche, et grace a 
+    // showCorrespondingElement j'ajoute et personnalise la card de droite
+
+
     produitTargets.forEach((produitTarget, index) => {
       let targetButton = produitTarget.querySelector("button");
       if (targetButton) {

@@ -26,7 +26,7 @@
             </div>
 
             <ul class="menu-list">
-            <li><a href="{$arriere}"><img style="width: 30px; height: 25px; transform: rotateY(180deg); filter: invert(1);" src="/assets/images/return.svg"></a></li>
+            <li id="GoBack"><img style="width: 30px; height: 25px; transform: rotateY(180deg); filter: invert(1);" src="/assets/images/return.svg"></li>
                 <li><a href="/">Accueil</a></li>
                 <li><a href="/Contact">Contact</a></li>
                 {if isset($smarty.session.user)}
