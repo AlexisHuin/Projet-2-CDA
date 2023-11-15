@@ -1,13 +1,15 @@
 {if $URI === "/User/ProductList"}
-        
-    <input type="text" name="produit[{$product['IdProduitProducteur']}][DesignationProduitProducteur]"
-        value="{$product['DesignationProduitProducteur']}" readonly />
-    <p>Prix : <input type="text" name="produit[{$product['IdProduitProducteur']}][PrixProduitProducteur]"
-            value="{$product['PrixProduitProducteur']}" /></p>
-    <p>Description :<input type="text" name="produit[{$product['IdProduitProducteur']}][DetailsProduitProducteur]"
-            value="{$product['DetailsProduitProducteur']}" readonly /></p>
-    <p>Quantité : <input type="number" name="produit[{$product['IdProduitProducteur']}][QuantiteProduitProducteur]"
-            value="{$product['QuantiteProduitProducteur']}" readonly /></p>
-    <img src="../{$product['ImageProduitProducteur']}" alt="image produit">
-    <p>Supprimer ? <input type="checkbox" name="deleteProduit[{$product['IdProduitProducteur']}]" value="1" /></p>
+
+        <p>{$product['DesignationProduitProducteur']}</p>
+        <div style="display: flex; align-items: center;">
+                <p style="flex: 1; padding-top:1em;">Prix : 
+                <input style="width:5em;" type="text" name="produit[{$product['IdProduitProducteur']}][PrixProduitProducteur]"
+                value="{$product['PrixProduitProducteur']}" /></p>
+                <p style="flex: 1;">MAJ Prix<input type="checkbox" name="/" value="1" /> </p>
+        </div>
+        <p style="margin:1em;">Description : {$product['DetailsProduitProducteur']}</p>
+        <p>Quantité :
+                {$product['QuantiteProduitProducteur']}</p>
+        <img style="padding: 1em;" src="../{$product['ImageProduitProducteur']}" alt="image produit">
+        <p>Supprimer ? <input type="checkbox" name="deleteProduit[]" value="{$product['IdProduitProducteur']}" /></p>
 {/if}

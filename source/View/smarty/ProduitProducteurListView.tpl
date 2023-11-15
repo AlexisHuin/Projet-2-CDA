@@ -23,8 +23,8 @@
             {/if}
         {/foreach}
     </div>
-    <Button type="submit" name="update">Modifier</Button>
-    <button type="submit" name="delete">Supprimer</button>
+    <button type="submit" name="update">Modifier</Button>
+   
 </form>
 <h1>Vos produits en vente</h1>
 <form method="post" action="">
@@ -35,8 +35,8 @@
             {/if}
         {/foreach}
     </div>
-    <Button type="submit" name="update">Modifier</Button>
-    <button type="submit" name="delete">Supprimer</button>
+    <button type="submit" name="update">Modifier</Button>
+    <button type="submit" name="delete[]">Supprimer</button>
 </form>
 
 

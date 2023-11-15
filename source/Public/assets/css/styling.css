@@ -449,6 +449,7 @@
 
 input[readonly] {
   border: none;
+  width: 10em;
 }
 
 #tmort {
@@ -457,7 +458,11 @@ input[readonly] {
 
 .bundles {
   display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  
 }
+
 
 .bundle {
   margin: 20px;
@@ -466,6 +471,11 @@ input[readonly] {
   background-color: white;
   border: 1px solid #ddd;
   box-shadow: 0 2px 4px rgb(0 0 0 / 10%);
+  border-radius: 1em;
+}
+
+.bundle:hover {
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
 }
 
 header {
@@ -606,29 +616,28 @@ button:hover {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
-  padding: 20px;
+  padding: 1em;
 }
 
 .product {
-  width: calc(25% - 40px);
-  margin: 20px;
-  padding: 20px;
+  width: calc(15% - 5em);
+  margin: 1em;
+  padding: 1em;
   text-align: center;
   background-color: white;
   border: 1px solid #ddd;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-  border-radius: 10%;
+  border-radius: 1em;
 }
 
 .product:hover {
-  transform: translateY(-10px);
+ 
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
 }
 
 .product img {
-  width: 100%;
-  height: 200px;
+  width: 50%;
   object-fit: cover;
   border-bottom: 1px solid #ddd;
 }
