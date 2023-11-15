@@ -95,16 +95,16 @@ class BundleController extends MainController
         $IdBundle = $bundle->Save();
 
 
-        // ! A REVOIR TABLE DEMANDE
-        // $Demandes = new DemandesModel();
-        // $Demandes->IdUserDemande = $_SESSION['user']['Id'];
-        // $Demandes->IdProduitProducteurDemande = $IdBundle;
-        // $Demandes->ObjetDemande = 'Bundle';
-        // $Demandes->PrixProposeDemande = $PrixReduction;
-        // $Demandes->DesignationProduitDemande = htmlentities($datas['DesignationBundle'], ENT_QUOTES);
-        // $Demandes->MotifDemande = "Le producteur " . $_SESSION['user']['Username'] . " souhaite ajouter le bundle " . htmlentities($datas['DesignationBundle'], ENT_QUOTES) .
-        //     " au prix de " . $PrixReduction;
-        // $Demandes->Save();
+    // ! A REVOIR TABLE DEMANDE
+        $Demandes = new DemandesModel();
+        $Demandes->IdUserDemande = $_SESSION['user']['Id'];
+        $Demandes->IdProduitProducteurDemande = $IdBundle;
+        $Demandes->ObjetDemande = 'Bundle';
+        $Demandes->PrixProposeDemande = $PrixReduction;
+        $Demandes->DesignationProduitDemande = htmlentities($datas['DesignationBundle'], ENT_QUOTES);
+        $Demandes->MotifDemande = "Le producteur " . $_SESSION['user']['Username'] . " souhaite ajouter le bundle " . htmlentities($datas['DesignationBundle'], ENT_QUOTES) .
+            " au prix de " . $PrixReduction;
+        $Demandes->Save();
 
 
         header('Refresh:3;/Bundle');
