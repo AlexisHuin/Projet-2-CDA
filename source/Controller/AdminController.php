@@ -3,6 +3,7 @@
 namespace Controller;
 
 use Controller\ViewController;
+use Controller\UserController;
 
 // Produits
 use Model\SaisonModel;
@@ -14,6 +15,10 @@ use Model\AdherentModel;
 use Model\ProducteurModel;
 // Suppression 
 use Model\UserModel;
+use Model\InfosReglementModel;
+use Model\PanierModel;
+use Model\FactureModel;
+use Model\CommandesModel;
 // Traitement des demandes et notifications
 use Model\AdminModel;
 use Model\BundleModel;
@@ -110,7 +115,7 @@ class AdminController extends MainController
         $Adherent = new AdherentModel();
 
         if (isset($_POST['Delete'])) {
-            $this->Delete($Adherent, 'IdAdherent', $_POST['Id'], "AdherentList");
+            $this->Delete($Adherent, 'IdAdherent', $_POST['Id'], "AdherentList", true);
         } else {
             $Liste = $Adherent->Find();
         }
@@ -124,22 +129,27 @@ class AdminController extends MainController
     {
         $this->connectCheck('admin');
 
+        $User = new UserModel();
         $Adherent = new AdherentModel();
-
         $Adherent->IdAdherent = $id['id'];
+
+        //! Cette horreur aurait pu être évitée si l'on avait inclut l'idUser dans les tables adherent et producteur
+        $Liste = $Adherent->Find('*', 'Fetch');
+        $User->EmailUser = $Liste['MailAdherent'];
+        $UserData = $User->Find('IdUser', 'Fetch');
 
         if (isset($_POST['Update'])) {
             $datas = $this->validate($_POST, ['NPrenom', 'Tel', 'Mail', 'CP', 'GPS']);
             $this->Update(
                 $datas,
                 $Adherent,
-                ['NomPrenomAdherent', 'PhoneAdherent', 'MailAdherent', 'CodePostalAdherent', 'CoordonneesGPSAdherent', 'RaisonSocialeProducteur'],
+                ['NomPrenomAdherent', 'PhoneAdherent', 'MailAdherent', 'CodePostalAdherent', 'CoordonneesGPSAdherent'],
                 'IdAdherent',
-                "AdherentList"
+                "AdherentList",
+                true,
+                $UserData['IdUser']
             );
         }
-
-        $Liste = $Adherent->Find('*', 'Fetch');
 
         ViewController::Set('title', 'Modifier l\'adherent');
         ViewController::Set('adherent', $Liste);
@@ -153,7 +163,7 @@ class AdminController extends MainController
         $Producteur = new ProducteurModel();
 
         if (isset($_POST['Delete'])) {
-            $this->Delete($Producteur, 'IdProducteur', $_POST['Id'], "ProducteursList");
+            $this->Delete($Producteur, 'IdProducteur', $_POST['Id'], "ProducteursList", true);
         } else {
             $Liste = $Producteur->Find();
         }
@@ -167,9 +177,14 @@ class AdminController extends MainController
     {
         $this->connectCheck('admin');
 
+        $User = new UserModel();
         $Producteur = new ProducteurModel();
-
         $Producteur->IdProducteur = $id['id'];
+
+        //! Cette horreur aurait pu être évitée si l'on avait inclut l'idUser dans les tables adherent et producteur
+        $Liste = $Producteur->Find('*', 'Fetch');
+        $User->EmailUser = $Liste['MailProducteur'];
+        $UserData = $User->Find('IdUser', 'Fetch');
 
         if (isset($_POST['Update'])) {
             $datas = $this->validate($_POST, ['NPrenom', 'Tel', 'Mail', 'CP', 'GPS', 'RS']);
@@ -178,11 +193,11 @@ class AdminController extends MainController
                 $Producteur,
                 ['NomPrenomProducteur', 'PhoneProducteur', 'MailProducteur', 'CodePostalProducteur', 'CoordonneesGPSProducteur', 'RaisonSocialeProducteur'],
                 'IdProducteur',
-                "ProducteursList"
+                "ProducteursList",
+                true,
+                $UserData['IdUser']
             );
         }
-
-        $Liste = $Producteur->Find('*', 'Fetch');
 
         ViewController::Set('title', 'Modifier le producteur');
         ViewController::Set('Producteur', $Liste);
@@ -206,17 +221,17 @@ class AdminController extends MainController
         ViewController::Display('admin/ProduitsProducteursListView');
     }
 
-    public function StatsProducteurs(): void
-    {
-        $this->connectCheck('admin');
+    // public function StatsProducteurs(): void
+    // {
+    //     $this->connectCheck('admin');
 
-        $Producteur = new ProducteurModel();
+    //     $Producteur = new ProducteurModel();
 
-        $Liste = $Producteur->Find();;
-        ViewController::Set('title', 'Liste des producteurs');
-        ViewController::Set('Liste', $Liste);
-        ViewController::Display('admin/StatsProducteurView');
-    }
+    //     $Liste = $Producteur->Find();;
+    //     ViewController::Set('title', 'Liste des producteurs');
+    //     ViewController::Set('Liste', $Liste);
+    //     ViewController::Display('admin/StatsProducteurView');
+    // }
 
     public function ProductsList(): void
     {
@@ -225,11 +240,7 @@ class AdminController extends MainController
         $Product = new ProduitModel();
 
         if (isset($_POST['Delete'])) {
-            $Product->IdProduit = $_POST['Id'];
-            $Product->Delete();
-            header('Refresh:1;/Admin/Dashboard');
-            echo "Supprimé avec succès.";
-            exit();
+            $this->Delete($Product, 'IdProduit', $_POST['Id'], "ProductsList");
         } else {
             $Liste = $Product->getAllProduitsInfos();
 
@@ -293,7 +304,7 @@ class AdminController extends MainController
         }
 
         $Categorie = (new CategorieModel())->Find();
-        $Saison = (new SaisonModel())->Find();;
+        $Saison = (new SaisonModel())->Find();
         ViewController::Set('title', 'Ajouter un produit');
         ViewController::Set('Categories', $Categorie);
         ViewController::Set('Saisons', $Saison);
@@ -367,7 +378,7 @@ class AdminController extends MainController
                 $Notifications->Save();
                 break;
 
-            case "Bundle" :
+            case "Bundle":
                 if ($state === "Accepted") {
                     $Bundle->Where($_POST['IdProduitProducteur']);
                     $Bundle->IsValidateBundle = true;
@@ -400,22 +411,42 @@ class AdminController extends MainController
         exit();
     }
 
-    private function Update(array|string $datas, object $object, array $properties, string $whereClause, string $header): bool
+    private function Update(array|string $datas, object $object, array $properties, string $whereClause, string $header, bool $isUser = false, string|int $IdUser = ""): bool
     {
         if (empty($datas)) {
             return false;
         } else {
-
             $keys = array_values($datas);
 
-            for ($i = 0; $i != (count($keys) - 1); $i++) {
+            for ($i = 0; $i != count($keys); $i++) {
                 $cleanProp = stripslashes($properties[$i]);
                 $object->$cleanProp = $keys[$i];
             }
 
-            $object->Where($object->$whereClause);
+            if ($isUser) {
+                $User = new UserModel();
 
+                if (is_a($object, 'Model\AdherentModel')) {
+                    $Email = $object->MailAdherent;
+                    $NomPrenom = explode(' ', $object->NomPrenomAdherent);
+                } else if (is_a($object, 'Model\ProducteurModel')) {
+                    $Email = $object->MailProducteur;
+                    $NomPrenom = explode(' ', $object->NomPrenomProducteur);
+                }
+
+                $Nom = $NomPrenom[0];
+                $Prenom = $NomPrenom[1];
+
+                $User->EmailUser = $Email;
+                $User->UsernameUser = $Nom . "." . $Prenom;
+                $User->Where($IdUser);
+                $User->Update();
+
+            }
+
+            $object->Where($object->$whereClause);
             $object->Update();
+
             header('Refresh:1;/Admin/' . $header);
             echo "Modifié avec succès";
             exit();
@@ -435,16 +466,90 @@ class AdminController extends MainController
         }
 
         if ($IsUser) {
+            if (is_a($object, "Model\AdherentModel")) {
+                $infosReglement = new InfosReglementModel();
+                $Panier = new PanierModel();
+                $Commandes = new CommandesModel();
+                $Facture = new FactureModel();
+
+                $infosReglement->IdAdherentInfosReglement =
+                    $Panier->IdAdherentsPanier =
+                    $Facture->IdAdherentFacture =
+                    $Commandes->IdAdherentCommande =
+                    $object->IdAdherent;
+
+                $infosReglement->Delete();
+                $Panier->Delete();
+                $Facture->Delete();
+                $Commandes->Delete();
+            } else if (is_a($object, "Model\ProducteurModel")) {
+
+                $ProduitProducteur = new ProduitProducteurModel();
+                $Bundle = new BundleModel();
+                $Demandes = new DemandesModel();
+
+                $Bundle->IdProducteurBundle =
+                    $ProduitProducteur->IdProducteurProduitProducteur =
+                    $Demandes->IdUserDemande =
+                    $object->IdProducteur;
+
+                $Demandes->Delete();
+                $Bundle->Delete();
+                $ProduitProducteur->Delete();
+            }
+
             $Liste = $object->Find('*', 'Fetch');
             in_array('MailProducteur', array_keys($Liste)) ? $Email = $Liste['MailProducteur'] : $Email = $Liste['MailAdherent'];
 
             $User = new UserModel();
             $UserToDelete = $User->JoinUsers($_POST['Role'], $Email);
-            $User->EmailUser = $UserToDelete['EmailUser'];
 
+            $Notifications = new NotificationsModel();
+            $Notifications->IdDestinataireNotification = $UserToDelete['IdUser'];
+            $Notifications->Delete();
+
+            $User->EmailUser = $UserToDelete['EmailUser'];
+            $object->Delete();
             $User->Delete();
+        } else {
+            $Bundle = new BundleModel();
+            $IdProduitsBundle = $Bundle->Find("IdProduitsBundle, IdBundle");
+            $IdProduitsBundleArr = [];
+            foreach ($IdProduitsBundle as $ProduitsBundle) {
+                array_push($IdProduitsBundleArr, explode(',', $ProduitsBundle['IdProduitsBundle']));
+            }
+
+            if (is_a($object, "Model\ProduitProducteurModel")) {
+                foreach ($IdProduitsBundleArr as $key => $Arrays) {
+                    foreach ($Arrays as $Id) {
+                        if ($Id[$key] === $object->IdProduitProducteur) {
+                            $Bundle->IdBundle = $IdProduitsBundle[$key]['IdBundle'];
+                            $Bundle->Delete();
+                            break;
+                        }
+                    }
+                }
+            } else if (is_a($object, "Model\ProduitModel")) {
+                $ProduitProducteur = new ProduitProducteurModel();
+                $ProduitProducteur->IdProduitProduitProducteur = $object->IdProduit;
+                $ProduitsToDelete = $ProduitProducteur->Find('IdProduitProducteur');
+
+                foreach ($ProduitsToDelete as $IdProduitProd) {
+                    foreach ($IdProduitsBundleArr as $key => $Arrays) {
+                        foreach ($Arrays as $Id) {
+                            if ($Id == $IdProduitProd['IdProduitProducteur']) {
+                                $Bundle->IdBundle = $IdProduitsBundle[$key]['IdBundle'];
+                                $Bundle->Delete();
+                            }
+                        }
+                    }
+                    $ProduitProducteur->IdProduitProducteur = $IdProduitProd['IdProduitProducteur'];
+                    $ProduitProducteur->Delete();
+                }
+            }
+
+            $object->Delete();
         }
-        $object->Delete();
 
         header('Refresh:1;/Admin/' . $header);
         echo "Supprimé avec succès.";
