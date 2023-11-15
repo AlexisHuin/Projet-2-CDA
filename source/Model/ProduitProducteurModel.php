@@ -56,6 +56,8 @@ class ProduitProducteurModel extends DbModel
     // Méthode pour supprimer un produit du producteur en fonction de son ID
     public function producteurProduitDelete($IdProduitProducteur): string|object|array
     {
+
+        // FIX Supprimer les demandes en attente lié a l'id produit, et refaire la fonction au propre
         return $this->Select("DELETE FROM ProduitProducteur 
         WHERE IdProduitProducteur = $IdProduitProducteur
         ");

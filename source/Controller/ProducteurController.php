@@ -126,7 +126,7 @@ class ProducteurController extends UserController
         $this->connectCheck('user', 'Producteur');
         //* Vérifie si l'utilisateur a soumis un formulaire de suppression
         if (isset($_POST['delete'])) {
-            $this->DeleteProductProducteur();
+           $this->DeleteProductProducteur();
         }
 
         //* Vérifie si l'utilisateur a soumis un formulaire de mise à jour
@@ -155,8 +155,8 @@ class ProducteurController extends UserController
         $idProducteur = $_SESSION['user']['IdRole'];
 
         //* Vérifie si un tableau de produits à mettre à jour a été soumis
-        if (is_array($_POST['produit'])) {
-            foreach ($_POST['produit'] as $IdProduitProducteur => $datas) {
+        if (isset($_POST['update']) && is_array($_POST['update'])) {
+            foreach ($_POST['update'] as $IdProduitProducteur => $datas) {
                 //* Valide les données du formulaire
                 $datas = $this->validate($datas, ['DesignationProduitProducteur', 'PrixProduitProducteur', 'QuantiteProduitProducteur', 'DetailsProduitProducteur']);
                 if ($datas !== false) {
@@ -182,15 +182,17 @@ class ProducteurController extends UserController
 
     private function DeleteProductProducteur(): void
     {
+        // FIX VOIR AVEC NICOLAS POUR LES FORREIGN KEY
         // * Vérifie si un formulaire de suppression a été soumis
-
+if (isset($_POST['delete'])) {
+  
         if (isset($_POST['deleteProduit']) && is_array($_POST['deleteProduit'])) {
             $Produit = new ProduitProducteurModel();
-            // Parcourt les produits à supprimer et les supprime un par un
-            foreach ($_POST['deleteProduit'] as $IdProduitProducteur => $value) {
+             // Parcourt les produits à supprimer et les supprime un par un
+            foreach ($_POST['deleteProduit'] as $IdProduitProducteur) {
+                
                 //* Supprime le produit correspondant
                 $ProduitInfo = $Produit->getOneProduitProducteur($IdProduitProducteur);
-
                 $imagePath = $ProduitInfo['ImageProduitProducteur'];
 
                 //* Supprime le fichier image associé
@@ -200,6 +202,9 @@ class ProducteurController extends UserController
                 //* Supprime le produit correspondant
                 $Produit->producteurProduitDelete($IdProduitProducteur);
             }
+        } 
+    } else {
+            echo "une erreur est survenue";
         }
     }
 
