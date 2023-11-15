@@ -375,13 +375,13 @@ if (window.location.href == "http://127.0.0.1:8000/Bundle") {
         targetInputs.forEach((targetInput) => {
           targetInput.addEventListener("input", () => {
             let inputValue = targetInput.value;
-            let labelValue = targetInput
-              .closest(".cardBundle_hide")
-              .querySelector("#quantiteBundle")
-              .getAttribute("data-label");
-            if (inputValue > labelValue) {
-              alert("Impossible d'ajouter plus que la quantitée disponible");
-              // ? Je prend le maximum quand même
+            let labelValue = targetInput.closest(".cardBundle_hide").querySelector("#quantiteBundle").getAttribute("data-label");
+              console.log(inputValue)
+              console.log(labelValue)
+
+              let labelIntValue = parseInt(labelValue, 10)
+            if (inputValue > labelIntValue) {
+              
               targetInput.value = labelValue;
             }
           });
