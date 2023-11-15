@@ -1,9 +1,11 @@
 {include file="../Partials/_HeaderView.tpl"}
+{foreach from=$errors item=error key=key}
+   <p>{$error}</p>
+{/foreach}
 <div style="display: flex">
     <h1 style="flex:1">Ajouter un bundle </h1>
     <h1 style="flex:1">Liste des produits de votre futur bundle</h1>
 </div>
-
 <div class="interface">
     <div class="interface_left">
         <div class="interface_left_select">
