@@ -1,4 +1,11 @@
 /* Styles pour le formulaire de connexion */
+@font-face {
+  font-family: "Alice";
+  src: url("/assets/fonts/Alice.ttf"),
+  url("/assets/fonts/Alice1.woff") 
+  /* Ajoutez d'autres formats si nécessaire (e.g., woff, woff2) */
+}
+
 .panel_login {
   display: flex;
 }
@@ -9,7 +16,7 @@
   box-shadow: 0 4vh 8vh rgba(0, 0, 0, 0.1);
   border-radius: 1vh;
   text-align: center;
-  max-width: 20%;
+  
   flex: 1;
   overflow: hidden;
   margin: 2em;
@@ -56,14 +63,12 @@
 .button-container {
   display: flex;
   justify-content: center;
-
 }
 
 .panel-right_adherent button {
   padding: 0.5em 2em;
   margin: 2em 2em;
   font-size: 1.1em;
-
 }
 
 .panel-right_producteur button {
@@ -286,7 +291,7 @@
 }
 
 .toggle-label sup,
-.header_img+sup {
+.header_img + sup {
   position: absolute;
   background-color: red;
   border-radius: 50%;
@@ -316,8 +321,8 @@
 }
 
 /* Afficher la liste déroulante lorsque la case à cocher est cochée ou en focus */
-.toggle-checkbox:checked+.toggle-label .sous,
-.toggle-checkbox+.toggle-label .sous:hover {
+.toggle-checkbox:checked + .toggle-label .sous,
+.toggle-checkbox + .toggle-label .sous:hover {
   opacity: 1;
   visibility: visible;
 }
@@ -343,11 +348,7 @@
   background-color: rgba(97, 180, 87, 0.9);
 }
 
-/* Style de l'icône */
-.header_img {
-  width: 20px;
-  height: auto;
-}
+
 
 /* Cacher la case à cocher */
 .toggle-checkbox {
@@ -460,9 +461,7 @@ input[readonly] {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
-  
 }
-
 
 .bundle {
   margin: 20px;
@@ -489,38 +488,37 @@ header {
 
 nav {
   display: flex;
-  justify-content: space-between;
   align-items: center;
   width: 100%;
-  max-width: 1200px;
 }
 
 .logo-div {
   flex: 1;
+  margin-left: 1em;
 }
 
-.logo_coop {
-  height: 50px;
-}
+.home-title {
+  font-family: Alice;
+  font-size: 2em;
+  text-align: center;
+  flex:3;
+  }
+
 
 .menu-list {
   display: flex;
   list-style: none;
   margin: 0;
   padding: 0;
-  flex: 1;
-  justify-content: flex-end;
+  flex: 3;
+  align-items: center;
 }
 
 .link {
   margin-right: 20px;
 }
 
-.header_img {
-  height: 24px;
-  width: 24px;
-  filter: brightness(0) invert(1);
-}
+
 
 .notification-icon {
   position: relative;
@@ -557,11 +555,17 @@ nav {
   display: block;
 }
 
-.image-with-text img {
+.image-with-text {
   width: 100%;
   height: 40vh;
-  /* margin: 100px; */
-  border-radius: 25px;
+  background-image: url("/assets/images/fruit.jpg");
+  background-attachment: fixed;
+}
+
+.text-overlay {
+  margin: 1em;
+  font-weight: bold;
+  font-size: 1em;
 }
 
 /* Formulaire de filtre */
@@ -576,7 +580,6 @@ nav {
   /* Ajoutez de l'espace autour du formulaire si nécessaire */
 }
 
-
 .label_card {
   margin: 15px;
   padding: 10px;
@@ -586,15 +589,14 @@ nav {
   margin-right: 10px;
 }
 
-
 select,
 input {
-  margin: 15px;
+  
   padding: 10px;
   border: 1px solid #ddd;
   border-radius: 5px;
   font-size: 16px;
-  margin-right: 10px;
+  
 }
 
 button {
@@ -620,7 +622,7 @@ button:hover {
 }
 
 .product {
-  width: calc(15% - 5em);
+  width: calc(25% - 4vh);
   margin: 1em;
   padding: 1em;
   text-align: center;
@@ -632,7 +634,6 @@ button:hover {
 }
 
 .product:hover {
- 
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
 }
 
@@ -685,16 +686,16 @@ header {
 }
 
 .logo-div img {
-  width: 20vh;
-  height: 15vh;
-  vertical-align: middle;
+  width: 60%;
+
   border-radius: 10px;
 }
 
 .menu-list {
   list-style: none;
   display: flex;
-  justify-content: center;
+  justify-content: end;
+  margin-right: 3em;
 }
 
 .menu-list li {
@@ -730,16 +731,42 @@ header {
   transform: scaleX(1);
 }
 
+.search-bar {
+  display: flex;
+}
+
+.search-bar input{ 
+  width: 10em;
+  margin: 0 1em 0 0;
+}
+.search-bar button{ 
+ 
+}
+
 .header_img {
-  width: 20px;
+  width: 40%;
   vertical-align: middle;
   transition: transform 0.3s ease;
   filter: brightness(0) invert(1);
+  
 }
 
-.menu-list li:hover .header_img {
-  transform: scale(1.2);
+.header_notif {
+  width: 20%;
+  vertical-align: middle;
+  transition: transform 0.3s ease;
+  filter: brightness(0) invert(1);
+  margin-left : -6em
 }
+
+.deco_img {
+  width: 40%;
+  vertical-align: middle;
+  transition: transform 0.3s ease;
+  filter: brightness(0) invert(1);
+  margin-left : -3em
+}
+
 
 iframe {
   display: none;
@@ -801,4 +828,8 @@ iframe {
   border-radius: 2em;
   height: 50%;
   width: 50%;
+}
+
+.global-connexion {
+  display: flex;
 }

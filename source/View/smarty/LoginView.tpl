@@ -1,6 +1,6 @@
 {include file="../Partials/_HeaderView.tpl"}
 <div class="global-connexion">
-    <div class="panel-right">
+    <div class="panel-left">
         <h1>Créer un compte</h1>
        
        
@@ -37,9 +37,9 @@
             </div>
         </form>
     </div>
-</div>
 
-<div class="panel-left">
+
+<div class="panel-right">
         <h1>Connexion</h1>
         <form method="POST">
             <input type="text" name="Email"  placeholder="Email">
@@ -47,5 +47,5 @@
             <button type="submit" name="Connexion" class="danger">Se Connecter</button>
         </form>
 </div>
-    
+</div>
 {include file="../Partials/_FooterView.tpl"}
