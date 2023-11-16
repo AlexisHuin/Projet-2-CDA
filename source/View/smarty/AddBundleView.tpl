@@ -3,15 +3,15 @@
    <p>{$error}</p>
 {/foreach}
 <div style="display: flex">
-    <h1 style="flex:1">Ajouter un bundle </h1>
-    <h1 style="flex:1">Liste des produits de votre futur bundle</h1>
+    <h1 style="flex:1; margin-left:0.5em;">Ajouter un bundle </h1>
+    <h1 style="flex:1;">Liste des produits de votre futur bundle</h1>
 </div>
 <div class="interface">
     <div class="interface_left">
         <div class="interface_left_select">
 
-            <label for="IdProduitsBundle">Liste de vos produits disponibles</label>
-            <input type="text" name="IdProduitsBundle" id="searchInput_produitBundle" placeholder="Rechercher">
+            <label style="margin-left:1em; " for="IdProduitsBundle">Liste de vos produits disponibles</label>
+            <input  style="margin-left:1em; " type="text" name="IdProduitsBundle" id="searchInput_produitBundle" placeholder="Rechercher">
         </div>
         <div class="container_bundle">
             {foreach from=$AllProduits item=product key=key }

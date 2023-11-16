@@ -3,16 +3,14 @@
 
 <main>
     <div class="image-with-text">
-        <img src="/assets/images/fruit.jpg" alt="Votre Image">
-        <div class="text-overlay">
-            <p>Une AMAP, ou Association pour le Maintien de l'Agriculture Paysanne, est un partenariat entre des
-                consommateurs et des agriculteurs locaux. Les membres de l'AMAP s'engagent à acheter régulièrement des
-                produits frais directement auprès des agriculteurs, favorisant ainsi une agriculture durable et
-                équitable.</p>
-        </div>
+     
     </div>
-
-    <label for="type">Type :</label>
+    <div class="text-overlay">
+        <p>Profitez de nos exclusivités réservée aux adhérents avec notre formule spéciale !
+         Inscrivez-vous dès maintenant pour bénéficier de 20% de réduction sur nos bundles irrésistibles.</p>
+    </div>
+    
+    <label style="margin-left: 1em;" for="type">Type :</label>
     <select id="type" name="IdCategorieProduit">
         <option value="all">Tous</option>
         {foreach key=key item=categorie from=$categories}

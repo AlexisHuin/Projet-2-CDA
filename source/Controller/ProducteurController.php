@@ -200,7 +200,7 @@ if (isset($_POST['delete'])) {
                     unlink(DIR_PUBLIC . $imagePath);
                 }
                 //* Supprime le produit correspondant
-                $Produit->producteurProduitDelete($IdProduitProducteur);
+                $ProduitInfo->Delete();
             }
         } 
     } else {
