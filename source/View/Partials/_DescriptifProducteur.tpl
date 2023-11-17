@@ -7,7 +7,7 @@
                 value="{$product['PrixProduitProducteur']}" /></p>
                 <p style="flex: 1;">MAJ Prix<input type="checkbox" name="MajPrix[]" value="{$product['IdProduitProducteur']}" /> </p>
         </div>
-        <p style="margin:1em;">Description : {$product['DetailsProduitProducteur']}</p>
+        <p style="margin:1em;">Description : {html_entity_decode($product['DetailsProduitProducteur'])}</p>
         <p>Quantité :
                 {$product['QuantiteProduitProducteur']}</p>
         <img style="padding: 1em;" src="../{$product['ImageProduitProducteur']}" alt="image produit">
