@@ -45,9 +45,14 @@ class UserController extends MainController
         // Gestion de l'inscription
         if (isset($_POST["Inscription"])) {
 
-            $datas = $this->validate($_POST, ['Nom', 'Prenom', 'Pass', 'ConfirmPass', 'Tel', 'Email', 'CodePostal', 'GPS', 'RoleUser']);
             // Vérifier si les champs du formulaire sont présents et non vides
+          if($_POST['RoleUser'] === 'Adherent') {
+            $datas = $this->validate($_POST, ['Nom', 'Prenom', 'Pass', 'ConfirmPass', 'Tel', 'Email', 'CodePostal', 'GPS', 'RoleUser', 'Titulaire', 'NumeroCB', 'DateExpiration', 'CVV']);
+        } else {
+            $datas = $this->validate($_POST, ['Nom', 'Prenom', 'Pass', 'ConfirmPass', 'Tel', 'Email', 'CodePostal', 'GPS', 'RoleUser', 'RaisonSociale']);
+        }
             if ($datas) {
+
                 // Valider le nom avec le regex
                 if (!preg_match("/^\pL+([a-zA-Z- ']\pL+)*$/u", $datas["Nom"])) {
                     ExceptionHandler::SetUserError("Veuillez insérer un nom");
@@ -58,7 +63,7 @@ class UserController extends MainController
                     ExceptionHandler::SetUserError("Veuillez insérer un prénom");
                 }
 
-                // Valider l'adresse email
+               // Valider l'adresse email
                 if (!filter_var($datas["Email"], FILTER_VALIDATE_EMAIL)) {
                     ExceptionHandler::SetUserError("Veuillez insérer un email conforme ");
                 }
@@ -70,13 +75,19 @@ class UserController extends MainController
 
                 // Valider que les mots de passe correspondent
                 if ($datas['Pass'] !== ($datas['ConfirmPass'])) {
+                   
                     ExceptionHandler::SetUserError("Mot de passe ne correspond pas");
+                } if ($_POST['RoleUser'] === "Adherent") {
+                    $errorCard = InfosReglementController::AddInfosReglement($datas);
+                    $errorsInsc = ExceptionHandler::GetUserError();
+                    $errors = array_merge($errorCard, $errorsInsc);
+                } else {
+                    $errors = ExceptionHandler::GetUserError();
                 }
-
-                $errors = ExceptionHandler::GetUserError();
-
+                
                 // S'il n'y a pas d'erreurs, enregistrer l'utilisateur
                 if (count($errors) == 0) {
+                    
                     $User->UsernameUser = ($datas['Nom'] . "." . $datas['Prenom']);
                     $User->EmailUser = $datas['Email'];
                     $User->MdpUser = password_hash($datas['Pass'], PASSWORD_ARGON2ID);
@@ -98,11 +109,17 @@ class UserController extends MainController
                             $facture->MontantFacture = 15.00;
                             $facture->IdAdherentFacture = $IdRole;
                             $facture->Save();
+
+                            array_push($datas, $IdRole);
+                            
+                            InfosReglementController::SaveInfosReglement($datas);
                             break;
+
 
                         case "Producteur":
                             $Producteur->NomPrenomProducteur = htmlspecialchars($datas['Nom'] . " " . ($datas['Prenom']));
                             $Producteur->PhoneProducteur = htmlspecialchars($datas['Tel']);
+                            $Producteur->RaisonSocialeProducteur = htmlspecialchars($datas['RaisonSociale']);
                             $Producteur->CoordonneesGPSProducteur = htmlspecialchars($datas['GPS']);
                             $Producteur->CodePostalProducteur = htmlspecialchars($datas['CodePostal']);
                             $Producteur->MailProducteur = htmlspecialchars($datas['Email']);
@@ -231,7 +248,7 @@ class UserController extends MainController
         } else {
             ExceptionHandler::SetUserError("Veuillez remplir tout les champs");
         }
-        
+
         if (isset($_POST['DeleteAcc'])) {
             $this->DeleteAcc();
         }

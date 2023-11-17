@@ -833,9 +833,24 @@ iframe {
 
 #champAdherent {
   display: none;
-
 }
 
 #champProducteur {
   display: none;
+}
+
+#resiliationCoor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+#resiliationProfil {
+  margin: 0 0 1em 0;
 }
