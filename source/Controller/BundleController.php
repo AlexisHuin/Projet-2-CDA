@@ -119,7 +119,7 @@ class BundleController extends MainController
             $Demandes->Save();
 
 
-            header('Refresh:3;/Bundle');
+            header('Refresh:1.5;/Bundle');
             echo "Votre bundle a bien été validée !";
             return $errors;
         } else {

@@ -251,41 +251,74 @@ class ProducteurController extends UserController
             if ($result) {
                 $demandes->Delete();
             }
-
             $Bundle = new BundleModel();
-            $IdProduitsBundle = $Bundle->Find("IdProduitsBundle, IdBundle");
-            $IdProduitsBundleArr = [];
 
-            foreach ($IdProduitsBundle as $ProduitsBundle) {
-                array_push($IdProduitsBundleArr, explode(',', $ProduitsBundle['IdProduitsBundle']));
-            }
+            if (isset($_POST['Produit'])) {
+                $IdProduitsBundle = $Bundle->Find("IdProduitsBundle, IdBundle");
+                $IdProduitsBundleArr = [];
 
-            foreach ($IdProduitsBundleArr as $key => $Arrays) {
-                foreach ($Arrays as $Id) {
-                    if ($Id === $IdProduitProducteur) {
-                        $Bundle->IdBundle = $IdProduitsBundle[$key]['IdBundle'];
-                        $Bundle->Delete();
-                        break;
+                foreach ($IdProduitsBundle as $ProduitsBundle) {
+                    array_push($IdProduitsBundleArr, explode(',', $ProduitsBundle['IdProduitsBundle']));
+                }
+
+                foreach ($IdProduitsBundleArr as $key => $Arrays) {
+                    foreach ($Arrays as $Id) {
+                        if ($Id === $IdProduitProducteur) {
+                            $Bundle->IdBundle = $IdProduitsBundle[$key]['IdBundle'];
+                            $Bundle->Delete();
+                            break;
+                        }
                     }
                 }
+
+                //* Supprime le produit correspondant
+                $Produit->IdProduitProducteur = $IdProduitProducteur;
+                $ProduitInfo = $Produit->Find('ImageProduitProducteur', 'Fetch');
+                $imagePath = $ProduitInfo['ImageProduitProducteur'];
+
+                //* Supprime le fichier image associé
+                if (file_exists($imagePath) && $imagePath !== "assets/images/fruit.jpg") {
+                    unlink(DIR_PUBLIC . $imagePath);
+                }
+                //* Supprime le produit correspondant
+
+                $Produit->Delete();
+            } else if (isset($_POST['Bundle'])) {
+
+                $Bundle->IdBundle = $IdProduitProducteur;
+                $ProduitsBundle = $Bundle->Find("IdProduitsBundle, QuantiteProduitsBundle", 'Fetch');
+
+                $IdProduitsArr = [];
+                $QuantitesArr = [];
+                $NbProduitsBundle = count(explode(",", $ProduitsBundle['IdProduitsBundle']));
+
+                //! Magie noire
+                for ($j = 0; $j < $NbProduitsBundle; $j++) {
+                    for ($i = 0; $i < count($ProduitsBundle); $i++) {
+                        $IdProduitsArr = explode(",", $ProduitsBundle['IdProduitsBundle']);
+                        $QuantitesArr = explode(",", $ProduitsBundle['QuantiteProduitsBundle']);
+                    }
+
+                    if(!isset($Produit)){
+                        $Produit = new ProduitProducteurModel();
+                    }
+
+                    $Produit->IdProduitProducteur = $IdProduitsArr[$j];
+                    $qt = $Produit->Find('QuantiteProduitProducteur', 'Fetch');
+
+                    $Produit->QuantiteProduitProducteur = $qt['QuantiteProduitProducteur'] + $QuantitesArr[$j];
+                    $Produit->Where($IdProduitsArr[$j]);
+                    $Produit->Update();
+
+                    unset($Produit);
+                }
+
+                $Bundle->Delete();
             }
-
-            //* Supprime le produit correspondant
-            $Produit->IdProduitProducteur = $IdProduitProducteur;
-            $ProduitInfo = $Produit->Find('ImageProduitProducteur', 'Fetch');
-            $imagePath = $ProduitInfo['ImageProduitProducteur'];
-
-            //* Supprime le fichier image associé
-            if (file_exists($imagePath)) {
-                unlink(DIR_PUBLIC . $imagePath);
-            }
-            //* Supprime le produit correspondant
-
-            $Produit->Delete();
-
-            header('Location: /User/ProductList');
-            exit();
         }
+
+        header('Location: /User/ProductList');
+        exit();
     }
 
     private function listBundle(): string|object|array

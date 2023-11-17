@@ -518,15 +518,15 @@ class AdminController extends MainController
             $IdProduitsBundle = $Bundle->Find("IdProduitsBundle, IdBundle");
             $IdProduitsBundleArr = [];
 
+            foreach ($IdProduitsBundle as $ProduitsBundle) {
+                array_push($IdProduitsBundleArr, explode(',', $ProduitsBundle['IdProduitsBundle']));
+            }
+            
             $demandes = new DemandesModel();
             $demandes->IdProduitProducteurDemande = $object->IdProduitProducteur;
             $result = $demandes->Find('IdDemande');
             if($result){
                 $demandes->Delete();
-            }
-
-            foreach ($IdProduitsBundle as $ProduitsBundle) {
-                array_push($IdProduitsBundleArr, explode(',', $ProduitsBundle['IdProduitsBundle']));
             }
             
             if (is_a($object, "Model\ProduitProducteurModel")) {
