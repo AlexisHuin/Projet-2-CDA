@@ -1,4 +1,8 @@
 {include file="../Partials/_HeaderView.tpl"}
+{foreach from=$errors item=error key=key}
+    <p style="color:red;">{$error}</p>
+{/foreach}
+
 <h1>Vos bundles en vente</h1>
 <form method="post" action="">
     <div class="bundles">
@@ -35,7 +39,7 @@
             {/if}
         {/foreach}
     </div>
-    <button type="submit" name="update">Modifier</Button>
+    <button type="submit" name="update[]">Modifier</Button>
     <button type="submit" name="delete[]">Supprimer</button>
 </form>
 
