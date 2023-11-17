@@ -148,21 +148,39 @@ if (window.location.href == "http://127.0.0.1:8000/") {
 
 // fonction pour JS pour géré l'ouverture de mes modales, elle permet aussi bien d'ouvrir et fermer.
 
-//! pour les modif de la page connexion, alexis   if (window.location.href == "http://127.0.0.1:8000/User") {
-if (window.location.href == "http://127.0.0.1:8000/User/Profile") {
+ if (window.location.href == "http://127.0.0.1:8000/User") {
+// if (window.location.href == "http://127.0.0.1:8000/User/Profile") {
   function CloseOpen(button, div, display) {
     let target = document.querySelector(button);
-    target.addEventListener("click", () => {
+    target.addEventListener("click", (e) => {
+      e.preventDefault();
       document.querySelector(div).style.display = display;
     });
   }
 
   CloseOpen(".paiementButton", "#paiementCoor", "flex");
   CloseOpen("#closeButton", "#paiementCoor", "none");
-  CloseOpen("#resiliationProfil", "#resiliationCoor", "flex");
-  CloseOpen("#closeRes", "#resiliationCoor", "none");
-}
+  // CloseOpen("#resiliationProfil", "#resiliationCoor", "flex");
+  // CloseOpen("#closeRes", "#resiliationCoor", "none");
 
+
+(function loginInscription() {
+let targetAdhe = document.querySelector('#Adherent')
+let targetProd = document.querySelector('#Producteur')
+let showAdhe = document.querySelector('#champAdherent')
+let showProd = document.querySelector('#champProducteur')
+
+targetAdhe.addEventListener('click', () => {
+  showAdhe.style.display = 'block';
+  showProd.style.display = 'none'; // Cacher le bloc Producteur si Adherent est sélectionné
+});
+
+targetProd.addEventListener('click', () => {
+  showProd.style.display = 'block';
+  showAdhe.style.display = 'none'; // Cacher le bloc Adherent si Producteur est sélectionné
+});
+}) ();
+}
 // Code JS pour l'api MapTiles
 // https://www.maptilesapi.com/
 
@@ -340,7 +358,7 @@ if (window.location.href == "http://127.0.0.1:8000/Bundle") {
           );
         });
 
-        //! EN JS, VERIFIEZ QUE LA QUANTITE NE SOIS PAS SUPERIER A CELLE DISPONIBLE
+        
 
         form.addEventListener("submit", (e) => {
           let inputQuantite = document.querySelector(
