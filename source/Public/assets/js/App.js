@@ -148,9 +148,90 @@ if (window.location.href == "http://127.0.0.1:8000/") {
 
 // fonction pour JS pour géré l'ouverture de mes modales, elle permet aussi bien d'ouvrir et fermer.
 
- if (window.location.href == "http://127.0.0.1:8000/User") {
-// if (window.location.href == "http://127.0.0.1:8000/User/Profile") {
-  function CloseOpen(button, div, display) {
+if (window.location.href == "http://127.0.0.1:8000/User") {
+  // if (window.location.href == "http://127.0.0.1:8000/User/Profile") {
+    document.addEventListener("DOMContentLoaded", function() {
+      let targetAdhe = document.querySelector("#Adherent");
+      let targetProd = document.querySelector("#Producteur");
+      let showAdhe = document.querySelector("#champAdherent");
+      let showProd = document.querySelector("#champProducteur");
+    
+      function createInput(type, name, placeholder) {
+        let input = document.createElement("input");
+        input.setAttribute("type", type);
+        input.setAttribute("name", name);
+        input.setAttribute("placeholder", placeholder);
+    
+        let div = document.createElement("div");
+    
+        if (name === "Titulaire") {
+            // Ajoute un h1 au-dessus de l'entrée "Titulaire"
+            let heading = document.createElement("h1");
+            heading.textContent = "Coordonnées Bancaires";
+            heading.style.textAlign = "center";
+            div.appendChild(heading);
+        }
+    
+        div.appendChild(input);
+    
+        return div;
+    }
+    
+      function createHeading(text) {
+        let heading = document.createElement("h1");
+        heading.textContent = text;
+        heading.style.textAlign = "center";
+        return heading;
+      }
+    
+      targetAdhe.addEventListener("change", () => {
+        
+          showProd.style.display = "none"
+          showAdhe.style.display = "block"
+          // Effacer le contenu actuel de showAdhe
+          showAdhe.innerHTML = "";
+    
+          // Ajouter les nouveaux éléments au bloc showAdhe
+          showAdhe.appendChild(createInput("text", "GPS", "Coordonneés GPS"));
+          showAdhe.appendChild(
+            createInput("text", "CodePostal", "Votre Code Postal")
+          );
+          showAdhe.appendChild(createInput("tel", "Tel", "Votre N° Telephone"));
+          
+          showAdhe.appendChild(createInput("text", "Titulaire", "Titulaire"));
+          showAdhe.appendChild(
+            createInput("text", "NumeroCB", "Numéro CB")
+          );
+          showAdhe.appendChild(
+            createInput("date", "DateExpiration", "Date expiration")
+          );
+          showAdhe.appendChild(createInput("text", "CVV", "CVV"));
+          // Cacher le bloc Producteur si Adherent est sélectionné
+        } )
+        targetProd.addEventListener("change", () => {
+          showAdhe.style.display = "none"
+          showProd.style.display = "block"
+            showProd.innerHTML = "";
+      
+            // Ajouter les nouveaux éléments au bloc showProd
+            showProd.appendChild(
+              createInput("text", "RaisonSociale", "Raison Sociale")
+            );
+            showProd.appendChild(createInput("text", "GPS", "Coordonneés GPS"));
+            showProd.appendChild(
+              createInput("text", "CodePostal", "Votre Code Postal")
+            );
+            showProd.appendChild(createInput("tel", "Tel", "Votre N° Telephone"));
+            // Cacher le bloc Adherent si Producteur est sélectionné
+          
+          
+        });
+          
+} )}
+
+// ? Gestion modale pour résiliation CB
+if (window.location.href == "http://127.0.0.1:8000/User/Profile") {
+  function CloseOpenRes(button, div, display) {
     let target = document.querySelector(button);
     target.addEventListener("click", (e) => {
       e.preventDefault();
@@ -158,28 +239,8 @@ if (window.location.href == "http://127.0.0.1:8000/") {
     });
   }
 
-  CloseOpen(".paiementButton", "#paiementCoor", "flex");
-  CloseOpen("#closeButton", "#paiementCoor", "none");
-  // CloseOpen("#resiliationProfil", "#resiliationCoor", "flex");
-  // CloseOpen("#closeRes", "#resiliationCoor", "none");
-
-
-(function loginInscription() {
-let targetAdhe = document.querySelector('#Adherent')
-let targetProd = document.querySelector('#Producteur')
-let showAdhe = document.querySelector('#champAdherent')
-let showProd = document.querySelector('#champProducteur')
-
-targetAdhe.addEventListener('click', () => {
-  showAdhe.style.display = 'block';
-  showProd.style.display = 'none'; // Cacher le bloc Producteur si Adherent est sélectionné
-});
-
-targetProd.addEventListener('click', () => {
-  showProd.style.display = 'block';
-  showAdhe.style.display = 'none'; // Cacher le bloc Adherent si Producteur est sélectionné
-});
-}) ();
+  CloseOpenRes("#resiliationProfil", "#resiliationCoor", "flex");
+  CloseOpenRes("#closeRes", "#resiliationCoor", "none");
 }
 // Code JS pour l'api MapTiles
 // https://www.maptilesapi.com/
@@ -358,8 +419,6 @@ if (window.location.href == "http://127.0.0.1:8000/Bundle") {
           );
         });
 
-        
-
         form.addEventListener("submit", (e) => {
           let inputQuantite = document.querySelector(
             "input[name='QuantiteProduitsBundle[]']"
@@ -393,13 +452,15 @@ if (window.location.href == "http://127.0.0.1:8000/Bundle") {
         targetInputs.forEach((targetInput) => {
           targetInput.addEventListener("input", () => {
             let inputValue = targetInput.value;
-            let labelValue = targetInput.closest(".cardBundle_hide").querySelector("#quantiteBundle").getAttribute("data-label");
-              console.log(inputValue)
-              console.log(labelValue)
+            let labelValue = targetInput
+              .closest(".cardBundle_hide")
+              .querySelector("#quantiteBundle")
+              .getAttribute("data-label");
+            console.log(inputValue);
+            console.log(labelValue);
 
-              let labelIntValue = parseInt(labelValue, 10)
+            let labelIntValue = parseInt(labelValue, 10);
             if (inputValue > labelIntValue) {
-              
               targetInput.value = labelValue;
             }
           });
@@ -410,7 +471,7 @@ if (window.location.href == "http://127.0.0.1:8000/Bundle") {
 
     // le coeur de ma fonction, pour chaque boutons ajouter, j'écoute l'événement, et au click, je fais disparaitre la card a gauche, et grace a
     // showCorrespondingElement j'ajoute et personnalise la card de droite
-      produitTargets.forEach((produitTarget, index) => {
+    produitTargets.forEach((produitTarget, index) => {
       let targetButton = produitTarget.querySelector("button");
       if (targetButton) {
         targetButton.addEventListener("click", () => {
