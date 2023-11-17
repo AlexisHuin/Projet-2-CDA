@@ -3,9 +3,9 @@
         <p>{$product['DesignationProduitProducteur']}</p>
         <div style="display: flex; align-items: center;">
                 <p style="flex: 1; padding-top:1em;">Prix : 
-                <input style="width:5em;" type="text" name="produit[{$product['IdProduitProducteur']}][PrixProduitProducteur]"
+                <input style="width:5em;" type="text" name="Prix[]"
                 value="{$product['PrixProduitProducteur']}" /></p>
-                <p style="flex: 1;">MAJ Prix<input type="checkbox" name="/" value="1" /> </p>
+                <p style="flex: 1;">MAJ Prix<input type="checkbox" name="MajPrix[]" value="{$product['IdProduitProducteur']}" /> </p>
         </div>
         <p style="margin:1em;">Description : {$product['DetailsProduitProducteur']}</p>
         <p>Quantité :

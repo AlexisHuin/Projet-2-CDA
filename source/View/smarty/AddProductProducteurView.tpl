@@ -1,5 +1,8 @@
 {include file="../Partials/_HeaderView.tpl"}
 
+{foreach from=$errors item=error key=key}
+    <p style="color:red">{$error}</p>
+{/foreach}
 
 <div class="addproduct">
 

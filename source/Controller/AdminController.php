@@ -31,7 +31,7 @@ class AdminController extends MainController
 {
     public function Connexion(): void
     {
-        $this->connectCheck('user', "", "/User/Profile", true);
+        $this->connectCheck('admin', "", "/Admin/Dashboard", true);
 
         $errors = [];
 
@@ -341,6 +341,7 @@ class AdminController extends MainController
                 if ($state === "Accepted") {
                     $ProduitProducteur->Where($_POST['IdProduitProducteur']);
                     $ProduitProducteur->PrixProduitProducteur = $_POST['Prix'];
+                    $ProduitProducteur->IsValidateProduitProducteur = true;
                     $ProduitProducteur->DateModifPrixProduitProducteur = date('Y-m-d H:i');
 
                     $ProduitProducteur->Update();
@@ -401,13 +402,14 @@ class AdminController extends MainController
                 break;
         }
 
-        $mailto = [
-            "Email" => $_POST['EmailProd'],
-            "Subject" => $state,
-            "Motif" => $Notifications->MotifNotification
-        ];
-        echo json_encode($mailto);
+        // $mailto = [
+        //     "Email" => $_POST['EmailProd'],
+        //     "Subject" => $state,
+        //     "Motif" => $Notifications->MotifNotification
+        // ];
+        // echo json_encode($mailto);
 
+        header('Location: /Admin/Dashboard');
         exit();
     }
 
@@ -515,14 +517,22 @@ class AdminController extends MainController
             $Bundle = new BundleModel();
             $IdProduitsBundle = $Bundle->Find("IdProduitsBundle, IdBundle");
             $IdProduitsBundleArr = [];
+
+            $demandes = new DemandesModel();
+            $demandes->IdProduitProducteurDemande = $object->IdProduitProducteur;
+            $result = $demandes->Find('IdDemande');
+            if($result){
+                $demandes->Delete();
+            }
+
             foreach ($IdProduitsBundle as $ProduitsBundle) {
                 array_push($IdProduitsBundleArr, explode(',', $ProduitsBundle['IdProduitsBundle']));
             }
-
+            
             if (is_a($object, "Model\ProduitProducteurModel")) {
                 foreach ($IdProduitsBundleArr as $key => $Arrays) {
                     foreach ($Arrays as $Id) {
-                        if ($Id[$key] === $object->IdProduitProducteur) {
+                        if ($Id === $object->IdProduitProducteur) {
                             $Bundle->IdBundle = $IdProduitsBundle[$key]['IdBundle'];
                             $Bundle->Delete();
                             break;

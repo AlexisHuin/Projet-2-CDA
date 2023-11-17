@@ -201,7 +201,7 @@ class MainController
 
             $NotificationsModel->Update();
 
-            header('Refresh:0.01;' . $_SERVER['REQUEST_URI']);
+            header('Location:' . $_SERVER['REQUEST_URI']);
             exit();
         }
 
