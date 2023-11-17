@@ -308,7 +308,6 @@
   list-style: none;
   display: block;
   position: absolute;
-  top: 100%;
   left: -8.5vw;
   opacity: 0;
   visibility: hidden;
@@ -700,7 +699,7 @@ header {
 
 .menu-list li {
   position: relative;
-  padding: 1rem 0.5rem 0;
+  margin: 0 .75rem;
 }
 
 .menu-list a {
@@ -744,6 +743,7 @@ header {
 }
 
 .header_img {
+  min-width: 30px;
   width: 40%;
   vertical-align: middle;
   transition: transform 0.3s ease;
@@ -752,19 +752,19 @@ header {
 }
 
 .header_notif {
-  width: 20%;
+  min-width: 30px;
+  width: 30%;
   vertical-align: middle;
   transition: transform 0.3s ease;
   filter: brightness(0) invert(1);
-  margin-left : -6em
 }
 
 .deco_img {
+  min-width: 30px;
   width: 40%;
   vertical-align: middle;
   transition: transform 0.3s ease;
   filter: brightness(0) invert(1);
-  margin-left : -3em
 }
 
 
