@@ -11,5 +11,6 @@
         <p>Quantité :
                 {$product['QuantiteProduitProducteur']}</p>
         <img style="padding: 1em;" src="../{$product['ImageProduitProducteur']}" alt="image produit">
+        
         <p>Supprimer ? <input type="checkbox" name="deleteProduit[]" value="{$product['IdProduitProducteur']}" /></p>
 {/if}

@@ -276,10 +276,6 @@ ALTER TABLE Demandes
 ADD CONSTRAINT FK_Demandes_User
 FOREIGN KEY (IdUserDemande) REFERENCES User(IdUser);
 
-ALTER TABLE Demandes
-ADD CONSTRAINT FK_Demandes_ProduitProducteur
-FOREIGN KEY (IdProduitProducteurDemande) REFERENCES ProduitProducteur(IdProduitProducteur);
-
 -- Table Facture
 ALTER TABLE Facture
 ADD CONSTRAINT FK_Facture_Adherent

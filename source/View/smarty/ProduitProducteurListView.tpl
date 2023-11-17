@@ -12,7 +12,7 @@
             {/if}
         {/foreach}
     </div>
-    <Button type="submit" name="update">Modifier</Button>
+    <input type="hidden" name="Bundle">
     <button type="submit" name="delete">Supprimer</button>
 </form>
 
@@ -27,7 +27,8 @@
             {/if}
         {/foreach}
     </div>
-    <button type="submit" name="update">Modifier</Button>
+    <input type="hidden" name="Bundle">
+    <button type="submit" name="delete">Supprimer</button>
    
 </form>
 <h1>Vos produits en vente</h1>
@@ -39,8 +40,9 @@
             {/if}
         {/foreach}
     </div>
-    <button type="submit" name="update[]">Modifier</Button>
-    <button type="submit" name="delete[]">Supprimer</button>
+    <input type="hidden" name="Produit">
+    <button type="submit" name="update">Modifier</Button>
+    <button type="submit" name="delete">Supprimer</button>
 </form>
 
 
@@ -53,7 +55,7 @@
             {/if}
         {/foreach}
     </div>
-    
+    <input type="hidden" name="Produit">
     <button type="submit" name="delete">Supprimer</button>
 </form>
 
