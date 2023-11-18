@@ -11,10 +11,14 @@ document.addEventListener(
   },
   false
 );
+
 document.addEventListener('DOMContentLoaded', () => {
-  document.getElementById('Cart').addEventListener('click', () => {
-    alert('Veuillez vous connecter afin de commencer les achats !');
-  })
+  let cart = document.getElementById('Cart')
+  if (cart != undefined) {
+    cart.addEventListener('click', () => {
+      alert('Veuillez vous connecter afin de commencer les achats !');
+    })
+  }
 })
 
 if (window.location.href == "http://127.0.0.1:8000/") {

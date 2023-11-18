@@ -9,22 +9,41 @@ use Model\ProduitProducteurModel;
 use Model\NotificationsModel;
 
 use DateTime;
+use Model\BundleModel;
 use Model\PanierModel;
+use Model\CommandesModel;
+use Model\FactureModel;
+use Model\AdherentModel;
 
 class HomeController extends MainController
 {
     public function Index()
     {
-
         $ProduitModel = new ProduitModel();
         $CategorieModel = new CategorieModel();
 
         $allProducts = $ProduitModel->getProduits();
         $categories = $CategorieModel->Find();
 
+        $AllBundles = ProducteurController::listBundle(true);
+
+        $ProduitsBundle = [];
+        if ($AllBundles) {
+            foreach ($AllBundles as $bundle) {
+                $ProduitsBundle[] = ProducteurController::listProduitsBundle($bundle);
+            }
+        }
+
+        //TODO Verif sécurité
+        if (isset($_POST['Acheter'])) {
+            $this->buyBundle();
+        }
+
         $sortedProducts = $this->sortBySaison($allProducts);
 
         ViewController::Set('title', 'Home');
+        ViewController::Set('AllBundles', $AllBundles);
+        ViewController::Set('ProduitsBundle', $ProduitsBundle);
         ViewController::Set('products', $sortedProducts);
         ViewController::Set('categories', $categories);
         ViewController::Display('HomeView');
@@ -57,7 +76,7 @@ class HomeController extends MainController
                 // Check si quantité demandée et plus élevée que la quantité proposée par le producteur
                 if ($datas['Quantite'] > $datas['QuantiteTotal'] || $datas['Quantite'] <= 0) {
                     ExceptionHandler::SetUserError("Quantité invalide.");
-                } 
+                }
                 // check si il existe au moins une ligne dans le panier
                 else if (isset($_SESSION['panier'][0])) {
                     // Initialisation d'un compteur de boucle
@@ -116,7 +135,7 @@ class HomeController extends MainController
 
         $produitProducteurs = $produitProducteurModel->getProduitProducteur($id['id'], false, true);
 
-        if(!isset($_SESSION['panier'])){
+        if (!isset($_SESSION['panier'])) {
             $_SESSION['panier'] = [];
         }
 
@@ -154,5 +173,51 @@ class HomeController extends MainController
         }
 
         return $produits;
+    }
+
+    private function buyBundle(): void
+    {
+        $Bundle = new BundleModel();
+        $Bundle->IdBundle = $_POST['Id'];
+        $Purchase = $Bundle->Find('*', 'Fetch');
+        $Bundle->Delete();
+
+        $commande = new CommandesModel();
+        $facture = new FactureModel();
+        $adherent = new AdherentModel();
+        $produitProducteur = new ProduitProducteurModel();
+        $notifications = new NotificationsModel();
+
+        // Traitements table Commandes
+        $commande->TotalCommande = $Purchase['PrixBundle'];
+        $commande->ProduitsCommande = $Purchase['IdProduitsBundle'];
+        $commande->QuantitesCommande = $Purchase['QuantiteProduitsBundle'];
+        $commande->ProducteursCommande = $Purchase['IdProducteurBundle'];
+        $commande->IdAdherentCommande = $_SESSION['user']['IdRole'];
+        $commande->Save();
+
+        // Traitements table Facture
+        $adherent->IdAdherent = $_SESSION['user']['IdRole'];
+        $totalActuel = $adherent->Find('DepenseAdherent', 'Fetch');
+
+        $facture->MontantFacture = $totalActuel['DepenseAdherent'] + $Purchase['PrixBundle'];
+
+        $facture->Where([$_SESSION['user']['IdRole'], "'En cours'"], ['idAdherent', 'datePrelevement']);
+        $facture->Update();
+
+        // Traitement table Adherent
+        $adherent->DepenseAdherent = $totalActuel['DepenseAdherent'] + $Purchase['PrixBundle'];
+
+        $adherent->Where($_SESSION['user']['IdRole']);
+        $adherent->Update();
+
+        $notifications->IdDestinataireNotification = $_SESSION['user']['Id'];
+        $notifications->DateEnvoiNotification = date('d-M-Y H:i');
+        $notifications->MotifNotification = "Votre commande a bien été prise en compte, vous disposez à présent de 2 jours pour venir la récupérer, sans quoi, la commande sera annulée et vous serez tout de même débité.";
+        $notifications->Save();
+
+        header('Refresh:1;/');
+        echo "Commande validé avec succès !";
+        exit();
     }
 }
