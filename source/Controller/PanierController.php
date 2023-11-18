@@ -108,8 +108,6 @@ class PanierController extends MainController
                 header('Refresh:1;/Panier');
                 echo "Commande validé avec succès !";
                 exit();
-            } else {
-                header('Refresh:1;/Panier');
             }
         }
 

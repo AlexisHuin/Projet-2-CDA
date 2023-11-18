@@ -21,7 +21,7 @@ CREATE TABLE Adherent (
 );
 
 INSERT INTO `Adherent` (`IdAdherent`, `NomPrenomAdherent`, `PhoneAdherent`, `MailAdherent`, `CodePostalAdherent`, `CoordonneesGPSAdherent`, `DateDebutAdherent`, `DateFinAdherent`, `DepenseAdherent`, `EtatAbonnementAdherent`) VALUES
-(1, 'ade ade', '0254477889', 'ade@ade.ade', 41000, '52564562', '2023-11-02', NULL, 0.00, 0);
+(1, 'ade ade', '0254477889', 'ade@ade.ade', 41000, '52564562', '2023-11-02', NULL, 15.00, 0);
 
 -- Création de la table Admin
 CREATE TABLE Admin (
@@ -88,7 +88,7 @@ CREATE TABLE Facture (
 );
 
 INSERT INTO `Facture` (`IdFacture`, `MontantFacture`, `DatePrelevementFacture`, `IdAdherentFacture`) VALUES
-(1, 0.00, "En cours", 1);
+(1, 15.00, "En cours", 1);
 
 -- Création de la table InfosReglement
 CREATE TABLE InfosReglement (

@@ -128,13 +128,13 @@ class ProducteurController extends UserController
     {
         $this->connectCheck('user', 'Producteur', '/User');
 
-        $AllBundles = $this->listBundle();
+        $AllBundles = self::listBundle();
         $errors = [];
 
         $ProduitsBundle = [];
         if ($AllBundles) {
             foreach ($AllBundles as $bundle) {
-                $ProduitsBundle[] = $this->listProduitsBundle($bundle);
+                $ProduitsBundle[] = self::listProduitsBundle($bundle);
             }
         }
 
@@ -321,17 +321,19 @@ class ProducteurController extends UserController
         exit();
     }
 
-    private function listBundle(): string|object|array
+    public static function listBundle(bool $isHomePage = false): string|object|array
     {
         $producteurs = new ProducteurModel();
-        $producteurs->IdProducteur = $_SESSION['user']['IdRole'];
+        if(!$isHomePage){
+            $producteurs->IdProducteur = $_SESSION['user']['IdRole'];
+        }
         $producteurs->Join(['IdProducteur'], ['Bundle' => 'IdProducteurBundle']);
         $AllBundles = $producteurs->Find('*', 'FetchAll');
 
         return $AllBundles;
     }
 
-    private function listProduitsBundle(array $produits): object|array
+    public static function listProduitsBundle(array $produits): object|array
     {
 
         $produitProducteur = new ProduitProducteurModel();
