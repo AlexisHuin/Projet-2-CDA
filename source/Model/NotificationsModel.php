@@ -17,9 +17,9 @@ class NotificationsModel extends DbModel
     // public function ModifPrixDemande(): string|object|array
     // {
     //     return DbModel::Select(
-    //         "SELECT IdDemande, ObjetDemande, MotifDemande, IdProducteurDemande, IdProduitProducteurDemande, EtatDemande, NomPrenomProducteur 
+    //         "SELECT IdDemande, ObjetDemande, MotifDemande, IdUserDemande, IdProduitProducteurDemande, EtatDemande, NomPrenomProducteur 
     //     FROM Demandes
-    //     JOIN Producteur ON Demandes.IdProducteurDemande = Producteur.IdProducteur;"
+    //     JOIN Producteur ON Demandes.IdUserDemande = Producteur.IdProducteur;"
     //     );
     // }
 }

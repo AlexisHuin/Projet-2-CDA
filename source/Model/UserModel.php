@@ -14,7 +14,7 @@ class UserModel extends DbModel
     }
 
     public function JoinUsers(string $role, string $email) : string|object|array {
-        return DbModel::Select("SELECT EmailUser FROM User WHERE RoleUser = '$role' AND EmailUser = '$email'",[], "Fetch");
+        return DbModel::Select("SELECT IdUser, EmailUser FROM User WHERE RoleUser = '$role' AND EmailUser = '$email'",[], "Fetch");
     }
 }
 

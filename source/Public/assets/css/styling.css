@@ -1,95 +1,117 @@
 /* Styles pour le formulaire de connexion */
-.panel-left,
+@font-face {
+  font-family: "Alice";
+  src: url("/assets/fonts/Alice.ttf"), url("/assets/fonts/Alice1.woff");
+  /* Ajoutez d'autres formats si nécessaire (e.g., woff, woff2) */
+}
+
+.panel_login {
+  display: flex;
+}
+
+.global-connexion {
+  display: flex;
+  width: 75%;
+}
+
+.panel-left {
+  background-color: #ffffff;
+  box-shadow: 0 4vh 8vh rgba(0, 0, 0, 0.1);
+  border-radius: 1vh;
+  text-align: center;
+  flex: 2;
+  overflow: hidden;
+  margin: 2em;
+  box-sizing: border-box;
+  padding: 1em;
+}
+
+.panel-left input,
+.panel-right input {
+  margin: 1em;
+}
+
 .panel-right {
   background-color: #ffffff;
   box-shadow: 0 4vh 8vh rgba(0, 0, 0, 0.1);
   border-radius: 1vh;
   text-align: center;
-  width: 20%;
-  transition: all 0.3s ease;
+  flex: 1;
   overflow: hidden;
-  margin: 10%;
-  float: left;
+  margin: 2em;
   box-sizing: border-box;
-  padding: 20px;
+  padding: 1em;
+  height: 18em;
 }
 
-.panel-left h1,
-.panel-right h1 {
-  font-size: 4vh;
-  margin-bottom: 2vh;
-  color: #333;
-}
-
-.panel-left input,
-.panel-right input {
-  margin-bottom: 1vh;
-  padding: 1vh;
-  width: calc(100% - 4vh);
-  border: 0.3vh solid #ccc;
+.new-panel_right {
   border-radius: 1vh;
-  font-size: 2vh;
-  transition: border-color 0.3s ease;
-  box-sizing: border-box;
+  background-color: #ffffff;
+  box-shadow: 0 4vh 8vh rgba(0, 0, 0, 0.1);
+  flex: 1;
+  max-width: 20%;
+  /* Essayez d'utiliser max-width au lieu de width */
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
 }
 
-.panel-left input[type="text"],
-.panel-left input[type="password"],
-.panel-right input[type="text"],
-.panel-right input[type="password"],
-.panel-right input[type="email"],
-.panel-right input[type="tel"] {
-  margin-bottom: 2vh;
+.panel-right_card {
+  border: 1px solid black;
+  padding: 1em;
+  flex: 1;
+  margin: 1em;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
-.panel-left input:focus,
-.panel-right input:focus {
-  border-color: #ff6347;
+.panel-right_adherent,
+.panel-right_producteur {
+  border-radius: 1vh;
+  background-color: #ffffff;
+  box-shadow: 0 4vh 8vh rgba(0, 0, 0, 0.1);
+
+  flex: 1;
+  margin: 1em;
+  max-width: 30%;
+}
+
+.button-container {
+  display: flex;
+  justify-content: center;
+}
+
+.panel-right_adherent button {
+  padding: 0.5em 2em;
+  margin: 2em 2em;
+  font-size: 1.1em;
+}
+
+.panel-right_producteur button {
+  display: block;
+  margin: 1em auto;
+  padding: 0.5em 2em;
+  font-size: 1.1em;
 }
 
 .panel-left button,
 .panel-right button {
-  background-color: #ff6347;
+  background-color: #4caf50;
   color: #fff;
   cursor: pointer;
-  padding: 1.5vh 0;
-  width: calc(100% - 5vh);
+
   border: none;
   border-radius: 1vh;
   font-size: 2.2vh;
-  transition: background-color 0.3s ease;
+
   box-sizing: border-box;
 }
 
-.panel-left button:hover,
-.panel-right button:hover {
-  background-color: #ff4500;
-}
-
-/* Animation pour le formulaire */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(-2vh);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.panel-left,
-.panel-right {
-  animation: fadeIn 0.5s ease;
-}
-
 /* Hover effet pour le panneau */
-.panel-left:hover,
-.panel-right:hover {
-  transform: scale(1.05);
-  box-shadow: 0 6vh 12vh rgba(0, 0, 0, 0.2);
-}
 
 /* Styles pour le formulaire d'ajout de produit */
 .addproduct {
@@ -220,7 +242,7 @@
 .prod h1 {
   font-size: 3vh;
   margin-bottom: 1vh;
-  color: #ff6347;
+  color: #4caf50;
   /* Couleur du titre */
 }
 
@@ -237,7 +259,7 @@
 .prod a {
   display: block;
   margin-top: 1px;
-  background-color: #ff6347;
+  background-color: #4caf50;
   /* Couleur du fond du bouton */
   color: #fff;
   /* Couleur du texte du bouton */
@@ -254,27 +276,20 @@
   /* Couleur du fond du bouton au survol */
 }
 
-
-
-
-
-
-
-
 /*notification*/
 /* Style de la liste déroulante */
 
 .toggle-label {
-
   position: relative;
 }
 
-.toggle-label sup {
+.toggle-label sup,
+.header_img + sup {
   position: absolute;
   background-color: red;
   border-radius: 50%;
-  top: 0;
-  right: 0;
+  top: -10px;
+  right: -10px;
   width: 15px;
   height: 15px;
   display: flex;
@@ -286,7 +301,6 @@
   list-style: none;
   display: block;
   position: absolute;
-  top: 100%;
   left: -8.5vw;
   opacity: 0;
   visibility: hidden;
@@ -299,8 +313,8 @@
 }
 
 /* Afficher la liste déroulante lorsque la case à cocher est cochée ou en focus */
-.toggle-checkbox:checked+.toggle-label .sous,
-.toggle-checkbox+.toggle-label .sous:hover {
+.toggle-checkbox:checked + .toggle-label .sous,
+.toggle-checkbox + .toggle-label .sous:hover {
   opacity: 1;
   visibility: visible;
 }
@@ -309,7 +323,7 @@
   cursor: pointer;
   background: transparent;
   border: none;
-  transition: all .2s ease;
+  transition: all 0.2s ease;
   padding: 1rem 0;
   margin: 0;
 }
@@ -319,20 +333,524 @@
 }
 
 .sous form {
-  transition: all .2s ease;
+  transition: all 0.2s ease;
 }
 
 .sous form:hover {
   background-color: rgba(97, 180, 87, 0.9);
 }
 
-/* Style de l'icône */
-.header_img {
-  width: 20px;
-  height: auto;
-}
-
 /* Cacher la case à cocher */
 .toggle-checkbox {
   display: none;
+}
+
+/* CSS DE LA MAP PAGE PROFIL */
+
+#map {
+  height: 30em;
+  width: 30em;
+}
+
+.dropdown_produitBundle {
+  display: flex;
+}
+
+.container_bundle,
+.container_bundle_right {
+  display: flex;
+  flex-wrap: wrap;
+  /* justify-content: space-between; */
+}
+
+.cardBundle {
+  width: calc(25% - 1em);
+  /* 25% de largeur avec marges de 1em */
+  display: flex;
+  margin: 1em;
+  border: 1px solid black;
+  align-items: center;
+  /* Centre le contenu verticalement */
+  text-align: center;
+  /* Centre le texte horizontalement */
+  flex-direction: column;
+}
+
+.cardBundle img {
+  width: calc(50% - 1em);
+  /* 50% de largeur avec marges de 1em pour les écrans plus petits */
+}
+
+.interface_left {
+  flex: 1;
+}
+
+.interface_left_select label,
+.interface_left_select input {
+  width: 30%;
+  display: block;
+  /* Affiche les labels et les champs d'entrée l'un au-dessus de l'autre */
+  margin-bottom: 10px;
+  /* Ajoute un espacement entre les éléments */
+}
+
+.interface_right {
+  margin-right: 1em;
+  flex: 1;
+}
+
+.interface {
+  display: flex;
+}
+
+#bundle_form {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.cardBundle_hide {
+  width: calc(25% - 1em);
+  /* 25% de largeur avec marges de 1em */
+  display: flex;
+  margin: 1em;
+  border: 1px solid black;
+  align-items: center;
+  /* Centre le contenu verticalement */
+  text-align: center;
+  /* Centre le texte horizontalement */
+  flex-direction: column;
+}
+
+.deleteProdBundle {
+  margin: 1em 0;
+}
+
+.addCount {
+  text-align: center;
+}
+
+.addButtonLeft {
+  margin: 1em 0;
+  display: block;
+}
+
+.hidden {
+  display: none;
+}
+
+input[readonly] {
+  border: none;
+  width: 10em;
+}
+
+#tmort {
+  border: none;
+}
+
+.bundles {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+.bundle {
+  margin: 20px;
+  padding: 20px;
+  text-align: center;
+  background-color: white;
+  border: 1px solid #ddd;
+  box-shadow: 0 2px 4px rgb(0 0 0 / 10%);
+  border-radius: 1em;
+}
+
+.bundle:hover {
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+nav {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.logo-div {
+  flex: 1;
+  margin-left: 1em;
+}
+
+.home-title {
+  font-family: Alice;
+  font-size: 2em;
+  text-align: center;
+  flex: 3;
+}
+
+.menu-list {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  flex: 3;
+  align-items: center;
+}
+
+.link {
+  margin-right: 20px;
+}
+
+.notification-icon {
+  position: relative;
+}
+
+.notification-count {
+  background-color: red;
+  color: white;
+  border-radius: 50%;
+  font-size: 10px;
+  padding: 4px;
+  position: absolute;
+  top: -8px;
+  right: -8px;
+}
+
+.notification-dropdown {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px white;
+  z-index: 1;
+}
+
+.notification-dropdown a {
+  color: white;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.notification-icon:hover .notification-dropdown {
+  display: block;
+}
+
+.image-with-text {
+  width: 100%;
+  height: 40vh;
+  background-image: url("/assets/images/fruit.jpg");
+  background-attachment: fixed;
+}
+
+.text-overlay {
+  margin: 1em;
+  font-weight: bold;
+  font-size: 1em;
+}
+
+/* Formulaire de filtre */
+.filter-form {
+  text-align: center;
+  /* Centre le contenu du formulaire */
+  margin: 0 auto;
+  /* Centre le formulaire horizontalement */
+  max-width: 400px;
+  /* Largeur maximale du formulaire */
+  padding: 20px;
+  /* Ajoutez de l'espace autour du formulaire si nécessaire */
+}
+
+.label_card {
+  margin: 15px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 16px;
+  margin-right: 10px;
+}
+
+select,
+input {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+button {
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  cursor: pointer;
+  padding: 10px 20px;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #45a049;
+}
+
+/* Produits */
+.products {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  padding: 1em;
+  height: 40vh;
+  overflow: scroll;
+}
+
+.product {
+  width: calc(25% - 4vh);
+  margin: 1em;
+  padding: 1em;
+  text-align: center;
+  background-color: white;
+  border: 1px solid #ddd;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border-radius: 1em;
+}
+
+.product:hover {
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.product img {
+  width: 50%;
+  object-fit: cover;
+  border-bottom: 1px solid #ddd;
+}
+
+.product-description h3 {
+  margin: 10px 0;
+  font-size: 1.2em;
+  color: #333;
+}
+
+.product-description h4 {
+  color: #888;
+  font-size: 1em;
+  margin-bottom: 10px;
+}
+
+/* Réinitialisation des marges et des rembourrages pour garantir une cohérence entre les navigateurs */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  line-height: 1.6;
+  color: #333;
+  margin: 0;
+  padding: 0;
+  background-color: #f9f9f9;
+}
+
+/* En-tête et barre de navigation */
+header {
+  background-color: #333;
+  color: white;
+  padding: 15px 0;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.nav-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo-div img {
+  width: 60%;
+
+  border-radius: 10px;
+}
+
+.menu-list {
+  list-style: none;
+  display: flex;
+  justify-content: end;
+  margin-right: 3em;
+}
+
+.menu-list li {
+  position: relative;
+  margin: 0 0.75rem;
+}
+
+.menu-list a {
+  text-decoration: none;
+  color: white;
+  position: relative;
+  padding-bottom: 7px;
+  transition: all 0.3s ease;
+}
+
+.menu-list a[href="/User/Profile"] {
+  padding-bottom: 9px;
+}
+
+.menu-list a:after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: #ffcc00;
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+}
+
+.menu-list a:hover:after {
+  transform: scaleX(1);
+}
+
+.search-bar {
+  display: flex;
+}
+
+.search-bar input {
+  width: 10em;
+  margin: 0 1em 0 0;
+}
+.search-bar button {
+}
+
+.header_img {
+  min-width: 30px;
+  width: 40%;
+  vertical-align: middle;
+  transition: transform 0.3s ease;
+  filter: brightness(0) invert(1);
+}
+
+.header_notif {
+  min-width: 30px;
+  width: 30%;
+  vertical-align: middle;
+  transition: transform 0.3s ease;
+  filter: brightness(0) invert(1);
+}
+
+.deco_img {
+  min-width: 30px;
+  width: 40%;
+  vertical-align: middle;
+  transition: transform 0.3s ease;
+  filter: brightness(0) invert(1);
+}
+
+iframe {
+  display: none;
+  z-index: 9000;
+  position: fixed;
+  height: 100vh;
+  width: 100vh;
+  top: 0;
+}
+
+.notification-icon {
+  position: relative;
+}
+
+.notification-count {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background-color: red;
+  color: white;
+  border-radius: 50%;
+  padding: 4px 8px;
+  display: none;
+}
+
+.notification-icon:hover .notification-count {
+  display: block;
+}
+
+.notification-dropdown {
+  display: none;
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.notification-icon:hover .notification-dropdown {
+  display: block;
+}
+
+.notification-dropdown a {
+  display: block;
+  padding: 8px;
+  color: #333;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+}
+
+.notification-dropdown a:hover {
+  background-color: #f9f9f9;
+}
+
+#formProfil {
+  background-color: antiquewhite;
+  padding: 3em;
+  border-radius: 2em;
+  height: 50%;
+  width: 50%;
+}
+
+#paiementCoor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+.paiementButton {
+  margin-bottom: 1em;
+}
+
+#champAdherent {
+  display: none;
+}
+
+#champProducteur {
+  display: none;
+}
+
+#resiliationCoor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+#resiliationProfil {
+  margin: 0 0 1em 0;
 }

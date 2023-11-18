@@ -10,6 +10,6 @@
         <p>Catégorie : {$product.DesignationCategorie}</p>
         <input type="hidden" value="{$product.IdProduit}" name="Id">
         <input type="submit" value="Delete" name="Delete">
-        <a href="/Admin/ModifProducts{$product.IdProduit}">Modifier infos</a>
+        <a href="/Admin/ModifProducts/{$product.IdProduit}">Modifier infos</a>
     </form>
 {/foreach}

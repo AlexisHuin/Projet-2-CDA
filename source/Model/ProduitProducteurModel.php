@@ -11,12 +11,20 @@ class ProduitProducteurModel extends DbModel
     protected string $IdProducteur = 'IdProducteurProduitProducteur';
 
     // Méthode pour récupérer les produits du producteur en fonction de son ID
-    public function getProduitProducteur($id): string|object|array
+    public function getProduitProducteur(string|int $id, bool $isProd = false, bool $validate = false): string|object|array
     {
-        return DbModel::Select("SELECT * 
-        FROM ProduitProducteur INNER JOIN Produit ON ProduitProducteur.IdProduitProduitProducteur=Produit.IdProduit
-        WHERE IdProducteurProduitProducteur=:IdProducteurProduitProducteur", [':IdProducteurProduitProducteur' => $id]);
+        if($isProd){
+            $this->IdProducteurProduitProducteur = $id;
+        } else{
+            $this->IdProduitProduitProducteur = $id;
+        }
+        
+        if($validate){
+            $this->IsValidateProduitProducteur = 1;
+        }
+        return $this->Find();
     }
+    
     public function getProduitsProducteur($id): string|object|array
     {
         $this->IdProduitProduitProducteur = $id;
@@ -48,6 +56,8 @@ class ProduitProducteurModel extends DbModel
     // Méthode pour supprimer un produit du producteur en fonction de son ID
     public function producteurProduitDelete($IdProduitProducteur): string|object|array
     {
+
+        // FIX Supprimer les demandes en attente lié a l'id produit, et refaire la fonction au propre
         return $this->Select("DELETE FROM ProduitProducteur 
         WHERE IdProduitProducteur = $IdProduitProducteur
         ");
@@ -57,9 +67,6 @@ class ProduitProducteurModel extends DbModel
         return DbModel::Select("
         SELECT *
         FROM ProduitProducteur 
-        WHERE IdProduitProducteur=:id",[':id'=>$id],'Fetch');
+        WHERE IdProduitProducteur=:id", [':id' => $id], 'Fetch');
     }
-
 }
-
-

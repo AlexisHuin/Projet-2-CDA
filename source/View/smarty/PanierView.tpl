@@ -1,52 +1,41 @@
 {include file="../Partials/_HeaderView.tpl"}
 
 <div class="panier">
-{var_dump($produits)}
-    {if $produits}
-        <div class="produits-container">
-            {foreach $produits as $p}
-                <div class="card_row5">
-                    <p>Nom: {$p["DesignationProduitProducteur"]}</p>
-                    <p>Prix: <span class="prix" id="{$p["IdProduit"]}">{$p["PrixProduitProducteur"]}</span>€</p>
-                    <form action="/panier/modifier" method="POST">
-                        <input type="hidden" name="IdProduit" value="{$p["IdProduit"]}">
-                        Quantité:
-                        <select name="Quantite" onchange="this.form.submit()">
-                            {for $number=1 to 10}
-                                <option name="Quantite" value="{$number}" {if $number === $p["Quantite"]}selected
-                                    id="Quantite-{$p["IdProduit"]}" {/if}>{$number}</option>
-                            {/for}
-                        </select>
-                    </form>
-                    <form action="/panier/supprimer" method="post">
-                        <input type="hidden" name="IdProduit" value="{$p["IdProduit"]}">
-                        <p onclick="this.closest('form').submit()" id="supp" style="cursor: pointer;">Supprimer ce produit
-                        </p>
-                        <input type="submit" value="h" style="display:none;">
-                    </form>
-                </div>
+    <h1>Votre panier</h1>
+    {if !empty($panier)}
+        <form method="post">
+            {foreach from=$panier item=item key=k}
+                <fieldset id="DeleteOne">
+                    <label>Id :</label> <input type="text" name="Id[]" readonly value="{$item.IdLigne}">
+                    <label>Produit : </label> <input type="text" name="Produit[]" readonly value="{$item.Produit}">
+                    <label>Quantite : </label> <input type="text" name="Quantite[]" readonly value="{$item.Quantite}">
+                    <label>Prix : </label> <input type="text" name="Prix[]" readonly value="{$item.Prix}">
+                    <input type="hidden" name="Index[]" value="{$k}">
+                    <input type="hidden" name="IdPanier[]" value="{$item.IdLigne}">
+                    <input type="hidden" name="IdProd[]" value="{$item.Producteur}">
+                    <input type="submit" name="delete_{$item.IdLigne}" value="Supprimer">
+                </fieldset>
+                <hr>
             {/foreach}
-        </div>
-        <p>Prix total: <span id="prix-total"></span>€</p>
-        <button class="button-delete"><a href="/panier/vider" classe="balisea">Vider le panier</a></button>
-        <button class="button-confirm"><a href="/panier/valider" classe="balisea">Valider le panier</a></button>
-        <script>
-            const prix = document.querySelectorAll(".prix");
-            let prixTotal = 0;
-
-            for (const div of prix) {
-                const id = div.id;
-                const quantite = document.querySelector("#quantite-" + id);
-                const quantiteEnNombre = Number(quantite.textContent);
-                const prixEnNombre = Number(div.textContent);
-                const prixTotalArticle = quantiteEnNombre * prixEnNombre;
-                prixTotal += prixTotalArticle;
-            }
-
-            document.querySelector("#prix-total").textContent = prixTotal;
-        </script>
+            <fieldset id="DeleteAll">
+                <input type="submit" value="Vider le panier" name="deleteAll">
+            </fieldset>
+            <fieldset id="Validate">
+                <label> Prix total commande :
+                    <input type="text" name="Total" value="{$total}" readonly>€
+                </label>
+                <input type="submit" value="Validate" name="Validate">
+            </fieldset>
+        </form>
     {else}
-        <p>Le panier est vide!</p> 
+        <p>Le panier est vide!</p>
     {/if}
+
+    <p>{$noticeQt}</p>
+    <p>{$noticePrix}</p>
+    {foreach from=$errors item=$error key=key}
+        {$error}
+    {/foreach}
 </div>
+
 {include file="../Partials/_FooterView.tpl"}

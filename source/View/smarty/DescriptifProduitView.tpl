@@ -1,19 +1,16 @@
 {include file="../Partials/_HeaderView.tpl"}
 
+<h2>{$produit.DesignationProduit}</h2>
 
-
-
-{foreach from=$produit item=product key=key }
-    {include file="../Partials/_CardView.tpl"}  
-    
+{foreach from=$errors item=error key=key}
+    <p style="color:red;">{$error}</p>
 {/foreach}
 
-<form method="POST" action="/panier">
-<label for="Quantite">Quantité :</label>
-<input type="number" id="Quantite" name="Quantite" min="0" >
-<button type="submit">Ajouter au Panier</button>
-</form>
-
+{foreach from=$produitProducteur item=product key=key }
+    <form method="post">
+        {include file="../Partials/_CardView.tpl"}
+    </form>
+{/foreach}
 
 
 {include file="../Partials/_FooterView.tpl"}

@@ -13,18 +13,18 @@ class DemandesModel extends DbModel
     public function getDemandes(): string|object|array
     {
         return DbModel::Select(
-            "SELECT IdDemande, ObjetDemande, MotifDemande, PrixProposeDemande, DesignationProduitDemande, IdProducteurDemande, IdProduitProducteurDemande, EtatDemande, NomPrenomProducteur, MailProducteur 
+            "SELECT IdDemande, ObjetDemande, MotifDemande, PrixProposeDemande, DesignationProduitDemande, IdUserDemande, IdProduitProducteurDemande, EtatDemande, NomPrenomProducteur, MailProducteur 
         FROM Demandes
-        JOIN Producteur ON Demandes.IdProducteurDemande = Producteur.IdProducteur;"
+        JOIN Producteur ON Demandes.IdUserDemande = Producteur.IdProducteur;"
         );
     }
 
     // public function ModifPrixDemande(): string|object|array
     // {
     //     return DbModel::Select(
-    //         "SELECT IdDemande, ObjetDemande, MotifDemande, IdProducteurDemande, IdProduitProducteurDemande, EtatDemande, NomPrenomProducteur 
+    //         "SELECT IdDemande, ObjetDemande, MotifDemande, IdUserDemande, IdProduitProducteurDemande, EtatDemande, NomPrenomProducteur 
     //     FROM Demandes
-    //     JOIN Producteur ON Demandes.IdProducteurDemande = Producteur.IdProducteur;"
+    //     JOIN Producteur ON Demandes.IdUserDemande = Producteur.IdProducteur;"
     //     );
     // }
 }
