@@ -198,6 +198,15 @@ class UserController extends MainController
             }
         }
 
+        // ! Random bullshit go !!!
+        $BeforeURL = $_SERVER['REQUEST_SCHEME'] . "://" . $_SERVER['HTTP_HOST'];
+        $BeforePage = substr($_SERVER['HTTP_REFERER'] ,strlen($BeforeURL));
+
+        if(strpos($BeforePage, "/DescriptifProduit/") === 0){
+            ExceptionHandler::SetUserError('Veuillez vous connecter afin de pouvoir commencer vos achats !');
+            $errors = ExceptionHandler::GetUserError();
+        }
+
         ViewController::Set('errors', $errors);
         ViewController::Set('title', 'Login');
         ViewController::Display('LoginView');

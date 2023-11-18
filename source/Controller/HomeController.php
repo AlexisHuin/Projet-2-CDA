@@ -34,10 +34,11 @@ class HomeController extends MainController
     {
         //TODO Continuer commentaires
         //Vérification si l'utilisateur est connecté
-        $this->connectCheck('user', 'Adherent', "User/");
 
         $errors = [];
         if (isset($_POST['Add'])) {
+            $this->connectCheck('user', 'Adherent', "/User");
+
             //Check si les champs sont valides
             $datas = $this->validate($_POST, ["Quantite", "Id", "IdProd"]);
 
@@ -115,7 +116,11 @@ class HomeController extends MainController
 
         $produitProducteurs = $produitProducteurModel->getProduitProducteur($id['id'], false, true);
 
-        ViewController::Set('title', 'Home');
+        if(!isset($_SESSION['panier'])){
+            $_SESSION['panier'] = [];
+        }
+
+        ViewController::Set('title', $Produit['DesignationProduit']);
         ViewController::Set('panier', $_SESSION['panier']);
         ViewController::Set('Id', $id['id']);
         ViewController::Set('produitProducteur', $produitProducteurs);

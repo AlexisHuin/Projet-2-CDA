@@ -37,7 +37,7 @@
                     {if $smarty.session.user.RoleUser eq "Adherent" }
 
                         <li>
-                            <a href="/Panier"><img  class="header_img" src="/assets/images/cart.svg" alt="Cart">
+                            <a href="/Panier"><img class="header_img" src="/assets/images/cart.svg" alt="Cart">
                                 {if {$smarty.session.panier|@count} > 0}
                                     <sup>{$smarty.session.panier|@count}</sup>
                                 {/if}
@@ -45,8 +45,8 @@
                         </li>
                         <li><a href="/User/Profile"><img class="header_img" src="/assets/images/profile.svg" alt="Profile"></a>
                         </li>
-                        <li><a href="/User/Deconnexion"><img class="deco_img" src="/assets/images/logout.svg"
-                                    alt="Logout"></a></li>
+                        <li><a href="/User/Deconnexion"><img class="deco_img" src="/assets/images/logout.svg" alt="Logout"></a>
+                        </li>
                     {else if $smarty.session.user.RoleUser eq "Producteur"}
 
                         <li><a href="/User/Profile"><img class="header_img" src="/assets/images/profile.svg" alt="Profile"></a>
@@ -55,7 +55,7 @@
 
                     {/if}
                 {else}
-                    <li><a href="/User"><img class="header_img" src="/assets/images/cart.svg" alt="Cart"></a>
+                    <li><a href="#"><img id="Cart" class="header_img" src="/assets/images/cart.svg" alt="Cart"></a>
                     </li>
                     <li><a href="/User"><img class="deco_img" src="/assets/images/login.svg" alt="Login"></a></li>
                 {/if}
@@ -85,7 +85,7 @@
                         </ul>
                     </label>
                 </li>
-                
+
                 <li class="search-bar">
                     <input type="text" placeholder="Rechercher...">
                     <button type="button">Rechercher</button>

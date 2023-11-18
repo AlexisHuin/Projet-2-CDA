@@ -11,6 +11,11 @@ document.addEventListener(
   },
   false
 );
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('Cart').addEventListener('click', () => {
+    alert('Veuillez vous connecter afin de commencer les achats !');
+  })
+})
 
 if (window.location.href == "http://127.0.0.1:8000/") {
   let type = document.getElementById("type");
@@ -150,84 +155,85 @@ if (window.location.href == "http://127.0.0.1:8000/") {
 
 if (window.location.href == "http://127.0.0.1:8000/User") {
   // if (window.location.href == "http://127.0.0.1:8000/User/Profile") {
-    document.addEventListener("DOMContentLoaded", function() {
-      let targetAdhe = document.querySelector("#Adherent");
-      let targetProd = document.querySelector("#Producteur");
-      let showAdhe = document.querySelector("#champAdherent");
-      let showProd = document.querySelector("#champProducteur");
-    
-      function createInput(type, name, placeholder) {
-        let input = document.createElement("input");
-        input.setAttribute("type", type);
-        input.setAttribute("name", name);
-        input.setAttribute("placeholder", placeholder);
-    
-        let div = document.createElement("div");
-    
-        if (name === "Titulaire") {
-            // Ajoute un h1 au-dessus de l'entrée "Titulaire"
-            let heading = document.createElement("h1");
-            heading.textContent = "Coordonnées Bancaires";
-            heading.style.textAlign = "center";
-            div.appendChild(heading);
-        }
-    
-        div.appendChild(input);
-    
-        return div;
-    }
-    
-      function createHeading(text) {
+  document.addEventListener("DOMContentLoaded", function () {
+    let targetAdhe = document.querySelector("#Adherent");
+    let targetProd = document.querySelector("#Producteur");
+    let showAdhe = document.querySelector("#champAdherent");
+    let showProd = document.querySelector("#champProducteur");
+
+    function createInput(type, name, placeholder) {
+      let input = document.createElement("input");
+      input.setAttribute("type", type);
+      input.setAttribute("name", name);
+      input.setAttribute("placeholder", placeholder);
+
+      let div = document.createElement("div");
+
+      if (name === "Titulaire") {
+        // Ajoute un h1 au-dessus de l'entrée "Titulaire"
         let heading = document.createElement("h1");
-        heading.textContent = text;
+        heading.textContent = "Coordonnées Bancaires";
         heading.style.textAlign = "center";
-        return heading;
+        div.appendChild(heading);
       }
-    
-      targetAdhe.addEventListener("change", () => {
-        
-          showProd.style.display = "none"
-          showAdhe.style.display = "block"
-          // Effacer le contenu actuel de showAdhe
-          showAdhe.innerHTML = "";
-    
-          // Ajouter les nouveaux éléments au bloc showAdhe
-          showAdhe.appendChild(createInput("text", "GPS", "Coordonneés GPS"));
-          showAdhe.appendChild(
-            createInput("text", "CodePostal", "Votre Code Postal")
-          );
-          showAdhe.appendChild(createInput("tel", "Tel", "Votre N° Telephone"));
-          
-          showAdhe.appendChild(createInput("text", "Titulaire", "Titulaire"));
-          showAdhe.appendChild(
-            createInput("text", "NumeroCB", "Numéro CB")
-          );
-          showAdhe.appendChild(
-            createInput("date", "DateExpiration", "Date expiration")
-          );
-          showAdhe.appendChild(createInput("text", "CVV", "CVV"));
-          // Cacher le bloc Producteur si Adherent est sélectionné
-        } )
-        targetProd.addEventListener("change", () => {
-          showAdhe.style.display = "none"
-          showProd.style.display = "block"
-            showProd.innerHTML = "";
-      
-            // Ajouter les nouveaux éléments au bloc showProd
-            showProd.appendChild(
-              createInput("text", "RaisonSociale", "Raison Sociale")
-            );
-            showProd.appendChild(createInput("text", "GPS", "Coordonneés GPS"));
-            showProd.appendChild(
-              createInput("text", "CodePostal", "Votre Code Postal")
-            );
-            showProd.appendChild(createInput("tel", "Tel", "Votre N° Telephone"));
-            // Cacher le bloc Adherent si Producteur est sélectionné
-          
-          
-        });
-          
-} )}
+
+      div.appendChild(input);
+
+      return div;
+    }
+
+    function createHeading(text) {
+      let heading = document.createElement("h1");
+      heading.textContent = text;
+      heading.style.textAlign = "center";
+      return heading;
+    }
+
+    targetAdhe.addEventListener("change", () => {
+
+      showProd.style.display = "none"
+      showAdhe.style.display = "block"
+      // Effacer le contenu actuel de showAdhe
+      showAdhe.innerHTML = "";
+
+      // Ajouter les nouveaux éléments au bloc showAdhe
+      showAdhe.appendChild(createInput("text", "GPS", "Coordonneés GPS"));
+      showAdhe.appendChild(
+        createInput("text", "CodePostal", "Votre Code Postal")
+      );
+      showAdhe.appendChild(createInput("tel", "Tel", "Votre N° Telephone"));
+
+      showAdhe.appendChild(createInput("text", "Titulaire", "Titulaire"));
+      showAdhe.appendChild(
+        createInput("text", "NumeroCB", "Numéro CB")
+      );
+      showAdhe.appendChild(
+        createInput("date", "DateExpiration", "Date expiration")
+      );
+      showAdhe.appendChild(createInput("text", "CVV", "CVV"));
+      // Cacher le bloc Producteur si Adherent est sélectionné
+    })
+    targetProd.addEventListener("change", () => {
+      showAdhe.style.display = "none"
+      showProd.style.display = "block"
+      showProd.innerHTML = "";
+
+      // Ajouter les nouveaux éléments au bloc showProd
+      showProd.appendChild(
+        createInput("text", "RaisonSociale", "Raison Sociale")
+      );
+      showProd.appendChild(createInput("text", "GPS", "Coordonneés GPS"));
+      showProd.appendChild(
+        createInput("text", "CodePostal", "Votre Code Postal")
+      );
+      showProd.appendChild(createInput("tel", "Tel", "Votre N° Telephone"));
+      // Cacher le bloc Adherent si Producteur est sélectionné
+
+
+    });
+
+  })
+}
 
 // ? Gestion modale pour résiliation CB
 if (window.location.href == "http://127.0.0.1:8000/User/Profile") {
@@ -315,9 +321,8 @@ if (window.location.href == "http://127.0.0.1:8000/Bundle") {
     });
     // Initialisatin et gestion du message pour le counter
     function updateCounter() {
-      addCount.innerText = `Vous pouvez ajouter encore ${counter} produit${
-        counter !== 1 ? "s" : ""
-      }`;
+      addCount.innerText = `Vous pouvez ajouter encore ${counter} produit${counter !== 1 ? "s" : ""
+        }`;
       if (counter === 0) {
         addCount.innerText = "Vous ne pouvez plus ajouter de produit";
         addCount.style.color = "#ff0000";
