@@ -11,10 +11,11 @@ use Model\DemandesModel;
 class BundleController extends MainController
 {
 
-    // fonction pour afficher la page Contact
+    //* fonction pour afficher la page Contact
 
     public function Bundle(): void
     {
+
         $this->connectCheck('user', 'Producteur');
         $errors = [];
         $Produits = new ProduitProducteurModel();
@@ -47,7 +48,7 @@ class BundleController extends MainController
         $bundle->DesignationBundle = htmlentities($datas['DesignationBundle'], ENT_QUOTES);
         $bundle->IdProducteurBundle = $IdProducteur;
 
-        //j'initialise mon total a 0, et pour chaque prix, je le multiplie par la quantitée
+        //* j'initialise mon total a 0, et pour chaque prix, je le multiplie par la quantitée
 
         $total = 0;
         for ($i = 0; isset($datas['PrixBundle']) && $i < count($datas['PrixBundle']); $i++) {
@@ -56,45 +57,46 @@ class BundleController extends MainController
 
 
 
-        // Parcours de chaque élément dans le tableau associatif $_POST['IdProduitProducteur']
+        //* Parcours de chaque élément dans le tableau associatif $_POST['IdProduitProducteur']
         foreach ($_POST['IdProduitProducteur'] as $cardKey => $idProduit) {
 
-            // Création d'une nouvelle instance de la classe ProduitProducteurModel
+            //* Création d'une nouvelle instance de la classe ProduitProducteurModel
             $produitProducteur = new ProduitProducteurModel();
 
-            // Attribution de la valeur de l'ID du produit producteur à l'instance
+            //* Attribution de la valeur de l'ID du produit producteur à l'instance
             $produitProducteur->IdProduitProducteur = $idProduit;
 
-            // Recherche de la quantité actuelle du produit producteur dans la base de données
+            //* Recherche de la quantité actuelle du produit producteur dans la base de données
             $qt = $produitProducteur->Find('QuantiteProduitProducteur', 'Fetch');
 
 
             if ($qt['QuantiteProduitProducteur'] >= $_POST['QuantiteProduitsBundle'][$cardKey]) {
-                // Soustraction de la quantité postée ($_POST['QuantiteProduitsBundle'][$cardKey])
-                // à la quantité actuelle du produit producteur
+                //* Soustraction de la quantité postée ($_POST['QuantiteProduitsBundle'][$cardKey])
+                //* à la quantité actuelle du produit producteur
                 $produitProducteur->QuantiteProduitProducteur = $qt['QuantiteProduitProducteur'] - $_POST['QuantiteProduitsBundle'][$cardKey];
 
-                // Spécification de la condition de mise à jour
+                //* Spécification de la condition de mise à jour
                 $produitProducteur->Where($idProduit);
 
-                // Mise à jour de l'enregistrement dans la base de données
+                //* Mise à jour de l'enregistrement dans la base de données
                 $produitProducteur->Update();
             } else {
-                // Gestion du cas où la quantité n'est pas suffisante
-                // Par exemple, tu peux lancer une exception, afficher un message d'erreur, etc.
-             
+                //* Gestion du cas où la quantité n'est pas suffisante
+                //* Par exemple, tu peux lancer une exception, afficher un message d'erreur, etc.
+
                 ExceptionHandler::SetUserError("Une erreur est survenue petit malin ;) On sais ou tu te cache mon pote");
                 break;
             }
 
-            // Libération de la mémoire en supprimant l'instance
+            //* Libération de la mémoire en supprimant l'instance
             unset($produitProducteur);
         }
         $errors = ExceptionHandler::GetUserError();
 
         if (count($errors) == 0) {
+            //* Reduction de 20% pour les adherents
+            //* je prend mon total, et je soustrait le pourcentage calculé de mon total
 
-            // je prend mon total, et je soustrait le pourcentage calculé de mon total
             $PrixReduction = $total - (($total / 100) * 20);
             $bundle->PrixBundle = $PrixReduction;
             $bundle->QuantiteProduitsBundle = $this->concatenationPower($datas, 'QuantiteProduitsBundle');
@@ -106,8 +108,8 @@ class BundleController extends MainController
 
             $IdBundle = $bundle->Save();
 
-//? Gestion table de demande
-          
+            //* Gestion table de demande
+
             $Demandes = new DemandesModel();
             $Demandes->IdUserDemande = $_SESSION['user']['Id'];
             $Demandes->IdProduitProducteurDemande = $IdBundle;
@@ -126,13 +128,13 @@ class BundleController extends MainController
             return $errors;
         }
     }
-
+    //* Fonction pour concatener les données renvoyer par le formulaire qui sont passer en array
     private function concatenationPower(array $datas, string $fieldName): string
     {
-        // Filtrer les éléments vides
+        //* Filtrer les éléments vides
         $filteredArray = array_filter($datas[$fieldName]);
 
-        // Concaténer les valeurs filtrées
+        //* Concaténer les valeurs filtrées
         $result = implode(',', $filteredArray);
 
         return $result;

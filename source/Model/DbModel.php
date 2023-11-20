@@ -31,7 +31,7 @@ class DbModel
         self::Connect();
     }
     
-    //? If enough time, change parameter 1 to be an array and associate in with it's operator (=, <=, >=, <, >, !=, IN, LIKE) 
+    //* If enough time, change parameter 1 to be an array and associate in with it's operator (=, <=, >=, <, >, !=, IN, LIKE) 
     public function __set($var, $value)
     {
         $this->datas[$var] = $value;

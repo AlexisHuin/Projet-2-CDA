@@ -8,9 +8,9 @@ use Model\InfosReglementModel;
 abstract class InfosReglementController
 {
 
-    // Fonction pour ajouté les coordonnées bancaire de l'adhérent, pour le formulaire sur la page Profil
-    // Toutes les données sauf expiration, et titulaire sont cryptés, et les données attendu vérifié avec un compte pour les erreurs
-    // La fonction permet aussi d'update si des données sont déja présente.
+    //* Fonction pour ajouté les coordonnées bancaire de l'adhérent, pour le formulaire sur la page Profil
+    //* Toutes les données sauf expiration, et titulaire sont cryptés, et les données attendu vérifié avec un count pour les erreurs
+    //* La fonction permet aussi d'update si des données sont déja présente.
 
     public static function AddInfosReglement(array|string|object $datas): array
     {
@@ -30,32 +30,39 @@ abstract class InfosReglementController
         return $errors;
     }
 
-    public static function SaveInfosReglement(array|string|object $datas): void{
+    //* Ajout ou update suivant données présentes
+    public static function SaveInfosReglement(array|string|object $datas): void
+    {
         $infosReglement = new InfosReglementModel();
         //* $datas[0] = IdAdherent
         $infosReglement->IdAdherentInfosReglement = $datas[0];
         $result = $infosReglement->Find('IdInfosReglement', 'Fetch');
-            $infosReglement->CodeCBInfosReglement = password_hash($datas['NumeroCB'], PASSWORD_ARGON2ID);
-            $infosReglement->TitulaireInfosReglement = $datas['Titulaire'];
-            $infosReglement->ExpirationInfosReglement = (new DateTime($datas['DateExpiration']))->format('m-y');
-            $infosReglement->CVVInfosReglement = password_hash($datas['CVV'], PASSWORD_ARGON2ID);
-            if ($result) {
-                $infosReglement->Where($result['IdInfosReglement']);
-                $infosReglement->Update();
-                header('Refresh:1;' . $_SERVER['REQUEST_URI']);
-                echo 'Modifié avec succés';
-            } else {
-                $infosReglement->Save();
-                header('Refresh:1;' . $_SERVER['REQUEST_URI']);
-                echo 'Ajouté avec succés';
-            }
-        } 
+        $infosReglement->CodeCBInfosReglement = password_hash($datas['NumeroCB'], PASSWORD_ARGON2ID);
+        $infosReglement->TitulaireInfosReglement = $datas['Titulaire'];
+        $infosReglement->ExpirationInfosReglement = (new DateTime($datas['DateExpiration']))->format('m-y');
+        $infosReglement->CVVInfosReglement = password_hash($datas['CVV'], PASSWORD_ARGON2ID);
 
-        
-    
+        //* si données présente, j'update
 
-    // Fonction pour récupéré les coordonnées bancaires si elles sont présente pour affiché sur la page profil si il dois
-    // ajouter ou non un mode de paiement.
+        if ($result) {
+            $infosReglement->Where($result['IdInfosReglement']);
+            $infosReglement->Update();
+            header('Refresh:1;' . $_SERVER['REQUEST_URI']);
+            echo 'Modifié avec succés';
+
+            //* Sinon j'ajoute
+
+        } else {
+            $infosReglement->Save();
+            header('Refresh:1;' . $_SERVER['REQUEST_URI']);
+            echo 'Ajouté avec succés';
+        }
+    }
+
+
+
+
+    //* Fonction pour récupéré les coordonnées bancaires si elles sont présente pour affiché sur la page profil de l'adhérent
 
     public static function GetOneInfosReglement(): array|string|object
     {

@@ -37,7 +37,7 @@
                 </div>
             </div>
             <div class="container_bundle_right">
-                {* Les éléménts sont généré dynamiquement dans app.js *}
+                {* * Les éléménts sont généré dynamiquement dans app.js *}
 
             </div>
 

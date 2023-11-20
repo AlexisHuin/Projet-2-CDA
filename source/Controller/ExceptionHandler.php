@@ -4,15 +4,16 @@ namespace Controller;
 
 use Exception;
 
+//* Gestion des erreurs
 class ExceptionHandler extends Exception
 {
 	static private array $UserError = [];
 
-	static function SetUserError(string $error) : void
+	static function SetUserError(string $error): void
 	{
 		self::$UserError[] = $error;
 	}
-	static function GetUserError() : array
+	static function GetUserError(): array
 	{
 		return self::$UserError;
 	}
@@ -21,15 +22,15 @@ class ExceptionHandler extends Exception
 		parent::__construct($message, $code, $previous);
 	}
 
-	static function PhpFatalErrors() : void
+	static function PhpFatalErrors(): void
 	{
 		$lastError = error_get_last();
 		if (!is_null($lastError))
 			static::PhpErrors($lastError['type'], $lastError['message'], $lastError['file'], $lastError['line']);
 	}
 
-	/* It's a function that will be called when a PHP error occurs. */
-	static function PhpErrors($errno, $errstr, $errfile, $errline) : void
+
+	static function PhpErrors($errno, $errstr, $errfile, $errline): void
 	{
 		$Action = [];
 		$Action['msg'] 		= '';
@@ -88,16 +89,16 @@ class ExceptionHandler extends Exception
 			echo $Action['type'] . '[' . $errno . ' : ' . $errstr . ' : ' . $errfile . ' :: ' . $errline . ']<br/><br/>';
 		}
 		if ($Action['notify'] === true) {
-			// Exemple, envoie de mail etc...
+			//* Exemple, envoie de mail etc...
 		}
 		if ($Action['exit'] === true) {
 			exit();
 		}
 	}
 
-	static function RouteErrors($errno, $errstr, $errurl) : void
+	static function RouteErrors($errno, $errstr, $errurl): void
 	{
-		// A modifier par vous même.
+		//* A modifier par vous même.
 		die('Error N ' . $errno);
 	}
 }
