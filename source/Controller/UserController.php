@@ -22,19 +22,19 @@ use Model\NotificationsModel;
 use Model\PanierModel;
 use Model\ProduitProducteurModel;
 
-// Classe UserController héritant de MainController
+
 class UserController extends MainController
 {
 
-    // fonction qui gére la partie connexion, et l'inscription pour les adherents et producteurs
-    // Elle valide les différents champs avec le regex, ou avec un nombre de caractéres/chiffres attendu.
-    // Une gestion des erreurs est présente, suivant si adherent ou producteur est coché dans le formulaire,
-    // l'utilisateur définie son rôle, a la suite de l'inscription la session démarre.
-    // Pour la partie connexion, on fais une vérification sur l'email qui est unique a chaque users du site.
+    //* fonction qui gére la partie connexion, et l'inscription pour les adherents et producteurs
+    //* Elle valide les différents champs avec le regex, ou avec un nombre de caractéres/chiffres attendu.
+    //* Une gestion des erreurs est présente, suivant si adherent ou producteur est coché dans le formulaire,
+    //* l'utilisateur définie son rôle, a la suite de l'inscription la session démarre.
+    //* Pour la partie connexion, on fais une vérification sur l'email qui est unique a chaque users du site.
 
     public function ConnexionInscription(): void
     {
-        // Vérifier si l'utilisateur est déjà connecté, le rediriger vers le profil
+        //* Vérifier si l'utilisateur est déjà connecté, le rediriger vers le profil
         $this->connectCheck('user', "", "/User/Profile", true);
 
         $User = new UserModel();
@@ -42,52 +42,53 @@ class UserController extends MainController
         $Producteur = new ProducteurModel();
 
         $errors = [];
-        // Gestion de l'inscription
+        //* Gestion de l'inscription
         if (isset($_POST["Inscription"])) {
 
-            // Vérifier si les champs du formulaire sont présents et non vides
-          if($_POST['RoleUser'] === 'Adherent') {
-            $datas = $this->validate($_POST, ['Nom', 'Prenom', 'Pass', 'ConfirmPass', 'Tel', 'Email', 'CodePostal', 'GPS', 'RoleUser', 'Titulaire', 'NumeroCB', 'DateExpiration', 'CVV']);
-        } else {
-            $datas = $this->validate($_POST, ['Nom', 'Prenom', 'Pass', 'ConfirmPass', 'Tel', 'Email', 'CodePostal', 'GPS', 'RoleUser', 'RaisonSociale']);
-        }
+            //* Vérifier si les champs du formulaire sont présents et non vides
+            if ($_POST['RoleUser'] === 'Adherent') {
+                $datas = $this->validate($_POST, ['Nom', 'Prenom', 'Pass', 'ConfirmPass', 'Tel', 'Email', 'CodePostal', 'GPS', 'RoleUser', 'Titulaire', 'NumeroCB', 'DateExpiration', 'CVV']);
+            } else {
+                $datas = $this->validate($_POST, ['Nom', 'Prenom', 'Pass', 'ConfirmPass', 'Tel', 'Email', 'CodePostal', 'GPS', 'RoleUser', 'RaisonSociale']);
+            }
             if ($datas) {
 
-                // Valider le nom avec le regex
+                //* Valider le nom avec le regex
                 if (!preg_match("/^\pL+([a-zA-Z- ']\pL+)*$/u", $datas["Nom"])) {
                     ExceptionHandler::SetUserError("Veuillez insérer un nom");
                 }
 
-                // Valider le prénom avec le regex
+                //* Valider le prénom avec le regex
                 if (!preg_match("/^\pL+([a-zA-Z- ']\pL+)*$/u", $datas["Prenom"])) {
                     ExceptionHandler::SetUserError("Veuillez insérer un prénom");
                 }
 
-               // Valider l'adresse email
+                //* Valider l'adresse email
                 if (!filter_var($datas["Email"], FILTER_VALIDATE_EMAIL)) {
                     ExceptionHandler::SetUserError("Veuillez insérer un email conforme ");
                 }
 
-                // Valider la longueur du numéro de téléphone
+                //* Valider la longueur du numéro de téléphone
                 if (strlen($datas['Tel']) > 13) {
                     ExceptionHandler::SetUserError("Veuillez insérer un numéro valide");
                 }
 
-                // Valider que les mots de passe correspondent
+                //* Valider que les mots de passe correspondent
                 if ($datas['Pass'] !== ($datas['ConfirmPass'])) {
-                   
+
                     ExceptionHandler::SetUserError("Mot de passe ne correspond pas");
-                } if ($_POST['RoleUser'] === "Adherent") {
+                }
+                if ($_POST['RoleUser'] === "Adherent") {
                     $errorCard = InfosReglementController::AddInfosReglement($datas);
                     $errorsInsc = ExceptionHandler::GetUserError();
                     $errors = array_merge($errorCard, $errorsInsc);
                 } else {
                     $errors = ExceptionHandler::GetUserError();
                 }
-                
-                // S'il n'y a pas d'erreurs, enregistrer l'utilisateur
+
+                //* S'il n'y a pas d'erreurs, enregistrer l'utilisateur
                 if (count($errors) == 0) {
-                    
+
                     $User->UsernameUser = ($datas['Nom'] . "." . $datas['Prenom']);
                     $User->EmailUser = $datas['Email'];
                     $User->MdpUser = password_hash($datas['Pass'], PASSWORD_ARGON2ID);
@@ -100,18 +101,19 @@ class UserController extends MainController
                             $Adherent->PhoneAdherent = htmlspecialchars($datas['Tel']);
                             $Adherent->CoordonneesGPSAdherent = htmlspecialchars($datas['GPS']);
                             $Adherent->CodePostalAdherent = htmlspecialchars($datas['CodePostal']);
-                            // explique le (new dateTime())
+                            //* Explique le (new dateTime())
                             $Adherent->DateDebutAdherent = (new DateTime())->format('Y-m-d');
                             $Adherent->MailAdherent = htmlspecialchars($datas['Email']);
                             $IdRole = $Adherent->Save();
 
+                            //* Ajoute 15€ au montant du lors de l'inscription
                             $facture = new FactureModel();
                             $facture->MontantFacture = 15.00;
                             $facture->IdAdherentFacture = $IdRole;
                             $facture->Save();
 
                             array_push($datas, $IdRole);
-                            
+
                             InfosReglementController::SaveInfosReglement($datas);
                             break;
 
@@ -147,7 +149,7 @@ class UserController extends MainController
             }
         }
 
-        // Gestion de la connexion
+        //* Gestion de la connexion
         if (isset($_POST["Connexion"])) {
 
             $datas = $this->validate($_POST, ['Email', 'Pass']);
@@ -200,9 +202,9 @@ class UserController extends MainController
 
         // ! Random bullshit go !!!
         $BeforeURL = $_SERVER['REQUEST_SCHEME'] . "://" . $_SERVER['HTTP_HOST'];
-        $BeforePage = substr($_SERVER['HTTP_REFERER'] ,strlen($BeforeURL));
+        $BeforePage = substr($_SERVER['HTTP_REFERER'], strlen($BeforeURL));
 
-        if(strpos($BeforePage, "/DescriptifProduit/") === 0){
+        if (strpos($BeforePage, "/DescriptifProduit/") === 0) {
             ExceptionHandler::SetUserError('Veuillez vous connecter afin de pouvoir commencer vos achats !');
             $errors = ExceptionHandler::GetUserError();
         }
@@ -212,10 +214,10 @@ class UserController extends MainController
         ViewController::Display('LoginView');
     }
 
-    // Fonction qui gére la partie profil des adherents et producteurs, elle liste toutes les coordonnées, permet d'appeler 
-    // les fonctions pour modifier ces coordonnées.
-    // Pour les adherents elle appelle également la fonction pour ajouter un mode de réglement ( CB ), également la fonction pour supprimer
-    // les infos de CB.
+    //* Fonction qui gére la partie profil des adherents et producteurs, elle liste toutes les coordonnées, permet d'appeler 
+    //* les fonctions pour modifier ces coordonnées.
+    //* Pour les adherents elle appelle également la fonction pour ajouter un mode de réglement ( CB ), également la fonction pour supprimer
+    //* les infos de CB.
 
     public function Profile(): void
     {
@@ -224,6 +226,7 @@ class UserController extends MainController
         $Reglement = InfosReglementController::GetOneInfosReglement();
 
         $errors = [];
+        //* Gestion de l'ajout de donnée de CB par l'adherent au moment de l'inscription
         if (isset($_POST["Confirmation"])) {
 
             $datas = $this->validate($_POST, ['Titulaire', 'NumeroCB', 'DateExpiration', 'CCV']);
@@ -233,7 +236,7 @@ class UserController extends MainController
                 ExceptionHandler::SetUserError("Veuillez remplir tout les champs");
             }
         }
-
+        //* Gestion de la suppresion des donnée de CB par l'adherent au moment de l'inscription
         if (isset($_POST['Supprimer'])) {
             $OneInfosReglement = new InfosReglementModel();
             $OneInfosReglement->IdInfosReglement = $_POST['Id'];
@@ -243,12 +246,13 @@ class UserController extends MainController
             echo "Données bancaires supprimées";
             exit();
         }
-
+        //* Gestion des modification des informations de profil pour l'adherent
         if (isset($_POST["modification"])) {
             if ($_SESSION['user']['RoleUser'] === "Adherent") {
                 $NewUser = new AdherentModel();
                 $datas = $this->validate($_POST, ['NomPrenomAdherent', 'PhoneAdherent', 'CodePostalAdherent', 'CoordonneesGPSAdherent']);
                 $this->UpdateProfil($datas, $NewUser, ['NomPrenomAdherent', 'PhoneAdherent', 'CodePostalAdherent', 'CoordonneesGPSAdherent'], '/User/Profile');
+                //* Gestion des modification des informations de profil pour le producteur
             } else if ($_SESSION['user']['RoleUser'] === "Producteur") {
                 $NewUser = new ProducteurModel();
                 $datas = $this->validate($_POST, ['NomPrenomProducteur', 'PhoneProducteur', 'CodePostalProducteur', 'CoordonneesGPSProducteur', 'RaisonSocialeProducteur']);
@@ -257,11 +261,11 @@ class UserController extends MainController
         } else {
             ExceptionHandler::SetUserError("Veuillez remplir tout les champs");
         }
-
+        //* gestion suppresion de compte
         if (isset($_POST['DeleteAcc'])) {
             $this->DeleteAcc();
         }
-
+        //* gestion modification de compte
         if (isset($_POST['ModifMdp'])) {
             $this->ModifMdp();
         }
@@ -288,7 +292,7 @@ class UserController extends MainController
     }
 
 
-    // Fonction pour MAJ le profil adherent ou producteur
+    //* Fonction pour MAJ le profil adherent ou producteur
 
     private function UpdateProfil(array|string $datas, object $object, array $properties, string $header): bool
     {
@@ -314,23 +318,23 @@ class UserController extends MainController
         return true;
     }
 
-    //fonction pour se déconnecté
 
-    // Déconnection de l'utilisateur
+
+    //* Déconnection de l'utilisateur
     public function Deconnexion(): void
     {
         session_destroy();
-        // A la déconnection renvoyer a la page d'acceuil
+        //* A la déconnection renvoyer a la page d'acceuil
         header('Location: /');
         exit();
     }
-
+    //* Suppression du compte
     private function DeleteAcc(): void
     {
         $User = new UserModel();
         $Notifications = new NotificationsModel();
         $Id = $_SESSION['user']['Id'];
-
+        //* SI adherent
         if ($_SESSION['user']['RoleUser'] == "Adherent") {
             $Adherent = new AdherentModel();
             $infosReglement = new InfosReglementModel();
@@ -349,6 +353,8 @@ class UserController extends MainController
             $Facture->Delete();
             $Commandes->Delete();
             $Adherent->Delete();
+
+            //* Producteur
         } else {
             $Producteur = new ProducteurModel();
             $ProduitProducteur = new ProduitProducteurModel();
@@ -360,15 +366,19 @@ class UserController extends MainController
                 $Demandes->IdUserDemande =
                 $Producteur->IdProducteur = $_SESSION['user']['IdRole'];
 
+            //* gestion de la suppresion des Demandes, Bundles, Produit du product, et le producteur
+
             $Demandes->Delete();
             $Bundle->Delete();
             $ProduitProducteur->Delete();
             $Producteur->Delete();
         }
 
+        //* Suppresion des notifications pour les adherents, et les producteurs
         $Notifications->IdDestinataireNotification = $Id;
         $Notifications->Delete();
 
+        //* Suppression de l'utilisateur
         $User->EmailUser = $_SESSION['user']['Email'];
         $User->Delete();
 
@@ -377,6 +387,7 @@ class UserController extends MainController
         exit();
     }
 
+    //* Gestion de la mise a jour du mot de passe
     private function ModifMdp(): void
     {
         $datas = $this->validate($_POST, ['CurrentMdp', 'NewMdp', 'ConfirmNewMdp']);
@@ -397,6 +408,7 @@ class UserController extends MainController
                         header('Refresh:1; /User/Deconnexion');
                         echo "Mot de passe changé avec succès, veuillez vous reconnecter.";
                         exit();
+                        //* Gestion des erreurs
                     } else {
                         ExceptionHandler::SetUserError('Le nouveau mot de passe ne peut pas être identique à l\'ancien');
                     }

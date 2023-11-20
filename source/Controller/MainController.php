@@ -64,7 +64,7 @@ class MainController
 
         $noticePrix = $noticeQt = "";
 
-        /* //? Si j'ai le temps, reprendre ce code afin d'avoir un bouton retour fonctionnel en PHP
+        /* //* Si j'ai le temps, reprendre ce code afin d'avoir un bouton retour fonctionnel en PHP
         if (!isset($_SESSION['history'])) {
             $_SESSION['history'] = [];
         }

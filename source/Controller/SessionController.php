@@ -1,34 +1,36 @@
 <?php
+
 namespace Controller;
+//* Gestion de la session
 class SessionController
 {
-    static string $id= '';
+    static string $id = '';
     static array $content = [];
 
-    static public function Start():void
+    static public function Start(): void
     {
         session_start();
         self::$id = session_id();
         self::$content = $_SESSION;
         // $_SESSION['user'] = ['name'=>'Damien','rights'=>'admin'];
-    } 
-    static public function getId():string
+    }
+    static public function getId(): string
     {
         return self::$id; // echo Session::getId();
     }
-    static public function Get($var) : string|array|object
+    static public function Get($var): string|array|object
     {
         return self::$content[$var]; // echo Session::Get('user');
     }
-    static public function Set($var,$value=null):void
+    static public function Set($var, $value = null): void
     {
         self::$content[$var] = $value; // echo Session::Get('user');
     }
-    static public function Save():void
+    static public function Save(): void
     {
         $_SESSION = self::$content;
     }
-    static public function Destroy():void
+    static public function Destroy(): void
     {
         self::$id = '';
         self::$content = [];

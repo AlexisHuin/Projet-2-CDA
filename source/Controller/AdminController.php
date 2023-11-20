@@ -552,8 +552,9 @@ class AdminController extends MainController
                 $ProduitProducteur->IdProduitProduitProducteur = $object->IdProduit;
                 $ProduitsToDelete = $ProduitProducteur->Find('IdProduitProducteur,IdProducteurProduitProducteur,ImageProduitProducteur');
 
+
                 foreach ($ProduitsToDelete as $IdProduitProd) {
-                    // $result[] = $IdProduitProd['IdProducteurProduitProducteur'];
+                    $result[] = $IdProduitProd['IdProducteurProduitProducteur'];
 
                     $demandes->IdProduitProducteurDemande = $IdProduitProd['IdProduitProducteur'];
                     $demandes->Delete();
@@ -583,10 +584,13 @@ class AdminController extends MainController
             $Producteur = new ProducteurModel();
             $User = new UserModel();
 
-            // FIX Envoi de notification après suppression d'un produit (du catalogue) impossible en raison des données éclatées dans produit-producteur
             foreach ($result as $IdUser) {
+                if (isset($IdUser['IdProducteurProduitProducteur'])) {
+                    $Producteur->IdProducteur = $IdUser['IdProducteurProduitProducteur'];
+                } else {
+                    $Producteur->IdProducteur = $IdUser;
+                }
 
-                $Producteur->IdProducteur = $IdUser['IdProducteurProduitProducteur'];
                 $MailProd = $Producteur->Find('MailProducteur', 'Fetch');
                 $User->EmailUser = $MailProd['MailProducteur'];
                 $Id = $User->Find('IdUser', 'Fetch');

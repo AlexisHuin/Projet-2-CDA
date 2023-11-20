@@ -176,9 +176,14 @@ if (window.location.href == "http://127.0.0.1:8000/User") {
       if (name === "Titulaire") {
         // Ajoute un h1 au-dessus de l'entrée "Titulaire"
         let heading = document.createElement("h1");
+        let price = document.createElement('p');
         heading.textContent = "Coordonnées Bancaires";
         heading.style.textAlign = "center";
+        price.textContent = "Vous serez débité de 15 euros, sois le prix de l'adhésion";
+        price.style.textAlign = "center";
+        price.style.color = "grey";
         div.appendChild(heading);
+        div.appendChild(price);
       }
 
       div.appendChild(input);

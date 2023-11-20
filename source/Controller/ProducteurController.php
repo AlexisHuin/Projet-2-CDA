@@ -43,7 +43,10 @@ class ProducteurController extends UserController
                     $file_size = $_FILES["ImageProduitProducteur"]["size"];
                     $file_type = $_FILES["ImageProduitProducteur"]["type"];
 
+                    //* check de la taille du fichier
                     if ($file_size < 1000000) { // 1 MB
+
+                        //* check le type du fichier
                         if ($file_type == "image/jpeg" || $file_type == "image/png" || $file_type == "image/webp") {
                             $extension = pathinfo($_FILES['ImageProduitProducteur']['name'], PATHINFO_EXTENSION);
                             $new_filename = uniqid() . "." . $extension;
@@ -57,7 +60,7 @@ class ProducteurController extends UserController
                 } else {
                     $upload_path = "assets/images/fruit.jpg";
                 }
-
+                //* On ne peux pas ajouté moins de 10 produit en tant que prod
                 if ($datas['QuantiteProduitProducteur'] < 10) {
                     ExceptionHandler::SetUserError('Quantité trop faible pour la mise en vente');
                 }
@@ -83,6 +86,7 @@ class ProducteurController extends UserController
                     //* Enregistre les données dans la base de données
                     $IdProduitProducteur = $ProduitProducteur->Save();
 
+                    //* Gestion de la demande de validation pour l'admin
                     $Demandes = new DemandesModel();
                     $Demandes->IdUserDemande = $_SESSION['user']['IdRole'];
                     $Demandes->IdProduitProducteurDemande = $IdProduitProducteur;
@@ -238,11 +242,11 @@ class ProducteurController extends UserController
         // * Vérifie si un formulaire de suppression a été soumis
 
         $Produit = new ProduitProducteurModel();
-        // Parcourt les produits à supprimer et les supprime un par un
+        //* Parcourt les produits à supprimer et les supprime un par un
         foreach ($_POST['deleteProduit'] as $IdProduitProducteur) {
 
-            // ? Pour le futur, créer un controller chargé de gérer les suppressions en fonction des contraintes de FK plutôt que de recopier;
-            // NOTICE Voir admin pour commentaires
+            //* Pour le futur, créer un controller chargé de gérer les suppressions en fonction des contraintes de FK plutôt que de recopier;
+            //* NOTICE Voir admin pour commentaires
 
             $demandes = new DemandesModel();
             $demandes->IdProduitProducteurDemande = $IdProduitProducteur;
@@ -299,7 +303,7 @@ class ProducteurController extends UserController
                         $QuantitesArr = explode(",", $ProduitsBundle['QuantiteProduitsBundle']);
                     }
 
-                    if(!isset($Produit)){
+                    if (!isset($Produit)) {
                         $Produit = new ProduitProducteurModel();
                     }
 
@@ -324,7 +328,7 @@ class ProducteurController extends UserController
     public static function listBundle(bool $isHomePage = false): string|object|array
     {
         $producteurs = new ProducteurModel();
-        if(!$isHomePage){
+        if (!$isHomePage) {
             $producteurs->IdProducteur = $_SESSION['user']['IdRole'];
         }
         $producteurs->Join(['IdProducteur'], ['Bundle' => 'IdProducteurBundle']);
