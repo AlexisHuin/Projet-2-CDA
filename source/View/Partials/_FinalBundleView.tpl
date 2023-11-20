@@ -5,9 +5,9 @@
     <p>Proposer par {$AllBundles[$key]['RaisonSocialeProducteur']} </p>
     <p>Contenu du bundle :</p>
     <div>
-        {foreach from=$Produits item=produit key=k}
+        {foreach from=$produits item=produit key=k}
             <p> {$produit.DesignationProduitProducteur} * {$quantite[$k]}
-            <p>
+            </p>
             {/foreach}
     </div>
     <div>

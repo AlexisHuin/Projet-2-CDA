@@ -329,7 +329,7 @@ class AdminController extends MainController
     //     </form>';
     // }
 
-    //* PRIVATE FUNCTIONS
+    // PRIVATE FUNCTIONS
     private function TraitementDemande(string $state): void
     {
         $ProduitProducteur = new ProduitProducteurModel();
@@ -443,7 +443,6 @@ class AdminController extends MainController
                 $User->UsernameUser = $Nom . "." . $Prenom;
                 $User->Where($IdUser);
                 $User->Update();
-
             }
 
             $object->Where($object->$whereClause);
@@ -513,7 +512,13 @@ class AdminController extends MainController
             $User->EmailUser = $UserToDelete['EmailUser'];
             $object->Delete();
             $User->Delete();
-        } else {
+        }
+
+        // TODO Ajouter possibilité de supprimer un bundle pour l'admin 
+        else {
+
+            $result = [];
+            $demandes = new DemandesModel();
             $Bundle = new BundleModel();
             $IdProduitsBundle = $Bundle->Find("IdProduitsBundle, IdBundle");
             $IdProduitsBundleArr = [];
@@ -521,18 +526,21 @@ class AdminController extends MainController
             foreach ($IdProduitsBundle as $ProduitsBundle) {
                 array_push($IdProduitsBundleArr, explode(',', $ProduitsBundle['IdProduitsBundle']));
             }
-            
-            $demandes = new DemandesModel();
-            $demandes->IdProduitProducteurDemande = $object->IdProduitProducteur;
-            $result = $demandes->Find('IdDemande');
-            if($result){
-                $demandes->Delete();
-            }
-            
+
             if (is_a($object, "Model\ProduitProducteurModel")) {
+                $result[] = $object->Find('IdProducteurProduitProducteur, ImageProduitProducteur', 'Fetch');
+
+                if (file_exists($result[0]['ImageProduitProducteur']) && $result[0]['ImageProduitProducteur'] !== "assets/images/fruit.jpg") {
+                    unlink(DIR_PUBLIC . $result[0]['ImageProduitProducteur']);
+                }
+
+                $demandes->IdProduitProducteurDemande = $object->IdProduitProducteur;
+                $demandes->Delete();
+
                 foreach ($IdProduitsBundleArr as $key => $Arrays) {
                     foreach ($Arrays as $Id) {
                         if ($Id === $object->IdProduitProducteur) {
+
                             $Bundle->IdBundle = $IdProduitsBundle[$key]['IdBundle'];
                             $Bundle->Delete();
                             break;
@@ -542,22 +550,53 @@ class AdminController extends MainController
             } else if (is_a($object, "Model\ProduitModel")) {
                 $ProduitProducteur = new ProduitProducteurModel();
                 $ProduitProducteur->IdProduitProduitProducteur = $object->IdProduit;
-                $ProduitsToDelete = $ProduitProducteur->Find('IdProduitProducteur');
+                $ProduitsToDelete = $ProduitProducteur->Find('IdProduitProducteur,IdProducteurProduitProducteur,ImageProduitProducteur');
 
                 foreach ($ProduitsToDelete as $IdProduitProd) {
+                    // $result[] = $IdProduitProd['IdProducteurProduitProducteur'];
+
+                    $demandes->IdProduitProducteurDemande = $IdProduitProd['IdProduitProducteur'];
+                    $demandes->Delete();
+
                     foreach ($IdProduitsBundleArr as $key => $Arrays) {
                         foreach ($Arrays as $Id) {
                             if ($Id == $IdProduitProd['IdProduitProducteur']) {
+
+
                                 $Bundle->IdBundle = $IdProduitsBundle[$key]['IdBundle'];
                                 $Bundle->Delete();
                             }
                         }
                     }
+
                     $ProduitProducteur->IdProduitProducteur = $IdProduitProd['IdProduitProducteur'];
+
+                    if (file_exists($IdProduitProd['ImageProduitProducteur']) && $IdProduitProd['ImageProduitProducteur'] !== "assets/images/fruit.jpg") {
+                        unlink(DIR_PUBLIC . $IdProduitProd['ImageProduitProducteur']);
+                    }
+
                     $ProduitProducteur->Delete();
                 }
             }
 
+            $Notifications = new NotificationsModel();
+            $Producteur = new ProducteurModel();
+            $User = new UserModel();
+
+            // FIX Envoi de notification après suppression d'un produit (du catalogue) impossible en raison des données éclatées dans produit-producteur
+            foreach ($result as $IdUser) {
+
+                $Producteur->IdProducteur = $IdUser['IdProducteurProduitProducteur'];
+                $MailProd = $Producteur->Find('MailProducteur', 'Fetch');
+                $User->EmailUser = $MailProd['MailProducteur'];
+                $Id = $User->Find('IdUser', 'Fetch');
+
+                $Notifications->IdDestinataireNotification = $Id['IdUser'];
+                $Notifications->MotifNotification = "L'un de vos produit a été supprimé par l'administrateur. Si vous pensez qu'il s'agit d'une erreur, contactez nous depuis la page contact.";
+                $Notifications->DateEnvoiNotification = date('d-M-Y H:i');
+
+                $Notifications->Save();
+            }
             $object->Delete();
         }
 

@@ -31,39 +31,42 @@
 
             {* ? Bloc adherent *}
             <div id="champAdherent">
-               
-            </div> 
 
-           
-    
+            </div>
 
 
 
-{* ? Bloc Producteur *}
-
- <div id="champProducteur">
-   
-</div> 
 
 
-<div class="valid-cgu">
-    <button type="submit" name="Inscription" class="danger">Valider l'inscription</button>
+
+            {* ? Bloc Producteur *}
+
+            <div id="champProducteur">
+
+            </div>
+
+
+            <div class="valid-cgu">
+                <button type="submit" name="Inscription" class="danger">Valider l'inscription</button>
+            </div>
+        </form>
+        {* * Modale pour le paiement *}
+
+        {* * Fin Modale pour le paiement *}
+    </div>
+
+
+
+    <div class="panel-right">
+        <h1>Connexion</h1>
+        <form method="POST">
+            <input type="text" name="Email" placeholder="Email">
+            <input type="password" name="Pass" placeholder="Mot de passe">
+            <button type="submit" name="Connexion" class="danger">Se Connecter</button>
+        </form>
+    </div>
 </div>
-</form>
-{* * Modale pour le paiement *}
-
-{* * Fin Modale pour le paiement *}
-</div>
-
-
-
-<div class="panel-right">
-    <h1>Connexion</h1>
-    <form method="POST">
-        <input type="text" name="Email" placeholder="Email">
-        <input type="password" name="Pass" placeholder="Mot de passe">
-        <button type="submit" name="Connexion" class="danger">Se Connecter</button>
-    </form>
-</div>
-</div>
+{foreach from=$errors item=$error key=key}
+    <p style="color:red;">{$error}</p>
+{/foreach}
 {include file="../Partials/_FooterView.tpl"}

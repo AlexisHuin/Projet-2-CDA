@@ -18,5 +18,21 @@
 - Il sera important de définir l'ensemble des routes en AMONT du développement afin de ne plus toucher à ce fichier.
 - De cette façon, on pourra tous s'assigner une paire de Controller, Model et View et configurer l'ensemble de leur fonctionnalités.
 
+### Commentaires :
+
+Installer BetterComments
+Editer les paramètres de l'extension selon ceux fournis
+
+// * = Remarques non importante. ex: ``//* Peut-être optimiser cette section``
+###
+//? = Question. ex: ``//? Eventuelle amélioration`` / ``Compatible Windows et linux server ?``
+###
+//! = Remarque importante. ex: ``//! Ne pas bouger la balise script dans le header !``
+###
+//FIX = Problème important. ex: ``//FIX Problèmes de foreign key lors de la suppression``
+###
+//TODO = Tâche non finie ou prévue. ex: ``//TODO Commenter le code``
+###
+//NOTICE = Instruction/Référence. ex: ``//NOTICE (lien vers documentation)`` / ``Voir fichier config pour explications``
 
 https://trello.com/b/AyHm3OYP/pt1
