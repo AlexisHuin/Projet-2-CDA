@@ -552,6 +552,8 @@ class AdminController extends MainController
                 $ProduitProducteur->IdProduitProduitProducteur = $object->IdProduit;
                 $ProduitsToDelete = $ProduitProducteur->Find('IdProduitProducteur,IdProducteurProduitProducteur,ImageProduitProducteur');
 
+                $result[] = d;
+
                 foreach ($ProduitsToDelete as $IdProduitProd) {
                     // $result[] = $IdProduitProd['IdProducteurProduitProducteur'];
 
