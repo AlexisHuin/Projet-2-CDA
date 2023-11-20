@@ -214,6 +214,7 @@ CREATE TABLE ProduitProducteur (
 
 
 INSERT INTO `ProduitProducteur` (`IdProduitProducteur`, `IsValidateProduitProducteur`, `DesignationProduitProducteur`, `PrixProduitProducteur`, `DateModifPrixProduitProducteur`, `DetailsProduitProducteur`, `QuantiteProduitProducteur`, `ImageProduitProducteur`, `IdProducteurProduitProducteur`, `IdProduitProduitProducteur`) VALUES
+(20, 0, 'Abricot Bergeron biographique', '1.40', NULL, 'Abricot Bergeron Biologique', 20, 'assets/images/655776f0669ce.jpg', 1, 35),
 (21, 0, 'Abricot Bergeron Bio', '1.40', NULL, 'Abricot Bergeron Bio', 20, 'assets/images/655776f0669ce.jpg', 1, 35),
 (22, 0, 'Ail rose sud de loire', '3.00', NULL, 'ail rose sud de loire', 30, 'assets/images/6557773017d56.jpg', 1, 32),
 (24, 0, 'Ananas Victoria', '4.00', NULL, 'BIO', 50, 'assets/images/65577770702d4.jpg', 1, 3),
