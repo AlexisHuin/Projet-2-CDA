@@ -1,44 +1,45 @@
 <?php
+
 namespace Controller;
+
 use \Smarty;
 
+//* Gestion des views, lié a Smarty
 class ViewController
 {
     static array $vars = [];
     static object $tplMotor;
-    static string $motor='smarty';
+    static string $motor = 'smarty';
 
-    static public function Init(string $motor=null) : void
+    static public function Init(string $motor = null): void
     {
-        if(!is_null($motor))
+        if (!is_null($motor))
             self::$motor = $motor;
-        
-        switch(self::$motor) 
-        {
+
+        switch (self::$motor) {
             case 'smarty':
                 self::$tplMotor  = new \Smarty();
                 // Empecher balises html
-                self::$tplMotor->escape_html=true;
-                self::$tplMotor->setTemplateDir(DIR_VIEW.'smarty/');
-                self::$tplMotor->setCompileDir(DIR_PRIVATE.'templates_c/');
-                self::$tplMotor->setCacheDir(DIR_PRIVATE.'cache_c/');
+                self::$tplMotor->escape_html = true;
+                self::$tplMotor->setTemplateDir(DIR_VIEW . 'smarty/');
+                self::$tplMotor->setCompileDir(DIR_PRIVATE . 'templates_c/');
+                self::$tplMotor->setCacheDir(DIR_PRIVATE . 'cache_c/');
                 break;
             case 'php':
                 break;
             case 'twig':
-                self::$tplMotor = new \Twig\Loader\FilesystemLoader(DIR_VIEW.'twig/');
+                self::$tplMotor = new \Twig\Loader\FilesystemLoader(DIR_VIEW . 'twig/');
                 break;
         }
     }
 
-    // View::Set('h1','Hello world !!!');
-    static public function Set(string $var,$value):void
+    //* View::Set('h1','Hello world !!!');
+    static public function Set(string $var, $value): void
     {
 
-        switch(self::$motor)
-        {
+        switch (self::$motor) {
             case 'smarty':
-                self::$tplMotor->assign($var,$value);
+                self::$tplMotor->assign($var, $value);
                 break;
             case 'php':
                 self::$vars[$var] = $value;
@@ -47,13 +48,11 @@ class ViewController
                 self::$vars[$var] = $value;
                 break;
         }
-       
     }
 
     static public function Get(string $var)
     {
-        switch(self::$motor)
-        {
+        switch (self::$motor) {
             case 'smarty':
                 break;
             case 'php':
@@ -62,25 +61,21 @@ class ViewController
             case 'twig':
                 break;
         }
-       
     }
 
-    static public function Display(string $view):void
+    static public function Display(string $view): void
     {
-        switch(self::$motor)
-        {
+        switch (self::$motor) {
             case 'smarty':
-                self::$tplMotor->display($view.'.tpl');
+                self::$tplMotor->display($view . '.tpl');
                 break;
             case 'php':
-                require_once(DIR_VIEW.'php/'.$view.'.php');
+                require_once(DIR_VIEW . 'php/' . $view . '.php');
                 break;
             case 'twig':
                 $twig = new \Twig\Environment(self::$tplMotor);
-                echo $twig->render($view.'.html',self::$vars);
+                echo $twig->render($view . '.html', self::$vars);
                 break;
         }
     }
 }
-
-?>

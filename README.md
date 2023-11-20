@@ -25,7 +25,7 @@ Editer les paramètres de l'extension selon ceux fournis
 
 // * = Remarques non importante. ex: ``//* Peut-être optimiser cette section``
 ###
-//? = Question. ex: ``//? Eventuelle amélioration`` / ``Compatible Windows et linux server ?``
+//* = Question. ex: ``//* Eventuelle amélioration`` / ``Compatible Windows et linux server ?``
 ###
 //! = Remarque importante. ex: ``//! Ne pas bouger la balise script dans le header !``
 ###

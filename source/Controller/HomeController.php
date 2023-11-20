@@ -52,13 +52,13 @@ class HomeController extends MainController
     public function DescriptifProduit($id)
     {
         //TODO Continuer commentaires
-        //Vérification si l'utilisateur est connecté
+        //* Vérification si l'utilisateur est connecté
 
         $errors = [];
         if (isset($_POST['Add'])) {
             $this->connectCheck('user', 'Adherent', "/User");
 
-            //Check si les champs sont valides
+            //* Check si les champs sont valides
             $datas = $this->validate($_POST, ["Quantite", "Id", "IdProd"]);
 
             if ($datas) {
@@ -73,17 +73,17 @@ class HomeController extends MainController
                 $datas = array_merge($datas, $datasProducteur);
 
                 $panierModel = new PanierModel();
-                // Check si quantité demandée et plus élevée que la quantité proposée par le producteur
+                //*  Check si quantité demandée et plus élevée que la quantité proposée par le producteur
                 if ($datas['Quantite'] > $datas['QuantiteTotal'] || $datas['Quantite'] <= 0) {
                     ExceptionHandler::SetUserError("Quantité invalide.");
                 }
-                // check si il existe au moins une ligne dans le panier
+                //*  check si il existe au moins une ligne dans le panier
                 else if (isset($_SESSION['panier'][0])) {
-                    // Initialisation d'un compteur de boucle
+                    //*  Initialisation d'un compteur de boucle
                     $Line = 0;
-                    //Itérations dans la session panier
+                    //* Itérations dans la session panier
                     foreach ($_SESSION['panier'] as $panier) {
-                        // Check si l'id du produit dans la ligne actuelle du panier correspont à celui que l'on essaie d'insérer
+                        //* Check si l'id du produit dans la ligne actuelle du panier correspont à celui que l'on essaie d'insérer
                         if ($panier['Produit'] == $datas['Id']) {
                             if (($panier['Quantite'] + $datas['Quantite']) > $datas['QuantiteTotal']) {
                                 ExceptionHandler::SetUserError("Quantité dans le panier supérieure à la quantité totale disponible.");
@@ -188,7 +188,7 @@ class HomeController extends MainController
         $produitProducteur = new ProduitProducteurModel();
         $notifications = new NotificationsModel();
 
-        // Traitements table Commandes
+        //* Traitements table Commandes
         $commande->TotalCommande = $Purchase['PrixBundle'];
         $commande->ProduitsCommande = $Purchase['IdProduitsBundle'];
         $commande->QuantitesCommande = $Purchase['QuantiteProduitsBundle'];
@@ -196,7 +196,7 @@ class HomeController extends MainController
         $commande->IdAdherentCommande = $_SESSION['user']['IdRole'];
         $commande->Save();
 
-        // Traitements table Facture
+        //* Traitements table Facture
         $adherent->IdAdherent = $_SESSION['user']['IdRole'];
         $totalActuel = $adherent->Find('DepenseAdherent', 'Fetch');
 
@@ -205,7 +205,7 @@ class HomeController extends MainController
         $facture->Where([$_SESSION['user']['IdRole'], "'En cours'"], ['idAdherent', 'datePrelevement']);
         $facture->Update();
 
-        // Traitement table Adherent
+        //* Traitement table Adherent
         $adherent->DepenseAdherent = $totalActuel['DepenseAdherent'] + $Purchase['PrixBundle'];
 
         $adherent->Where($_SESSION['user']['IdRole']);
