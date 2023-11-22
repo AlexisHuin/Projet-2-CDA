@@ -1,3 +1,20 @@
+# Projet réalisé dans le cadre de la formation Concepteur développeur d'apliquation au CCI Campus à Blois
+-Durée 8 semaines
+
+## Objectifs 
+-Découvrir le MVC, la programmation orienté Objets et PHP
+-Utiliser Docker
+
+# Docker 
+-La liste des commandes
+docker compose up -d
+
+Pour récupéré les librairies/dépendances, clic sur l'extension docker de VSCode, trouver l'image du module PHP pour accéder a son shell
+
+composer i
+
+Permet de récupéré toutes les dépendances
+
 # Convention et nomage
 
 ## Pour les tables
@@ -36,3 +53,7 @@ Editer les paramètres de l'extension selon ceux fournis
 //NOTICE = Instruction/Référence. ex: ``//NOTICE (lien vers documentation)`` / ``Voir fichier config pour explications``
 
 https://trello.com/b/AyHm3OYP/pt1
+
+Travail effectué avec une équipe de 4 personnes, 
+2 pour le dev
+2 pour la gestion cachier des charges/soutenances
